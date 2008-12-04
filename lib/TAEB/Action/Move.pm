@@ -148,6 +148,9 @@ sub handle_items_in_rock {
                || ($dest->type eq 'opendoor' && $dest->floor_glyph eq '-')
                || ($dest->type eq 'floor' && $dest->glyph eq ' ');
 
+    # Don't turn a door into rock if we tried approaching it diagonally
+    return if ($dest->type eq 'opendoor' && $dx && $dy);
+
     $dest->change_type('rock' => ' ');
 }
 
