@@ -18,8 +18,6 @@ use TAEB::Action;
 use TAEB::Publisher;
 use TAEB::Debug;
 
-use NetHack::ItemPool;
-
 with 'TAEB::Meta::Role::Persistency';
 with 'TAEB::Meta::Role::Initialize';
 
@@ -280,8 +278,8 @@ class_has display => (
 class_has item_pool => (
     traits  => [qw/TAEB::Persistent/],
     is      => 'ro',
-    isa     => 'NetHack::ItemPool',
-    default => sub { NetHack::ItemPool->new },
+    isa     => 'TAEB::World::ItemPool',
+    default => sub { TAEB::World::ItemPool->new },
 );
 
 around action => sub {
