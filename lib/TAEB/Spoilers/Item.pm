@@ -1,3 +1,4 @@
+#!/usr/bin/env perl
 package TAEB::Spoilers::Item;
 use MooseX::Singleton;
 

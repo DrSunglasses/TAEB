@@ -1,3 +1,4 @@
+#!/usr/bin/env perl
 package TAEB::Spoilers::Item::Carrion;
 use MooseX::Singleton;
 use TAEB::Spoilers::Monster;

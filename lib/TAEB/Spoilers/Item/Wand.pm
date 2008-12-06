@@ -1,3 +1,4 @@
+#!/usr/bin/env perl
 package TAEB::Spoilers::Item::Wand;
 use MooseX::Singleton;
 extends 'TAEB::Spoilers::Item';
