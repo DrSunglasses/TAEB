@@ -1,3 +1,4 @@
+#!/usr/bin/env perl
 package TAEB::World::Item::Role::Erodable;
 use Moose::Role;
 

@@ -1,3 +1,4 @@
+#!/usr/bin/env perl
 package TAEB::World::Item::Role::Lightable;
 use Moose::Role;
 
