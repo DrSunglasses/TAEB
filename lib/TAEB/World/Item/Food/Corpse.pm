@@ -4,7 +4,14 @@ extends 'TAEB::World::Item::Food';
 
 has '+nhi' => (
     isa     => 'NetHack::Item::Food::Corpse',
-    handles => [ qw/monster cannibal die aggravate poisonous/ ],
+    handles => [qw/
+        monster cannibal permanent die lycanthropy petrify polymorph slime stun
+        acidic poisonous aggravate speed_toggle energy gain_level heal
+        intelligence invisibility strength telepathy teleport_control
+        teleportitis reanimates shock_resistance poison_resistance
+        fire_resistance cold_resistance sleep_resistance
+        disintegration_resistance
+    /],
 );
 
 has is_forced_verboten => (
