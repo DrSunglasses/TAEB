@@ -12,7 +12,9 @@ has '+nhi' => (
 sub is_safely_edible {
     my $self = shift;
 
-    return 0;
+    return 0 if $self->identity eq 'tripe ration';
+
+    return 1;
 }
 
 __PACKAGE__->meta->make_immutable;
