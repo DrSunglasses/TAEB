@@ -49,12 +49,30 @@ sub isa {
     $self->SUPER::isa(@_);
 };
 
+my %short_buc = (
+    blessed  => 'B',
+    cursed   => 'C',
+    uncursed => 'UC',
+);
 sub debug_line {
     my $self = shift;
 
     my @fields;
 
     push @fields, $self->quantity . 'x' unless $self->quantity == 1;
+
+    if ($self->buc) {
+        push @fields, $self->buc;
+    }
+    else {
+        for (keys %short_buc) {
+            my $checker = "is_$_";
+            my $value = $self->$checker;
+            push @fields, '!' . $short_buc{$_}
+                if defined($value)
+                && $value == 0;
+        }
+    }
 
     if ($self->does('NetHack::Item::Enchantable')) {
         push @fields, $self->enchantment if $self->numeric_enchantment;
