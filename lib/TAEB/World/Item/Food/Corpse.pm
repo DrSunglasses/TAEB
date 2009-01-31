@@ -128,6 +128,27 @@ around is_safely_edible => sub {
     return $orig->($self, @_);
 };
 
+sub beneficial_to_eat {
+    my $self = shift;
+
+    return 1 if $self->speed_toggle && !TAEB->is_fast;
+
+    for my $nice (qw/energy gain_level heal intelligence invisibility strength
+                     telepathy teleport_control teleportitis/) {
+        return 1 if $self->$nice;
+    }
+
+    return 1 if $self->reanimates; # eating trolls is useful too
+
+    for my $resist (qw/shock poison fire cold sleep disintegration/) {
+        my $prop = "${resist}_resistance";
+        my $res  = "${resist}_resistant";
+        return 1 if $self->$prop && !TAEB->$res;
+    }
+
+    return 0;
+}
+
 __PACKAGE__->meta->make_immutable;
 no Moose;
 
