@@ -1,5 +1,6 @@
 package TAEB::World::Item::Gem;
 use TAEB::OO;
+extends 'TAEB::World::Item';
 
 has '+nhi' => (
     isa => 'NetHack::Item::Gem',

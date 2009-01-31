@@ -1,5 +1,6 @@
 package TAEB::World::Item::Weapon;
 use TAEB::OO;
+extends 'TAEB::World::Item';
 
 has '+nhi' => (
     isa => 'NetHack::Item::Weapon',
