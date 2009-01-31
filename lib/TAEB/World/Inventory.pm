@@ -2,6 +2,8 @@ package TAEB::World::Inventory;
 use TAEB::OO;
 extends 'NetHack::Inventory';
 
+use overload %TAEB::Meta::Overload::default;
+
 sub find {
     my $self = shift;
 
@@ -34,6 +36,19 @@ sub has_projectile {
         is_wielding => 0,
         price       => 0,
     );
+}
+
+sub debug_line {
+    my $self = shift;
+    my @items;
+
+    return "No inventory." unless $self->has_items;
+
+    for my $slot (sort $self->slots) {
+        push @items, sprintf '%s - %s', $slot, $self->get($slot)->debug_line;
+    }
+
+    return join "\n", @items;
 }
 
 __PACKAGE__->meta->make_immutable;
