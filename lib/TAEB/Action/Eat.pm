@@ -115,7 +115,7 @@ sub can_eat {
     my $self = shift;
     my $item = shift;
 
-    return 0 unless $item->class eq 'food' || $item->class eq 'corpse';
+    return 0 unless $item->type eq 'food';
     return 0 unless TAEB::Spoilers::Item::Food->should_eat($item);
     return 0 if $item->match(identity => 'lizard corpse')
              && TAEB->nutrition > 5;
