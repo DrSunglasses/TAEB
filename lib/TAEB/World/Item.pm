@@ -69,51 +69,6 @@ sub throw_range {
     return $range;
 }
 
-sub _match {
-    my $self = shift;
-    my $value = shift;
-    my $seek = shift;
-
-    return !defined $value if !defined $seek;
-    return 0 if !defined $value;
-    return $value =~ $seek if ref($seek) eq 'Regexp';
-    return $seek->($value) if ref($seek) eq 'CODE';
-    if (ref($seek) eq 'ARRAY') {
-        for (@$seek) {
-            return 1 if $self->_match($value => $_);
-        }
-    }
-    return $value eq $seek;
-}
-
-sub match {
-    my $self = shift;
-    my %args = @_;
-
-    # All the conditions must be true for true to be returned. Return
-    # immediately if a false condition is found.
-    for my $matcher (keys %args) {
-        my ($invert, $name) = $matcher =~ /^(not_)?(.*)$/;
-        my $value = $self->can($name) ? $self->$name : undef;
-        my $seek = $args{$matcher};
-
-        my $matched = $self->_match($value => $seek) ? 1 : 0;
-
-        if ($invert) {
-            return 0 if $matched;
-        }
-        else {
-            return 0 unless $matched;
-        }
-    }
-
-    return 1;
-}
-
-sub can_drop { 1 };
-
-__PACKAGE__->install_spoilers(qw/weight base edible artifact material sdam ldam/);
-
 __PACKAGE__->meta->make_immutable;
 no Moose;
 
