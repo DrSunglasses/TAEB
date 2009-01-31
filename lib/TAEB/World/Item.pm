@@ -1,73 +1,12 @@
 package TAEB::World::Item;
 use TAEB::OO;
-extends 'NetHack::Item';
-use List::MoreUtils 'uniq';
 with 'MooseX::Role::Matcher' => { default_match => 'identity' };
 
-use overload %TAEB::Meta::Overload::default;
-
-sub debug_line {
-    my $self = shift;
-    my $quan = $self->quantity == 1 ? '' : $self->quantity . 'x ';
-    my $enchantment = $self->can('ench') && $self->enchantment
-                    ? $self->ench . ' '
-                    : '';
-
-    my $name = $self->identity || $self->appearance;
-
-    return
-        join '',
-            $quan,
-            $enchantment,
-            $name;
-}
-
-sub is_autopickuped {
-    my $self = shift;
-    return 0 if !TAEB->autopickup;
-
-    return 1 if $self->match(appearance => 'gold piece');
-    return 1 if $self->match(class => 'wand');
-
-    return 0;
-}
-
-sub throw_range {
-    my $self = shift;
-    my $range = int(TAEB->numeric_strength / 2);
-
-    if ($self->match(identity => 'heavy iron ball')) {
-        $range -= int($self->weight / 100);
-    }
-    else {
-        $range -= int($self->weight / 40);
-    }
-
-    $range = 1 if $range < 1;
-
-    if ($self->match(identity => qr/\b(?:arrow|crossbow bolt)\b/)
-        || $self->match(class => 'gem')) {
-        if (0 && "Wielding a bow for arrows or crossbow for bolts or sling for gems") {
-            ++$range;
-        }
-        elsif ($self->match('!class' => 'gem')) {
-            $range = int($range / 2);
-        }
-    }
-
-    # are we on Air? are we levitating?
-
-    if ($self->match(identity => 'boulder')) {
-        $range = 20;
-    }
-    elsif ($self->match(identity => 'Mjollnir')) {
-        $range = int(($range + 1) / 2);
-    }
-
-    # are we underwater?
-
-    return $range;
-}
+has nhi => (
+    is       => 'ro',
+    isa      => 'NetHack::Item',
+    required => 1,
+);
 
 __PACKAGE__->meta->make_immutable;
 no Moose;
