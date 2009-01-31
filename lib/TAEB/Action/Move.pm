@@ -199,7 +199,7 @@ sub location_controlled_tele {
     return $adjacent[0];
 }
 
-__PACKAGE__->meta->make_immutable;
+__PACKAGE__->meta->make_immutable(inline_constructor => 0);
 no Moose;
 
 1;
