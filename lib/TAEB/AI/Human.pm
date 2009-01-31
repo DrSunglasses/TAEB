@@ -3,6 +3,8 @@ package TAEB::AI::Human;
 use TAEB::OO;
 extends 'TAEB::AI';
 
+use constant is_human_controlled => 1;
+
 =head1 NAME
 
 TAEB::AI::Human - the only AI that has a chance

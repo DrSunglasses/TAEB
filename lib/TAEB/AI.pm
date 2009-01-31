@@ -2,6 +2,8 @@
 package TAEB::AI;
 use TAEB::OO;
 
+use constant is_human_controlled => 0;
+
 has currently => (
     isa => 'Str',
     default => "?",
