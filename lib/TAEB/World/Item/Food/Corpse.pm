@@ -91,6 +91,20 @@ sub unicorn {
     return undef;
 }
 
+around is_safely_edible => sub {
+    my $orig = shift;
+    my $self = shift;
+
+    return 0 if $self->maybe_rotted;
+    return 0 if $self->cannibal eq TAEB->race;
+    return 0 if $self->die || $self->aggravate;
+
+    return 0 if $self->poisonous
+             && !(TAEB->poison_resistant || TAEB->find_item("unicorn horn"));
+
+    return $orig->($self, @_);
+};
+
 __PACKAGE__->meta->make_immutable;
 no Moose;
 
