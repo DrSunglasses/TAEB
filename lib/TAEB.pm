@@ -57,19 +57,19 @@ class_has interface => (
     },
 );
 
-class_has personality => (
+class_has ai => (
     is       => 'rw',
-    isa      => 'TAEB::AI::Personality',
+    isa      => 'TAEB::AI',
     lazy     => 1,
     default  => sub {
-        use TAEB::AI::Personality::Human;
-        return TAEB::AI::Personality::Human->new;
+        use TAEB::AI::Human;
+        return TAEB::AI::Human->new;
     },
     handles  => [qw(want_item currently next_action)],
     trigger  => sub {
-        my ($self, $personality) = @_;
-        TAEB->log->main("Now using personality $personality.");
-        $personality->institute;
+        my ($self, $ai) = @_;
+        TAEB->log->main("Now using AI $ai.");
+        $ai->institute;
     },
 );
 
@@ -420,7 +420,7 @@ sub human_input {
     my $self = shift;
 
     my $c = $self->single_step ? $self->get_key : $self->try_key
-        unless $self->personality->meta->name =~ /\bHuman\b/;
+        unless $self->ai->meta->name =~ /\bHuman\b/;
 
     if (defined $c) {
         my $out = $self->keypress($c);
@@ -520,13 +520,13 @@ around write => sub {
     $orig->($self, $text);
 };
 
-# allow the user to say TAEB->personality("human") and have it DTRT
-around personality => sub {
+# allow the user to say TAEB->ai("human") and have it DTRT
+around ai => sub {
     my $orig = shift;
     my $self = shift;
 
-    if (@_ && (my $personality = $self->personality)) {
-        $personality->deinstitute;
+    if (@_ && (my $ai = $self->ai)) {
+        $ai->deinstitute;
     }
 
     if (@_ && $_[0] =~ /^\w+$/) {
@@ -535,7 +535,7 @@ around personality => sub {
         # guess the case unless they tell us what it is (because of ScoreWhore)
         $name = "\L\u$name" if $name eq lc $name;
 
-        $name = "TAEB::AI::Personality::$name";
+        $name = "TAEB::AI::$name";
 
         (my $file = "$name.pm") =~ s{::}{/}g;
         require $file;
