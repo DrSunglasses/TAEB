@@ -23,6 +23,15 @@ sub new_item {
     return $subclass->new(nhi => $nhi);
 }
 
+# we try to uphold this API
+sub isa {
+    my $self = shift;
+
+    return 1 if $_[0] eq 'NetHack::Item';
+
+    $self->SUPER::isa(@_);
+};
+
 __PACKAGE__->meta->make_immutable;
 no Moose;
 
