@@ -16,9 +16,6 @@ requires 'MooseX::ClassAttribute' => 0.07;
 requires 'MooseX::Role::Matcher';
 requires 'Module::Pluggable';
 
-# getop for bin/taeb
-requires 'Getopt::Whatever';
-
 # parse escape codes into an addressable screen
 requires 'Term::VT102::ZeroBased';
 
