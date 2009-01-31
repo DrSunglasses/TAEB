@@ -856,14 +856,17 @@ has saw_floor_list_this_step => (
     default   => 0,
 );
 
+sub _recurse () {
+    local $SIG{__DIE__};
+    die "Recursing screenscraper.\n";
+}
+
 sub scrape {
     my $self = shift;
 
     $self->check_cycling;
 
     eval {
-        local $SIG{__DIE__};
-
         # You don't have that object!
         $self->handle_exceptions;
 
@@ -890,7 +893,6 @@ sub scrape {
 
         # publish messages for all_messages
         $self->send_messages;
-
     };
 
     if (($@ || '') =~ /^Recursing screenscraper/) {
@@ -936,7 +938,7 @@ sub handle_exceptions {
     my $response = TAEB->get_exceptional_response(TAEB->topline);
     if (defined $response) {
         TAEB->write($response);
-        die "Recursing screenscraper.\n";
+        _recurse;
     }
 }
 
@@ -950,7 +952,7 @@ sub handle_more {
 
         # try to get rid of the --More--
         TAEB->write(' ');
-        die "Recursing screenscraper.\n";
+        _recurse;
     }
 }
 
@@ -988,7 +990,7 @@ sub handle_attributes {
                                            TAEB->gender, TAEB->align);
 
         TAEB->write(' ');
-        die "Recursing screenscraper.\n";
+        _recurse;
     }
 }
 
@@ -1038,14 +1040,14 @@ sub handle_more_menus {
                 $begincol = length $1;
             }
             else {
-                die "Recursing screenscraper.\n" if $iter > 1;
+                _recurse if $iter > 1;
                 die "Unable to find --More-- on the end row: $lastrow_contents";
             }
 
             if ($iter > 1) {
                 # on subsequent iterations, the --More-- will be in the second
                 # column when the menu is continuing
-                die "Recursing screenscraper.\n" if $begincol != 1;
+                _recurse if $begincol != 1;
             }
 
             # now for each menu line, invoke the coderef
@@ -1155,7 +1157,7 @@ sub handle_menus {
     $menu->select_quantity($selector) if $selector;
 
     TAEB->write($committer->());
-    die "Recursing screenscraper.\n";
+    _recurse;
 }
 
 sub handle_fallback {
@@ -1176,13 +1178,13 @@ sub handle_fallback {
         if (defined $response) {
             $self->messages($self->messages . $response);
             TAEB->write($response);
-            die "Recursing screenscraper.\n";
+            _recurse;
         }
         else {
             $self->messages($self->messages . "(escaped)");
             TAEB->write("\e");
             TAEB->log->scraper("Escaped out of unhandled prompt: " . TAEB->topline, level => 'warning');
-            die "Recursing screenscraper.\n";
+            _recurse;
         }
     }
 }
@@ -1200,13 +1202,13 @@ sub handle_location_request {
                                                   $dest->x, $dest->y);
         TAEB->write(crow_flies(TAEB->vt->x, TAEB->vt->y,
                                $dest->x, $dest->y) . ".");
-        die "Recursing screenscraper.\n";
+        _recurse;
     }
     else {
         $self->messages($self->messages . "(escaped)");
         TAEB->write("\e");
         TAEB->log->scraper("Escaped out of unhandled location request: " . $type, level => 'warning');
-        die "Recursing screenscraper.\n";
+        _recurse;
     }
 }
 
@@ -1249,7 +1251,7 @@ sub handle_death {
     if (TAEB->dead) {
         TAEB->log->scraper("I'm dead! Spacing through the endgame messages...");
         TAEB->write(' ');
-        die "Recursing screenscraper.\n";
+        _recurse;
     }
 }
 
