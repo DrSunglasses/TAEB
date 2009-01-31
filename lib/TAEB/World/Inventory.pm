@@ -7,7 +7,7 @@ use overload %TAEB::Meta::Overload::default;
 sub find {
     my $self = shift;
 
-    for my $item (sort $self->items) {
+    for my $item ($self->items) {
         return $item if $item->match(@_);
     }
 
