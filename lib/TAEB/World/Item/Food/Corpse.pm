@@ -32,7 +32,7 @@ sub estimate_age {
 
 sub maybe_rotted {
     my $self = shift;
-    my $when = shift;
+    my $when = shift || TAEB->turn;
 
     my $rotted_low = int($self->estimate_age($when) / 29);
     my $rotted_high = int($self->estimate_age($when) / 10);
