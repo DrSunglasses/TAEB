@@ -57,15 +57,11 @@ class_has interface => (
 );
 
 class_has ai => (
-    is       => 'rw',
-    isa      => 'TAEB::AI',
-    lazy     => 1,
-    default  => sub {
-        use TAEB::AI::Human;
-        return TAEB::AI::Human->new;
-    },
-    handles  => [qw(want_item currently next_action)],
-    trigger  => sub {
+    is        => 'rw',
+    isa       => 'TAEB::AI',
+    handles   => [qw(want_item currently next_action)],
+    predicate => 'has_ai',
+    trigger   => sub {
         my ($self, $ai) = @_;
         TAEB->log->main("Now using AI $ai.");
         $ai->institute;
@@ -524,8 +520,8 @@ around ai => sub {
     my $orig = shift;
     my $self = shift;
 
-    if (@_ && (my $ai = $self->ai)) {
-        $ai->deinstitute;
+    if (@_ && $self->has_ai) {
+        $self->ai->deinstitute;
     }
 
     if (@_ && $_[0] =~ /^\w+$/) {
