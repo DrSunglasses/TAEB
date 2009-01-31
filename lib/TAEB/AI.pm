@@ -139,7 +139,8 @@ sub respond_wish {
     return "blessed fixed greased +3 dwarvish mithril-coat\n" unless TAEB->find_item(qr/mithril/);
 
     # Healing sounds good, too.
-    return "2 blessed potions of full healing\n" if TAEB->knowledge->appearance_of->{"potion of full healing"};
+    # XXX: This API isn't here yet
+    #return "2 blessed potions of full healing\n" if TAEB->has_identified("potion of full healing");
 
     # Curing status effects sounds good, too.
     return "blessed fixed greased +3 unicorn horn" unless TAEB->find_item('unicorn horn');
