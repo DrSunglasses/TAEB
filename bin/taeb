@@ -2,7 +2,6 @@
 use strict;
 use warnings;
 use lib 'lib';
-use Getopt::Whatever;
 
 use Curses;
 
@@ -16,34 +15,17 @@ BEGIN {
     }
 }
 
-# load_from_argv {{{
-sub load_from_argv {
-    my $second_level = shift;
-    my $default = shift;
-    my $arg_name = lc($second_level);
-    $arg_name =~ s/.*:://;
+# load configured subsystems {{{
+for my $subsystem ('ai', 'interface') {
+    my $class = TAEB->config->$subsystem
+        or die "Specify a class for '$subsystem' in your config";
+    Class::MOP::load_class($class);
 
-    my $third_level = $ARGV{$arg_name}
-                   || TAEB->config->contents->{$arg_name}
-                   || $default;
-    TAEB->config->contents->{$arg_name} = $third_level;
-
-    my $type = "TAEB::${second_level}::$third_level";
-
-    eval "require $type; 1"
-        or die $@;
-
-    my %opts = %{ TAEB->config->contents->{ $arg_name.'_options' }->{ $third_level } || {} };
-    return $type->new(%opts, @_);
+    my $options_method = "${subsystem}_options";
+    my $instance = $class->new(%{ TAEB->config->$options_method || {} });
+    TAEB->$subsystem($instance);
 }
 # }}}
-
-my $personality = load_from_argv('AI::Personality', 'RandomWalk');
-TAEB->personality($personality);
-
-my $interface = load_from_argv('Interface', 'Local');
-TAEB->interface($interface);
-
 # signal and terminal munging {{{
 $SIG{__WARN__} = sub {
     my $method = $_[0] =~ /^Use of uninitialized / ? 'undef' : 'perl';
