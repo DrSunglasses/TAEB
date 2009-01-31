@@ -28,8 +28,8 @@ sub is_auto_picked_up {
     my $self = shift;
     return 0 if !TAEB->autopickup;
 
-    return 1 if $self->match(appearance => 'gold piece');
-    return 1 if $self->match(type => 'wand');
+    return 1 if $self->match(identity => 'gold piece')
+             || $self->match(type => 'wand');
 
     return 0;
 }
