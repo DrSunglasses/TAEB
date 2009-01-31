@@ -3,7 +3,10 @@ use TAEB::OO;
 extends 'TAEB::World::Item';
 
 has '+nhi' => (
-    isa => 'NetHack::Item::Food',
+    isa     => 'NetHack::Item::Food',
+    handles => {
+        nutrition => 'nutrition',
+    },
 );
 
 sub is_safely_edible {
