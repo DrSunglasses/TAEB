@@ -102,11 +102,10 @@ sub post_responses {
     TAEB->nutrition($new_nutrition);
 }
 
-# is there any food around?
-sub any_food {
+sub edible_items {
     my $self = shift;
 
-    return any { $self->can_eat($_) }
+    return grep { $self->can_eat($_) }
            TAEB->current_tile->items,
            TAEB->inventory->items;
 }
