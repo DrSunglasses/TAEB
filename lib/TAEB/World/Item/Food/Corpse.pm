@@ -4,9 +4,7 @@ extends 'TAEB::World::Item::Food';
 
 has '+nhi' => (
     isa     => 'NetHack::Item::Food::Corpse',
-    handles => {
-        monster => 'monster',
-    },
+    handles => [ qw/monster cannibal die aggravate poisonous/ ],
 );
 
 has is_forced_verboten => (
