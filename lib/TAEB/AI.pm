@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-package TAEB::AI::Personality;
+package TAEB::AI;
 use TAEB::OO;
 
 has currently => (
@@ -7,18 +7,18 @@ has currently => (
     default => "?",
     trigger => sub {
         my ($self, $currently) = @_;
-        TAEB->log->personality("Currently: $currently.") unless $currently eq '?';
+        TAEB->log->ai("Currently: $currently.") unless $currently eq '?';
     },
 );
 
 =head1 NAME
 
-TAEB::AI::Personality - how TAEB tactically extracts its amulets
+TAEB::AI - how TAEB tactically extracts its amulets
 
 =head2 next_action -> Action
 
 This is the method called by the main TAEB code to get individual commands. It
-will be called with a C<$self> which will be your TAEB::AI::Personality object,
+will be called with a C<$self> which will be your TAEB::AI object,
 and a TAEB object for interacting with the rest of the system (such as for
 looking at the map).
 
@@ -35,7 +35,7 @@ sub next_action {
 
 =head2 institute
 
-This is the method called when TAEB begins using this personality. This is
+This is the method called when TAEB begins using this AI. This is
 guaranteed to be called before any calls to next_action.
 
 =cut
@@ -46,9 +46,9 @@ sub institute {
 
 =head2 deinstitute
 
-This is the method called when TAEB finishes using this personality.
+This is the method called when TAEB finishes using this AI.
 
-This will not be called when TAEB is ending, but only when the personality is
+This will not be called when TAEB is ending, but only when the AI is
 replaced by a different one.
 
 =cut
@@ -112,7 +112,7 @@ sub enhance {
     my $skill = shift;
     my $level = shift;
 
-    TAEB->log->personality("Enhancing $skill up from $level");
+    TAEB->log->ai("Enhancing $skill up from $level");
 
     return 1;
 }
