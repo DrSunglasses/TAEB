@@ -6,6 +6,12 @@ has '+nhi' => (
     isa => 'NetHack::Item::Food',
 );
 
+sub is_safely_edible {
+    my $self = shift;
+
+    return 0;
+}
+
 __PACKAGE__->meta->make_immutable;
 no Moose;
 

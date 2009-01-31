@@ -20,7 +20,7 @@ sub respond_eat_ground {
     return 'n' if blessed $self->item;
 
     if ($self->item eq 'any') {
-        if (TAEB::Spoilers::Item::Food->should_eat($item)) {
+        if ($item->is_safely_edible) {
             TAEB->log->action("Floor-food $item is good enough for me.");
             # keep track of what we're eating for nutrition purposes later
             $self->item($item);
@@ -116,7 +116,7 @@ sub can_eat {
     my $item = shift;
 
     return 0 unless $item->type eq 'food';
-    return 0 unless TAEB::Spoilers::Item::Food->should_eat($item);
+    return 0 unless $item->is_safely_edible;
     return 0 if $item->match(identity => 'lizard corpse')
              && TAEB->nutrition > 5;
     return 1;
