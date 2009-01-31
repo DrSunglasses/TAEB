@@ -94,7 +94,7 @@ around is_safely_edible => sub {
     my $self = shift;
 
     return 0 if $self->maybe_rotted;
-    return 0 if $self->cannibal eq TAEB->race;
+    return 0 if $self->match(cannibal => TAEB->race);
     return 0 if $self->die || $self->aggravate;
 
     return 0 if $self->poisonous
