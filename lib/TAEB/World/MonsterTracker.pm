@@ -1,4 +1,4 @@
-package TAEB::World::Monster;
+package TAEB::World::MonsterTracker;
 use TAEB::OO;
 
 # Monster tracking
