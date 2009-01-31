@@ -191,16 +191,6 @@ class_has senses => (
     predicate => 'has_senses',
 );
 
-class_has inventory => (
-    traits  => [qw/TAEB::Persistent/],
-    is      => 'ro',
-    isa     => 'TAEB::World::Inventory',
-    default => sub { TAEB::World::Inventory->new },
-    handles => {
-        find_item => 'find',
-    },
-);
-
 class_has spells => (
     traits  => [qw/TAEB::Persistent/],
     is      => 'ro',
@@ -280,6 +270,9 @@ class_has item_pool => (
     is      => 'ro',
     isa     => 'TAEB::World::ItemPool',
     default => sub { TAEB::World::ItemPool->new },
+    handles => {
+        inventory => 'inventory',
+    },
 );
 
 around action => sub {
