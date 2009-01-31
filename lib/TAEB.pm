@@ -271,7 +271,8 @@ class_has item_pool => (
     isa     => 'TAEB::World::ItemPool',
     default => sub { TAEB::World::ItemPool->new },
     handles => {
-        inventory => 'inventory',
+        inventory    => 'inventory',
+        get_artifact => 'get_artifact',
     },
 );
 
