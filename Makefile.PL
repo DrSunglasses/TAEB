@@ -61,10 +61,6 @@ features(
         -default => 0,
         recommends('Inline::C'),
     ],
-    'Hiveminder todo tracking' => [
-        -default => 0,
-        recommends('Net::Hiveminder'),
-    ],
     'REPL on ~' => [
         -default => 1,
         recommends('Devel::REPL'),
