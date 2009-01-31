@@ -99,12 +99,31 @@ around is_safely_edible => sub {
     my $orig = shift;
     my $self = shift;
 
-    return 0 if $self->maybe_rotted;
-    return 0 if $self->match(cannibal => TAEB->race);
-    return 0 if $self->die || $self->aggravate;
+    # Instant death? No thanks.
+    for my $killer (qw/die lycanthropy petrify polymorph slime/) {
+        return 0 if $self->$killer;
+    }
 
-    return 0 if $self->poisonous
-             && !(TAEB->poison_resistant || TAEB->find_item("unicorn horn"));
+    # Stun is pretty irritating.
+    return 0 if $self->stun;
+
+    # Acidic items deal damage.
+    return 0 if $self->acidic && TAEB->hp <= 15;
+
+    # Worst case is Str-dependant and usually milder.
+    return 0 if $self->poisonous && !TAEB->senses->poison_resistant
+             && TAEB->hp <= 29;
+
+    # Orcs and Cavs can cannibalize and eat pets.
+    return 0 if ($self->cannibal eq TAEB->race || $self->aggravate)
+             && TAEB->race ne 'Orc'
+             && TAEB->role ne 'Cav';
+
+    # Don't eat quantum mechanics if we're already fast
+    return 0 if $self->speed_toggle && TAEB->is_fast;
+
+    # Teleportitis is actually pretty good for bots.
+    #return 0 if $self->teleportitis && !$self->teleport_control;
 
     return $orig->($self, @_);
 };
