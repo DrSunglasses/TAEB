@@ -1,6 +1,9 @@
 package TAEB::World::Item::Amulet;
 use TAEB::OO;
-extends qw/TAEB::World::Item NetHack::Item/;
+
+has '+nhi' => (
+    isa => 'NetHack::Item::Amulet',
+);
 
 __PACKAGE__->meta->make_immutable;
 no Moose;

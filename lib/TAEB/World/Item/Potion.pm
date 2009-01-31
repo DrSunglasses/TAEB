@@ -1,15 +1,8 @@
 package TAEB::World::Item::Potion;
 use TAEB::OO;
-extends 'TAEB::World::Item';
-with 'TAEB::World::Item::Role::Lightable';
 
-has '+class' => (
-    default => 'potion',
-);
-
-has is_diluted => (
-    isa     => 'Bool',
-    default => 0,
+has '+nhi' => (
+    isa => 'NetHack::Item::Potion',
 );
 
 __PACKAGE__->meta->make_immutable;

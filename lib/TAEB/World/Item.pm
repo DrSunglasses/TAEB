@@ -1,6 +1,5 @@
 package TAEB::World::Item;
 use TAEB::OO;
-with 'MooseX::Role::Matcher' => { default_match => 'identity' };
 
 has nhi => (
     is       => 'ro',

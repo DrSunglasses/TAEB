@@ -1,14 +1,9 @@
 package TAEB::World::Item::Ring;
 use TAEB::OO;
-extends 'TAEB::World::Item';
-with 'TAEB::World::Item::Role::Enchantable';
-with 'TAEB::World::Item::Role::Wearable';
 
-has '+class' => (
-    default => 'ring',
+has '+nhi' => (
+    isa => 'NetHack::Item::Ring',
 );
-
-__PACKAGE__->install_spoilers(qw/chargeable/);
 
 __PACKAGE__->meta->make_immutable;
 no Moose;
