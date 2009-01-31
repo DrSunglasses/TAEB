@@ -1104,12 +1104,12 @@ sub handle_menus {
 
         $selector = sub {
             my $slot = shift;
-            my $item = TAEB->inventory->get($slot);
             my $new_item = TAEB->new_item($_);
 
             delete $dont_have{$slot};
 
             TAEB->inventory->update($slot => $new_item);
+            my $item = TAEB->inventory->get($slot);
 
             # if we can drop the item, drop it!
             if (!TAEB->is_checking('inventory')) {
