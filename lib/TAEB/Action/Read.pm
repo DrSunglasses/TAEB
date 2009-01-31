@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::Action::Read;
 use TAEB::OO;
 extends 'TAEB::Action';

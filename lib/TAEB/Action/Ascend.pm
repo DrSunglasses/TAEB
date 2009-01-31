@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::Action::Ascend;
 use TAEB::OO;
 extends 'TAEB::Action::Move';

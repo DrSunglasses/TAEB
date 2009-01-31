@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::World::Item::Carrion;
 use TAEB::OO;
 use TAEB::Spoilers::Monster;

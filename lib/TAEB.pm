@@ -1,4 +1,3 @@
-#!perl
 package TAEB;
 use TAEB::Util ':colors';
 

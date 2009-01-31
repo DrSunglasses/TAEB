@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::Meta::Trait::Provided;
 use Moose::Role;
 

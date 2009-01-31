@@ -1,4 +1,3 @@
-#!/usr/bin/perl
 package TAEB::Debug::IRC;
 use TAEB::OO;
 

@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::Spoilers;
 use strict;
 use warnings;

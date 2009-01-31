@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::Config;
 use Moose;
 use YAML;

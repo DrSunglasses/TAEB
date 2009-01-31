@@ -1,4 +1,3 @@
-#!/usr/bin/perl
 package TAEB::Debug::IRC::Bot;
 use TAEB::OO;
 use POE::Kernel;

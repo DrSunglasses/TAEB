@@ -1,4 +1,3 @@
-#!/usr/bin/perl
 package TAEB::Debug::Console;
 use TAEB::OO;
 

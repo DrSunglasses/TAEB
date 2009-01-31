@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::World::Item::Potion;
 use TAEB::OO;
 extends 'TAEB::World::Item';

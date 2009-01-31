@@ -1,4 +1,3 @@
-#!/usr/bin/perl
 package TAEB::Action::Puton;
 use TAEB::OO;
 extends 'TAEB::Action';

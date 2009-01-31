@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::Interface::Local;
 use TAEB::OO;
 use IO::Pty::Easy;

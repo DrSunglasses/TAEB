@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::World::Level;
 use TAEB::OO;
 use TAEB::Util qw/deltas delta2vi vi2delta tile_types/;

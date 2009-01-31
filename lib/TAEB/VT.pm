@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::VT;
 use TAEB::OO;
 extends 'Term::VT102::ZeroBased';

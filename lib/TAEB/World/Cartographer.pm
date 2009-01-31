@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::World::Cartographer;
 use TAEB::OO;
 use NetHack::FOV 'calculate_fov';

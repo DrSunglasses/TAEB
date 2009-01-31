@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::World::Item::Amulet;
 use TAEB::OO;
 extends 'TAEB::World::Item';

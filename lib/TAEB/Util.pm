@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::Util;
 use strict;
 use warnings;

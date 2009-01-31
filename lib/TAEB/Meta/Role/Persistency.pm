@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::Meta::Role::Persistency;
 use Moose::Role;
 use Storable;

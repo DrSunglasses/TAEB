@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::Meta::Types;
 use Moose::Util::TypeConstraints;
 use TAEB::Util qw/tile_types trap_types/;

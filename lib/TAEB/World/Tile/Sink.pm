@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::World::Tile::Sink;
 use TAEB::OO;
 extends 'TAEB::World::Tile';

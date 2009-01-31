@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::Action::Role::Direction;
 use Moose::Role;
 use List::MoreUtils 'none';

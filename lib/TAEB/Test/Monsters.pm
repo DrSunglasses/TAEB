@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::Test::Monsters;
 use TAEB::Test;
 use List::Util 'sum';

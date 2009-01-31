@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::World::Spells;
 use TAEB::OO;
 use List::Util 'first';

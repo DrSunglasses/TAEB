@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::Knowledge::Item::Artifact;
 use TAEB::OO;
 use Set::Object;

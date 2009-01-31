@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::World::Inventory;
 use TAEB::OO;
 use List::Util 'sum';

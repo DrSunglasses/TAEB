@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::Spoilers::Item::Food;
 use MooseX::Singleton;
 use TAEB::Spoilers::Monster; # for corpses

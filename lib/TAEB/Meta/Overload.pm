@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::Meta::Overload;
 use strict;
 use warnings;

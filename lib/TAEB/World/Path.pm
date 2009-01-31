@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::World::Path;
 use TAEB::OO;
 use Heap::Simple;

@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::Action::Role::Item;
 use Moose::Role;
 

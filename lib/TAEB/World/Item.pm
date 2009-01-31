@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::World::Item;
 use TAEB::OO;
 use List::MoreUtils 'uniq';

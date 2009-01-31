@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::OO;
 use Moose ();
 use MooseX::ClassAttribute ();

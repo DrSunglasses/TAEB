@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::ScreenScraper;
 use TAEB::OO;
 use TAEB::Util qw/crow_flies/;

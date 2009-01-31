@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::World::Room;
 use TAEB::OO;
 

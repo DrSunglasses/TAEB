@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::World::Dungeon;
 use TAEB::OO;
 use Scalar::Util 'refaddr';

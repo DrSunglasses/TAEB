@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::World::Tile::Door;
 use TAEB::OO;
 use List::Util qw/min/;

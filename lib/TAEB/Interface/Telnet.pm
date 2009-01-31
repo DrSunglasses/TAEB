@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::Interface::Telnet;
 use TAEB::OO;
 use IO::Socket::Telnet;

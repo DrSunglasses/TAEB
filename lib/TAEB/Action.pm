@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::Action;
 use TAEB::OO;
 use Module::Pluggable

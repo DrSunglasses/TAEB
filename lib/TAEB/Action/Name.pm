@@ -1,4 +1,3 @@
-#!/usr/bin/perl
 package TAEB::Action::Name;
 use TAEB::OO;
 extends 'TAEB::Action';

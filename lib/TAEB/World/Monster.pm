@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::World::Monster;
 use TAEB::OO;
 use TAEB::Util qw/:colors align2str/;

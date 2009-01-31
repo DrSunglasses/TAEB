@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::Debug::Bot;
 use Moose::Role;
 use Set::Object;

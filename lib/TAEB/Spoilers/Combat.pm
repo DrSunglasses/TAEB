@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::Spoilers::Combat;
 use MooseX::Singleton;
 use TAEB::Util 'dice';

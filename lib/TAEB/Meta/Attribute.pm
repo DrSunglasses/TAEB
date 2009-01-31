@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::Meta::Attribute;
 use Moose;
 extends 'Moose::Meta::Attribute';

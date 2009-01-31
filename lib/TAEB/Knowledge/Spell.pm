@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::Knowledge::Spell;
 use TAEB::OO;
 use List::Util qw/max min/;

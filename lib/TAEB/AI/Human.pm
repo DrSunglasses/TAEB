@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::AI::Human;
 use TAEB::OO;
 extends 'TAEB::AI';

@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::Meta::Class;
 use Moose;
 use List::MoreUtils qw/any/;

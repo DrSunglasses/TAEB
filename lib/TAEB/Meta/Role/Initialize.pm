@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::Meta::Role::Initialize;
 use Moose::Role;
 

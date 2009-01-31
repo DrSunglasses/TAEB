@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::Publisher;
 use TAEB::OO;
 use Set::Object;

@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::Spoilers::Engravings;
 use TAEB::OO;
 use List::MoreUtils 'any';

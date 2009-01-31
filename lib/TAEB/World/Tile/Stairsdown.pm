@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::World::Tile::Stairsdown;
 use TAEB::OO;
 extends 'TAEB::World::Tile::Stairs';

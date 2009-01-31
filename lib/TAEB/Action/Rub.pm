@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::Action::Rub;
 use TAEB::OO;
 extends 'TAEB::Action';

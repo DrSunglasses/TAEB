@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::World::Item::Ring;
 use TAEB::OO;
 extends 'TAEB::World::Item';

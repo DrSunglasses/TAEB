@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::Spoilers::Monster;
 use MooseX::Singleton;
 use TAEB::Util ':colors';

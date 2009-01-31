@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::Display;
 use TAEB::OO;
 use Curses ();

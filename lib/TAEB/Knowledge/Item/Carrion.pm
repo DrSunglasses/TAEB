@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::Knowledge::Item::Carrion;
 use TAEB::OO;
 extends 'TAEB::Knowledge::Item::Food';

@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::Spoilers::Item::Ring;
 use MooseX::Singleton;
 extends 'TAEB::Spoilers::Item';

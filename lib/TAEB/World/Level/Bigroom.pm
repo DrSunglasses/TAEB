@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::World::Level::Bigroom;
 use TAEB::OO;
 extends 'TAEB::World::Level';
