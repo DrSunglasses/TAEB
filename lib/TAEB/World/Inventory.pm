@@ -12,6 +12,30 @@ sub find {
     return;
 }
 
+=head2 has_projectile
+
+Returns true (actually, the item) if TAEB has something useful to throw.
+
+=cut
+
+my @projectiles = (
+    qr/\bdagger\b/,
+    qr/\bspear\b/,
+    qr/\bshuriken\b/,
+    qr/\bdart\b/,
+    "rock", # to not catch rock mole corpses
+);
+
+sub has_projectile {
+    my $self = shift;
+
+    return $self->find(
+        identity    => \@projectiles,
+        is_wielding => 0,
+        price       => 0,
+    );
+}
+
 __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
 
