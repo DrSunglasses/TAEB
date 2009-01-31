@@ -1110,6 +1110,7 @@ sub handle_menus {
 
             TAEB->inventory->update($slot => $new_item);
             my $item = TAEB->inventory->get($slot);
+            return unless $item; # gold isn't stored in inventory
 
             # if we can drop the item, drop it!
             if (!TAEB->is_checking('inventory')) {
