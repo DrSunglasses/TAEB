@@ -1103,33 +1103,31 @@ sub handle_menus {
         my %dont_have = map { $_, 1 } 'a' .. 'z', 'A' .. 'Z';
 
         $selector = sub {
-            my $slot        = shift;
-            my $new_item    = TAEB->new_item($_);
-            my $item        = TAEB->inventory->get($slot) || $new_item;
+            my $slot = shift;
+            my $item = TAEB->inventory->get($slot);
+            my $new_item = TAEB->new_item($_);
 
             delete $dont_have{$slot};
 
-            # we were unable to parse this item. drop it!
-            return 'all' if !defined($item);
+            TAEB->inventory->update($slot => $new_item);
 
             # if we can drop the item, drop it!
             if (!TAEB->is_checking('inventory')) {
                 my $drop = TAEB->ai->drop($item);
 
+                # dropping a part of the stack
                 if (ref($drop) && $$drop < $item->quantity) {
-                    TAEB->inventory->decrease_quantity($slot, $$drop);
-                    $new_item->quantity($$drop);
+                    my $new_item = $item->fork_quantity($$drop);
                     TAEB->enqueue_message('floor_item' => $new_item);
                     return $$drop;
-                } elsif ($drop) {
+                }
+                # dropping the whole stack
+                elsif ($drop) {
                     TAEB->inventory->remove($slot);
                     TAEB->enqueue_message('floor_item' => $item);
                     return 'all';
                 }
             }
-
-            TAEB->inventory->update($slot, $new_item, 1)
-                unless $new_item->identity eq 'gold piece';
 
             return 0;
         };
