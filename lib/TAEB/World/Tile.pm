@@ -687,7 +687,7 @@ after add_item => sub {
     push @{ $self->level->items }, @_;
 
     for my $item (@_) {
-        next unless $item->class eq 'carrion';
+        next unless $item->subtype eq 'corpse';
 
         my @kl = @{ $self->kill_times };
         my ($date, $v) = (undef, 0);
