@@ -89,7 +89,7 @@ sub post_responses {
         return;
     }
     else {
-        $item = TAEB->new_item($item);
+        $item = TAEB->new_item($item) if !blessed($item);
         #This doesn't work well with a stack of corpses on the floor
         #because maybe_is used my remove_floor_item tries to match quantity
         TAEB->enqueue_message(remove_floor_item => $item);
