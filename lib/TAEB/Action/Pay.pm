@@ -19,7 +19,7 @@ sub respond_buy_item {
     my $item = TAEB->new_item(shift);
     my $cost = shift;
 
-    $item->price($cost);
+    $item->cost_each($cost / $item->quantity);
 
     if (blessed($self->item) && $self->item->maybe_is($item)) {
         TAEB->log->action("Buying $item explicitly.");
