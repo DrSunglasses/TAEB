@@ -5,12 +5,11 @@ extends 'TAEB::World::Item::Food';
 has '+nhi' => (
     isa     => 'NetHack::Item::Food::Corpse',
     handles => [qw/
-        monster cannibal permanent die lycanthropy petrify polymorph slime stun
-        acidic poisonous aggravate speed_toggle energy gain_level heal
-        intelligence invisibility strength telepathy teleport_control
-        teleportitis reanimates shock_resistance poison_resistance
-        fire_resistance cold_resistance sleep_resistance
-        disintegration_resistance
+        acidic aggravate cannibal cold_resistance die disintegration_resistance
+        energy fire_resistance gain_level hallucination heal intelligence
+        invisibility lycanthropy monster permanent petrify poison_resistance
+        poisonous polymorph reanimates shock_resistance sleep_resistance slime
+        speed_toggle strength stun telepathy teleport_control teleportitis
     /],
 );
 
