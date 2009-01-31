@@ -547,7 +547,7 @@ sub new_item {
     TAEB::World::Item->new_item(@_);
 }
 
-sub find_item {
+sub has_item {
     my $self = shift;
     $self->inventory->find(@_);
 }

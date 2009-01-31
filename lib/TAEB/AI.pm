@@ -136,14 +136,14 @@ sub respond_wish {
         && !TAEB->get_artifact('Master Key of Thievery');
 
     # We can always use more AC.
-    return "blessed fixed greased +3 dwarvish mithril-coat\n" unless TAEB->find_item(qr/mithril/);
+    return "blessed fixed greased +3 dwarvish mithril-coat\n" unless TAEB->has_item(qr/mithril/);
 
     # Healing sounds good, too.
     # XXX: This API isn't here yet
     #return "2 blessed potions of full healing\n" if TAEB->has_identified("potion of full healing");
 
     # Curing status effects sounds good, too.
-    return "blessed fixed greased +3 unicorn horn" unless TAEB->find_item('unicorn horn');
+    return "blessed fixed greased +3 unicorn horn" unless TAEB->has_item('unicorn horn');
 
     # When in doubt, ask for more shit to throw at people.
     return "3 blessed fixed +3 silver daggers";
