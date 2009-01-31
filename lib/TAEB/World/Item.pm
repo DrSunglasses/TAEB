@@ -24,6 +24,16 @@ sub new_item {
     return $subclass->new(nhi => $nhi);
 }
 
+sub is_auto_picked_up {
+    my $self = shift;
+    return 0 if !TAEB->autopickup;
+
+    return 1 if $self->match(appearance => 'gold piece');
+    return 1 if $self->match(type => 'wand');
+
+    return 0;
+}
+
 # we try to uphold this API
 sub isa {
     my $self = shift;

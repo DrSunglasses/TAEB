@@ -297,7 +297,7 @@ sub msg_remove_floor_item {
         }
     }
 
-    return if $item->is_autopickuped;
+    return if $item->is_auto_picked_up;
 
     TAEB->log->cartographer("Unable to remove $item from the floor. Did we just pick it up or no?", level => 'error');
 }
