@@ -6,7 +6,9 @@ has nhi => (
     isa      => 'NetHack::Item',
     required => 1,
     handles  => {
-        identity => 'identity',
+        map { $_ => $_ } qw/
+            identity slot is_wielded is_quivered is_offhand type subtype
+        /,
     },
 );
 
