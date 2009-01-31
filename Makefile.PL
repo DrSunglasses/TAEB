@@ -43,10 +43,7 @@ requires 'NetHack::FOV';
 requires 'NetHack::Item' => '0.04';
 
 features(
-    'REPL on exception' => [
-        -default => 1,
-        recommends('Carp::REPL'),
-    ],
+    # optional modules that enhance TAEB's playing
     'TAEB for server NetHack' => [
         -default => 0,
         recommends('IO::Socket::Telnet'),
@@ -55,18 +52,16 @@ features(
         -default => 0,
         recommends('IO::Pty::Easy'),
     ],
-    'Various NetHack source bits' => [
-        -default => 0,
-        recommends('Inline::C'),
+
+    # debugging tools
+    'REPL on exception' => [
+        -default => 1,
+        recommends('Carp::REPL'),
     ],
     'REPL on ~' => [
         -default => 1,
         recommends('Devel::REPL'),
         recommends('Term::ReadLine::Gnu'),
-    ],
-    'Source code and commit stats (bin/lc)' => [
-        -default => 0,
-        recommends("File::Next"),
     ],
     'IRC debug interface' => [
         -default => 0,
@@ -76,6 +71,16 @@ features(
     'Log errors (and eventually deaths) to Twitter' => [
         -default => 0,
         recommends('Log::Dispatch::Twitter'),
+    ],
+
+    # author tools
+    'Various NetHack source bits' => [
+        -default => 0,
+        recommends('Inline::C'),
+    ],
+    'Source code and commit stats (bin/lc)' => [
+        -default => 0,
+        recommends("File::Next"),
     ],
 );
 
