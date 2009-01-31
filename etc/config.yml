@@ -3,7 +3,7 @@
 # PUT YOUR CONFIG IN etc/site_config.yml
 # This file is versioned, site_config isn't.
 
-interface: 'TAEB::Interface::Local'
+interface: Local
 ai: 'TAEB::AI::Behavioral::Personality::ScoreWhore'
 
 fight_behavior: Melee

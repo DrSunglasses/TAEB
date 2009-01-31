@@ -16,15 +16,21 @@ BEGIN {
 }
 
 # load configured subsystems {{{
-for my $subsystem ('ai', 'interface') {
-    my $class = TAEB->config->$subsystem
-        or die "Specify a class for '$subsystem' in your config";
-    Class::MOP::load_class($class);
+my $ai_class = TAEB->config->ai
+    or die "Specify a class for 'ai' in your config";
+Class::MOP::load_class($ai_class);
+TAEB->ai($ai_class->new);
 
-    my $options_method = "${subsystem}_options";
-    my $instance = $class->new(%{ TAEB->config->$options_method || {} });
-    TAEB->$subsystem($instance);
-}
+
+my $interface = TAEB->config->interface
+    or die "Specify a class for 'interface' in your config";
+my $interface_class = $interface =~ s/^\+//
+                    ? $interface
+                    : "TAEB::Interface::$interface";
+Class::MOP::load_class($interface_class);
+
+my %interface_options = %{ TAEB->config->interface_options->{$interface} || {} };
+TAEB->interface($interface_class->new(%interface_options));
 # }}}
 # signal and terminal munging {{{
 $SIG{__WARN__} = sub {
