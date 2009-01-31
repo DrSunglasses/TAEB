@@ -5,6 +5,9 @@ has nhi => (
     is       => 'ro',
     isa      => 'NetHack::Item',
     required => 1,
+    handles  => {
+        identity => 'identity',
+    },
 );
 
 sub new_item {
