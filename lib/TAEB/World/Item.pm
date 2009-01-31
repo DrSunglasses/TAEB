@@ -2,6 +2,8 @@ package TAEB::World::Item;
 use TAEB::OO;
 with 'MooseX::Role::Matcher' => { default_match => 'identity' };
 
+use overload %TAEB::Meta::Overload::default;
+
 has nhi => (
     is       => 'ro',
     isa      => 'NetHack::Item',
@@ -46,6 +48,24 @@ sub isa {
 
     $self->SUPER::isa(@_);
 };
+
+sub debug_line {
+    my $self = shift;
+
+    my @fields;
+
+    push @fields, $self->quantity . 'x' unless $self->quantity == 1;
+
+    if ($self->does('NetHack::Item::Enchantable')) {
+        push @fields, $self->enchantment if $self->numeric_enchantment;
+    }
+
+    push @fields, $self->has_identity
+                ? $self->identity
+                : $self->appearance;
+
+    return join ' ', @fields;
+}
 
 __PACKAGE__->meta->make_immutable;
 no Moose;
