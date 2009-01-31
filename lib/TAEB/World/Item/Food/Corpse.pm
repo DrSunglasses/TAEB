@@ -64,7 +64,8 @@ sub maybe_rotted {
 }
 
 sub would_be_rotted {
-    my $self = shift;
+    my $self     = shift;
+    my $distance = shift;
 
     $self->maybe_rotted(TAEB->turn + ($distance * TAEB->speed / 12));
 }
