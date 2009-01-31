@@ -1,7 +1,7 @@
 TAEB has a number of debug commands. While he's playing, you can just type them
 in.
 
-If you're using the Human personality, go into debug-command-mode with ~. This
+If you're using the Human AI, go into debug-command-mode with ~. This
 is for the greater good, trust me. :)
 
 TAEB's debug commands follow. If you have any ideas for more commands, please
@@ -10,12 +10,10 @@ share.
 ~
     Open up a REPL. You can do things like:
         Take control:
-            TAEB->personality("human")
+            TAEB->ai("human")
         Query TAEB's stats:
             TAEB->hp
             TAEB->maxhp
-        See the urgency of a particular behavior:
-            TAEB->personality->behaviors->{GetItems}->prepare
 
 ;
     Look around the map. Works a lot like NetHack's ; command. The 'g' is for
@@ -44,7 +42,7 @@ i
 
 Esc
     Send the next keystroke to NetHack directly. If you need to do multiple
-    keystrokes, switch to the Human personality.
+    keystrokes, switch to the Human AI.
 
 q
     Makes TAEB save and exit at the next command. Slightly better than ^C.
