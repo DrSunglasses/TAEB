@@ -511,7 +511,7 @@ around write => sub {
 
     return if length($text) == 0;
 
-    $self->log->main("Sending '$text' to NetHack.");
+    $self->log->output("Sending '$text' to NetHack.");
     $orig->($self, $text);
 };
 
