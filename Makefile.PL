@@ -5,9 +5,6 @@ use inc::Module::Install;
 name           'TAEB';
 all_from       'lib/TAEB.pm';
 
-# for the local interface
-requires 'IO::Pty::Easy';
-
 # the object system
 requires 'Moose';
 requires 'MooseX::Singleton' => 0.03;
@@ -53,6 +50,10 @@ features(
     'TAEB for server NetHack' => [
         -default => 0,
         recommends('IO::Socket::Telnet'),
+    ],
+    'TAEB for local NetHack' => [
+        -default => 0,
+        recommends('IO::Pty::Easy'),
     ],
     'Various NetHack source bits' => [
         -default => 0,
