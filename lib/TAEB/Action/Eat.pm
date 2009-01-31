@@ -14,25 +14,25 @@ has '+item' => (
 
 sub respond_eat_ground {
     my $self = shift;
-    my $item = TAEB->new_item(shift);
+    my $floor_item = TAEB->new_item(shift);
 
     # no, we want to eat something in our inventory
     return 'n' if blessed $self->item;
 
+    # user specified something like "eat => item => 'lizard corpse'"
+    return 'y' if $floor_item->match(identity => $self->item);
+
     if ($self->item eq 'any') {
-        if ($item->is_safely_edible) {
-            TAEB->log->action("Floor-food $item is good enough for me.");
+        if ($floor_item->is_safely_edible) {
+            TAEB->log->action("Floor-food $floor_item is good enough for me.");
             # keep track of what we're eating for nutrition purposes later
-            $self->item($item);
+            $self->item($floor_item);
             return 'y';
         }
         else {
-            TAEB->log->action("Floor-food $item is not safely edible.");
+            TAEB->log->action("Floor-food $floor_item is not safely edible.");
         }
     }
-
-    # we're specific about this. really
-    return 'y' if $item->match(identity => $self->item);
 
     # no thanks, I brought my own lunch
     return 'n';
