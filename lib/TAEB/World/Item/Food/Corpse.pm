@@ -111,6 +111,14 @@ sub unicorn {
 around is_safely_edible => sub {
     my $orig = shift;
     my $self = shift;
+    my %args = @_;
+
+    my $unihorn  = $args{unihorn};
+    my $distance = $args{distance};
+
+    # Don't bother eating food that is clearly rotten, and don't risk it
+    # without a known-uncursed unihorn
+    return 0 if $self->would_be_rotted($distance) > ($unihorn ? 0 : -1);
 
     # Instant death? No thanks.
     for my $killer (qw/die lycanthropy petrify polymorph slime/) {
@@ -137,6 +145,13 @@ around is_safely_edible => sub {
 
     # Teleportitis is actually pretty good for bots.
     #return 0 if $self->teleportitis && !$self->teleport_control;
+
+    if (!$unihorn) {
+        # Don't inflict very bad conditions
+
+        return 0 if $item->hallucination;
+        return 0 if $item->poisonous && !TAEB->senses->poison_resistant;
+    }
 
     return $orig->($self, @_);
 };
