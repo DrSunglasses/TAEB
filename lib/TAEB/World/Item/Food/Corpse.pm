@@ -149,8 +149,8 @@ around is_safely_edible => sub {
     if (!$unihorn) {
         # Don't inflict very bad conditions
 
-        return 0 if $item->hallucination;
-        return 0 if $item->poisonous && !TAEB->senses->poison_resistant;
+        return 0 if $self->hallucination;
+        return 0 if $self->poisonous && !TAEB->senses->poison_resistant;
     }
 
     return $orig->($self, @_);
