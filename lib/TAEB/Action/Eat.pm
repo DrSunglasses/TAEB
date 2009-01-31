@@ -117,8 +117,6 @@ sub can_eat {
 
     return 0 unless $item->type eq 'food';
     return 0 unless $item->is_safely_edible;
-    return 0 if $item->match(identity => 'lizard corpse')
-             && TAEB->nutrition > 5;
     return 1;
 }
 
