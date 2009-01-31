@@ -27,7 +27,7 @@ sub respond_eat_ground {
             return 'y';
         }
         else {
-            TAEB->log->action("Floor-food $item is on the blacklist. Pass.");
+            TAEB->log->action("Floor-food $item is not safely edible.");
         }
     }
 
