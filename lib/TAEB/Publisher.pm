@@ -108,10 +108,13 @@ sub get_generic_response {
                         @captures,
                         $args{msg},
                     );
-                    next unless defined $response;
-
-                    TAEB->log->publisher(blessed($responder) . " is responding to $name.");
-                    return $response;
+                    if (!defined $response) {
+                        TAEB->log->publisher(blessed($responder) . " explicitly refrained from responding to $name.");
+                    }
+                    else {
+                        TAEB->log->publisher(blessed($responder) . " is responding to $name.");
+                        return $response;
+                    }
                 }
             }
         }
