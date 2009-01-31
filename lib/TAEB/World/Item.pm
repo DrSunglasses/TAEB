@@ -8,9 +8,11 @@ has nhi => (
     required => 1,
     handles  => {
         map { $_ => $_ } qw/
-            identity slot is_wielded is_quivered is_offhand type subtype
-            quantity spoiler_values
-            buc is_blessed is_uncursed is_cursed is_holy is_unholy
+            appearance artifact buc has_appearance has_identity identity
+            incorporate_stats_from is_artifact is_blessed is_cursed
+            is_evolution_of is_holy is_offhand is_quivered is_uncursed
+            is_unholy is_wielded maybe_is quantity raw slot spoiler_values
+            subtype type
         /,
     },
 );
