@@ -154,7 +154,7 @@ sub get_exceptional_response {
 =head2 get_response Str -> Maybe Str
 
 This is used to check for and get a response to any known prompt on the top
-line. Consulted are the personality and action.
+line. Consulted are the AI and action.
 
 If no response is given, C<undef> is returned.
 
@@ -283,7 +283,7 @@ sub single_select {
     return;
 }
 
-sub responders { grep { defined } TAEB->personality, TAEB->action }
+sub responders { grep { defined } TAEB->ai, TAEB->action }
 
 __PACKAGE__->meta->make_immutable;
 no Moose;

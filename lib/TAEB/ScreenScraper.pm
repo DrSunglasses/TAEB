@@ -1113,7 +1113,7 @@ sub handle_menus {
 
             # if we can drop the item, drop it!
             if (!TAEB->is_checking('inventory')) {
-                my $drop = TAEB->personality->drop($item);
+                my $drop = TAEB->ai->drop($item);
 
                 if (ref($drop) && $$drop < $item->quantity) {
                     TAEB->inventory->decrease_quantity($slot, $$drop);
