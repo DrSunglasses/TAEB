@@ -62,12 +62,17 @@ sub would_be_rotted {
     $self->maybe_rotted(TAEB->turn + ($distance * TAEB->speed / 12));
 }
 
+sub same_race {
+    my $self = shift;
+    return TAEB->race eq $self->cannibal;
+}
+
 sub should_sac {
     my ($self) = @_;
 
     return 0 if $self->monster ne 'acid blob' && $self->estimate_age > 50;
 
-    return 0 if ($self->cannibal eq TAEB->race) && TAEB->align ne 'Cha';
+    return 0 if $self->same_race && TAEB->align ne 'Cha';
 
     return 0 if $self->unicorn eq TAEB->align;
 
@@ -115,7 +120,7 @@ around is_safely_edible => sub {
              && TAEB->hp <= 29;
 
     # Orcs and Cavs can cannibalize and eat pets.
-    return 0 if ($self->cannibal eq TAEB->race || $self->aggravate)
+    return 0 if ($self->same_race || $self->aggravate)
              && TAEB->race ne 'Orc'
              && TAEB->role ne 'Cav';
 
