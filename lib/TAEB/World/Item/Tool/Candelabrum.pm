@@ -3,7 +3,8 @@ use TAEB::OO;
 extends 'TAEB::World::Item::Tool';
 
 has '+nhi' => (
-    isa => 'NetHack::Item::Tool::Candelabrum',
+    isa     => 'NetHack::Item::Tool::Candelabrum',
+    handles => [qw/candles_attached/],
 );
 
 __PACKAGE__->meta->make_immutable;
