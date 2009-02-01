@@ -4,6 +4,7 @@ extends 'TAEB::World::Item';
 
 has '+nhi' => (
     isa => 'NetHack::Item::Amulet',
+    handles => [qw/is_worn/],
 );
 
 __PACKAGE__->meta->make_immutable;
