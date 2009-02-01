@@ -18,16 +18,7 @@ sub respond_eat_ground {
     # no, we want to eat something in our inventory
     return 'n' if blessed $self->item;
 
-    my $floor_item = TAEB->new_item(shift);
-    FLOOR_ITEM: {
-        for (TAEB->current_tile->items) {
-            next unless $_->maybe_is($floor_item);
-            $floor_item = $_;
-            last FLOOR_ITEM;
-        }
-
-        warn "I can't reconcile $floor_item with anything on the ground at this tile.";
-    };
+    my $floor_item = TAEB->current_tile->find_item(shift);
 
     # user specified something like "eat => item => 'lizard corpse'"
     return 'y' if $floor_item->match(identity => $self->item);

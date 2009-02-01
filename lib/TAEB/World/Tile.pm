@@ -837,6 +837,19 @@ sub distance {
     return sqrt(($self->x - $other->x) ** 2 + ($self->y - $other->y) ** 2);
 }
 
+sub find_item {
+    my $self = shift;
+    my $item = TAEB->new_item(shift);
+
+    for ($self->items) {
+        next unless $_->maybe_is($item);
+        return $_;
+    }
+
+    warn "I can't reconcile $floor_item with anything on the ground at this tile.";
+    return $item;
+}
+
 __PACKAGE__->meta->make_immutable;
 no Moose;
 
