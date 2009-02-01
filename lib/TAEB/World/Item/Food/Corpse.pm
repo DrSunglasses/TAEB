@@ -71,7 +71,7 @@ sub would_be_rotted {
 
 sub same_race {
     my $self = shift;
-    return TAEB->race eq $self->cannibal;
+    return $self->match(cannibal => TAEB->race);
 }
 
 sub should_sac {
