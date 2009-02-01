@@ -4,9 +4,7 @@ extends 'TAEB::World::Item';
 
 has '+nhi' => (
     isa     => 'NetHack::Item::Food',
-    handles => [qw/
-        is_partly_eaten is_laid_by_you nutrition time
-    /],
+    handles => [qw/is_partly_eaten is_laid_by_you nutrition time/],
 );
 
 sub is_safely_edible {

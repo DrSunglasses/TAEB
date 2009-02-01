@@ -8,18 +8,15 @@ has nhi => (
     is       => 'ro',
     isa      => 'NetHack::Item',
     required => 1,
-    handles  => {
-        map { $_ => $_ } qw/
-            appearance artifact buc can_drop clear_container
-            collapse_spoiler_value container cost cost_each fork_quantity
-            generic_name hands has_appearance has_identity has_tracker identity
-            incorporate_stats_from is_artifact is_blessed is_cursed
-            is_evolution_of is_holy is_in_container is_offhand is_quivered
-            is_uncursed is_unholy is_wielded ldam maybe_is possibilities
-            quantity raw sdam slot specific_name spoiler spoiler_values subtype
-            tohit tracker type weight
-        /,
-    },
+    handles  => [qw/
+        appearance artifact buc can_drop clear_container collapse_spoiler_value
+        container cost cost_each fork_quantity generic_name hands
+        has_appearance has_identity has_tracker identity incorporate_stats_from
+        is_artifact is_blessed is_cursed is_evolution_of is_holy
+        is_in_container is_offhand is_quivered is_uncursed is_unholy is_wielded
+        ldam maybe_is possibilities quantity raw sdam slot specific_name
+        spoiler spoiler_values subtype tohit tracker type weight
+    /],
 );
 
 sub new_item {
