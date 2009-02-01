@@ -839,14 +839,15 @@ sub distance {
 
 sub find_item {
     my $self = shift;
-    my $item = TAEB->new_item(shift);
+    my $raw  = shift;
+    my $item = TAEB->new_item($raw);
 
     for ($self->items) {
         next unless $_->maybe_is($item);
         return $_;
     }
 
-    warn "I can't reconcile $floor_item with anything on the ground at this tile.";
+    warn "I can't reconcile $raw with anything on the ground at this tile.";
     return $item;
 }
 
