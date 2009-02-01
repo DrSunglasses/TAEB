@@ -3,7 +3,8 @@ use TAEB::OO;
 extends 'TAEB::World::Item';
 
 has '+nhi' => (
-    isa => 'NetHack::Item::Other',
+    isa     => 'NetHack::Item::Other',
+    handles => [qw/is_chained_to_you statue/],
 );
 
 __PACKAGE__->meta->make_immutable;
