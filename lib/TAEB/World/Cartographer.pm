@@ -269,6 +269,12 @@ sub msg_dungeon_feature {
     $tile->change_type($type => $floor, $subtype);
 }
 
+sub msg_excalibur {
+    my $self = shift;
+
+    TAEB->current_tile->change_type(floor => '.');
+}
+
 sub msg_clear_floor {
     my $self = shift;
     my $item = shift;
