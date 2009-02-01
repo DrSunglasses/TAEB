@@ -3,7 +3,8 @@ use TAEB::OO;
 extends 'TAEB::World::Item';
 
 has '+nhi' => (
-    isa => 'NetHack::Item::Gem',
+    isa     => 'NetHack::Item::Gem',
+    handles => [qw/hardness softness/],
 );
 
 __PACKAGE__->meta->make_immutable;
