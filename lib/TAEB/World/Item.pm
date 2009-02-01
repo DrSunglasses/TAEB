@@ -10,11 +10,14 @@ has nhi => (
     required => 1,
     handles  => {
         map { $_ => $_ } qw/
-            appearance artifact buc can_drop cost cost_each has_appearance
-            has_identity identity incorporate_stats_from is_artifact is_blessed
-            is_cursed is_evolution_of is_holy is_offhand is_quivered
-            is_uncursed is_unholy is_wielded maybe_is quantity raw slot
-            spoiler_values subtype type
+            appearance artifact buc can_drop clear_container
+            collapse_spoiler_value container cost cost_each fork_quantity
+            generic_name hands has_appearance has_identity has_tracker identity
+            incorporate_stats_from is_artifact is_blessed is_cursed
+            is_evolution_of is_holy is_in_container is_offhand is_quivered
+            is_uncursed is_unholy is_wielded ldam maybe_is possibilities
+            quantity raw sdam slot specific_name spoiler spoiler_values subtype
+            tohit tracker type weight
         /,
     },
 );
