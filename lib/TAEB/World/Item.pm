@@ -97,7 +97,9 @@ around match => sub {
     my $self = shift;
 
     if (@_ == 1 && !ref($_[0])) {
-        # call match against artifact || identity || name
+        return $self->match(artifact   => $_[0])
+            || $self->match(identity   => $_[0])
+            || $self->match(appearance => $_[0]);
     }
 
     return $orig->($self, @_);
