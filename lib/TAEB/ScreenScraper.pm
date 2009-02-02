@@ -750,6 +750,10 @@ our @msg_regex = (
         qr/(?:There is|You discover) (?:the )?trigger(?: of your mine)? in a pile of soil below you\./ =>
             [dungeon_feature => trap => "land mine"],
     ],
+    [
+        qr/(.*) slips? as you throw it!/ =>
+            [throw_slip => sub { $1 }],
+    ],
 );
 
 our @god_anger = (

@@ -97,6 +97,12 @@ sub msg_killed {
     $self->target_tile->witness_kill($monster_name);
 }
 
+sub msg_throw_slip {
+    my $self = shift;
+
+    $self->item->is_cursed(1);
+}
+
 __PACKAGE__->meta->make_immutable;
 no Moose;
 
