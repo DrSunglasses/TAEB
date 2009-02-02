@@ -279,6 +279,7 @@ sub _dijkstra {
     my $include_endpoints = $args{include_endpoints};
     my $sokoban           = $from->known_branch
                          && $from->branch eq 'sokoban';
+    my $cant_squeeze       = TAEB->inventory->weight > 500 || $sokoban;
     my $debug = TAEB->display->pathfinding;
     my $start;
     if ($debug) {
@@ -337,7 +338,7 @@ sub _dijkstra {
             # can't move diagonally if we have lots in our inventory
             # XXX: this should be 600, but we aren't going to be able to get
             # the weight exact
-            if ((TAEB->inventory->weight > 500 || $sokoban) && $dx && $dy) {
+            if ($cant_squeeze && $dx && $dy) {
                 next unless $tile->level->at($xdx, $y)->is_walkable
                          || $tile->level->at($x, $ydy)->is_walkable;
             }
@@ -403,6 +404,7 @@ sub _astar {
     my $why               = $args{why} || "unknown";
     my $sokoban           = $from->known_branch
                          && $from->branch eq 'sokoban';
+    my $cant_squeeze       = TAEB->inventory->weight > 500 || $sokoban;
     my $debug = TAEB->display->pathfinding;
 
     my $key = join ":", (refaddr($to), refaddr($from), $through_unknown);
@@ -455,7 +457,7 @@ sub _astar {
             # can't move diagonally if we have lots in our inventory
             # XXX: this should be 600, but we aren't going to be able to get
             # the weight exact
-            if ((TAEB->inventory->weight > 500 || $sokoban) && $dx && $dy) {
+            if ($cant_squeeze && $dx && $dy) {
                 next unless $tile->level->at($xdx, $y)->is_walkable
                          || $tile->level->at($x, $ydy)->is_walkable;
             }
