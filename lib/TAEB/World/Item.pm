@@ -76,6 +76,16 @@ sub debug_line {
     return join ' ', @fields;
 }
 
+around throw_range => sub {
+    my $orig = shift;
+    my $self = shift;
+
+    $orig->($self,
+        strength => TAEB->numeric_strength,
+        @_,
+    );
+};
+
 # we try to uphold this API
 sub isa {
     my $self = shift;
