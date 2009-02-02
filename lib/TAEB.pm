@@ -50,10 +50,7 @@ class_has interface => (
     isa      => 'TAEB::Interface',
     handles  => [qw/read write/],
     lazy     => 1,
-    default  => sub {
-        use TAEB::Interface::Local;
-        TAEB::Interface::Local->new;
-    },
+    default  => sub { TAEB->config->get_interface },
 );
 
 class_has ai => (
@@ -61,6 +58,8 @@ class_has ai => (
     isa       => 'TAEB::AI',
     handles   => [qw(want_item currently next_action)],
     predicate => 'has_ai',
+    lazy      => 1,
+    default   => sub { TAEB->config->get_ai },
     trigger   => sub {
         my ($self, $ai) = @_;
         TAEB->log->main("Now using AI $ai.");

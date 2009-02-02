@@ -110,6 +110,40 @@ sub get_align {
     return '*';
 }
 
+=head2 get_ai
+
+=cut
+
+sub get_ai {
+    my $self = shift;
+
+    my $ai_class = $self->ai
+        or die "Specify a class for 'ai' in your config";
+
+    Class::MOP::load_class($ai_class);
+    return $ai_class->new;
+}
+
+=head2 get_interface
+
+=cut
+
+sub get_interface {
+    my $self = shift;
+
+    my $interface = $self->interface
+        or die "Specify a class for 'interface' in your config";
+
+    my $interface_class = $interface =~ s/^\+//
+                        ? $interface
+                        : "TAEB::Interface::$interface";
+
+    Class::MOP::load_class($interface_class);
+
+    my %interface_options = %{ $self->interface_options->{$interface} || {} };
+    return $interface_class->new(%interface_options);
+}
+
 # yes autoload is bad. but, I am lazy
 our $AUTOLOAD;
 sub AUTOLOAD {

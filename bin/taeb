@@ -5,23 +5,6 @@ use lib 'lib';
 use TAEB;
 use Curses;
 
-# load configured subsystems {{{
-my $ai_class = TAEB->config->ai
-    or die "Specify a class for 'ai' in your config";
-Class::MOP::load_class($ai_class);
-TAEB->ai($ai_class->new);
-
-
-my $interface = TAEB->config->interface
-    or die "Specify a class for 'interface' in your config";
-my $interface_class = $interface =~ s/^\+//
-                    ? $interface
-                    : "TAEB::Interface::$interface";
-Class::MOP::load_class($interface_class);
-
-my %interface_options = %{ TAEB->config->interface_options->{$interface} || {} };
-TAEB->interface($interface_class->new(%interface_options));
-# }}}
 # signal and terminal munging {{{
 $SIG{__WARN__} = sub {
     my $method = $_[0] =~ /^Use of uninitialized / ? 'undef' : 'perl';
