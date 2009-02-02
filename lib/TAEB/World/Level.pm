@@ -146,7 +146,10 @@ sub at {
     my $x = @_ ? shift : TAEB->x;
     my $y = @_ ? shift : TAEB->y;
 
-    return if $x < 0 || $y < 0;
+    if ($x < 0 || $y < 0) {
+        Carp::cluck("Level->at($x, $y) called. Stop doing that!");
+        return undef;
+    }
 
     return $self->tiles->[$y][$x];
 }
