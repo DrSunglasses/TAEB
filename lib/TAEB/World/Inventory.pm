@@ -36,7 +36,7 @@ sub has_projectile {
     return $self->find(
         identity   => \@projectiles,
         is_wielded => 0,
-        price      => 0,
+        cost       => 0,
     );
 }
 
