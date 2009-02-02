@@ -549,6 +549,13 @@ sub new_item {
 
 sub has_item {
     my $self = shift;
+
+    # TAEB->has_item("Magicbane") should dwim
+    if (@_ == 1 && !ref($_[0])) {
+        my $arti = $self->get_artifact(@_);
+        return $arti if $arti;
+    }
+
     $self->inventory->find(@_);
 }
 
