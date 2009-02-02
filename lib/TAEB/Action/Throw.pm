@@ -56,7 +56,11 @@ sub done {
     my ($dx, $dy) = vi2delta($self->direction);
     my ($x, $y)   = (TAEB->x, TAEB->y);
 
-    for (1 .. $self->item->throw_range) {
+    my $range = $self->item->throw_range(
+        strength => TAEB->numeric_strength,
+    );
+
+    for (1 .. $range) {
         $x += $dx;
         $y += $dy;
 
