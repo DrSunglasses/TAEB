@@ -69,9 +69,7 @@ sub debug_line {
         push @fields, $self->enchantment if $self->numeric_enchantment;
     }
 
-    push @fields, $self->has_identity
-                ? $self->identity
-                : $self->appearance;
+    push @fields, $self->name;
 
     if ($self->can('is_worn') && $self->is_worn) {
         push @fields, '(worn)';
@@ -82,6 +80,11 @@ sub debug_line {
     }
 
     return join ' ', @fields;
+}
+
+sub name {
+    my $self = shift;
+    $self->artifact || $self->identity || $self->appearance
 }
 
 around throw_range => sub {
