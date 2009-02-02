@@ -40,15 +40,6 @@ sub is_auto_picked_up {
     return 0;
 }
 
-# we try to uphold this API
-sub isa {
-    my $self = shift;
-
-    return 1 if $_[0] eq 'NetHack::Item';
-
-    $self->SUPER::isa(@_);
-};
-
 my %short_buc = (
     blessed  => 'B',
     cursed   => 'C',
@@ -83,6 +74,23 @@ sub debug_line {
                 : $self->appearance;
 
     return join ' ', @fields;
+}
+
+# we try to uphold this API
+sub isa {
+    my $self = shift;
+
+    return 1 if $_[0] eq 'NetHack::Item';
+
+    $self->SUPER::isa(@_);
+};
+
+sub does {
+    my $self = shift;
+
+    return 1 if $self->nhi->does(@_);
+
+    $self->SUPER::does(@_);
 }
 
 __PACKAGE__->meta->make_immutable;
