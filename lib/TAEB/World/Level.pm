@@ -151,7 +151,8 @@ sub at {
         return undef;
     }
 
-    return $self->tiles->[$y][$x];
+    # XXX: Yes this sucks but it's an easy optimization
+    return $self->{tiles}->[$y][$x];
 }
 
 sub at_direction {
