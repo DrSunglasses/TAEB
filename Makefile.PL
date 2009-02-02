@@ -10,7 +10,7 @@ requires 'Moose';
 requires 'MooseX::Singleton' => 0.03;
 requires 'MooseX::AttributeHelpers' => 0.09;
 requires 'MooseX::ClassAttribute' => 0.07;
-requires 'MooseX::Role::Matcher';
+requires 'MooseX::Role::Matcher' => 0.03;
 requires 'Module::Pluggable';
 
 # parse escape codes into an addressable screen
@@ -38,9 +38,9 @@ requires 'Heap::Simple::XS'; # why doesn't Heap::Simple do this for us >_<
 requires 'Time::HiRes';
 
 # NetHack-specific things
-requires 'NetHack::Menu' => '0.05';
+requires 'NetHack::Menu' => 0.05;
 requires 'NetHack::FOV';
-requires 'NetHack::Item' => '0.04';
+requires 'NetHack::Item' => 0.06;
 
 features(
     # optional modules that enhance TAEB's playing
