@@ -29,6 +29,8 @@ sub msg_key {
         local $TAEB::ToScreen;
 
         eval {
+            local $SIG{__WARN__};
+            local $SIG{__DIE__};
             local $SIG{INT} = sub { die "Interrupted." };
             Devel::REPL::Script->new->run;
         };
