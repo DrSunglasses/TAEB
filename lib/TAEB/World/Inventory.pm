@@ -4,6 +4,8 @@ extends 'NetHack::Inventory';
 
 use overload %TAEB::Meta::Overload::default;
 
+use constant equipment_class => 'TAEB::World::Equipment';
+
 sub find {
     my $self = shift;
 
