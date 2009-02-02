@@ -33,11 +33,15 @@ my @projectiles = (
 sub has_projectile {
     my $self = shift;
 
-    return $self->find(
-        identity   => \@projectiles,
-        is_wielded => sub { !$_ },
-        cost       => 0,
-    );
+    for my $projectile (@projectiles) {
+        my $found = $self->find(
+            identity   => $projectile,
+            is_wielded => sub { !$_ },
+            cost       => 0,
+        );
+        return $found if $found;
+    }
+    return;
 }
 
 sub debug_line {
