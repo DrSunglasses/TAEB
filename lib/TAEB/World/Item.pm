@@ -73,6 +73,14 @@ sub debug_line {
                 ? $self->identity
                 : $self->appearance;
 
+    if ($self->can('is_worn') && $self->is_worn) {
+        push @fields, '(worn)';
+    }
+
+    if ($self->is_wielded) {
+        push @fields, '(wielded)';
+    }
+
     return join ' ', @fields;
 }
 
