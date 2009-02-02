@@ -34,9 +34,9 @@ sub has_projectile {
     my $self = shift;
 
     return $self->find(
-        identity    => \@projectiles,
-        is_wielding => 0,
-        price       => 0,
+        identity   => \@projectiles,
+        is_wielded => 0,
+        price      => 0,
     );
 }
 
