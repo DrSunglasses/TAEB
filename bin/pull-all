@@ -1,8 +1,11 @@
 #!/usr/bin/env perl
+my $all = shift;
+
 @ARGV = "REPOSITORIES";
 @ARGV = "etc/REPOSITORIES" if -e "etc/REPOSITORIES";
 
 while (<>) {
+    s/^./*/ if $all;
     next unless /^\* (.*)/;
     print "Pulling from $1...\n";
     system("darcs pull --no-set-default $1");
