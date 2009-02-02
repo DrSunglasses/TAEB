@@ -92,6 +92,17 @@ around throw_range => sub {
     );
 };
 
+around match => sub {
+    my $orig = shift;
+    my $self = shift;
+
+    if (@_ == 1 && !ref($_[0])) {
+        # call match against artifact || identity || name
+    }
+
+    return $orig->($self, @_);
+};
+
 # we try to uphold this API
 sub isa {
     my $self = shift;
