@@ -72,16 +72,6 @@ features(
         -default => 0,
         recommends('Log::Dispatch::Twitter'),
     ],
-
-    # author tools
-    'Various NetHack source bits' => [
-        -default => 0,
-        recommends('Inline::C'),
-    ],
-    'Source code and commit stats (bin/lc)' => [
-        -default => 0,
-        recommends("File::Next"),
-    ],
 );
 
 build_requires 'Test::More';
