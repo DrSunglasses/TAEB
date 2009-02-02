@@ -26,9 +26,6 @@ align: '*'
 # Possibles values: mines, dungeon, etc
 avoid_branch: ""
 
-# This will open a REPL window should TAEB crash
-carp_repl: 0
-
 # IRC debugging!
 # Uncomment the following line to enable.
 #IRC:
