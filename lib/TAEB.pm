@@ -611,6 +611,14 @@ sub persistent_file {
     return join('-', $state_file, $self->config->interface);
 }
 
+sub play {
+    my $self = shift;
+
+    while (1) {
+        $self->iterate;
+    }
+}
+
 __PACKAGE__->meta->make_immutable;
 no Moose;
 no MooseX::ClassAttribute;

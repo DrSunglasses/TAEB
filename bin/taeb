@@ -67,7 +67,5 @@ $SIG{INT} = sub { TAEB->save };
 
 addstr "Loading TAEB...";
 
-while (1) {
-    TAEB->iterate;
-}
+TAEB->play;
 
