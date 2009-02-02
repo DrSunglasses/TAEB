@@ -1,13 +1,13 @@
 These are the known TAEB repositories:
 
 * http://sartak.org/code/TAEB/
-    Eidolos' repository. The trunk, if anything could be called such
-
-* http://katron.org/repos/TAEB/
-    arcanehl's repository
+    Sartak's repository. The trunk, if anything could be called such
 
 * http://tozt.net/code/taeb/
     doy's repository
+
+* http://katron.org/repos/TAEB/
+    arcanehl's repository
 
 * http://sawtooth.sartak.org/code/TAEB/
     sawtooth's repository
@@ -17,9 +17,6 @@ These are the known TAEB repositories:
 
 - http://code.eso-std.org/taeb/
     ais523's repository
-
-- http://fushizen.net/~bd/taeb/
-    bd's repository
 
 
 These repositories are mostly inactive:
@@ -38,3 +35,7 @@ These repositories are mostly inactive:
 
 - http://trinket.thorne.id.au/~stephen/taeb/
     Jerub's repository
+
+- http://fushizen.net/~bd/taeb/
+    bd's repository
+
