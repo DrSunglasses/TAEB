@@ -557,6 +557,11 @@ sub new_monster {
     TAEB::World::Monster->new(@_);
 }
 
+sub equipment {
+    my $self = shift;
+    $self->inventory->equipment(@_);
+}
+
 sub get_key { Curses::getch }
 
 sub try_key {
