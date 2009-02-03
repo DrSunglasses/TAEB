@@ -26,11 +26,13 @@ has port => (
 has account => (
     is  => 'ro',
     isa => 'Str',
+    required => 1,
 );
 
 has password => (
     is  => 'ro',
     isa => 'Str',
+    required => 1,
 );
 
 has socket => (
