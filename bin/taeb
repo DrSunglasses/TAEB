@@ -3,7 +3,12 @@ use strict;
 use warnings;
 use lib 'lib';
 use TAEB;
+use TAEB::Config;
 use Curses;
+use List::Util qw/max/;
+use List::MoreUtils qw/any/;
+
+my $loop = any { $_ eq '--loop' } @ARGV;
 
 $SIG{__WARN__} = sub {
     my $method = $_[0] =~ /^Use of uninitialized / ? 'undef' : 'perl';
@@ -55,9 +60,50 @@ start_color;
 use_default_colors;
 init_pair($_, $_, 0) for 0 .. 7;
 
-$SIG{INT} = sub { TAEB->save };
+my $sigint = sub { TAEB->save; $loop = 0 };
 
-addstr "Loading TAEB...";
+while (1) {
+    clear;
+    refresh;
+    addstr "Loading TAEB...";
+    $SIG{INT} = $sigint;
+    eval { TAEB->play };
+    $SIG{INT} = 'DEFAULT';
+    last unless $loop;
+    endwin;
 
-TAEB->play;
+    my $time = time;
 
+    logrotate();
+
+    sleep 2;
+    #system("clear");
+    my $took = time - $time;
+    for (reverse 1..(60 - $took)) {
+        print $_,"\n";
+        sleep 1;
+    }
+}
+
+sub logrotate {
+    my $cfg = TAEB::Config->log_rotation || {};
+
+    return unless $cfg->{enabled};
+    my $max_logs = $cfg->{max_logs} || 10e999;
+
+    mkdir("logs");
+    my @logs = map { m#^logs/(?:\w+)\.([0-9]+)\.log\.(?:bz2|gz)# ? [$1, $_] : () }
+        glob "logs/*";
+
+    my $head = max -1, map { $_->[0] } @logs;  #highest used log index
+
+    unlink map { $_->[1] } grep { $_->[0] <= $head - $max_logs + 1 } @logs;
+
+    for (glob "log/*") {
+        s{^log/(.*)\.log}{$1};
+        my $dest = sprintf "logs/$_.%05d.log.gz", $head + 1;
+        print "gzipping $dest...";
+        #system("gzip -9 < log/$_.log > $dest");
+        print "done\n";
+    }
+}
