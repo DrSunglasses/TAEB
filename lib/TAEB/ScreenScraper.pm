@@ -1110,15 +1110,14 @@ sub handle_menus {
             my $slot = shift;
             my $new_item = TAEB->new_item($_);
 
-            delete $dont_have{$slot};
-
             TAEB->inventory->update($slot => $new_item);
             my $item = TAEB->inventory->get($slot);
-            return unless $item; # gold isn't stored in inventory
+            delete $dont_have{$slot} if $item;
 
             # if we can drop the item, drop it!
             if (!TAEB->is_checking('inventory')) {
-                my $drop = TAEB->ai->drop($item);
+                # $item will be undef for non-inventory items like gold
+                my $drop = TAEB->ai->drop($item || $new_item);
 
                 # dropping a part of the stack
                 if (ref($drop) && $$drop < $item->quantity) {
@@ -1128,7 +1127,7 @@ sub handle_menus {
                 }
                 # dropping the whole stack
                 elsif ($drop) {
-                    TAEB->inventory->remove($slot);
+                    TAEB->inventory->remove($slot) if $item;
                     TAEB->enqueue_message('floor_item' => $item);
                     return 'all';
                 }
