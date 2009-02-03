@@ -6,7 +6,7 @@ has '+nhi' => (
     isa => 'NetHack::Item::Armor',
     handles => [ qw/
         ac mc is_worn enchantment numeric_enchantment burnt corroded rotted
-        rusty proofed remove_damage
+        rusty proofed proof unproof remove_damage
     /],
 );
 
