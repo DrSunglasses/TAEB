@@ -43,9 +43,6 @@ color_method: normal
 # Current options: normal, floor
 glyph_method: normal
 
-# enables "spicy" replacements for messages
-spicy: 0
-
 # enable log rotation for TAEB; 0 logs is unlimited
 log_rotation:
     enabled: 1
