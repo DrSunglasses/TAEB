@@ -15,7 +15,7 @@ $SIG{__DIE__} = sub {
 
     unless ("@_" =~ /Game over, man|See you soon|Until we meet again/) {
         TAEB->log->perl($_[0], level => 'error');
-        if (TAEB->config->contents->{unattended}) {
+        if (TAEB->config->unattended) {
             TAEB->quit;
             TAEB->died;
         } else {

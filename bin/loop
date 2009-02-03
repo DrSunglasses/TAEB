@@ -24,7 +24,7 @@ while (1) {
 }
 
 sub logrotate {
-    my $cfg = TAEB::Config->new->contents->{log_rotation} || {};
+    my $cfg = TAEB::Config->new->log_rotation || {};
 
     return unless $cfg->{enabled};
     my $max_logs = $cfg->{max_logs} || 10e999;
