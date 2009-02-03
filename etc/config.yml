@@ -22,7 +22,7 @@ race: '*'
 gender: '*'
 align: '*'
 
-# Bbranch to avoid, if any.
+# Branch to avoid, if any.
 # Possibles values: mines, dungeon, etc
 avoid_branch: ""
 
