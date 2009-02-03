@@ -94,6 +94,11 @@ sub write {
     return $chars;
 }
 
+# XXX: this is working around an IO::Pty::Easy bug - system() calls and ``
+# calls will hang if a pty is left open... so we have to make sure it's closed
+# as soon as possible
+sub DEMOLISH { shift->pty->close }
+
 __PACKAGE__->meta->make_immutable;
 no Moose;
 

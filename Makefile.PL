@@ -50,7 +50,7 @@ features(
     ],
     'TAEB for local NetHack' => [
         -default => 0,
-        recommends('IO::Pty::Easy'),
+        recommends('IO::Pty::Easy' => 0.04),
     ],
 
     # debugging tools
