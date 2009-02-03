@@ -54,10 +54,6 @@ features(
     ],
 
     # debugging tools
-    'REPL on exception' => [
-        -default => 1,
-        recommends('Carp::REPL'),
-    ],
     'REPL on ~' => [
         -default => 1,
         recommends('Devel::REPL'),
