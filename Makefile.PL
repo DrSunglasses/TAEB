@@ -38,7 +38,7 @@ requires 'Heap::Simple::XS'; # why doesn't Heap::Simple do this for us >_<
 requires 'Time::HiRes';
 
 # NetHack-specific things
-requires 'NetHack::Menu' => 0.05;
+requires 'NetHack::Menu' => 0.06;
 requires 'NetHack::FOV';
 requires 'NetHack::Item' => 0.06;
 
