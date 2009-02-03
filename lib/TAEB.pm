@@ -612,6 +612,17 @@ sub play {
     }
 }
 
+sub reset_state {
+    my $self = shift;
+    my $meta = $self->meta;
+
+    for my $attr ($meta->get_all_class_attributes) {
+        $attr->clear_value($meta);
+        $attr->set_value($meta, $attr->default($meta))
+            if !$attr->is_lazy && $attr->has_default;
+    }
+}
+
 __PACKAGE__->meta->make_immutable;
 no Moose;
 no MooseX::ClassAttribute;
