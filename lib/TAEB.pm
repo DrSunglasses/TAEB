@@ -59,7 +59,11 @@ class_has ai => (
     handles   => [qw(want_item currently next_action)],
     predicate => 'has_ai',
     lazy      => 1,
-    default   => sub { TAEB->config->get_ai },
+    default   => sub {
+	my $ai = TAEB->config->get_ai;
+	$ai->institute; # default doesn't fire triggers
+	$ai;
+    },
     trigger   => sub {
         my ($self, $ai) = @_;
         TAEB->log->main("Now using AI $ai.");
