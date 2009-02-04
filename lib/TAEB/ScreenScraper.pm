@@ -87,6 +87,10 @@ our %msg_string = (
         ['door', 'locked'],
     "This door resists!" =>
         ['door', 'resists'],
+    "The door resists!" =>
+        ['door', 'resists'],
+    "WHAMMM!!!" =>
+        ['door', 'resists'],
     "You succeed in unlocking the door." =>
         ['door', 'just_unlocked'],
     "You succeed in picking the lock." =>
