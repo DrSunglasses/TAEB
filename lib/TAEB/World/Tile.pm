@@ -567,7 +567,8 @@ sub normal_color {
 sub debug_color {
     my $self = shift;
 
-    my $path = TAEB->has_action
+    my $path = TAEB->ai->debug_path
+            || TAEB->has_action
             && TAEB->action->can('path')
             && TAEB->action->path;
 

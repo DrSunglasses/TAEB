@@ -3,15 +3,6 @@ use TAEB::OO;
 
 use constant is_human_controlled => 0;
 
-has currently => (
-    isa => 'Str',
-    default => "?",
-    trigger => sub {
-        my ($self, $currently) = @_;
-        TAEB->log->ai("Currently: $currently.") unless $currently eq '?';
-    },
-);
-
 =head1 NAME
 
 TAEB::AI - how TAEB tactically extracts its amulets
@@ -117,6 +108,34 @@ sub enhance {
 
     return 1;
 }
+
+=head2 currently
+
+A string that states what the AI is currently doing.
+
+=cut
+
+has currently => (
+    isa => 'Str',
+    default => "?",
+    trigger => sub {
+        my ($self, $currently) = @_;
+        TAEB->log->ai("Currently: $currently.") unless $currently eq '?';
+    },
+);
+
+=head2 debug_path
+
+A TAEB::World::Path which, if set, is shown in purple in the debug
+view; if this is not set, the purple path is taken from the current
+Action, if any.
+
+=cut
+
+has debug_path => (
+    isa => 'Maybe[TAEB::World::Path]',
+    default => undef,
+);
 
 sub respond_really_attack { "y" }
 sub respond_name          { "\n" }
