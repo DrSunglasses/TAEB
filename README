@@ -4,11 +4,11 @@ The framework is ultimately in control of everything. Each turn it just asks
 the AI for an action to run. Any prompts or menus are handled through the use
 of callbacks. This divide made it easy to add a web interface in a day's work.
 
+
 -- INSTALLING
 
 If you're on Ubuntu, you'll first need to install the "build-essential" and
 "libncurses5-dev" packages.
-
 
 Warning: TAEB makes heavy use of CPAN.
 
@@ -21,6 +21,7 @@ $ sudo make installdeps
 
 This will install the modules from CPAN. TAEB's dependencies themselves usually
 have a few dependencies. All in all you're probably looking at about 50 modules.
+
 
 -- CONFIGURING
 
