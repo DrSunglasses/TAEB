@@ -58,7 +58,7 @@ sub done {
 
     return if $self->got_identifying_message;
     return if $self->item->identity; # perhaps we identified it?
-    $self->item->possibility_tracker->no_engrave_message;
+    $self->item->tracker->no_engrave_message if $self->item->has_tracker;
 }
 
 __PACKAGE__->meta->make_immutable;
