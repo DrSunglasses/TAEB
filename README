@@ -6,6 +6,13 @@ through the use of callbacks. This divide made it easy to add a web
 interface in a day's work.
 
 
+-- GETTING TAEB
+
+Download "http://sartak.org/dist/TAEB.tar.gz" and extract to the
+directory of your choice. The rest of instructions assume you are
+in this directory.
+
+
 -- INSTALLING
 
 If you're on Ubuntu, you'll first need to install the "build-essential"
