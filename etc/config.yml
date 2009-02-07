@@ -29,10 +29,10 @@ avoid_branch: ""
 # IRC debugging!
 # Uncomment the following line to enable.
 #IRC:
-#    - server: irc.freenode.net
-#    - port:   6667
-#    - channel: "#interhack"
-#    #- name: name of bot
+#    server: irc.freenode.net
+#    port:   6667
+#    channel: "#interhack"
+#    #name: name of bot
 
 # What method to use for coloring of tiles in the display.
 # Can change these during runtime as well.
