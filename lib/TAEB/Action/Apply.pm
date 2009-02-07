@@ -6,7 +6,7 @@ with 'TAEB::Action::Role::Item';
 
 use constant command => "a";
 
-has +item => (
+has '+item' => (
     required => 1,
 );
 
