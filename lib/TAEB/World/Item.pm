@@ -19,17 +19,6 @@ has nhi => (
     /],
 );
 
-sub new_item {
-    my $self = shift;
-
-    my $nhi = NetHack::Item->new(@_);
-    my $nhi_subclass = $nhi->meta->name;
-
-    (my $subclass = $nhi_subclass) =~ s/^NetHack/TAEB::World/;
-
-    return $subclass->new(nhi => $nhi);
-}
-
 sub is_auto_picked_up {
     my $self = shift;
     return 0 if !TAEB->autopickup;
