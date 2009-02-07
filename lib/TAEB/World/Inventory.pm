@@ -6,6 +6,10 @@ use overload %TAEB::Meta::Overload::default;
 
 use constant equipment_class => 'TAEB::World::Equipment';
 
+has '+inventory' => (
+    isa => 'HashRef[TAEB::World::Item]',
+);
+
 sub find {
     my $self = shift;
 
