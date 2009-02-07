@@ -22,6 +22,14 @@ $ sudo make installdeps
 This will install the modules from CPAN. TAEB's dependencies themselves usually
 have a few dependencies. All in all you're probably looking at about 50 modules.
 
+After this, another module needs to be installed. It is not on CPAN, so must
+fetch it from "http://sartak.org/dist/TAEB-AI-Behavioral.tar.gz". Extract,
+change to the directory, and do:
+
+$ perl Makefile.PL
+$ make test          # this will build and test the module
+$ sudo make install
+
 
 -- CONFIGURING
 
