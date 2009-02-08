@@ -496,7 +496,7 @@ sub _astar {
     }
 
     $cache->{$key} = undef;
-    return undef;
+    return;
 }
 
 sub contains_tile {
