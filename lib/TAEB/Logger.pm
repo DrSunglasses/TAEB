@@ -76,9 +76,9 @@ has twitter => (
     lazy    => 1,
     default => sub {
         my $self = shift;
-        return undef unless TAEB->config->twitter;
+        return unless TAEB->config->twitter;
         my $error_config = TAEB->config->twitter->{errors};
-        return undef unless $error_config;
+        return unless $error_config;
         require Log::Dispatch::Twitter;
         my $twitter = Log::Dispatch::Twitter->new(
             name      => 'twitter',
