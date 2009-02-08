@@ -4,13 +4,6 @@ extends 'TAEB::Message::Topline::Dungeon';
 
 use constant name => 'tile';
 
-use constant messages => (
-    "The fountain dries up!" =>
-        {type => 'floor'},
-    "As the hand retreats, the fountain disappears!" =>
-        {type => 'floor'},
-);
-
 has type => (
     is       => 'ro',
     isa      => 'Str',
