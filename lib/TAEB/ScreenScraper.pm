@@ -1274,7 +1274,7 @@ sub all_messages {
     s/\s+ /  /g;
 
     my @messages = grep { length }
-                   map { s/^\s+//; s/\s+$//; $_ }
+                   map { (my $trim = $_) =~ s/^\s+//; $trim =~ s/\s+$//; $trim }
                    split /  /, $_;
     return join $_[0], @messages
         if @_;
