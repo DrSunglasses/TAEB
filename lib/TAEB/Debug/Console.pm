@@ -9,7 +9,9 @@ sub msg_key {
     eval {
         local $SIG{__DIE__};
 
-        $ENV{PERL_RL} ||= TAEB->config->readline;
+        # Term::ReadLine seems to fall over on $ENV{PERL_RL} = undef?
+        $ENV{PERL_RL} ||= TAEB->config->readline
+            if TAEB->config->readline;
 
         Curses::def_prog_mode();
         Curses::endwin();
