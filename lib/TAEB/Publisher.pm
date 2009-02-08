@@ -268,7 +268,7 @@ sub menu_select {
             }
         }
 
-        return undef;
+        return;
     };
 }
 
