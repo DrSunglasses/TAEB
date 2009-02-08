@@ -96,7 +96,7 @@ sub should_sac {
 sub unicorn {
     my $self = shift;
 
-    return undef unless $self->monster =~ /(.*) unicorn/;
+    return unless $self->monster =~ /(.*) unicorn/;
 
     return 'Law' if $1 eq 'white';
     return 'Neu' if $1 eq 'gray';
@@ -104,7 +104,7 @@ sub unicorn {
 
     TAEB->log->item("Bizarrely colored unicorn corpse: " . $self->monster,
                     level => 'error');
-    return undef;
+    return;
 }
 
 around is_safely_edible => sub {

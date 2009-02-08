@@ -332,7 +332,7 @@ sub exit_towards {
     my $other = shift;
     my $back = shift;
 
-    return undef if $self == $other;
+    return if $self == $other;
 
     for my $exit ($self->exits) {
         next if !$exit->other_side;
@@ -346,7 +346,7 @@ sub exit_towards {
         return $exit if $rec;
     }
 
-    return undef;
+    return;
 }
 
 sub adjacent_levels {
