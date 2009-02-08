@@ -65,10 +65,6 @@ our %msg_string = (
         ['status_change' => teleporting => 0],
     "From the murky depths, a hand reaches up to bless the sword." =>
         ['excalibur'],
-    "The fountain dries up!" =>
-        ['dungeon_feature', 'fountain dries up'],
-    "As the hand retreats, the fountain disappears!" =>
-        ['dungeon_feature', 'fountain dries up'],
     "The air around you begins to shimmer with a golden haze." =>
         ['buff', 'protection', 1, +1],
     "The golden haze around you becomes more dense." =>
