@@ -68,6 +68,10 @@ sub debug_line {
         push @fields, '(wielded)';
     }
 
+    if ($self->cost_each) {
+        push @fields, '($'. $self->cost_each .' each)';
+    }
+
     return join ' ', @fields;
 }
 
