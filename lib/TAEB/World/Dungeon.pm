@@ -155,12 +155,12 @@ sub get_levels {
 
     if (!wantarray) {
         TAEB->log->dungeon("Called get_levels in scalar context. Fix your code.", level => 'error');
-        return undef;
+        return;
     }
 
     # XXX: reserved for the elemental planes
     if ($index < 0) {
-        return ()
+        return;
     }
 
     return @{ $self->levels->[$index] ||= [] };
