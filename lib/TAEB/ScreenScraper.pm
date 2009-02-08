@@ -1103,7 +1103,7 @@ sub handle_menus {
             TAEB->enqueue_message('know_spell',
                 $slot, $name, $forgotten eq '*', $fail);
 
-            return undef;
+            return;
         };
     }
     elsif (TAEB->topline =~ /What would you like to drop\?/) {
