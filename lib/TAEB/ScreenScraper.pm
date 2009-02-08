@@ -864,7 +864,7 @@ has saw_floor_list_this_step => (
     default   => 0,
 );
 
-sub _recurse () {
+sub _recurse {
     local $SIG{__DIE__};
     die "Recursing screenscraper.\n";
 }
