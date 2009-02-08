@@ -90,7 +90,7 @@ sub is_enemy {
     return 0 if $self->is_peaceful_watchman;
     return 0 if $self->is_quest_friendly;
     return 0 if $self->is_shk || $self->is_priest;
-    return undef unless (defined $self->is_shk || defined $self->is_priest);
+    return unless (defined $self->is_shk || defined $self->is_priest);
     return 1;
 }
 
@@ -123,7 +123,7 @@ sub is_hostile {
     return 1 if align2str $self->spoiler->{alignment} ne TAEB->align;
 
     # do you have the amulet? is it a minion?  is it cross-aligned?
-    return undef;
+    return;
 }
 
 sub probably_sleeping {
@@ -292,7 +292,7 @@ sub spoiler {
         color => $self->color,
     );
 
-    return undef if @candidates > 2;
+    return if @candidates > 2;
     return $candidates[1];
 }
 
