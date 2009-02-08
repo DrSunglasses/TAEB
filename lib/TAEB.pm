@@ -436,6 +436,7 @@ This accepts a key (such as one typed by the meatbag at the terminal) and does
 something with it.
 
 =cut
+
 sub keypress {
     my $self = shift;
     my $c = shift;
@@ -445,7 +446,7 @@ sub keypress {
         TAEB->notify("Paused.", 0);
         TAEB->get_key;
         TAEB->redraw;
-        return undef;
+        return;
     }
 
     # turn on/off step mode
@@ -457,7 +458,7 @@ sub keypress {
 
     if ($c eq 'd') {
         $self->display->change_draw_mode;
-        return undef;
+        return;
     }
 
     # turn on/off info to screen
@@ -469,14 +470,14 @@ sub keypress {
     # user input (for emergencies only)
     if ($c eq "\e") {
         $self->write($self->get_key);
-        return undef;
+        return;
     }
 
     # refresh NetHack's screen
     if ($c eq 'r' || $c eq "\cr") {
         # back to normal
         TAEB->redraw(force_clear => 1);
-        return undef;
+        return;
     }
 
     if ($c eq 'q') {
@@ -584,7 +585,7 @@ sub try_key {
     my $c = Curses::getch;
     Curses::nodelay(Curses::stdscr, 0);
 
-    return undef if $c eq -1;
+    return if $c eq -1;
     return $c;
 }
 
