@@ -103,7 +103,7 @@ Returns a list of action names (Search, Melee, Eat, etc)
 sub action_names {
     my $self = shift;
 
-    return map  { s/^TAEB::Action:://; $_ }
+    return map  { my ($class = $_) =~ s/^TAEB::Action:://; $class }
            grep { $_->isa('TAEB::Action') }
            sort $self->actions;
 }
