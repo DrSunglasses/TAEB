@@ -140,7 +140,8 @@ sub get_interface {
 
     Class::MOP::load_class($interface_class);
 
-    my %interface_options = %{ $self->interface_options->{$interface} || {} }
+    my %interface_options;
+    %interface_options = %{ $self->interface_options->{$interface} || {} }
         if defined $self->interface_options;
     return $interface_class->new(%interface_options);
 }
