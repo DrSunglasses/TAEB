@@ -418,7 +418,8 @@ sub process_input {
 sub human_input {
     my $self = shift;
 
-    my $c = $self->single_step ? $self->get_key : $self->try_key
+    my $c
+    $c = $self->single_step ? $self->get_key : $self->try_key
         unless $self->ai->is_human_controlled;
 
     if (defined $c) {
