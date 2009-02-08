@@ -41,7 +41,7 @@ sub respond_add_engraving { shift->add_engraving ? 'y' : 'n' }
 sub msg_wand {
     my $self = shift;
     $self->got_identifying_message(1);
-    $self->item->rule_out_all_but(@_);
+    $self->item->tracker->rule_out_all_but(@_);
 }
 
 sub done {
