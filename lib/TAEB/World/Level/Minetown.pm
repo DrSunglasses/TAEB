@@ -17,6 +17,15 @@ sub msg_angry_watch {
     $self->angry_watch(1);
 }
 
+sub msg_attacked {
+    my $self = shift;
+    my $attacker = shift;
+
+    if ($attacker =~ /\b(?:watchman|watch captain)\b/) {
+        $self->angry_watch(1);
+    }
+}
+
 __PACKAGE__->meta->make_immutable;
 no Moose;
 
