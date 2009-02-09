@@ -81,7 +81,6 @@ class_has scraper => (
 class_has config => (
     is       => 'ro',
     isa      => 'TAEB::Config',
-    lazy     => 1,
     default  => sub { TAEB::Config->new },
 );
 
