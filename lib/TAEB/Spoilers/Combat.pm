@@ -64,30 +64,18 @@ sub _weapon_damage {
 sub damage {
     my $self = shift;
     my $weapon = shift;
+
     if (!defined $weapon) {
         TAEB->log->spoiler('Tried to get damage statistics from an undef item',
                            level => 'error');
         return 0;
     }
 
-    my $type = blessed $weapon;
-    if (!defined $type) {
-        if (length $weapon == 1) {
-            if ($weapon == '-') {
-                return $self->_barehanded_damage;
-            }
-            else {
-                $weapon = TAEB->inventory->get($weapon);
-                $type = blessed $weapon;
-            }
-        }
-        else {
-            $weapon = TAEB->new_item($weapon);
-            $type = blessed $weapon;
-        }
+    if (!blessed($weapon) && $weapon eq '-') {
+        return $self->_barehanded_damage;
     }
 
-    if ($type eq 'TAEB::World::Item::Weapon') {
+    if ($weapon->type eq 'weapon') {
         if ($weapon->is_artifact) {
             return $self->_artifact_damage($weapon);
         }
@@ -95,7 +83,7 @@ sub damage {
             return $self->_weapon_damage($weapon);
         }
     }
-    elsif ($type eq 'TAEB::World::Item::Tool' && $weapon->subtype eq 'weapon') {
+    elsif ($weapon->type eq 'tool' && $weapon->subtype eq 'weapon') {
         return $self->_weapon_damage($weapon);
     }
     else {
