@@ -31,8 +31,8 @@ sub _build_pty {
     chomp(my $pwd = `pwd`);
     local $ENV{NETHACKOPTIONS} = '@' . join '/', $pwd, 'etc', 'TAEB.nethackrc';
     local $ENV{TERM} = 'xterm-color';
-    # We set these here, because nethack will behave differently on bigger term
-    # size and confuse TAEB.
+
+    # TAEB requires 80x24
     local $ENV{LINES} = 24;
     local $ENV{COLUMNS} = 80;
 
