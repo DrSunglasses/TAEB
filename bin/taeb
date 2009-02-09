@@ -3,7 +3,6 @@ use strict;
 use warnings;
 use lib 'lib';
 use TAEB;
-use TAEB::Config;
 use Curses;
 use List::Util qw/max/;
 use List::MoreUtils qw/any/;
