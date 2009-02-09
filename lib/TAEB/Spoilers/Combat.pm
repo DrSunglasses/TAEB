@@ -88,14 +88,14 @@ sub damage {
     }
 
     if ($type eq 'TAEB::World::Item::Weapon') {
-        if (TAEB::Spoilers::Item::Weapon->weapon($weapon)->{artifact}) {
+        if ($weapon->is_artifact) {
             return $self->_artifact_damage($weapon);
         }
         else {
             return $self->_weapon_damage($weapon);
         }
     }
-    elsif ($type eq 'TAEB::World::Item::Tool' && TAEB::Spoilers::Item::Tool->tool($weapon)->{weaptool}) {
+    elsif ($type eq 'TAEB::World::Item::Tool' && $weapon->subtype eq 'weapon') {
         return $self->_weapon_damage($weapon);
     }
     else {
