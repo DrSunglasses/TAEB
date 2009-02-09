@@ -684,14 +684,10 @@ sub msg_check {
     $self->checking($thing || "everything");
     if (!$thing) {
         # discoveries must come before inventory, otherwise I'd meta this crap
-        $self->_check_crga;
-        $self->_check_spells;
-        $self->_check_discoveries;
-        $self->_check_inventory;
-        $self->_check_enhance;
-        $self->_check_floor;
-        $self->_check_debt;
-        $self->_check_autopickup;
+        for my $aspect (qw/crga spells discoveries inventory enhance floor debt autopickup/) {
+            my $method = "_check_$aspect";
+            $self->$method;
+        }
     }
     elsif (my $method = $self->can("_check_$thing")) {
         $self->$method(@_);
