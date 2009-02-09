@@ -5,9 +5,8 @@ use lib 'lib';
 use TAEB;
 use Curses;
 use List::Util qw/max/;
-use List::MoreUtils qw/any/;
 
-my $loop = any { $_ eq '--loop' } @ARGV;
+my $loop = grep { $_ eq '--loop' } @ARGV;
 
 $SIG{__WARN__} = sub {
     my $method = $_[0] =~ /^Use of uninitialized / ? 'undef' : 'perl';
