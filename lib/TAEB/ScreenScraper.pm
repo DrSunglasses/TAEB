@@ -360,6 +360,30 @@ our %msg_string = (
         [dungeon_feature => trap => "rolling boulder trap"],
     "You activated a magic portal!" =>
         [dungeon_feature => trap => "magic portal"],
+    'You are suddenly in familiar surroundings.' =>
+        [quest_entrance => 'Arc'],
+    'Warily you scan your surroundings,' =>
+        [quest_entrance => 'Bar'],
+    'You descend through a barely familiar stairwell' =>
+        [quest_entrance => 'Cav'],
+    'What sorcery has brought you back to the Temple' =>
+        [quest_entrance => 'Hea'],
+    'You materialize in the shadows of Camelot Castle.' =>
+        [quest_entrance => 'Kni'],
+    'You find yourself standing in sight of the Monastery' =>
+        [quest_entrance => 'Mon'],
+    'You find yourself standing in sight of the Great' =>
+        [quest_entrance => 'Pri'],
+    'You arrive in familiar surroundings.' =>
+        [quest_entrance => 'Ran'],
+    'Even before your senses adjust, you recognize the kami' =>
+        [quest_entrance => 'Sam'],
+    'You breathe a sigh of relief as you find yourself' =>
+        [quest_entrance => 'Tou'],
+    'You materialize at the base of a snowy hill.' =>
+        [quest_entrance => 'Val'],
+    'You are suddenly in familiar surroundings.' =>
+        [quest_entrance => 'Wiz'],
 );
 
 our @msg_regex = (
