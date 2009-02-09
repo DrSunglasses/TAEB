@@ -7,7 +7,7 @@ use constant command => 'Z';
 
 has spell => (
     traits   => [qw/TAEB::Provided/],
-    isa      => 'TAEB::Knowledge::Spell',
+    isa      => 'TAEB::World::Spell',
     required => 1,
 );
 

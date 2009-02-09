@@ -9,7 +9,7 @@ my @slots = ('a' .. 'z', 'A' .. 'Z');
 has _spells => (
     metaclass => 'Collection::Hash',
     is        => 'rw',
-    isa       => 'HashRef[TAEB::Knowledge::Spell]',
+    isa       => 'HashRef[TAEB::World::Spell]',
     default   => sub { {} },
     provides  => {
         get    => 'get',
@@ -52,7 +52,7 @@ sub msg_know_spell {
 
     my $spell = $self->get($slot);
     if (!defined($spell)) {
-        $spell = TAEB::Knowledge::Spell->new(
+        $spell = TAEB::World::Spell->new(
             name => $name,
             fail => $fail,
             slot => $slot,

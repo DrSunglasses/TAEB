@@ -1,4 +1,4 @@
-package TAEB::Knowledge::Spell;
+package TAEB::World::Spell;
 use TAEB::OO;
 use List::Util qw/max min/;
 
