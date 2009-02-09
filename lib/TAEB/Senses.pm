@@ -717,13 +717,14 @@ my %post_check = (
     },
 );
 
-for my $check (keys %check_command) {
-    my $command = $check_command{$check};
-    my $post    = $post_check{$check};
+for my $aspect (keys %check_command) {
+    my $command = $check_command{$aspect};
+    my $post    = $post_check{$aspect};
 
-    __PACKAGE__->meta->add_method("_check_$check" => sub {
+    __PACKAGE__->meta->add_method("_check_$aspect" => sub {
         my $self = shift;
-        TAEB->remove_messages(check => $check);
+        TAEB->log->senses("Checking $aspect");
+        TAEB->remove_messages(check => $aspect);
         TAEB->write($command);
         TAEB->full_input;
         $post->($self) if $post;
