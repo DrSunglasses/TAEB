@@ -2,10 +2,12 @@ package TAEB::Spoilers;
 use strict;
 use warnings;
 
-use TAEB::Spoilers::Monster;
-use TAEB::Spoilers::Engravings;
-use TAEB::Spoilers::Room;
-use TAEB::Spoilers::Messages;
+use Module::Pluggable (
+    require     => 1,
+    sub_name    => 'load_spoiler_classes',
+    search_path => [__PACKAGE__],
+);
+__PACKAGE__->load_spoiler_classes;
 
 1;
 
