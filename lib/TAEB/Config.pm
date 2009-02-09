@@ -11,6 +11,11 @@ $ENV{TAEBDIR} ||= do {
     File::Spec->catdir(File::HomeDir->my_home, '.taeb');
 };
 
+-d $ENV{TAEBDIR} or do {
+    $SIG{__DIE__} = 'DEFAULT';
+    die "Please create a $ENV{TAEBDIR} directory.\n";
+};
+
 sub taebdir_file {
     my $self = shift;
     File::Spec->catfile($ENV{TAEBDIR}, @_),
