@@ -11,7 +11,6 @@ use TAEB::VT;
 use TAEB::Logger;
 use TAEB::ScreenScraper;
 use TAEB::Spoilers;
-use TAEB::Knowledge;
 use TAEB::World;
 use TAEB::Senses;
 use TAEB::Action;
@@ -218,13 +217,6 @@ class_has action => (
     is        => 'rw',
     isa       => 'TAEB::Action',
     predicate => 'has_action',
-);
-
-class_has knowledge => (
-    traits  => [qw/TAEB::Persistent/],
-    is      => 'ro',
-    isa     => 'TAEB::Knowledge',
-    default => sub { TAEB::Knowledge->new },
 );
 
 class_has new_game => (
