@@ -638,6 +638,31 @@ sub reset_state {
     }
 }
 
+sub setup_handlers {
+    $SIG{__WARN__} = sub {
+        my $method = $_[0] =~ /^Use of uninitialized / ? 'undef' : 'perl';
+        TAEB->log->$method($_[0], level => 'warning');
+    };
+
+    $SIG{__DIE__} = sub {
+        TAEB->save_state;
+
+        unless ("@_" =~ /Game over, man|See you soon|Until we meet again/) {
+            TAEB->log->perl($_[0], level => 'error');
+            if (TAEB->config->unattended) {
+                TAEB->quit;
+                TAEB->died;
+            } else {
+                TAEB->save;
+            }
+            endwin;
+        }
+
+        endwin;
+        die @_;
+    };
+}
+
 __PACKAGE__->meta->make_immutable;
 no Moose;
 no MooseX::ClassAttribute;
