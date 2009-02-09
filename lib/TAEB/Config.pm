@@ -4,10 +4,30 @@ use YAML;
 use Hash::Merge 'merge';
 Hash::Merge::set_behavior('RIGHT_PRECEDENT');
 
+use File::Spec;
+
+$ENV{TAEBDIR} ||= do {
+    require File::HomeDir;
+    File::Spec->catdir(File::HomeDir->my_home, '.taeb');
+};
+
+sub taebdir_file {
+    my $self = shift;
+    File::Spec->catfile($ENV{TAEBDIR}, @_),
+}
+
 has file => (
     is      => 'ro',
     isa     => 'Str',
-    default => 'etc/config.yml',
+    default => sub {
+        my @locations = (
+            'etc/config.yml',
+            shift->taebdir_file('config.yml'),
+        );
+
+        -e $_ and return $_ for @locations;
+        die "Could not find a config file. You should copy TAEB's etc/config.yml into ~/.taeb/config.yml!";
+    },
 );
 
 has contents => (
