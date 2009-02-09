@@ -50,7 +50,7 @@ It will return the input read from the pty.
 
 =cut
 
-sub read {
+augment read => sub {
     my $self = shift;
 
     # this is about the best we can do for consistency
@@ -70,7 +70,7 @@ sub read {
     }
 
     return $out;
-}
+};
 
 =head2 write STRING
 

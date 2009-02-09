@@ -85,7 +85,7 @@ hours of debugging. Yay.
 
 =cut
 
-sub read {
+augment read => sub {
     my $self = shift;
     my $buffer;
 
@@ -120,7 +120,7 @@ sub read {
     }
 
     return $buffer;
-}
+};
 
 =head2 write STRING
 

@@ -1,6 +1,12 @@
 package TAEB::Interface;
 use TAEB::OO;
 
+has read_iterations => (
+    is      => 'ro',
+    isa     => 'Int',
+    default => 1,
+);
+
 =head1 NAME
 
 TAEB::Interface - how TAEB talks to NetHack
@@ -16,7 +22,13 @@ Your subclass B<must> override this method.
 
 =cut
 
-sub read    { die "You must override the 'read' method in TAEB::Interface."  }
+sub read {
+    my $self = shift;
+
+    return join '',
+           map { my $output = inner(); defined $output ? $output : '' }
+           1 .. $self->read_iterations;
+}
 
 =head2 write STRING
 
