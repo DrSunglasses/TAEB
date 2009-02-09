@@ -28,7 +28,7 @@ has everything => (
         my $output = Log::Dispatch::File->new(
             name      => 'everything',
             min_level => 'debug',
-            filename  => "log/everything.log",
+            filename  => logfile_for("everything"),
             callbacks => sub { $self->_format(@_) },
         );
         $self->add_as_default($output);
@@ -45,7 +45,7 @@ has warning => (
         my $output = Log::Dispatch::File->new(
             name      => 'warning',
             min_level => 'warning',
-            filename  => "log/warning.log",
+            filename  => logfile_for("warning"),
             callbacks => sub { $self->_format(@_) },
         );
         $self->add_as_default($output);
@@ -62,7 +62,7 @@ has error => (
         my $output = Log::Dispatch::File->new(
             name      => 'error',
             min_level => 'error',
-            filename  => "log/error.log",
+            filename  => logfile_for("error"),
             callbacks => sub { $self->_format(@_) },
         );
         $self->add_as_default($output);
@@ -175,7 +175,7 @@ sub AUTOLOAD {
         $self->add(Log::Dispatch::File->new(
                        name      => $channel_name,
                        min_level => 'debug',
-                       filename  => "log/$channel_name.log",
+                       filename  => logfile_for($channel_name),
                        callbacks => sub { $self->_format(@_) },
                    ),
                    channels => $channel_name);
@@ -202,6 +202,20 @@ sub _format {
                    (TAEB->loaded_persistent_data ? TAEB->turn : '-'),
                    scalar(localtime),
                    $args{message};
+}
+
+sub logfile_for {
+    my $channel = shift;
+
+    # if we can't open or create the logdir, then just put logs into the current
+    # directory :/
+    my $logdir = TAEB->config->taebdir_file("log");
+    if (!-d $logdir && !mkdir($logdir)) {
+        warn "Please make a writable $logdir log directory!";
+        return "TAEB-$channel.log";
+    }
+
+    TAEB->config->taebdir_file("log", "$channel.log");
 }
 
 # we need to use Log::Dispatch::Channels' constructor
