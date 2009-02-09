@@ -655,10 +655,8 @@ sub setup_handlers {
             } else {
                 TAEB->save;
             }
-            endwin;
         }
 
-        endwin;
         die @_;
     };
 }
