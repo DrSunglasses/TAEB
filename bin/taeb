@@ -58,30 +58,24 @@ start_color;
 use_default_colors;
 init_pair($_, $_, 0) for 0 .. 7;
 
-my $sigint = sub { TAEB->save; $loop = 0 };
-
 while (1) {
     clear;
     refresh;
+
     addstr "Loading TAEB...";
-    $SIG{INT} = $sigint;
-    eval { TAEB->play };
-    $SIG{INT} = 'DEFAULT';
+
+    eval {
+        local $SIG{INT} = sub { TAEB->save; $loop = 0 };
+        TAEB->play;
+    };
+
     last unless $loop;
     endwin;
-
-    my $time = time;
 
     TAEB->reset_state;
     logrotate();
 
-    sleep 2;
-    system("clear");
-    my $took = time - $time;
-    for (reverse 1..(10 - $took)) {
-        print $_,"\n";
-        sleep 1;
-    }
+    sleep 5;
 }
 
 sub logrotate {
