@@ -141,24 +141,20 @@ for my $level (@special_levels) {
 
 sub base_class { __PACKAGE__ }
 
-# XXX: Yes this REALLY REALLY sucks but it's an "easy" optimization
-{
-my $cartographer;
-    sub at {
-        my ($self, $x, $y) = @_;
-        $cartographer = TAEB->dungeon->cartographer
-            unless defined $cartographer;
-        $x = $cartographer->{x} unless defined $x;
-        $y = $cartographer->{y} unless defined $y;
+# XXX: Yes this REALLY sucks but it's an "easy" optimization
+sub at {
+    my ($self, $x, $y) = @_;
+    my $cartographer = TAEB->dungeon->{cartographer};
+    $x = $cartographer->{x} unless defined $x;
+    $y = $cartographer->{y} unless defined $y;
 
-        # XXX: reenable this if we start getting weird errors
-        #if ($x < 0 || $y < 0) {
-            #Carp::cluck("Level->at($x, $y) called. Stop doing that!");
-            #return undef;
-        #}
+    # XXX: reenable this if we start getting weird errors
+    #if ($x < 0 || $y < 0) {
+        #Carp::cluck("Level->at($x, $y) called. Stop doing that!");
+        #return undef;
+    #}
 
-        return $self->{tiles}->[$y][$x];
-    }
+    return $self->{tiles}->[$y][$x];
 }
 
 sub at_direction {
