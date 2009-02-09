@@ -31,6 +31,8 @@ has file => (
         );
 
         -e $_ and return $_ for @locations;
+
+        $SIG{__DIE__} = 'DEFAULT';
         die "Could not find a config file. You should copy TAEB's etc/config.yml into ~/.taeb/config.yml!";
     },
 );
