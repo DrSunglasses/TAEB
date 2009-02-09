@@ -30,8 +30,7 @@ has spoiler => (
     lazy    => 1,
     default => sub {
         my $self = shift;
-        my $name = "spellbook of " . $self->name;
-        TAEB::Spoilers::Item::Spellbook->spellbook($name);
+        NetHack::Item::Spoiler->spoiler_for("spellbook of " . $self->name);
     },
 );
 
