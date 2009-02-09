@@ -690,14 +690,12 @@ sub msg_check {
         }
     }
     elsif (my $method = $self->can("_check_$thing")) {
-        $self->checking($thing);
         $self->$method(@_);
     }
     else {
         TAEB->log->senses("I don't know how to check $thing.",
                           level => 'warning');
     }
-    $self->clear_checking;
 }
 
 my %check_command = (
@@ -724,11 +722,12 @@ for my $aspect (keys %check_command) {
 
     __PACKAGE__->meta->add_method("_check_$aspect" => sub {
         my $self = shift;
-        TAEB->log->senses("Checking $aspect");
+        $self->checking($aspect);
         TAEB->remove_messages(check => $aspect);
         TAEB->write($command);
         TAEB->full_input;
         $post->($self) if $post;
+        $self->clear_checking;
     });
 }
 
