@@ -136,6 +136,7 @@ has last_seen_nurse => (
 has checking => (
     isa     => 'Str',
     clearer => 'clear_checking',
+    trigger => sub { TAEB->redraw },
 );
 
 has last_prayed => (
