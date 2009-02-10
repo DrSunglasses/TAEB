@@ -36,11 +36,16 @@ interface: Local
 #### Debugging config #####
 # Configure various debugging plugins for TAEB here
 #debug:
-#    IRC:
+#    console:
+#        readline: Gnu
+#    irc:
 #        server: irc.freenode.net
 #        port:   6667
 #        channel: "#interhack"
 #        name: taeb # defaults to the name of the bot
+
+#### Logging config #######
+#logger:
 #    twitter:
 #        deaths:
 #            username: taeb_deaths
@@ -54,8 +59,6 @@ interface: Local
 # to quit instead of saving on errors; if your TAEB is not particularly
 # buggy, you might want to leave this this at 0 so the full state is kept.
 #unattended: 0
-# Set this to the readline module you'd prefer to use, if the default is broken
-#readline: Gnu
 
 #### External config ######
 # Specify other config files to load here - for example, config files
