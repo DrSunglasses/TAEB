@@ -4,7 +4,6 @@ use warnings;
 use lib 'lib';
 use TAEB;
 use Curses;
-use List::Util qw/max/;
 
 TAEB->setup_handlers;
 
