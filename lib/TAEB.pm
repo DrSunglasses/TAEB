@@ -188,7 +188,7 @@ class_has senses => (
     is        => 'ro',
     isa       => 'TAEB::Senses',
     default   => sub { TAEB::Senses->new },
-    handles   => qr/^(?!_check_|msg_|update|initialize)/,
+    handles   => qr/^(?!_check_|msg_|update|initialize|config)/,
     predicate => 'has_senses',
 );
 
