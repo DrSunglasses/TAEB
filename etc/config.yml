@@ -29,9 +29,11 @@ interface: Local
 # color_method controls how tiles are colored, and glyph_method controls which
 # glyphs to display. They can both be changed at runtime as well, see
 # doc/debug-commands.txt.
+# color_method options: normal, debug, engraving, pathfind, stepped, time, lit
+# glyph_method options: normal, floor
 #display:
-#    color_method: normal # debug, engraving, pathfind, stepped, time, lit
-#    glyph_method: normal # floor
+#    color_method: normal
+#    glyph_method: normal
 
 #### Debugging config #####
 # Configure various debugging plugins for TAEB here
