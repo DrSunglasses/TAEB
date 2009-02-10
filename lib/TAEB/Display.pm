@@ -9,8 +9,8 @@ has color_method => (
     clearer => 'reset_color_method',
     lazy    => 1,
     default => sub {
-        my $self = shift;
-        return $self->config && $self->config->{color_method} || 'normal';
+        my $config = shift->config || {};
+        return $config->{color_method} || 'normal';
     },
 );
 
@@ -19,8 +19,8 @@ has glyph_method => (
     clearer => 'reset_glyph_method',
     lazy    => 1,
     default => sub {
-        my $self = shift;
-        return $self->config && $self->config->{glyph_method} || 'normal';
+        my $config = shift->config || {};
+        return $config->{glyph_method} || 'normal';
     },
 );
 
