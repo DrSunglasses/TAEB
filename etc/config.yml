@@ -41,11 +41,6 @@ color_method: normal
 # Current options: normal, floor
 glyph_method: normal
 
-# enable log rotation for TAEB; 0 logs is unlimited
-log_rotation:
-    enabled: 1
-    max_logs: 0
-
 # Set this to 1 if you want to run a buggy TAEB overnight; it causes TAEB
 # to quit instead of saving on errors; if your TAEB is not particularly
 # buggy, you might want to leave this this at 0 so the full state is kept.
