@@ -167,7 +167,8 @@ sub get_ai_config {
     my ($ai_class) = @_;
     my $options = $self->contents->{ai_options};
     return unless $options;
-    $ai_class ||= $self->get_ai;
+    $ai_class ||= caller;
+    $ai_class = $self->get_ai if $ai_class !~ /^TAEB::AI::/;
     $ai_class =~ s/^TAEB::AI::(.*?)::.*/$1/;
     $ai_class = lc $ai_class;
     return $options->{$ai_class};
