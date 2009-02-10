@@ -6,12 +6,12 @@ has bot => (
     is  => 'rw',
     lazy => 1,
     default => sub {
-        return unless exists TAEB->config->contents->{IRC};
-        my $irc_config = TAEB->config->IRC;
-        my $server  = $irc_config->{server}  || 'irc.freenode.net';
-        my $port    = $irc_config->{port}    || 6667;
-        my $channel = $irc_config->{channel} || '#interhack';
-        my $name    = $irc_config->{name}    || TAEB->name;
+        my $self = shift;
+        return unless defined $self->config;
+        my $server  = $self->config->{server}  || 'irc.freenode.net';
+        my $port    = $self->config->{port}    || 6667;
+        my $channel = $self->config->{channel} || '#interhack';
+        my $name    = $self->config->{name}    || TAEB->name;
 
         TAEB->log->irc("Connecting to $channel on $server:$port with nick $name");
         require TAEB::Debug::IRC::Bot;

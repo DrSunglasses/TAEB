@@ -8,14 +8,20 @@ has color_method => (
     isa     => 'Str',
     clearer => 'reset_color_method',
     lazy    => 1,
-    default => sub { TAEB->config->color_method || 'normal' },
+    default => sub {
+        my $self = shift;
+        return $self->config && $self->config->{color_method} || 'normal';
+    },
 );
 
 has glyph_method => (
     isa     => 'Str',
     clearer => 'reset_glyph_method',
     lazy    => 1,
-    default => sub { TAEB->config->glyph_method || 'normal' },
+    default => sub {
+        my $self = shift;
+        return $self->config && $self->config->{glyph_method} || 'normal';
+    },
 );
 
 has time_buffer => (

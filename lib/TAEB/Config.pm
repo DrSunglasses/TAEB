@@ -88,7 +88,8 @@ Retrieves the role from the config, or picks randomly.
 
 sub get_role {
     my $self = shift;
-    my $role = $self->role
+    return '*' unless $self->character;
+    my $role = $self->character->{role}
         or return '*';
     return $1
         if lc($role) =~ /^([abchkmpstvw])/;
@@ -107,7 +108,8 @@ Retrieves the race from the config, or picks randomly.
 
 sub get_race {
     my $self = shift;
-    my $role = $self->race
+    return '*' unless $self->character;
+    my $role = $self->character->{race}
         or return '*';
     return $1
         if lc($role) =~ /^([hedgo])/;
@@ -122,7 +124,8 @@ Retrieves the gender from the config, or picks randomly.
 
 sub get_gender {
     my $self = shift;
-    my $role = $self->gender
+    return '*' unless $self->character;
+    my $role = $self->character->{gender}
         or return '*';
     return $1
         if lc($role) =~ /^([mf])/;
@@ -137,7 +140,8 @@ Retrieves the alignment from the config, or picks randomly.
 
 sub get_align {
     my $self = shift;
-    my $role = $self->align || $self->alignment
+    return '*' unless $self->character;
+    my $role = $self->character->{align} || $self->character->{alignment}
         or return '*';
     return $1
         if lc($role) =~ /^([lnc])/;
