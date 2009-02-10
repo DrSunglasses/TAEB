@@ -2,27 +2,19 @@
 
 # PUT YOUR CONFIG IN etc/site_config.yml
 # This file is versioned, site_config isn't.
+#other_config:
+#    - etc/site_config.yml
 
 interface: Local
 ai: 'TAEB::AI::Behavioral::Personality::ScoreWhore'
 
-fight_behavior: Melee
-
-other_config:
-    - etc/site_config.yml
-
-
 # The following give the defaults for options in TAEB
 
 # CRGA
-role: '*'
-race: '*'
-gender: '*'
-align: '*'
-
-# Branch to avoid, if any.
-# Possibles values: mines, dungeon, etc
-avoid_branch: ""
+#role: '*'
+#race: '*'
+#gender: '*'
+#align: '*'
 
 # IRC debugging!
 # Uncomment the following line to enable.
@@ -35,14 +27,14 @@ avoid_branch: ""
 # What method to use for coloring of tiles in the display.
 # Can change these during runtime as well.
 # Current options: normal, debug, engraving, pathfind, stepped, time, lit
-color_method: normal
+#color_method: normal
 
 # How to view the floor glyphs. Changeable during runtime.
 # Current options: normal, floor
-glyph_method: normal
+#glyph_method: normal
 
 # Set this to 1 if you want to run a buggy TAEB overnight; it causes TAEB
 # to quit instead of saving on errors; if your TAEB is not particularly
 # buggy, you might want to leave this this at 0 so the full state is kept.
 # You probably want log_rotation on if you are using this.
-unattended: 0
+#unattended: 0
