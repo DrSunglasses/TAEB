@@ -26,8 +26,8 @@ has file => (
     isa     => 'Str',
     default => sub {
         my @locations = (
-            'etc/config.yml',
             shift->taebdir_file('config.yml'),
+            'etc/config.yml',
         );
 
         -e $_ and return $_ for @locations;
