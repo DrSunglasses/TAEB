@@ -1,0 +1,19 @@
+---
+ai: 'TAEB::AI::Behavioral::Personality::Explorer'
+ai_options:
+    behavioral:
+        avoid_branch: mines
+
+interface: Telnet
+interface_options:
+    Telnet:
+        account: doytaeb
+
+character:
+    role: Valkyrie
+    race: Dwarf
+    gender: Female
+    align: Law
+
+other_config:
+    - pass_config.yml
