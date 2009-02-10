@@ -162,6 +162,17 @@ sub get_ai {
     return $ai_class->new;
 }
 
+sub get_ai_config {
+    my $self = shift;
+    my ($ai_class) = @_;
+    my $options = $self->contents->{ai_options};
+    return unless $options;
+    $ai_class ||= $self->get_ai;
+    $ai_class =~ s/^TAEB::AI::(.*?)::.*/$1/;
+    $ai_class = lc $ai_class;
+    return $options->{$ai_class};
+}
+
 =head2 get_interface
 
 =cut
