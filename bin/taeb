@@ -53,5 +53,9 @@ while (1) {
 
     TAEB->reset_state;
 
-    sleep 5;
+    print ' ';
+    for (reverse 1..5) {
+        print "\x08$_";
+        sleep 1;
+    }
 }
