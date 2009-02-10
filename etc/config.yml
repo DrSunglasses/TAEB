@@ -24,6 +24,12 @@ ai: 'TAEB::AI::Behavioral::Personality::ScoreWhore'
 #    channel: "#interhack"
 #    #name: name of bot
 
+# Twitter error reporting!
+#twitter:
+#    errors:
+#        username: user
+#        password: pass
+
 # What method to use for coloring of tiles in the display.
 # Can change these during runtime as well.
 # Current options: normal, debug, engraving, pathfind, stepped, time, lit
@@ -38,3 +44,6 @@ ai: 'TAEB::AI::Behavioral::Personality::ScoreWhore'
 # buggy, you might want to leave this this at 0 so the full state is kept.
 # You probably want log_rotation on if you are using this.
 #unattended: 0
+
+# Set this to the readline module you'd prefer to use, if the default is broken
+#readline: Gnu
