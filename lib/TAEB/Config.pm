@@ -5,9 +5,9 @@ use Hash::Merge 'merge';
 Hash::Merge::set_behavior('RIGHT_PRECEDENT');
 
 use File::Spec;
+use File::HomeDir;
 
 $ENV{TAEBDIR} ||= do {
-    require File::HomeDir;
     File::Spec->catdir(File::HomeDir->my_home, '.taeb');
 };
 
@@ -60,15 +60,23 @@ sub BUILD {
         # if this config specified other files, load them too
         if ($config->{other_config}) {
             my $c = $config->{other_config};
+            my @new_files;
             if (ref($c) eq 'ARRAY') {
-                push @config, @$c;
+                @new_files = @$c;
             }
             elsif (ref($c) eq 'HASH') {
-                push @config, keys %$c;
+                @new_files = keys %$c;
             }
             else {
-                push @config, $c;
+                @new_files = ($c);
             }
+            push @config, map {
+                s{^~(\w+)}{File::HomeDir->users_home($1)}e;
+                s{^~}{File::HomeDir->my_home}e;
+                File::Spec->file_name_is_absolute($_)
+                    ? $_
+                    : File::Spec->catfile($ENV{TAEBDIR}, $_);
+            } @new_files;
         }
     }
 }
