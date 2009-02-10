@@ -598,15 +598,11 @@ sub died {
     my $self = shift;
     $self->dead(1);
     $self->destroy_saved_state;
-
-    # this REALLY prevents us from saving the state file
-    $self->config->state_file(undef);
 }
 
 sub persistent_file {
     my $self = shift;
-    my $state_file = $self->config->state_file;
-    return unless defined $state_file;
+    my $state_file = $self->config->taebdir_file('TAEB.state');
     return join('-', $state_file, $self->config->interface);
 }
 
