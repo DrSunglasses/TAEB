@@ -5,8 +5,16 @@
 #other_config:
 #    - etc/site_config.yml
 
-interface: Local
 ai: 'TAEB::AI::Behavioral::Personality::ScoreWhore'
+interface: Local
+# Configure the interface if necessary (telnet and ssh)
+#interface_options:
+#    Telnet:
+#        account: taeb
+#        password: pass
+#    SSH:
+#        account: taeb
+#        password: pass
 
 # The following give the defaults for options in TAEB
 
