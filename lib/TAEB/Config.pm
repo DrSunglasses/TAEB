@@ -52,7 +52,6 @@ sub BUILD {
 
     while (my $file = shift @config) {
         next if $seen{$file}++;
-        next if !-f $file;
 
         my $config = YAML::LoadFile($file);
         $self->contents(merge($self->contents, $config));
