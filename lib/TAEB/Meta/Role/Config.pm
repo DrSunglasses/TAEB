@@ -12,7 +12,7 @@ has config => (
         my @config_path = split /::/, $class;
         my $config = TAEB->config->contents;
         for (@config_path) {
-            if ($config) {
+            if (ref $config eq 'HASH') {
                 $config = $config->{lc($_)};
             }
             else {
