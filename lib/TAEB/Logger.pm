@@ -197,10 +197,19 @@ sub add_as_default {
 sub _format {
     my $self = shift;
     my %args = @_;
+
     chomp $args{message};
-    return sprintf "<T%s> %s: %s\n",
+
+    my ($sec, $min, $hour, $mday, $mon, $year) = localtime;
+
+    return sprintf "<T%s> %04d-%02d-%02d %02d:%02d:%02d %s\n",
                    (TAEB->loaded_persistent_data ? TAEB->turn : '-'),
-                   scalar(localtime),
+                   $year + 1900,
+                   $mon + 1,
+                   $mday,
+                   $hour,
+                   $min,
+                   $sec,
                    $args{message};
 }
 
