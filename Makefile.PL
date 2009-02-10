@@ -25,6 +25,7 @@ requires 'Log::Dispatch::Channels';
 # config
 requires 'YAML';
 requires 'Hash::Merge';
+requires 'File::HomeDir';
 
 # TAEB::Util
 requires 'Sub::Exporter';
