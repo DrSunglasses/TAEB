@@ -27,7 +27,7 @@ around _calculate_inventory => sub {
     my $gold_weight = int(TAEB->gold * 0.01);
 
     return $weight + $gold_weight;
-}
+};
 
 =head2 has_projectile
 
