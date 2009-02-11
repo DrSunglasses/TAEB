@@ -20,7 +20,7 @@ sub find {
     return;
 }
 
-around _calculate_inventory {
+around _calculate_inventory => sub {
     my $orig = shift;
 
     my $weight = $orig->(@_);
