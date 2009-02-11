@@ -16,6 +16,7 @@ has nhi => (
         is_in_container is_offhand is_quivered is_uncursed is_unholy is_wielded
         ldam maybe_is name possibilities quantity raw sdam slot specific_name
         spoiler spoiler_values subtype throw_range tohit tracker type weight
+        _set_tracker
     /],
 );
 
