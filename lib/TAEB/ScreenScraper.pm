@@ -1370,16 +1370,19 @@ sub farlook {
 
     my $directions = crow_flies($tile->x, $tile->y);
 
+    # We compare the messages before farlooking to the messages after
+    # farlooking, to get just the messages corresponding to the
+    # farlook itself.
+    my $messagesbefore = TAEB->messages;
+
     TAEB->write(';' . $directions . '.');
     TAEB->process_input;
 
     # use TAEB->messages as it may consist of multiple lines
-    my $description;
-    if (TAEB->vt->topline =~ /^\S/) {
-        $description = TAEB->vt->topline;
-    }
-    else {
-        $description = TAEB->messages;
+    my $description = TAEB->messages;
+
+    if ($description ne $messagesbefore) {
+        $description =~ s/^\Q$messagesbefore\E\s*//;
     }
     return $description =~ /^(.)\s*(.*?)\s*\((.*)\)\s*(?:\[(.*)\])?\s*$/
         if wantarray;
