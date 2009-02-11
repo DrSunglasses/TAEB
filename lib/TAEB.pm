@@ -540,16 +540,7 @@ around ai => sub {
 
 sub new_item {
     my $self = shift;
-    my $nhi = $self->item_pool->new_item(@_);
-
-    my $nhi_subclass = $nhi->meta->name;
-
-    # The right way to do this would be to search the TAEB::World::Item
-    # hierarchy for the class whose nhi attribute "isa" the $nhi_subclass.
-    # But this works fine. and I'm a bad person. ~ sartak
-    (my $taeb_class = $nhi_subclass) =~ s/^NetHack/TAEB::World/;
-
-    $taeb_class->new(nhi => $nhi);
+    $self->item_pool->new_item(@_);
 }
 
 sub has_item {
