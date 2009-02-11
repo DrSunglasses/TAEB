@@ -24,7 +24,8 @@ around _calculate_weight => sub {
     my $orig = shift;
 
     my $weight = $orig->(@_);
-    my $gold_weight = NetHack::Item::Spoiler->spoiler_for('gold piece')->weight;
+    my $gold_weight =
+        NetHack::Item::Spoiler->spoiler_for('gold piece')->{weight};
     $gold_weight = int(TAEB->gold * $gold_weight);
 
     return $weight + $gold_weight;
