@@ -20,6 +20,15 @@ sub find {
     return;
 }
 
+around _calculate_inventory {
+    my $orig = shift;
+
+    my $weight = $orig->(@_);
+    my $gold_weight = int(TAEB->gold * 0.01);
+
+    return $weight + $gold_weight;
+}
+
 =head2 has_projectile
 
 Returns true (actually, the item) if TAEB has something useful to throw.
