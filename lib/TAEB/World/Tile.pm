@@ -441,7 +441,7 @@ sub change_type {
     my $newglyph = shift;
 
     return if $self->type eq $newtype && $self->floor_glyph eq $newglyph;
-    return if TAEB->current_level->is_rogue && $self->type eq 'stairsup';
+    return if $self->level->is_rogue && $self->type eq 'stairsup';
     TAEB->enqueue_message('tile_update' => $self);
 
     $self->level->unregister_tile($self);
@@ -496,7 +496,7 @@ sub try_monster {
 
     # attempt to handle ghosts on the rogue level, which are always the
     # same glyphs as rocks. rogue level ignores your glyph settings.
-    if (TAEB->current_level->is_rogue && !TAEB->is_blind && $glyph eq ' ') {
+    if ($self->level->is_rogue && !TAEB->is_blind && $glyph eq ' ') {
         return unless abs($self->x - TAEB->x) <= 1
                    && abs($self->y - TAEB->y) <= 1;
 
