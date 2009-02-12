@@ -254,9 +254,12 @@ my %is_walkable = map { $_ => 1 } qw/obscured stairsdown stairsup trap altar ope
 sub is_walkable {
     my $self = shift;
     my $through_unknown = shift;
+    my $dont_check_current_tile = shift;
 
-    # current tile is always walkable
-    return 1 if $self == TAEB->current_tile;
+    # current tile is always walkable, but don't check it if our caller
+    # asked us not to (that check is rather slow)
+    return 1 if !defined($dont_check_current_tile)
+             && $self == TAEB->current_tile;
 
     # pathing through boulders is handled by dedicated behaviors
     return 0 if $self->has_boulder;
