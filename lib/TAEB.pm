@@ -546,7 +546,7 @@ sub _find_item_role {
             TAEB->log->error("Couldn't find a role to apply to $item_class");
             return;
         }
-        if (eval { Class::MOP::load_class($role) }) {
+        if (eval { local $SIG{__DIE__}; Class::MOP::load_class($role) }) {
             return $role;
         }
         $role =~ s/::[^:]*$//;
