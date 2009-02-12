@@ -6,13 +6,13 @@ with 'TAEB::Action::Role::Item';
 use constant command => "#dip\n";
 
 has '+item' => (
-    isa      => 'TAEB::World::Item',
+    isa      => 'NetHack::Item',
     required => 1,
 );
 
 has into => (
     traits  => [qw/TAEB::Provided/],
-    isa     => 'TAEB::World::Item | Str',
+    isa     => 'NetHack::Item | Str',
     default => 'fountain',
 );
 

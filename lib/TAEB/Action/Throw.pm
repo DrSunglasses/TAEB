@@ -9,7 +9,7 @@ use TAEB::Util 'vi2delta';
 use constant command => 't';
 
 has '+item' => (
-    isa      => 'TAEB::World::Item',
+    isa      => 'NetHack::Item',
     required => 1,
 );
 

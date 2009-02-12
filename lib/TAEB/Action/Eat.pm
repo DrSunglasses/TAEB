@@ -8,7 +8,7 @@ use List::MoreUtils 'any';
 use constant command => "e";
 
 has '+item' => (
-    isa => 'TAEB::World::Item::Food | Str',
+    isa => 'NetHack::Item::Food | Str',
     required => 1,
 );
 

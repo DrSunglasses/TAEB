@@ -7,7 +7,7 @@ with 'TAEB::Action::Role::Item';
 use constant command => 'z';
 
 has '+item' => (
-    isa      => 'TAEB::World::Item::Wand',
+    isa      => 'NetHack::Item::Wand',
     required => 1,
 );
 

@@ -4,7 +4,7 @@ use Moose::Role;
 has item => (
     traits   => [qw/TAEB::Provided/],
     is       => 'rw',
-    isa      => 'TAEB::World::Item | Str',
+    isa      => 'NetHack::Item | Str',
 );
 
 sub exception_missing_item {

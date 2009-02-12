@@ -6,12 +6,12 @@ with 'TAEB::Action::Role::Item';
 use constant command => "#rub\n";
 
 has '+item' => (
-    isa      => 'TAEB::World::Item',
+    isa      => 'NetHack::Item',
     required => 1,
 );
 
 has against => (
-    isa      => 'TAEB::World::Item',
+    isa      => 'NetHack::Item',
     required => 0,
     traits   => [qw/TAEB::Provided/],
 );

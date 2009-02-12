@@ -6,7 +6,7 @@ use constant command => "q";
 
 has from => (
     traits   => [qw/TAEB::Provided/],
-    isa      => 'TAEB::World::Item::Potion | Str',
+    isa      => 'NetHack::Item::Potion | Str',
     required => 1,
 );
 

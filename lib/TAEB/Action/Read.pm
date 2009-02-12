@@ -7,7 +7,7 @@ use List::MoreUtils 'any';
 use constant command => "r";
 
 has '+item' => (
-    isa      => 'TAEB::World::Item',
+    isa      => 'NetHack::Item',
     required => 1,
 );
 
