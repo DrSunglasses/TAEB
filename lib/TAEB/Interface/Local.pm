@@ -7,7 +7,7 @@ use constant ping_wait => 0.2;
 
 =head1 NAME
 
-TAEB::Interface::Telnet - how TAEB talks to a local nethack
+TAEB::Interface::Local - how TAEB talks to a local nethack
 
 =cut
 
@@ -58,13 +58,14 @@ augment read => sub {
     sleep($self->ping_wait);
 
     die "Pty inactive." unless $self->is_active;
-    my $out = $self->pty->read(1);
+    # We already waited for output to arrive; don't wait even longer if there
+    # isn't any.
+    my $out = $self->pty->read(0,1024);
     return '' if !defined($out);
     die "Pty closed." if $out eq '';
 
-    # sysread likes to give me blocks of 1024 characters. this is the best
-    # fix I could come up with. I think it'll work even if NetHack sends
-    # precisely 1024 bytes because it'll just time out after 1.2s or whatever.
+    # We specified blocks of 1024 characters above. If we got exactly 1024,
+    # read more.
     if (length($out) == 1024) {
         $out .= $self->read(@_);
     }
