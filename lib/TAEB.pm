@@ -549,7 +549,7 @@ sub _find_item_role {
         if (eval { Class::MOP::load_class($role) }) {
             return $role;
         }
-        $role =~ s/::[^:]*//;
+        $role =~ s/::[^:]*$//;
     }
 }
 
