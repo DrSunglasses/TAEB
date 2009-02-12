@@ -538,9 +538,32 @@ around ai => sub {
     return $self->$orig(@_);
 };
 
+sub _find_item_role {
+    my $item_class = shift;
+    (my $role = $item_class) =~ s/^NetHack/TAEB::Meta::Role/;
+    while (1) {
+        if ($role eq 'TAEB::Meta::Role') {
+            TAEB->log->error("Couldn't find a role to apply to $item_class");
+            return;
+        }
+        if (eval { Class::MOP::load_class($role) }) {
+            return $role;
+        }
+        $role =~ s/::[^:]*//;
+    }
+}
+
 sub new_item {
     my $self = shift;
-    $self->item_pool->new_item(@_);
+    my $item = $self->item_pool->new_item(@_);
+    my $old_class = $item->meta->name;
+    my $new_class = Moose::Meta::Class->create_anon_class(
+        superclasses => [$old_class],
+        roles        => [_find_item_role($old_class)],
+        cache        => 1,
+    );
+    $new_class->rebless_instance($item);
+    return $item;
 }
 
 sub has_item {
