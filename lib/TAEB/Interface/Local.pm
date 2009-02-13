@@ -29,7 +29,7 @@ sub _build_pty {
     my $self = shift;
 
     chomp(my $pwd = `pwd`);
-    local $ENV{NETHACKOPTIONS} = '@' . join '/', $pwd, 'etc', 'TAEB.nethackrc';
+    local $ENV{NETHACKOPTIONS} = '@' . TAEB->config->taebdir_file('TAEB.nethackrc');
     local $ENV{TERM} = 'xterm-color';
 
     # TAEB requires 80x24
