@@ -72,7 +72,7 @@ sub msg_got_item {
     my $self = shift;
     my $item = shift;
 
-    $self->update($item->slot => $item);
+    $self->add($item->slot => $item);
 }
 
 sub msg_lost_item {
