@@ -12,6 +12,12 @@ Download "http://sartak.org/dist/TAEB.tar.gz" and extract to the
 directory of your choice. The rest of instructions assume you are
 in this directory.
 
+Alternatively, if you want to get the version controlled version,
+you can use the following command. This way it'll be easier to keep
+in sync with development.
+
+    darcs get http://sartak.org/code/TAEB
+
 
 -- INSTALLING
 
