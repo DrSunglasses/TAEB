@@ -3,16 +3,19 @@ use Moose::Role;
 with 'TAEB::Meta::Role::Item::Food';
 
 has is_forced_verboten => (
+    is      => 'rw',
     isa     => 'Bool',
     default => 1,
 );
 
 has estimated_date => (
+    is      => 'rw',
     isa     => 'Int',
     default => sub { TAEB->turn },
 );
 
 has failed_to_sacrifice => (
+    is      => 'rw',
     isa     => 'Bool',
     default => 0,
 );
