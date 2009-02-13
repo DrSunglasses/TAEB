@@ -6,8 +6,11 @@ my $all = shift;
 
 while (<>) {
     s/^-/*/ if $all;
-    next unless /^\* (.*)/;
-    print "Pulling from $1...\n";
-    system("darcs pull --no-set-default $1");
+
+    next unless my ($url) = /^\* (.*)/;
+    next if $ENV{PULL_ALL_SKIP} && $url =~ $ENV{PULL_ALL_SKIP};
+
+    print "Pulling from $url...\n";
+    system("darcs pull --no-set-default $url");
 }
 
