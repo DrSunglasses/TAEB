@@ -39,9 +39,11 @@ This will install the modules from CPAN. TAEB's dependencies themselves
 usually have a few dependencies. All in all you're probably looking at
 about 60 modules.
 
-After this, another module needs to be installed. It is not on CPAN, so
-must fetch it from "http://sartak.org/dist/TAEB-AI-Behavioral.tar.gz".
-Extract, change to the directory, and do:
+After this, an AI module needs to be installed. AI modules are not yet on CPAN,
+so fetch the most actively developed AI from
+http://sartak.org/dist/TAEB-AI-Behavioral.tar.gz (or if you're using darcs, run
+darcs get http://sartak.org/code/TAEB-AI-Behavioral). Extract, change to the
+directory, and do:
 
 $ perl Makefile.PL
 $ make test          # this will build and test the module
@@ -71,11 +73,14 @@ and copy the nethackrc into the configuration editor.
 
 -- RUNNING TAEB
 
-Then you should be ready to run him! Type perl bin/taeb and cross your
-fingers.
+Then you should be ready to run him! Type taeb and cross your fingers.
 
-If you want to run TAEB on your machine, you need to have nethack
-installed.  No patches to nethack are required.
+TAEB itself ships with only a very basic set of AIs - Demo is a very barebones
+example AI, and Human and Quit are both mostly for testing. The most fully
+featured AI at the moment is the Behavioral AI, which can be obtained either by
+"darcs get http://sartak.org/code/TAEB-AI-Behavioral", or by downloading and
+extracting http://sartak.org/dist/TAEB-AI/Behavioral.tar.gz. Follow that
+module's README to finish the installation process.
 
 If you're interested in developing TAEB, please see the NEWTASKS file.
 
