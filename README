@@ -8,9 +8,11 @@ interface in a day's work.
 
 -- GETTING TAEB
 
-Download "http://sartak.org/dist/TAEB.tar.gz" and extract to the
-directory of your choice. The rest of instructions assume you are
-in this directory.
+The preferred method for obtaining the TAEB source is from the darcs repo:
+    darcs get http://sartak.org/code/TAEB/
+Alternatively, you can download "http://sartak.org/dist/TAEB.tar.gz" and
+extract to the directory of your choice. The rest of instructions assume you
+are in this directory.
 
 Alternatively, if you want to get the version controlled version,
 you can use the following command. This way it'll be easier to keep
@@ -22,27 +24,24 @@ in sync with development.
 -- INSTALLING
 
 If you're on Ubuntu, you'll first need to install the "build-essential"
-and "libncurses5-dev" packages.
+(for make) and "libncurses5-dev" (for the Curses library) packages.
 
 Warning: TAEB makes heavy use of CPAN.
 
 $ perl Makefile.PL
 
 Answer the defaults to any dependencies it asks about. You may have to
-set up CPAN. The defaults are usually fine. Be sure to set a mirror
-though.
+set up CPAN. The defaults are usually fine. Be sure to set a mirror though.
 
-$ sudo make installdeps
+$ make && sudo make install
 
 This will install the modules from CPAN. TAEB's dependencies themselves
 usually have a few dependencies. All in all you're probably looking at
 about 60 modules.
 
-After this, an AI module needs to be installed. AI modules are not yet on CPAN,
-so fetch the most actively developed AI from
-http://sartak.org/dist/TAEB-AI-Behavioral.tar.gz (or if you're using darcs, run
-darcs get http://sartak.org/code/TAEB-AI-Behavioral). Extract, change to the
-directory, and do:
+After this, another module needs to be installed. It is not on CPAN, so
+must fetch it from "http://sartak.org/dist/TAEB-AI-Behavioral.tar.gz".
+Extract, change to the directory, and do:
 
 $ perl Makefile.PL
 $ make test          # this will build and test the module
@@ -51,28 +50,32 @@ $ sudo make install
 
 -- CONFIGURING
 
-Now it's time to set up TAEB for running on nethack.alt.org. First,
-create a new account. Paste the contents of etc/TAEB.nethackrc into
-the account's rcfile.
+TAEB ships with a very basic configuration file in etc/config.yml.
+Configuration files are written in YAML (http://en.wikipedia.org/wiki/Yaml).
+The default configuration just enables the Local interface (which runs TAEB on
+a locally installed copy of NetHack, no patches are required) and the Demo AI,
+but many other elements of TAEB are also configurable - read the comments in
+etc/config.yml for more details.
 
-Then, in vim (and only vim; I'll know if you used emacs), edit the
-(nonexistent) etc/site_config.yml config file. Here's where you set your
-account's name and password. The format is:
+The first step is to create a directory for TAEB to use for reading
+configuration and storing state and log files. By default, this directory is
+~/.taeb, but this can by overridden by setting the TAEBDIR environment
+variable. Copy the configuration file into that directory.
 
-interface: Telnet
-interface_options:
-  Telnet:
-      account: MyTAEB
-      password: secretsauce
+Next, TAEB requires certain options to be set in order to recognize dungeon
+features, and to not get confused by extra output. These options are in
+etc/TAEB.nethackrc. For the Local interface, copy this file into $TAEBDIR. To
+play on a DGameLaunch server such as nethack.alt.org, use the Telnet interface,
+and copy the nethackrc into the configuration editor.
 
 
 -- RUNNING TAEB
 
-Then you should be ready to run him! Type "taeb" (you may need to refresh your
-shell's cache of installed commands) and cross your fingers.
+Then you should be ready to run him! Type perl bin/taeb and cross your
+fingers.
 
-If you prefer to run TAEB on your machine, you need to have nethack
-installed. No patches to nethack are required.
+If you want to run TAEB on your machine, you need to have nethack
+installed.  No patches to nethack are required.
 
 If you're interested in developing TAEB, please see the NEWTASKS file.
 
