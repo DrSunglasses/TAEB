@@ -179,7 +179,7 @@ sub is_meleeable {
     # gelatinous cube (paralysis)
     return 0 if $self->color eq COLOR_CYAN
              && $self->glyph eq 'b'
-             && TAEB->current_level->has_enemies > 1;
+             && $self->level->has_enemies > 1;
 
     return 1;
 }
