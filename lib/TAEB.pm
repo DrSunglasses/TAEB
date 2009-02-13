@@ -543,7 +543,8 @@ sub _find_item_role {
     (my $role = $item_class) =~ s/^NetHack/TAEB::Meta::Role/;
     while (1) {
         if ($role eq 'TAEB::Meta::Role') {
-            TAEB->log->error("Couldn't find a role to apply to $item_class");
+            TAEB->log->moose("Couldn't find a role to apply to $item_class",
+                             level => 'error');
             return;
         }
         if (eval { local $SIG{__DIE__}; Class::MOP::load_class($role) }) {
