@@ -74,7 +74,6 @@ features(
 build_requires 'Test::More';
 
 install_script 'bin/taeb';
-install_script 'bin/pull-all';
 
 tests('t/*.t t/*/*.t');
 
