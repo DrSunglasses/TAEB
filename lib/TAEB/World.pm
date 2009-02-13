@@ -6,6 +6,7 @@ use Module::Pluggable (
     require     => 1,
     sub_name    => 'load_nhi_classes',
     search_path => ['NetHack::Item'],
+    except      => qr/Meta|Role/,
 );
 
 use Module::Pluggable (
@@ -31,6 +32,7 @@ sub _find_item_role {
 }
 
 for my $class (__PACKAGE__->load_nhi_classes) {
+    next if $class =~ /Spoiler/;
     (my $taeb_class = $class) =~ s/^NetHack::Item/TAEB::World::Item/;
     Moose::Meta::Class->create(
         $taeb_class,
