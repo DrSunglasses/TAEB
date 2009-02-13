@@ -14,7 +14,31 @@ use Module::Pluggable (
     search_path => ['TAEB::World'],
 );
 
-__PACKAGE__->load_nhi_classes;
+sub _find_item_role {
+    my $item_class = shift;
+    (my $role = $item_class) =~ s/^NetHack/TAEB::Meta::Role/;
+    while (1) {
+        if ($role eq 'TAEB::Meta::Role') {
+            TAEB->log->moose("Couldn't find a role to apply to $item_class",
+                             level => 'error');
+            return;
+        }
+        if (eval { local $SIG{__DIE__}; Class::MOP::load_class($role) }) {
+            return $role;
+        }
+        $role =~ s/::[^:]*$//;
+    }
+}
+
+for my $class (__PACKAGE__->load_nhi_classes) {
+    (my $taeb_class = $class) =~ s/^NetHack::Item/TAEB::World::Item/;
+    Moose::Meta::Class->create(
+        $taeb_class,
+        superclasses => [$class],
+        roles        => [_find_item_role($class)],
+    );
+}
+
 __PACKAGE__->load_world_classes;
 
 1;
