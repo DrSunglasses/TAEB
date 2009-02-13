@@ -237,7 +237,7 @@ sub radiate {
             $x += $dx; $y += $dy;
 
             # have we fallen off the map? if so, stop this line of radiation
-            my $tile = TAEB->current_level->at($x, $y) or next DIRECTION;
+            my $tile = $self->at($x, $y) or next DIRECTION;
 
             next DIRECTION if $stopper->($tile);
 
