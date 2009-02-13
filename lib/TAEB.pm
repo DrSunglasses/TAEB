@@ -557,12 +557,15 @@ sub new_item {
     my $self = shift;
     my $item = $self->item_pool->new_item(@_);
     my $old_class = $item->meta->name;
-    my $new_class = Moose::Meta::Class->create_anon_class(
-        superclasses => [$old_class],
-        roles        => [_find_item_role($old_class)],
-        cache        => 1,
-    );
-    $new_class->rebless_instance($item);
+    (my $new_class = $old_class) =~ s/^NetHack::Item/TAEB::World::Item/;
+    if (!Class::MOP::does_metaclass_exist($new_class)) {
+        Moose::Meta::Class->create(
+            $new_class,
+            superclasses => [$old_class],
+            roles        => [_find_item_role($old_class)],
+        );
+    }
+    $new_class->meta->rebless_instance($item);
     return $item;
 }
 
