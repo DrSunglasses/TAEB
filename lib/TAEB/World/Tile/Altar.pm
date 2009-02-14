@@ -19,6 +19,12 @@ augment debug_color => sub {
 
 sub reblessed {
     my $self = shift;
+    my ($old_class, $align) = @_;
+
+    if ($align) {
+        $self->align($align);
+        return;
+    }
 
     TAEB->enqueue_message(check => tile => $self);
 }

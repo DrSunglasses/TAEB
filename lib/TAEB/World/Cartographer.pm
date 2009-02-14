@@ -252,6 +252,7 @@ sub msg_dungeon_feature {
     elsif ($feature =~ /\baltar$/) {
         $floor = '_';
         $type = 'altar';
+        $subtype = shift;
     }
     else {
         # we don't know how to handle it :/
