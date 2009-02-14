@@ -401,15 +401,15 @@ sub _astar {
 
     my $from = $args{from} || TAEB->current_tile;
     my $through_unknown   = $args{through_unknown} || 0;
+    my $key = join ":", (refaddr($to), refaddr($from), $through_unknown);
+    my $cache = $to->level->_astar_cache;
+    return $cache->{$key} if exists $cache->{$key};
+
     my $why               = $args{why} || "unknown";
     my $sokoban           = $from->known_branch
                          && $from->branch eq 'sokoban';
     my $cant_squeeze       = TAEB->inventory->weight > 500 || $sokoban;
     my $debug = TAEB->display->pathfinding;
-
-    my $key = join ":", (refaddr($to), refaddr($from), $through_unknown);
-    my $cache = $to->level->_astar_cache;
-    return $cache->{$key} if exists $cache->{$key};
 
     TAEB->inc_pathfinds;
 
