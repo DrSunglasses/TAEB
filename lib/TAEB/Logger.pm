@@ -27,7 +27,7 @@ has everything => (
         my $self = shift;
         my $output = Log::Dispatch::File->new(
             name      => 'everything',
-            min_level => 'debug',
+            min_level => $self->_default_min_level,
             filename  => logfile_for("everything"),
             callbacks => sub { $self->_format(@_) },
         );
@@ -174,7 +174,7 @@ sub AUTOLOAD {
                            ]);
         $self->add(Log::Dispatch::File->new(
                        name      => $channel_name,
-                       min_level => 'debug',
+                       min_level => $self->_default_min_level,
                        filename  => logfile_for($channel_name),
                        callbacks => sub { $self->_format(@_) },
                    ),
@@ -211,6 +211,14 @@ sub _format {
                    $min,
                    $sec,
                    $args{message};
+}
+
+sub _default_min_level {
+    my $self = shift;
+    my $log_config = TAEB->config->logger;
+    return 'debug' unless defined $log_config
+                       && exists  $log_config->{min_level};
+    return $log_config->{min_level};
 }
 
 sub logfile_for {
