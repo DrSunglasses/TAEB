@@ -140,6 +140,8 @@ This will return a dx, dy key for the given vi key (also accepted is C<.>).
 =cut
 
 my %vi2delta = (
+    '<' => [ 0,  0],
+    '>' => [ 0,  0],
     '.' => [ 0,  0],
      h  => [-1,  0],
      j  => [ 0,  1],
