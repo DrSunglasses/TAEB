@@ -6,7 +6,7 @@ sub is_safely_edible {
     my $self = shift;
 
     # Induces vomiting.
-    return 0 if $self->identity eq 'tripe ration';
+    return 0 if $self->appearance eq 'tripe ration';
 
     return 1;
 }
