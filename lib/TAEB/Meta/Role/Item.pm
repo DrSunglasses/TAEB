@@ -38,7 +38,7 @@ sub debug_line {
     }
 
     if ($self->does('NetHack::Item::Role::Enchantable')) {
-        push @fields, $self->enchantment if $self->numeric_enchantment;
+        push @fields, $self->enchantment if defined $self->numeric_enchantment;
     }
 
     push @fields, $self->name;
