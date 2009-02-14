@@ -37,6 +37,7 @@ interface: Local
 
 #### Debugging config #####
 # Configure various debugging plugins for TAEB here
+# name for the irc plugin defaults to the bot's name
 #debug:
 #    console:
 #        readline: Gnu
@@ -44,7 +45,7 @@ interface: Local
 #        server: irc.freenode.net
 #        port:   6667
 #        channel: "#interhack"
-#        name: taeb # defaults to the name of the bot
+#        name: taeb
 
 #### Logging config #######
 #logger:
