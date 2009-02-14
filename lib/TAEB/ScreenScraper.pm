@@ -656,12 +656,7 @@ our @msg_regex = (
     ],
     [
         qr/^There is an altar to [\w\- ]+ \((law|neu|cha|unaligned)\w*\) here\./ =>
-            ['dungeon_feature' => sub {
-                (ucfirst($1) eq TAEB->align
-                    ? 'coaligned '
-                    : 'crossaligned ')
-                .'altar'
-            } ],
+            ['dungeon_feature' => sub { ucfirst($1) .' altar' } ],
     ],
     [
         qr/^There's a (.*?) hiding under a (.*)!/ =>
