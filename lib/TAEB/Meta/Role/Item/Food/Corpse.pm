@@ -44,7 +44,7 @@ sub maybe_rotted {
 
     $rotted_high = 10 if $self->is_forced_verboten;
 
-    return 0 if $self->monster =~ /^(?:lizard|lichen|acid blob)$/;
+    return -1 if $self->monster =~ /^(?:lizard|lichen|acid blob)$/;
     TAEB->log->item("in maybe_rotted; " . $rotted_low . "-" . $rotted_high .
         " for " . $self->raw . "(" . $self->estimate_age . ")" .
         $self->is_forced_verboten);
