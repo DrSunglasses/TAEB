@@ -117,7 +117,7 @@ around new => sub {
     my $self = $orig->(@_);
     # we don't initialize log files until they're used, so need to make sure
     # old ones don't stick around
-    unlink for (glob $self->logfile_for('*'));
+    unlink for (glob logfile_for('*'));
     $self->everything;
     $self->warning;
     $self->error;
@@ -283,7 +283,7 @@ sub _backup_logs {
     my $compress = $config->{compress};
     require File::Copy;
     require IO::Compress::Gzip if $compress;
-    for my $file (glob $self->logfile_for('*')) {
+    for my $file (glob logfile_for('*')) {
         my $backup = TAEB->config->taebdir_file($config->{dir},
                                                 "$file.$timestamp");
         File::Copy::copy($file, $backup);
