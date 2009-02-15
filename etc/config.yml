@@ -51,6 +51,9 @@ interface: Local
 #logger:
 #    min_level: debug
 #    suppress: [moose, undef]
+#    log_rotate:
+#        dir: logs
+#        compress: 1
 #    twitter:
 #        deaths:
 #            username: taeb_deaths
