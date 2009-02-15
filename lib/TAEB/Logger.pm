@@ -117,7 +117,7 @@ around new => sub {
     my $self = $orig->(@_);
     # we don't initialize log files until they're used, so need to make sure
     # old ones don't stick around
-    unlink for (glob "log/*.log");
+    unlink for (glob $self->logfile_for('*'));
     $self->everything;
     $self->warning;
     $self->error;
