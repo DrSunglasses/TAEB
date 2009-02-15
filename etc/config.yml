@@ -48,6 +48,7 @@ interface: Local
 #        name: taeb
 
 #### Logging config #######
+# note: log_rotate->compress requires IO::Compress::Gzip to be installed
 #logger:
 #    min_level: debug
 #    suppress: [moose, undef]
