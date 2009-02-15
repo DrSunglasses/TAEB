@@ -223,8 +223,9 @@ sub _default_min_level {
 
 sub _shouldnt_log {
     my $self = shift;
-    my ($_) = @_;
-    return if /^[A-Z_]+$/; # don't treat DEMOLISH as a logging call, etc
+    my ($channel) = @_;
+    # don't treat DEMOLISH as a logging call, etc
+    return if $channel =~ /^[A-Z_]+$/;
     my $log_config = $self->config;
     if (defined $log_config && exists $log_config->{suppress}) {
         my $suppression = $log_config->{suppress};
@@ -232,10 +233,10 @@ sub _shouldnt_log {
             return if grep { $self->_shouldnt_log($_) } @$suppression;
         }
         elsif ($suppression =~ s{^/(.*)/$}{$1}) {
-            return if /$suppression/;
+            return if $channel =~ /$suppression/;
         }
         else {
-            return if $_ eq $suppression;
+            return if $channel eq $suppression;
         }
     }
     return 1;
