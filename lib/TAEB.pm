@@ -643,6 +643,11 @@ sub setup_handlers {
     };
 }
 
+sub remove_handlers {
+    $SIG{__WARN__} = 'DEFAULT';
+    $SIG{__DIE__}  = 'DEFAULT';
+}
+
 __PACKAGE__->meta->make_immutable;
 no Moose;
 no MooseX::ClassAttribute;

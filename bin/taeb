@@ -5,8 +5,6 @@ use lib 'lib';
 use TAEB;
 use Curses;
 
-TAEB->setup_handlers;
-
 my $loop = grep { $_ eq '--loop' } @ARGV;
 
 my $tstp = $SIG{TSTP} = sub {
@@ -44,7 +42,9 @@ while (1) {
 
     eval {
         local $SIG{INT} = sub { TAEB->save; $loop = 0 };
+        TAEB->setup_handlers;
         TAEB->play;
+        TAEB->remove_handlers;
     };
 
     last unless $loop;
@@ -58,3 +58,4 @@ while (1) {
         sleep 1;
     }
 }
+
