@@ -105,19 +105,12 @@ has twitter => (
     },
 );
 
-has creation_time => (
-    is         => 'ro',
-    isa        => 'ArrayRef[Int]',
-    auto_deref => 1,
-    default    => sub { localtime },
-);
-
 around new => sub {
     my $orig = shift;
     my $self = $orig->(@_);
     # we don't initialize log files until they're used, so need to make sure
     # old ones don't stick around
-    unlink for (glob logfile_for('*'));
+    $self->_clean_log_dir;
     $self->everything;
     $self->warning;
     $self->error;
@@ -269,6 +262,14 @@ sub logfile_for {
     return TAEB->config->taebdir_file("log", "$channel.log");
 }
 
+sub _creation_time {
+    open my $everything, "<", logfile_for("everything");
+    my $start_line = <$everything>;
+    $start_line =~ s/^<T-> (\S+ \S+).*/$1/;
+    $start_line =~ /(\d\d\d\d)-(\d\d)-(\d\d) (\d\d):(\d\d):(\d\d)/;
+    return ($1, $2, $3, $4, $5, $6);
+}
+
 sub _backup_logs {
     my $self = shift;
     my ($config) = @_;
@@ -276,28 +277,35 @@ sub _backup_logs {
     return unless _maybe_create_dir(TAEB->config->taebdir_file($config->{dir}),
                                     "log rotate");
 
-    my ($sec, $min, $hour, $mday, $mon, $year) = $self->creation_time;
-    my $timestamp = sprintf "%d%d%d%d%d%d", $year + 1900, $mon + 1, $mday,
-                                            $hour,        $min,     $sec;
+    my ($year, $mon, $mday, $hour, $min, $sec) = $self->_creation_time;
+    my $timestamp = sprintf "%04d%02d%02d%02d%02d%02d", $year, $mon, $mday,
+                                                        $hour, $min, $sec;
 
     my $compress = $config->{compress};
     require File::Copy;
     require IO::Compress::Gzip if $compress;
     for my $file (glob logfile_for('*')) {
-        my $backup = TAEB->config->taebdir_file($config->{dir},
-                                                "$file.$timestamp");
+        (my $backup = $file) =~ s{(?:.*/)?(.*?)}{$1};
+        $backup = TAEB->config->taebdir_file($config->{dir},
+                                             "$backup.$timestamp");
         File::Copy::copy($file, $backup);
-        IO::Compress::Gzip::gzip($backup => "$backup.gz") if $compress;
+        if ($compress) {
+            IO::Compress::Gzip::gzip($backup => "$backup.gz");
+            unlink $backup;
+        }
     }
 }
 
-sub DEMOLISH {
+before _clean_log_dir => sub {
     my $self = shift;
     return unless -d TAEB->config->taebdir_file("log");
     return unless defined $self->config;
     my $log_rotate_config = $self->config->{log_rotate};
     return unless $log_rotate_config && $log_rotate_config->{dir};
     $self->_backup_logs($log_rotate_config);
+};
+sub _clean_log_dir {
+    unlink for (glob logfile_for('*'));
 }
 
 # we need to use Log::Dispatch::Channels' constructor
