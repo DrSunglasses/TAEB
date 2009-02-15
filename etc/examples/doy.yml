@@ -15,5 +15,10 @@ character:
     gender: Female
     align: Law
 
+logger:
+    log_rotate:
+        dir: logs
+        compress: 1
+
 other_config:
     - pass_config.yml
