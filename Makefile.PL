@@ -69,6 +69,10 @@ features(
         -default => 0,
         recommends('Log::Dispatch::Twitter'),
     ],
+    'Compress backed up logfiles' => [
+        -default => 1,
+        recommends('IO::Compress::Gzip'),
+    ],
 );
 
 build_requires 'Test::More';
