@@ -105,6 +105,13 @@ has twitter => (
     },
 );
 
+has creation_time => (
+    is         => 'ro',
+    isa        => 'ArrayRef[Int]',
+    auto_deref => 1,
+    default    => sub { localtime },
+);
+
 around new => sub {
     my $orig = shift;
     my $self = $orig->(@_);
@@ -260,6 +267,37 @@ sub logfile_for {
     my $logdir = TAEB->config->taebdir_file("log");
     return "TAEB-$channel.log" unless _maybe_create_dir($logdir, "log file");
     return TAEB->config->taebdir_file("log", "$channel.log");
+}
+
+sub _backup_logs {
+    my $self = shift;
+    my ($config) = @_;
+
+    return unless _maybe_create_dir(TAEB->config->taebdir_file($config->{dir}),
+                                    "log rotate");
+
+    my ($sec, $min, $hour, $mday, $mon, $year) = $self->creation_time;
+    my $timestamp = sprintf "%d%d%d%d%d%d", $year + 1900, $mon + 1, $mday,
+                                            $hour,        $min,     $sec;
+
+    my $compress = $config->{compress};
+    require File::Copy;
+    require IO::Compress::Gzip if $compress;
+    for my $file (glob $self->logfile_for('*')) {
+        my $backup = TAEB->config->taebdir_file($config->{dir},
+                                                "$file.$timestamp");
+        File::Copy::copy($file, $backup);
+        IO::Compress::Gzip::gzip($backup => "$backup.gz") if $compress;
+    }
+}
+
+sub DEMOLISH {
+    my $self = shift;
+    return unless -d TAEB->config->taebdir_file("log");
+    return unless defined $self->config;
+    my $log_rotate_config = $self->config->{log_rotate};
+    return unless $log_rotate_config && $log_rotate_config->{dir};
+    $self->_backup_logs($log_rotate_config);
 }
 
 # we need to use Log::Dispatch::Channels' constructor
