@@ -215,7 +215,7 @@ sub _format {
 
 sub _default_min_level {
     my $self = shift;
-    my $log_config = TAEB->config->logger;
+    my $log_config = $self->config;
     return 'debug' unless defined $log_config
                        && exists  $log_config->{min_level};
     return $log_config->{min_level};
