@@ -50,6 +50,7 @@ interface: Local
 #### Logging config #######
 #logger:
 #    min_level: debug
+#    suppress: [moose, undef]
 #    twitter:
 #        deaths:
 #            username: taeb_deaths
