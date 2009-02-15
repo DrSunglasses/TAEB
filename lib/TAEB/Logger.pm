@@ -156,7 +156,7 @@ sub AUTOLOAD {
     my $message = shift;
     my $channel_name = $AUTOLOAD;
     $channel_name =~ s/.*:://;
-    return if $self->_shouldnt_log($channel_name);
+    return unless $self->_should_log($channel_name);
     my $channel = $self->channel($channel_name);
     if (!$channel) {
         # XXX: would be nice if LDC had global callbacks
@@ -228,7 +228,7 @@ sub _default_min_level {
     return $log_config->{min_level};
 }
 
-sub _shouldnt_log {
+sub _should_log {
     my $self = shift;
     my ($channel) = @_;
     # don't treat DEMOLISH as a logging call, etc
@@ -237,7 +237,7 @@ sub _shouldnt_log {
     if (defined $log_config && exists $log_config->{suppress}) {
         my $suppression = $log_config->{suppress};
         if (ref($suppression) eq 'ARRAY') {
-            return if grep { $self->_shouldnt_log($_) } @$suppression;
+            return if grep { !$self->_should_log($_) } @$suppression;
         }
         elsif ($suppression =~ s{^/(.*)/$}{$1}) {
             return if $channel =~ /$suppression/;
