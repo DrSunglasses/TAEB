@@ -242,18 +242,24 @@ sub _shouldnt_log {
     return 1;
 }
 
+sub _maybe_create_dir {
+    my $dir = shift;
+    my $dir_reason = shift;
+    if (!-d $dir && !mkdir $dir) {
+        warn "Please make a writable $dir_reason directory at $dir";
+        return 0;
+    }
+    return 1;
+}
+
 sub logfile_for {
     my $channel = shift;
 
     # if we can't open or create the logdir, then just put logs into the current
     # directory :/
     my $logdir = TAEB->config->taebdir_file("log");
-    if (!-d $logdir && !mkdir($logdir)) {
-        warn "Please make a writable $logdir log directory!";
-        return "TAEB-$channel.log";
-    }
-
-    TAEB->config->taebdir_file("log", "$channel.log");
+    return "TAEB-$channel.log" unless _maybe_create_dir($logdir, "log file");
+    return TAEB->config->taebdir_file("log", "$channel.log");
 }
 
 # we need to use Log::Dispatch::Channels' constructor
