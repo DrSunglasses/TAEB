@@ -138,6 +138,7 @@ class_has log => (
                 }
             },
         ));
+        TAEB->setup_handlers;
         return $log;
     },
 );
@@ -613,6 +614,7 @@ sub reset_state {
     my $self = shift;
     my $meta = $self->meta;
 
+    TAEB->remove_handlers;
     for my $attr ($meta->get_all_class_attributes) {
         $attr->clear_value($meta);
         $attr->set_value($meta, $attr->default($meta))

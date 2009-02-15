@@ -42,9 +42,7 @@ while (1) {
 
     eval {
         local $SIG{INT} = sub { TAEB->save; $loop = 0 };
-        TAEB->setup_handlers;
         TAEB->play;
-        TAEB->remove_handlers;
     };
 
     last unless $loop;
