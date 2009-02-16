@@ -1,32 +1,16 @@
 ---
-interface: Local
 ai: 'TAEB::AI::Behavioral::Personality::Explorer'
 
-role:   Valkyrie
-race:   Dwarf
-align:  Lawful
-gender: Female
-
-#fight_behavior: EkimFight
-
-color_method: normal
-
-avoid_branch: 'mines'
-
-other_config:
-    - etc/pass_config.yml
-
+interface: Telnet
 interface_options:
-    Local:
-        read_iterations: 2
     Telnet:
         account: TAEB
-    SSH:
-        account: taeb
 
-twitter:
-    deaths:
-        username: TAEB_deaths
-    errors:
-        username: TAEB_errors
+character:
+    role: Valkyrie
+    race: Dwarf
+    gender: Female
+    align: Lawful
 
+other_config:
+    - pass_config.yml
