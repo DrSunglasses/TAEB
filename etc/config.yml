@@ -3,7 +3,7 @@
 #### Mandatory options ####
 # What should be controlling TAEB
 ai: 'TAEB::AI::Human'
-# How TAEB should communicate with NetHack
+# How TAEB should communicate with NetHack (another option is Telnet)
 interface: Local
 
 #### Interface config #####
