@@ -82,6 +82,30 @@ sub msg_lost_item {
     # XXX
 }
 
+sub msg_corpse_rot {
+    my $self    = shift;
+    my $monster = shift;
+
+    my @possibilities = $self->find(
+        type    => 'food',
+        subtype => 'corpse',
+        monster => $monster,
+    );
+
+    if (@possibilities == 0) {
+        TAEB->log->inventory("Unable to find the '$monster' corpse that rotted away");
+    }
+    elsif (@possibilities > 2) {
+        TAEB->enqueue_message(check => 'inventory');
+    }
+    elsif (@possibilities == 1) {
+        my $slot = $possibilities[0]->slot;
+
+        TAEB->log->inventory("The '$monster' corpse(s) in slot $slot rotted away");
+        $self->remove($slot);
+    }
+}
+
 __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
 
