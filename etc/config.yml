@@ -73,4 +73,4 @@ interface: Local
 # Specify other config files to load here - for example, config files
 # containing passwords, or config files specific to a certain ai
 #other_config:
-#    - etc/site_config.yml
+#    - site_config.yml
