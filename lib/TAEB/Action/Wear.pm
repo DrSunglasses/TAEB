@@ -3,13 +3,19 @@ use TAEB::OO;
 extends 'TAEB::Action';
 with 'TAEB::Action::Role::Item';
 
-use constant command => "W";
-
 has item => (
     traits   => [qw/TAEB::Provided/],
     isa      => 'NetHack::Item',
     required => 1,
 );
+
+sub command {
+    my $self = shift;
+    my $item = $self->item;
+
+    return 'W' if $item->type eq 'armor';
+    return 'P';
+}
 
 sub respond_wear_what { shift->item->slot }
 
