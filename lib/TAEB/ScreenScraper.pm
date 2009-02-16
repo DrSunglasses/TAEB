@@ -777,6 +777,10 @@ our @msg_regex = (
         qr/(.*) slips? as you throw it!/ =>
             [throw_slip => sub { $1 }],
     ],
+    [
+        qr/^Your (.*?) corpses? rots? away\./ =>
+            [corpse_rot => sub { $1 }],
+    ],
 );
 
 our @god_anger = (
