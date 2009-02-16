@@ -3,7 +3,6 @@ use TAEB::OO;
 extends 'TAEB::Action';
 with 'TAEB::Action::Role::Item';
 use List::Util 'first';
-use List::MoreUtils 'any';
 
 use constant command => "e";
 

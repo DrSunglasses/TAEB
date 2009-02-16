@@ -2,7 +2,6 @@ package TAEB::Action::Read;
 use TAEB::OO;
 extends 'TAEB::Action';
 with 'TAEB::Action::Role::Item';
-use List::MoreUtils 'any';
 
 use constant command => "r";
 
