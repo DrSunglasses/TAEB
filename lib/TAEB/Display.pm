@@ -290,7 +290,7 @@ sub change_draw_mode {
     }
 }
 
-sub msg_turn {
+sub msg_step {
     my $self = shift;
     my $time = gettimeofday;
     my $list = $self->time_buffer;
