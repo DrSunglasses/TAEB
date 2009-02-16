@@ -42,7 +42,7 @@ has nutrition => (
     default => 900,
 );
 
-has [qw/is_blind is_stunned is_confused is_hallucinating is_lycanthropic is_engulfed is_grabbed is_petrifying is_food_poisoned is_ill is_wounded_legs/] => (
+has [qw/is_blind is_stunned is_confused is_hallucinating is_lycanthropic is_engulfed is_grabbed is_petrifying is_food_poisoned is_ill is_wounded_legs is_levitating/] => (
     isa     => 'Bool',
     default => 0,
 );
@@ -421,6 +421,7 @@ my %method_of = (
     pit           => 'in_pit',
     web           => 'in_web',
     stoning       => 'is_petrifying',
+    levitation    => 'is_levitating',
 );
 
 sub msg_status_change {
