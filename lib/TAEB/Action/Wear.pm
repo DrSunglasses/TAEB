@@ -19,6 +19,9 @@ sub command {
 
 sub respond_wear_what { shift->item->slot }
 
+# arbitrary.. we don't need anything more advanced here
+sub respond_which_finger { 'l' }
+
 sub done {
     my $self = shift;
     $self->item->is_worn(1);
