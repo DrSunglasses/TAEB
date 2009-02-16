@@ -227,6 +227,10 @@ Eventually we may want a menu interface but this is fine for now.
 
 my %mode_changes = (
     0 => {
+        summary => 'Displays nothing!',
+        execute => sub { shift->glyph_method('nothing') },
+    },
+    n => {
         summary => 'Displays normal NetHack colors',
         execute => sub { shift->color_method('normal') },
     },
@@ -262,7 +266,7 @@ my %mode_changes = (
         summary => 'Draws floor glyphs',
         execute => sub { shift->glyph_method('floor') },
     },
-    n => {
+    r => {
         summary => 'Resets color and floor draw modes',
         execute => sub {
             my $self = shift;
