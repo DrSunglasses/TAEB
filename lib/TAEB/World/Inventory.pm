@@ -44,7 +44,7 @@ sub has_projectile {
     my $self = shift;
 
     for my $projectile (@projectiles) {
-        my ($found) = $self->find(
+        my $found = $self->find(
             identity   => $projectile,
             is_wielded => sub { !$_ },
             cost       => 0,
