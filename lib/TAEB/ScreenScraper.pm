@@ -1193,7 +1193,7 @@ sub handle_fallback {
     my $topline = TAEB->topline;
     $topline =~ s/\s+$/ /;
 
-    if (TAEB->topline =~ /^Really save\? / && TAEB->vt->y == 0) {
+    if ($topline =~ /^Really save\? / && TAEB->vt->y == 0) {
         $self->messages($self->messages . '  ' . $topline . 'y');
         TAEB->write("y");
         die "Game over, man!";
@@ -1202,7 +1202,7 @@ sub handle_fallback {
     $self->messages($self->messages . '  ' . $topline);
 
     if (TAEB->vt->y == 0) {
-        my $response = TAEB->get_response(TAEB->topline);
+        my $response = TAEB->get_response($topline);
         if (defined $response) {
             $self->messages($self->messages . $response);
             TAEB->write($response);
@@ -1211,7 +1211,7 @@ sub handle_fallback {
         else {
             $self->messages($self->messages . "(escaped)");
             TAEB->write("\e");
-            TAEB->log->scraper("Escaped out of unhandled prompt: " . TAEB->topline, level => 'warning');
+            TAEB->log->scraper("Escaped out of unhandled prompt: " . $topline, level => 'warning');
             _recurse;
         }
     }
