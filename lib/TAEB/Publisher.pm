@@ -14,11 +14,13 @@ has _subscribers => (
 );
 
 has queued_messages => (
+    is      => 'ro',
     isa     => 'ArrayRef',
     default => sub { [] },
 );
 
 has turn_messages => (
+    is      => 'ro',
     isa     => 'HashRef[ArrayRef]',
     default => sub { {} },
 );

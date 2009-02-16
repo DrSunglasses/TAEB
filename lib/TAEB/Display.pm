@@ -5,6 +5,7 @@ use TAEB::Util ':colors';
 use Time::HiRes 'gettimeofday';
 
 has color_method => (
+    is      => 'rw',
     isa     => 'Str',
     clearer => 'reset_color_method',
     lazy    => 1,
@@ -15,6 +16,7 @@ has color_method => (
 );
 
 has glyph_method => (
+    is      => 'rw',
     isa     => 'Str',
     clearer => 'reset_glyph_method',
     lazy    => 1,
@@ -25,6 +27,7 @@ has glyph_method => (
 );
 
 has time_buffer => (
+    is      => 'ro',
     isa     => 'ArrayRef[Num]',
     default => sub { [] },
 );

@@ -878,16 +878,19 @@ our @location_requests = (
 );
 
 has messages => (
+    is  => 'rw',
     isa => 'Str',
 );
 
 has old_messages => (
+    is         => 'ro',
     isa        => 'ArrayRef',
     auto_deref => 1,
     default    => sub { [] },
 );
 
 has parsed_messages => (
+    is         => 'ro',
     isa        => 'ArrayRef',
     auto_deref => 1,
     default    => sub { [] },
@@ -903,6 +906,7 @@ has calls_this_turn => (
 );
 
 has saw_floor_list_this_step => (
+    is        => 'rw',
     isa       => 'Bool',
     default   => 0,
 );
@@ -982,7 +986,7 @@ sub clear {
     my $self = shift;
 
     $self->messages('');
-    $self->parsed_messages([]);
+    splice @{ $self->parsed_messages };
 }
 
 sub handle_exceptions {

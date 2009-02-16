@@ -116,7 +116,8 @@ A string that states what the AI is currently doing.
 =cut
 
 has currently => (
-    isa => 'Str',
+    is      => 'rw',
+    isa     => 'Str',
     default => "?",
     trigger => sub {
         my ($self, $currently) = @_;
@@ -133,8 +134,8 @@ Action, if any.
 =cut
 
 has debug_path => (
-    isa => 'Maybe[TAEB::World::Path]',
-    default => undef,
+    is  => 'rw',
+    isa => 'TAEB::World::Path',
 );
 
 sub respond_really_attack { "y" }

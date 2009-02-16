@@ -11,7 +11,8 @@ BEGIN {
 }
 
 has aborted => (
-    isa => 'Bool',
+    is      => 'rw',
+    isa     => 'Bool',
     default => 0,
 );
 

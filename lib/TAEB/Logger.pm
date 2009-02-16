@@ -8,20 +8,22 @@ use Carp;
 extends 'Log::Dispatch::Channels';
 
 has default_outputs => (
+    is      => 'ro',
     isa     => 'ArrayRef[Log::Dispatch::Output]',
     lazy    => 1,
     default => sub { [] },
 );
 
 has bt_levels => (
+    is      => 'ro',
     isa     => 'HashRef',
     lazy    => 1,
     default => sub { { error => 1, warning => 1 } },
 );
 
 has everything => (
-    isa     => 'Log::Dispatch::File',
     is      => 'ro',
+    isa     => 'Log::Dispatch::File',
     lazy    => 1,
     default => sub {
         my $self = shift;
@@ -37,8 +39,8 @@ has everything => (
 );
 
 has warning => (
-    isa     => 'Log::Dispatch::File',
     is      => 'ro',
+    isa     => 'Log::Dispatch::File',
     lazy    => 1,
     default => sub {
         my $self = shift;
@@ -54,8 +56,8 @@ has warning => (
 );
 
 has error => (
-    isa     => 'Log::Dispatch::File',
     is      => 'ro',
+    isa     => 'Log::Dispatch::File',
     lazy    => 1,
     default => sub {
         my $self = shift;
@@ -71,8 +73,8 @@ has error => (
 );
 
 has twitter => (
-    isa     => 'Maybe[Log::Dispatch::Twitter]',
     is      => 'ro',
+    isa     => 'Maybe[Log::Dispatch::Twitter]',
     lazy    => 1,
     default => sub {
         my $self = shift;

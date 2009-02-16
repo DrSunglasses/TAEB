@@ -3,7 +3,8 @@ use TAEB::OO;
 extends 'Term::VT102::ZeroBased';
 
 has topline => (
-    isa => 'Str',
+    is      => 'rw',
+    isa     => 'Str',
     trigger => sub {
         my $self = shift;
         study $self->{topline};

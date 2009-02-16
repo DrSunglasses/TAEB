@@ -2,117 +2,141 @@ package TAEB::Senses;
 use TAEB::OO;
 
 has name => (
+    is  => 'rw',
     isa => 'Str',
 );
 
 has role => (
+    is  => 'rw',
     isa => 'TAEB::Type::Role',
 );
 
 has race => (
+    is  => 'rw',
     isa => 'TAEB::Type::Race',
 );
 
 has align => (
+    is  => 'rw',
     isa => 'TAEB::Type::Align',
 );
 
 has gender => (
+    is  => 'rw',
     isa => 'TAEB::Type::Gender',
 );
 
 has hp => (
+    is  => 'rw',
     isa => 'Int',
 );
 
 has maxhp => (
+    is  => 'rw',
     isa => 'Int',
 );
 
 has power => (
+    is  => 'rw',
     isa => 'Int',
 );
 
 has maxpower => (
+    is  => 'rw',
     isa => 'Int',
 );
 
 has nutrition => (
+    is      => 'rw',
     isa     => 'Int',
     default => 900,
 );
 
-has [qw/is_blind is_stunned is_confused is_hallucinating is_lycanthropic is_engulfed is_grabbed is_petrifying is_food_poisoned is_ill is_wounded_legs is_levitating/] => (
+has [qw/is_blind is_stunned is_confused is_hallucinating is_lycanthropic is_engulfed is_grabbed is_petrifying is_food_poisoned is_ill is_wounded_legs/] => (
     isa     => 'Bool',
     default => 0,
 );
 
 has [qw/is_fast is_very_fast is_stealthy is_teleporting/] => (
     traits  => ['TAEB::GoodStatus'],
+    is      => 'rw',
     isa     => 'Bool',
     default => 0,
 );
 
 has level => (
+    is      => 'rw',
     isa     => 'Int',
     default => 1,
 );
 
 has prev_turn => (
+    is      => 'rw',
     isa     => 'Int',
     default => 0,
 );
 
 has turn => (
+    is      => 'rw',
     isa     => 'Int',
     default => 0,
 );
 
 has step => (
+    is        => 'rw',
     metaclass => 'Counter',
 );
 
 has max_god_anger => (
+    is      => 'rw',
     isa     => 'Int',
     default => 0,
 );
 
 has in_beartrap => (
+    is      => 'rw',
     isa     => 'Bool',
     default => 0,
 );
 
 has in_pit => (
+    is      => 'rw',
     isa     => 'Bool',
     default => 0,
 );
 
 has in_web => (
+    is      => 'rw',
     isa     => 'Bool',
     default => 0,
 );
 
 has str => (
+    is      => 'rw',
     isa     => 'Str',
     default => 0,
 );
 
 has [qw/dex con int wis cha/] => (
+    is      => 'rw',
     isa     => 'Int',
     default => 0,
 );
 
 has score => (
+    is        => 'rw',
     isa       => 'Int',
     predicate => 'has_score',
 );
 
 has gold => (
+    is      => 'rw',
     isa     => 'Int',
     default => 0,
 );
 
 has debt => (
+    is      => 'rw',
     isa     => 'Maybe[Int]',
     default => 0,
 );
@@ -120,54 +144,65 @@ has debt => (
 has [
     qw/poison_resistant cold_resistant fire_resistant shock_resistant sleep_resistant disintegration_resistant/
 ] => (
+    is      => 'rw',
     isa     => 'Bool',
     default => 0,
 );
 
 has following_vault_guard => (
+    is      => 'rw',
     isa     => 'Bool',
     default => 0,
 );
 
 has last_seen_nurse => (
+    is  => 'rw',
     isa => 'Int',
 );
 
 has checking => (
+    is      => 'rw',
     isa     => 'Str',
     clearer => 'clear_checking',
     trigger => sub { TAEB->redraw },
 );
 
 has last_prayed => (
+    is      => 'rw',
     isa     => 'Int',
     default => -400,
 );
 
 has autopickup => (
+    is      => 'rw',
     isa     => 'Bool',
     default => 1,
 );
 
 has ac => (
+    is      => 'rw',
     isa     => 'Int',
     default => 10,
 );
 
 has dead => (
+    is      => 'rw',
     isa     => 'Bool',
     default => 0,
 );
 
 has burden => (
+    is  => 'rw',
     isa => 'TAEB::Type::Burden',
 );
 
 has noisy_turn => (
+    is  => 'rw',
     isa => 'Int',
 );
 
 has polyself => (
+    is  => 'rw',
     isa => 'Maybe[Str]',
 );
 
