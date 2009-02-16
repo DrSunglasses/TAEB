@@ -1,7 +1,7 @@
 package TAEB::Spoilers::Room;
 use TAEB::OO;
 
-has shop_names => (
+class_has shop_names => (
     is => 'ro',
     isa => 'HashRef',
     default => sub {
