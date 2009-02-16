@@ -1212,7 +1212,7 @@ sub handle_fallback {
 
         # NetHack clears the rest of the line when it continues the prompt
         # to the next line. We need to be strict here to avoid false positives
-        if ($row_one =~ /^\S/ && length($row_one) == TAEB->vt->x - 2) {
+        if ($row_one =~ /^\S/ && length($row_one) == TAEB->vt->x - 1) {
             TAEB->log->scraper("Appending '$row_one' to the topline since it appears to be a continuation.");
             $topline .= $row_one;
 
