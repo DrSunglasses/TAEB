@@ -376,7 +376,8 @@ sub can_kick {
     return not $self->in_beartrap
             || $self->in_pit
             || $self->in_web
-            || $self->is_wounded_legs;
+            || $self->is_wounded_legs
+            || $self->is_levitating;
 }
 
 sub can_move {
