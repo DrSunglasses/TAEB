@@ -1208,8 +1208,6 @@ sub handle_fallback {
         $response_needed = 1;
     }
 
-    TAEB->log->debug("Topline: $topline");
-
     $self->messages($self->messages . '  ' . $topline);
 
     if ($response_needed) {
