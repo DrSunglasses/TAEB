@@ -398,6 +398,8 @@ our %msg_string = (
         [status_change => levitation => 1],
     'You cannot reach the ground.' =>
         [status_change => levitation => 1],
+    'You are floating high above the fountain.' =>
+        [status_change => levitation => 1],
 );
 
 our @msg_regex = (
