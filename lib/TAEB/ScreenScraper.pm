@@ -394,6 +394,8 @@ our %msg_string = (
         [status_change => levitation => 0],
     'You are floating high above the stairs.' =>
         [status_change => levitation => 1],
+    'You have nothing to brace yourself against.' =>
+        [status_change => levitation => 1],
 );
 
 our @msg_regex = (
