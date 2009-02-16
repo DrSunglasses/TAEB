@@ -18,6 +18,12 @@ has name => (
     default => 'nethack',
 );
 
+has args => (
+    isa        => 'ArrayRef[Str]',
+    auto_deref => 1,
+    default    => sub { [] },
+);
+
 has pty => (
     isa     => 'IO::Pty::Easy',
     lazy    => 1,
@@ -42,7 +48,7 @@ sub _build_pty {
 
     # this has to be done in BUILD because it needs name
     my $pty = IO::Pty::Easy->new;
-    $pty->spawn($self->name);
+    $pty->spawn($self->name, $self->args);
     return $pty;
 }
 
