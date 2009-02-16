@@ -1199,6 +1199,11 @@ sub handle_fallback {
         die "Game over, man!";
     }
 
+    # Prompt that spills onto the next line
+    if (TAEB->vt->y == 1 && TAEB->vt->row_plaintext(1) =~ /^\S/) {
+        $topline .= TAEB->vt->row_plaintext(1);
+    }
+
     $self->messages($self->messages . '  ' . $topline);
 
     if (TAEB->vt->y == 0) {
