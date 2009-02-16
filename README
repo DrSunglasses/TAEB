@@ -11,14 +11,11 @@ interface in a day's work.
 The preferred method for obtaining the TAEB source is from the darcs repo:
     darcs get http://sartak.org/code/TAEB/
 Alternatively, you can download "http://sartak.org/dist/TAEB.tar.gz" and
-extract to the directory of your choice. The rest of instructions assume you
-are in this directory.
+extract to the directory of your choice. The rest of the instructions assume
+you are in this directory.
 
-Alternatively, if you want to get the version controlled version,
-you can use the following command. This way it'll be easier to keep
-in sync with development.
-
-    darcs get http://sartak.org/code/TAEB
+Downloading the tarball means less work up front (no need to install darcs),
+but it'll be more work every time you want to update.
 
 
 -- INSTALLING
@@ -46,7 +43,7 @@ darcs get http://sartak.org/code/TAEB-AI-Behavioral). Extract, change to the
 directory, and do:
 
 $ perl Makefile.PL
-$ make test          # this will build and test the module
+$ make test          # this will build and test the AI module
 $ sudo make install
 
 
