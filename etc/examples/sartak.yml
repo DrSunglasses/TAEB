@@ -5,6 +5,8 @@ interface: Telnet
 interface_options:
     Telnet:
         account: TAEB
+    SSH:
+        account: taeb
 
 character:
     role: Valkyrie
