@@ -39,6 +39,13 @@ for my $class (__PACKAGE__->load_nhi_classes) {
         superclasses => [$class],
         roles        => [_find_item_role($class)],
     );
+
+    # add overloading to taeb_class
+    eval "
+        package $taeb_class;
+        use overload \%TAEB::Meta::Overload::default;
+    ";
+    die $@ if $@;
 }
 
 __PACKAGE__->load_world_classes;
