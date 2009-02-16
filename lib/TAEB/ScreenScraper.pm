@@ -388,6 +388,10 @@ our %msg_string = (
         ['cursed'],
     'It is cursed.' =>
         ['cursed'],
+    'You start to float in the air!' =>
+        [status_change => levitation => 1],
+    'You float gently to the floor.' =>
+        [status_change => levitation => 0],
 );
 
 our @msg_regex = (
