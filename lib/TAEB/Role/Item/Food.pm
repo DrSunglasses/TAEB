@@ -1,6 +1,6 @@
-package TAEB::Meta::Role::Item::Food;
+package TAEB::Role::Item::Food;
 use Moose::Role;
-with 'TAEB::Meta::Role::Item';
+with 'TAEB::Role::Item';
 
 sub is_safely_edible {
     my $self = shift;

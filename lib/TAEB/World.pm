@@ -17,9 +17,9 @@ use Module::Pluggable (
 
 sub _find_item_role {
     my $item_class = shift;
-    (my $role = $item_class) =~ s/^NetHack/TAEB::Meta::Role/;
+    (my $role = $item_class) =~ s/^NetHack/TAEB::Role/;
     while (1) {
-        if ($role eq 'TAEB::Meta::Role') {
+        if ($role eq 'TAEB::Role') {
             TAEB->log->moose("Couldn't find a role to apply to $item_class",
                              level => 'error');
             return;

@@ -1,6 +1,6 @@
-package TAEB::Meta::Role::Item::Food::Corpse;
+package TAEB::Role::Item::Food::Corpse;
 use Moose::Role;
-with 'TAEB::Meta::Role::Item::Food';
+with 'TAEB::Role::Item::Food';
 
 has is_forced_verboten => (
     is      => 'rw',

@@ -1,4 +1,4 @@
-package TAEB::Meta::Role::Item;
+package TAEB::Role::Item;
 use Moose::Role;
 with 'MooseX::Role::Matcher' => { default_match => 'identity' };
 
