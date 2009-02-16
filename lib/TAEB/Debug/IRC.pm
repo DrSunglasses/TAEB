@@ -2,7 +2,7 @@ package TAEB::Debug::IRC;
 use TAEB::OO;
 
 has bot => (
-    isa => 'TAEB::Debug::IRC::Bot',
+    isa => 'Maybe[TAEB::Debug::IRC::Bot]',
     is  => 'rw',
     lazy => 1,
     default => sub {
