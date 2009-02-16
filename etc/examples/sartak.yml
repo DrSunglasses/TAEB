@@ -9,6 +9,7 @@ interface_options:
         account: taeb
     Local:
         read_iterations: 2
+        args: ['-D']
 
 character:
     role: Valkyrie
