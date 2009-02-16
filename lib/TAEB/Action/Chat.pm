@@ -18,7 +18,7 @@ has amount => (
 sub respond_donate { shift->amount . "\n" }
 
 __PACKAGE__->meta->make_immutable;
-no Moose;
+no TAEB::OO;
 
 1;
 

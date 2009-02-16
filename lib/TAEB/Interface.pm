@@ -44,7 +44,7 @@ Your subclass B<must> override this method.
 sub write   { die "You must override the 'write' method in TAEB::Interface." }
 
 __PACKAGE__->meta->make_immutable;
-no Moose;
+no TAEB::OO;
 
 1;
 

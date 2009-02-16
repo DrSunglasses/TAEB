@@ -31,7 +31,7 @@ before make_immutable => sub {
                 $self->get_method_list);
 };
 
-no Moose;
+no TAEB::OO;
 
 1;
 

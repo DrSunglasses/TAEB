@@ -86,7 +86,7 @@ sub update {
 # Ideas for other methods: do we remember a monster near here?
 
 __PACKAGE__->meta->make_immutable;
-no Moose;
+no TAEB::OO;
 
 1;
 

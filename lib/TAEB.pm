@@ -651,7 +651,7 @@ sub remove_handlers {
 }
 
 __PACKAGE__->meta->make_immutable;
-no Moose;
+no TAEB::OO;
 no MooseX::ClassAttribute;
 
 1;

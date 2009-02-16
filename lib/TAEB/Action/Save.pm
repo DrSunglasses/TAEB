@@ -7,7 +7,7 @@ use constant command => 'S';
 sub respond_save { 'y' }
 
 __PACKAGE__->meta->make_immutable;
-no Moose;
+no TAEB::OO;
 
 1;
 

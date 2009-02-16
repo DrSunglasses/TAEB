@@ -195,7 +195,7 @@ sub row_color {
 
 # we need to use Term::VT102's constructor
 __PACKAGE__->meta->make_immutable(inline_constructor => 0);
-no Moose;
+no TAEB::OO;
 
 1;
 

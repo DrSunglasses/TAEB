@@ -137,7 +137,7 @@ sub respond_stop_eating { shift->overfull; "y" }
 sub msg_finally_finished { shift->overfull }
 
 __PACKAGE__->meta->make_immutable;
-no Moose;
+no TAEB::OO;
 
 1;
 

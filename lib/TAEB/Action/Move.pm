@@ -203,7 +203,7 @@ sub location_controlled_tele {
 }
 
 __PACKAGE__->meta->make_immutable(inline_constructor => 0);
-no Moose;
+no TAEB::OO;
 
 1;
 

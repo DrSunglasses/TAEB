@@ -742,7 +742,7 @@ sub debug_line {
 }
 
 __PACKAGE__->meta->make_immutable;
-no Moose;
+no TAEB::OO;
 
 1;
 

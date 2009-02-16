@@ -44,7 +44,7 @@ sub clone_and_inherit_options {
     $self->clone(%options);
 }
 
-no Moose;
+no TAEB::OO;
 
 1;
 

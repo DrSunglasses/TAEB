@@ -104,7 +104,7 @@ sub msg_throw_slip {
 }
 
 __PACKAGE__->meta->make_immutable;
-no Moose;
+no TAEB::OO;
 
 1;
 

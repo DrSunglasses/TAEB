@@ -17,7 +17,7 @@ sub msg_wrest_wand      { TAEB->inventory->remove(shift->item->slot) }
 sub done                { shift->item->spend_charge }
 
 __PACKAGE__->meta->make_immutable;
-no Moose;
+no TAEB::OO;
 
 1;
 
