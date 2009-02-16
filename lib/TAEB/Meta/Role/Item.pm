@@ -58,7 +58,12 @@ sub debug_line {
     }
 
     if ($self->cost_each) {
-        push @fields, '($'. $self->cost_each .' each)';
+        if ($self->quantity == 1) {
+            push @fields, '($' . $self->cost . ')';
+        }
+        else {
+            push @fields, '($'. $self->cost_each .' each, $' . $self->cost . ')';
+        }
     }
 
     return join ' ', @fields;
