@@ -144,6 +144,7 @@ sub respond_vault_guard   { TAEB->name."\n" }
 sub respond_advance_without_practice { "n" }
 sub respond_dump_core { "n" }
 sub respond_die { "n" }
+sub respond_continue_lifting { "y" }
 
 sub respond_wish {
     # We all know how much TAEB loves Elbereth. Let's give it Elbereth's best buddy.
