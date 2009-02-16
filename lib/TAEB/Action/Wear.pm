@@ -15,8 +15,7 @@ sub respond_wear_what { shift->item->slot }
 
 sub done {
     my $self = shift;
-    $self->item->is_wearing(1);
-    # XXX: needs to track where it is worn as well
+    $self->item->is_worn(1);
 }
 
 __PACKAGE__->meta->make_immutable;
