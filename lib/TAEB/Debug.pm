@@ -1,7 +1,7 @@
 package TAEB::Debug;
 use TAEB::OO;
 use TAEB::Debug::Console;
-use TAEB::Debug::DebugMap;
+use TAEB::Debug::Map;
 use TAEB::Debug::IRC;
 
 has irc => (
@@ -15,8 +15,8 @@ has console => (
 );
 
 has debug_map => (
-    isa     => 'TAEB::Debug::DebugMap',
-    default => sub { TAEB::Debug::DebugMap->new },
+    isa     => 'TAEB::Debug::Map',
+    default => sub { TAEB::Debug::Map->new },
 );
 
 __PACKAGE__->meta->make_immutable;

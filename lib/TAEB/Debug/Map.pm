@@ -1,4 +1,4 @@
-package TAEB::Debug::DebugMap;
+package TAEB::Debug::Map;
 use TAEB::OO;
 
 sub msg_key {
