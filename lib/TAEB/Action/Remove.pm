@@ -19,10 +19,9 @@ sub command {
 
 sub respond_remove_what { shift->item->slot }
 
-sub done {
-    my $self = shift;
-    $self->item->is_worn(0);
-}
+sub done { shift->item->is_worn(0) }
+
+sub msg_cursed { shift->item->buc('cursed') }
 
 __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
