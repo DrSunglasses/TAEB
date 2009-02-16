@@ -134,7 +134,7 @@ sub draw_botl {
         push @pieces, 'A:' . TAEB->ac;
         push @pieces, 'X:' . TAEB->level;
         push @pieces, 'N:' . TAEB->nutrition;
-        push @pieces, 'T:' . TAEB->turn;
+        push @pieces, 'T:' . TAEB->turn . '/' . TAEB->step;
         push @pieces, 'S:' . TAEB->score
             if TAEB->has_score;
         push @pieces, '$' . TAEB->gold;
