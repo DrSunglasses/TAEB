@@ -11,8 +11,9 @@ sub debug_line {
     for my $attr (__PACKAGE__->meta->get_all_attributes) {
         next if $attr->name eq 'pool'; # Not actually equipment!
 
-        push @eq, $attr->name . ': ' . $attr->get_value($self)->debug_line
-            if $attr->has_value($self);
+        my $item = $attr->get_value($self);
+        push @eq, $attr->name . ': ' . $item->debug_line
+            if $item;
     }
 
     return join "\n", @eq;
