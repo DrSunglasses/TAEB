@@ -1203,8 +1203,12 @@ sub handle_fallback {
 
     # Prompt that spills onto the next line
     if (TAEB->vt->y == 1 && TAEB->vt->row_plaintext(1) =~ /^\S/) {
-        TAEB->log->debug("Appending topline");
-        $topline .= TAEB->vt->row_plaintext(1);
+        my $row_one = TAEB->vt->row_plaintext(1);
+        $row_one =~ s/\s+$//;
+
+        TAEB->log->scraper("Appending '$row_one' to the topline since it appears to be a continuation.");
+        $topline .= $row_one;
+
         $response_needed = 1;
     }
 
