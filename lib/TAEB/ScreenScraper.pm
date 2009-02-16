@@ -1202,14 +1202,18 @@ sub handle_fallback {
     my $response_needed = TAEB->vt->y == 0;
 
     # Prompt that spills onto the next line
-    if (TAEB->vt->y == 1 && TAEB->vt->row_plaintext(1) =~ /^\S/) {
+    if (TAEB->vt->y == 1) {
         my $row_one = TAEB->vt->row_plaintext(1);
         $row_one =~ s/\s+$//;
 
-        TAEB->log->scraper("Appending '$row_one' to the topline since it appears to be a continuation.");
-        $topline .= $row_one;
+        # NetHack clears the rest of the line when it continues the prompt
+        # to the next line. We need to be strict here to avoid false positives
+        if ($row_one =~ /^\S/ && length($row_one) == TAEB->vt->x - 2) {
+            TAEB->log->scraper("Appending '$row_one' to the topline since it appears to be a continuation.");
+            $topline .= $row_one;
 
-        $response_needed = 1;
+            $response_needed = 1;
+        }
     }
 
     $self->messages($self->messages . '  ' . $topline);
