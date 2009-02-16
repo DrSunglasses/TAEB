@@ -1199,14 +1199,20 @@ sub handle_fallback {
         die "Game over, man!";
     }
 
+    my $response_needed = TAEB->vt->y == 0;
+
     # Prompt that spills onto the next line
     if (TAEB->vt->y == 1 && TAEB->vt->row_plaintext(1) =~ /^\S/) {
+        TAEB->log->debug("Appending topline");
         $topline .= TAEB->vt->row_plaintext(1);
+        $response_needed = 1;
     }
+
+    TAEB->log->debug("Topline: $topline");
 
     $self->messages($self->messages . '  ' . $topline);
 
-    if (TAEB->vt->y == 0) {
+    if ($response_needed) {
         my $response = TAEB->get_response($topline);
         if (defined $response) {
             $self->messages($self->messages . $response);
