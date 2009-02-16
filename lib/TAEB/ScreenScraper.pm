@@ -458,7 +458,7 @@ our @msg_regex = (
             ['clear_floor']
     ],
     [
-        qr/^(. - .*?|\d+ gold pieces?)\.$/,
+        qr/^(?:You have a little trouble lifting )?(. - .*?|\d+ gold pieces?)\.$/,
             ['got_item', sub { TAEB->new_item($1) }],
     ],
     [
