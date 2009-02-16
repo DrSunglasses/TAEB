@@ -179,7 +179,7 @@ sub _calculate_path {
         return ($path, 0, $from->level) if !$exit;
         my ($p, $c) = $class->_calculate_intralevel_path($from, $exit, @_);
 
-        $path .= $p;
+        $path .= $p if defined $p;
         return ($path, 0, $from->level) if !$c;
 
         $path .= $exit->traverse_command;
