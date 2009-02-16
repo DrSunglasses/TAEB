@@ -386,6 +386,8 @@ our %msg_string = (
         [quest_entrance => 'Wiz'],
     'They are cursed.' =>
         ['cursed'],
+    'It is cursed.' =>
+        ['cursed'],
 );
 
 our @msg_regex = (
