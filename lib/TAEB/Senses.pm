@@ -380,6 +380,11 @@ sub can_kick {
             || $self->is_levitating;
 }
 
+sub can_pickup {
+    my $self = shift;
+    return not $self->is_levitating;
+}
+
 sub can_move {
     my $self = shift;
     return not $self->in_beartrap
