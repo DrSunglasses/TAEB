@@ -29,7 +29,11 @@ sub _build_pty {
     my $self = shift;
 
     chomp(my $pwd = `pwd`);
-    local $ENV{NETHACKOPTIONS} = '@' . TAEB->config->taebdir_file('TAEB.nethackrc');
+
+    my $rcfile = TAEB->config->taebdir_file('TAEB.nethackrc');
+    -e $rcfile or die "Could not find a nethackrc file. You should copy TAEB's etc/TAEB.nethackrc into $ENV{TAEBDIR}/TAEB.nethackrc!";
+
+    local $ENV{NETHACKOPTIONS} = '@' . $rcfile;
     local $ENV{TERM} = 'xterm-color';
 
     # TAEB requires 80x24
