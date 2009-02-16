@@ -598,8 +598,8 @@ sub died {
 
 sub persistent_file {
     my $self = shift;
-    my $state_file = $self->config->taebdir_file('TAEB.state');
-    return join('-', $state_file, $self->config->interface);
+    my $interface = $self->config->interface ;
+    my $state_file = $self->config->taebdir_file("$interface.state");
 }
 
 sub play {
