@@ -9,11 +9,7 @@ use constant equipment_class => 'TAEB::World::Equipment';
 sub find {
     my $self = shift;
 
-    for my $item ($self->items) {
-        return $item if $item->match(@_);
-    }
-
-    return;
+    return grep { $_->match(@_) } $self->items;
 }
 
 around _calculate_weight => sub {
@@ -45,7 +41,7 @@ sub has_projectile {
     my $self = shift;
 
     for my $projectile (@projectiles) {
-        my $found = $self->find(
+        my ($found) = $self->find(
             identity   => $projectile,
             is_wielded => sub { !$_ },
             cost       => 0,
