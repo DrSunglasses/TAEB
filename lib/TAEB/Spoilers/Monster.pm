@@ -1,8 +1,8 @@
 package TAEB::Spoilers::Monster;
-use MooseX::Singleton;
+use TAEB::OO;
 use TAEB::Util ':colors';
 
-has synonyms => (
+class_has synonyms => (
     is      => 'ro',
     isa     => 'HashRef',
     lazy    => 1,
@@ -149,7 +149,7 @@ has synonyms => (
     }
 );
 
-has list => (
+class_has list => (
     is      => 'ro',
     isa     => 'HashRef',
     lazy    => 1,
@@ -7216,7 +7216,7 @@ has list => (
         };
 
         # process synonyms for monsters
-        my %synonyms = %{ $self->synonyms };
+        my %synonyms = %{ __PACKAGE__->synonyms };
         for my $name (keys %synonyms) {
             $monsters->{$name} = $monsters->{$synonyms{$name}};
         }

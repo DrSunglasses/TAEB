@@ -1,5 +1,6 @@
 package TAEB::Spoilers::Combat;
-use MooseX::Singleton;
+use strict;
+use warnings;
 use TAEB::Util 'dice';
 
 # XXX: eventually all of these should be modified to possibly take into account
@@ -90,8 +91,6 @@ sub damage {
         return $self->_nonweapon_damage($weapon);
     }
 }
-
-__PACKAGE__->meta->make_immutable;
 
 1;
 

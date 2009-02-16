@@ -7,7 +7,6 @@ all_from       'lib/TAEB.pm';
 
 # the object system
 requires 'Moose';
-requires 'MooseX::Singleton' => 0.14;
 requires 'MooseX::AttributeHelpers' => 0.09;
 requires 'MooseX::ClassAttribute' => 0.07;
 requires 'MooseX::Role::Matcher' => 0.03;

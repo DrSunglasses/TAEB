@@ -1,5 +1,5 @@
 package TAEB::Spoilers::Room;
-use MooseX::Singleton;
+use TAEB::OO;
 
 has shop_names => (
     is => 'ro',
