@@ -2,6 +2,8 @@ package TAEB::World::Inventory;
 use TAEB::OO;
 extends 'NetHack::Inventory';
 
+use List::Util 'first';
+
 use overload %TAEB::Meta::Overload::default;
 
 use constant equipment_class => 'TAEB::World::Equipment';
@@ -9,6 +11,7 @@ use constant equipment_class => 'TAEB::World::Equipment';
 sub find {
     my $self = shift;
 
+    return first { $_->match(@_) } $self->items if !wantarray;
     return grep { $_->match(@_) } $self->items;
 }
 
