@@ -35,6 +35,7 @@ sub respond_buy_item {
 }
 
 sub done {
+    # XXX: hackish
     TAEB->enqueue_message('check', 'inventory');
     TAEB->enqueue_message('check', 'debt');
 }
