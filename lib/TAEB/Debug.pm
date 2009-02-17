@@ -17,6 +17,7 @@ has console => (
 );
 
 has debug_map => (
+    is      => 'ro',
     isa     => 'TAEB::Debug::Map',
     default => sub { TAEB::Debug::Map->new },
 );

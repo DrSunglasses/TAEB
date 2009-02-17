@@ -3,22 +3,25 @@ use TAEB::OO;
 use Scalar::Util 'refaddr';
 
 has levels => (
+    is      => 'ro',
     isa     => 'ArrayRef[ArrayRef[TAEB::World::Level]]',
     default => sub { [] },
 );
 
 has current_level => (
-    isa => 'TAEB::World::Level',
+    is      => 'rw',
+    isa     => 'TAEB::World::Level',
     handles => [qw/z/],
 );
 
 has special_level => (
-    isa     => 'HashRef[TAEB::World::Level]',
     is      => 'ro',
+    isa     => 'HashRef[TAEB::World::Level]',
     default => sub { {} },
 );
 
 has cartographer => (
+    is      => 'ro',
     isa     => 'TAEB::World::Cartographer',
     default => sub {
         my $self = shift;
