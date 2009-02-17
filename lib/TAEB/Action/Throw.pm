@@ -2,15 +2,14 @@ package TAEB::Action::Throw;
 use TAEB::OO;
 extends 'TAEB::Action';
 with 'TAEB::Action::Role::Direction';
-with 'TAEB::Action::Role::Item';
+with 'TAEB::Action::Role::Item' => { items => [qw/projectile/] };
 with 'TAEB::Action::Role::Monster';
 
 use TAEB::Util 'vi2delta';
 
 use constant command => 't';
 
-has '+item' => (
-    isa      => 'NetHack::Item',
+has '+projectile' => (
     required => 1,
 );
 
@@ -30,19 +29,19 @@ has killed => (
     default => 0,
 );
 
-sub respond_throw_what { shift->item->slot }
+sub respond_throw_what { shift->projectile->slot }
 
 # we don't get a message when we throw one dagger
 sub done {
     my $self = shift;
-    TAEB->inventory->decrease_quantity($self->item->slot);
+    TAEB->inventory->decrease_quantity($self->projectile->slot);
 
     # now mark squares in the path of the projectile as interesting so we pick
     # up projectiles we've thrown
     my ($dx, $dy) = vi2delta($self->direction);
     my ($x, $y)   = (TAEB->x, TAEB->y);
 
-    for (1 .. $self->item->throw_range) {
+    for (1 .. $self->projectile->throw_range) {
         $x += $dx;
         $y += $dy;
 
@@ -73,7 +72,7 @@ sub msg_throw_count {
     $self->threw_multiple(1);
 
     # done takes care of the other one
-    TAEB->inventory->decrease_quantity($self->item->slot, $count - 1);
+    TAEB->inventory->decrease_quantity($self->projectile->slot, $count - 1);
 }
 
 sub msg_killed {
@@ -86,7 +85,7 @@ sub msg_killed {
 sub msg_throw_slip {
     my $self = shift;
 
-    $self->item->is_cursed(1);
+    $self->projectile->is_cursed(1);
 }
 
 __PACKAGE__->meta->make_immutable;

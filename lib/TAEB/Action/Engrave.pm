@@ -1,11 +1,12 @@
 package TAEB::Action::Engrave;
 use TAEB::OO;
 extends 'TAEB::Action';
-with 'TAEB::Action::Role::Item';
+with 'TAEB::Action::Role::Item' => { items => [qw/engraver/] };
 
 use constant command => 'E';
 
-has '+item' => (
+has '+engraver' => (
+    isa     => 'NetHack::Item | Str',
     default => '-',
 );
 
@@ -29,7 +30,7 @@ has got_identifying_message => (
 
 sub engrave_slot {
     my $self = shift;
-    my $engraver = $self->item;
+    my $engraver = $self->engraver;
 
     return $engraver->slot if blessed $engraver;
     return $engraver;
@@ -42,24 +43,25 @@ sub respond_add_engraving { shift->add_engraving ? 'y' : 'n' }
 sub msg_wand {
     my $self = shift;
     $self->got_identifying_message(1);
-    $self->item->tracker->rule_out_all_but(@_);
+    $self->engraver->tracker->rule_out_all_but(@_);
 }
 
 sub done {
     my $self = shift;
     TAEB->current_tile->engraving(TAEB->current_tile->engraving . $self->text);
-    return unless blessed $self->item;
+    return unless blessed $self->engraver;
 
-    if ($self->item->match(type => 'wand')) {
-        $self->item->spend_charge;
+    if ($self->engraver->match(type => 'wand')) {
+        $self->engraver->spend_charge;
     }
-    elsif ($self->item->match(identity => 'magic marker')) {
-        $self->item->spend_charge(int(length($self->text) / 2));
+    elsif ($self->engraver->match(identity => 'magic marker')) {
+        $self->engraver->spend_charge(int(length($self->text) / 2));
     }
 
     return if $self->got_identifying_message;
-    return if $self->item->identity; # perhaps we identified it?
-    $self->item->tracker->no_engrave_message if $self->item->has_tracker;
+    return if $self->engraver->identity; # perhaps we identified it?
+    $self->engraver->tracker->no_engrave_message
+        if $self->engraver->has_tracker;
 }
 
 __PACKAGE__->meta->make_immutable;

@@ -6,7 +6,6 @@ with 'TAEB::Action::Role::Item';
 use constant command => "r";
 
 has '+item' => (
-    isa      => 'NetHack::Item',
     required => 1,
 );
 

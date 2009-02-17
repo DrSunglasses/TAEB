@@ -1,22 +1,24 @@
 package TAEB::Action::Dip;
 use TAEB::OO;
 extends 'TAEB::Action';
-with 'TAEB::Action::Role::Item';
+with 'TAEB::Action::Role::Item' => { items => [qw/item into/] };
 
 use constant command => "#dip\n";
 
 has '+item' => (
-    isa      => 'NetHack::Item',
     required => 1,
 );
 
-has into => (
-    traits  => [qw/TAEB::Provided/],
+has '+into' => (
     isa     => 'NetHack::Item | Str',
     default => 'fountain',
 );
 
-sub respond_dip_what { shift->item->slot }
+sub respond_dip_what {
+    my $self = shift;
+    $self->current_item($self->item);
+    return $self->item->slot;
+}
 
 sub respond_dip_into_water {
     my $self  = shift;
@@ -33,6 +35,7 @@ sub respond_dip_into_water {
 
 sub respond_dip_into_what {
     my $self = shift;
+    $self->current_item($self->into);
     return $self->into->slot if blessed($self->into);
 
     TAEB->log->action("Unable to dip into '" . $self->into . "'. Sending escape, but I doubt this will work.", level => 'error');

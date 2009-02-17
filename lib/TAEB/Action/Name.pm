@@ -1,12 +1,11 @@
 package TAEB::Action::Name;
 use TAEB::OO;
 extends 'TAEB::Action';
+with 'TAEB::Action::Role::Item';
 
 use constant command => "#name\n";
 
-has item => (
-    traits   => [qw/TAEB::Provided/],
-    isa      => 'NetHack::Item',
+has '+item' => (
     required => 1,
 );
 
