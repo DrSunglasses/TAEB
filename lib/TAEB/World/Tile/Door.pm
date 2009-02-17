@@ -4,6 +4,7 @@ use List::Util qw/min/;
 extends 'TAEB::World::Tile';
 
 has state => (
+    is  => 'rw',
     isa => 'TAEB::Type::DoorState',
 );
 

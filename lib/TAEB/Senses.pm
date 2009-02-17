@@ -52,7 +52,8 @@ has nutrition => (
     default => 900,
 );
 
-has [qw/is_blind is_stunned is_confused is_hallucinating is_lycanthropic is_engulfed is_grabbed is_petrifying is_food_poisoned is_ill is_wounded_legs/] => (
+has [qw/is_blind is_stunned is_confused is_hallucinating is_lycanthropic is_engulfed is_grabbed is_petrifying is_levitating is_food_poisoned is_ill is_wounded_legs/] => (
+    is      => 'rw',
     isa     => 'Bool',
     default => 0,
 );
