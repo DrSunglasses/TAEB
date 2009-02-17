@@ -17,8 +17,8 @@ has console => (
 );
 
 has debug_map => (
-    isa     => 'TAEB::Debug::DebugMap',
-    default => sub { TAEB::Debug::DebugMap->new },
+    isa     => 'TAEB::Debug::Map',
+    default => sub { TAEB::Debug::Map->new },
 );
 
 __PACKAGE__->meta->make_immutable;
