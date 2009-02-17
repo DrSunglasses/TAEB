@@ -7,6 +7,7 @@ use constant command => 'a';
 
 has implement => (
     traits   => [qw/TAEB::Provided/],
+    is       => 'ro',
     isa      => 'NetHack::Item',
     required => 1,
 );

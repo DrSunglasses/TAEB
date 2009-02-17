@@ -6,6 +6,7 @@ use constant command => "w";
 
 has weapon => (
     traits   => [qw/TAEB::Provided/],
+    is       => 'ro',
     isa      => 'NetHack::Item | Str',
     required => 1,
 );

@@ -4,7 +4,7 @@ use List::MoreUtils 'none';
 
 has direction => (
     traits   => [qw/TAEB::Provided/],
-    is       => 'rw',
+    is       => 'ro',
     isa      => 'Str',
 );
 

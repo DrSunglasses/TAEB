@@ -11,9 +11,9 @@ has '+item' => (
 );
 
 has against => (
-    isa      => 'NetHack::Item',
-    required => 0,
-    traits   => [qw/TAEB::Provided/],
+    traits => [qw/TAEB::Provided/],
+    is     => 'ro',
+    isa    => 'NetHack::Item',
 );
 
 sub respond_rub_what { shift->item->slot }

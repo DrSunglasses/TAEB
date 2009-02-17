@@ -4,8 +4,8 @@ extends 'TAEB::Action';
 
 has count => (
     traits   => [qw/TAEB::Provided/],
-    isa      => 'Maybe[Int]',
-    default  => undef,
+    is       => 'ro',
+    isa      => 'Int',
 );
 
 sub command { (shift->count || '') . ',' }

@@ -3,7 +3,7 @@ use Moose::Role;
 
 has item => (
     traits   => [qw/TAEB::Provided/],
-    is       => 'rw',
+    is       => 'ro',
     isa      => 'NetHack::Item | Str',
 );
 

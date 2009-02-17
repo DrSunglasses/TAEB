@@ -10,6 +10,7 @@ has started => (
 
 has iterations => (
     traits   => [qw/TAEB::Provided/],
+    is       => 'ro',
     isa      => 'Int',
     default  => 20,
 );
