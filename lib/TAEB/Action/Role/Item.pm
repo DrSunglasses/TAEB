@@ -26,7 +26,7 @@ role {
             my $self = shift;
             my $item_attr = $items->[0];
             return $self->$item_attr;
-        };
+        },
     );
 
     method exception_missing_item => sub {
@@ -40,7 +40,7 @@ role {
         $self->aborted(1);
         return "\e\e\e";
     };
-}
+};
 
 no Moose::Role;
 
