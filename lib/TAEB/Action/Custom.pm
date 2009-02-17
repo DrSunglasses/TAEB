@@ -4,6 +4,7 @@ extends 'TAEB::Action';
 
 has string => (
     traits   => [qw/TAEB::Provided/],
+    is       => 'ro',
     isa      => 'Str',
     required => 1,
 );

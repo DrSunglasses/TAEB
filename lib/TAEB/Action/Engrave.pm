@@ -12,12 +12,14 @@ has '+engraver' => (
 
 has text => (
     traits  => [qw/TAEB::Provided/],
+    is      => 'ro',
     isa     => 'Str',
     default => 'Elbereth',
 );
 
 has add_engraving => (
     traits  => [qw/TAEB::Provided/],
+    is      => 'ro',
     isa     => 'Bool',
     default => 1,
 );

@@ -7,6 +7,7 @@ use constant command => "q";
 
 has '+from' => (
     isa      => 'NetHack::Item::Potion | Str',
+    required => 1,
 );
 
 sub respond_drink_from {

@@ -6,9 +6,8 @@ use constant command => '<';
 use constant complement_type => 'stairsdown' => '>';
 
 has '+direction' => (
-    traits   => [qw/TAEB::Provided/],
-    provided => 0,
     default  => sub { shift->command },
+    provided => 0,
 );
 
 before done => sub {

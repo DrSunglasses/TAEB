@@ -5,8 +5,9 @@ extends 'TAEB::Action';
 with 'TAEB::Action::Role::Direction';
 
 has path => (
-    is  => 'ro',
-    isa => 'TAEB::World::Path',
+    traits => [qw/TAEB::Provided/],
+    is     => 'ro',
+    isa    => 'TAEB::World::Path',
 );
 
 has starting_tile => (

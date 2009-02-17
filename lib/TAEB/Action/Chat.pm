@@ -11,6 +11,7 @@ has '+direction' => (
 
 has amount => (
     traits   => [qw/TAEB::Provided/],
+    is       => 'ro',
     isa      => 'Int',
     default  => 1,
 );
