@@ -1,8 +1,6 @@
 package TAEB::Action::Role::Item;
 use MooseX::Role::Parameterized;
 
-requires 'aborted';
-
 parameter items => (
     isa        => 'ArrayRef[Str]',
     default    => sub { ['item'] },
