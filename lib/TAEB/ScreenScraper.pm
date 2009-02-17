@@ -1220,10 +1220,11 @@ sub handle_fallback {
         die "Game over, man!";
     }
 
-    my $response_needed = TAEB->vt->y == 0;
+    my $response_needed = TAEB->vt->y == 0
+                       || (TAEB->vt->y == 1 && TAEB->vt->x == 0);
 
     # Prompt that spills onto the next line
-    if (TAEB->vt->y == 1) {
+    if (!$response_needed && TAEB->vt->y == 1) {
         my $row_one = TAEB->vt->row_plaintext(1);
         $row_one =~ s/\s+$//;
 
