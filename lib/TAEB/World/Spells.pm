@@ -8,7 +8,6 @@ my @slots = ('a' .. 'z', 'A' .. 'Z');
 
 has _spells => (
     metaclass => 'Collection::Hash',
-    is        => 'rw',
     isa       => 'HashRef[TAEB::World::Spell]',
     default   => sub { {} },
     provides  => {

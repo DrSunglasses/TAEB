@@ -8,6 +8,7 @@ with 'TAEB::Meta::Role::Reblessing';
 use overload %TAEB::Meta::Overload::default;
 
 has level => (
+    is       => 'ro',
     isa      => 'TAEB::World::Level',
     weak_ref => 1,
     required => 1,
@@ -20,49 +21,59 @@ has level => (
 #);
 
 has type => (
+    is      => 'rw',
     isa     => 'TAEB::Type::Tile',
     default => 'unexplored',
 );
 
 has glyph => (
+    is      => 'rw',
     isa     => 'Str',
     default => ' ',
 );
 
 has floor_glyph => (
+    is      => 'rw',
     isa     => 'Str',
     default => ' ',
 );
 
 has color => (
+    is      => 'rw',
     isa     => 'Int',
     default => 0,
 );
 
 has stepped_on => (
+    is        => 'ro',
     metaclass => 'Counter',
 );
 
 has x => (
+    is       => 'rw',
     isa      => 'Int',
     required => 1,
 );
 
 has y => (
+    is       => 'rw',
     isa      => 'Int',
     required => 1,
 );
 
 has searched => (
+    is        => 'ro',
     metaclass => 'Counter',
 );
 
 has explored => (
+    is       => 'rw',
     isa      => 'Bool',
     default  => 0,
 );
 
 has engraving => (
+    is      => 'rw',
     isa     => 'Str',
     default => '',
     trigger => sub {
@@ -75,18 +86,21 @@ has engraving => (
 );
 
 has engraving_type => (
+    is      => 'rw',
     isa     => 'Str',
     default => '',
     documentation => "Store the writing type",
 );
 
 has is_interesting => (
+    is      => 'ro',
     isa     => 'Bool',
     default => 0,
     writer  => 'set_interesting',
 );
 
 has monster => (
+    is        => 'rw',
     isa       => 'TAEB::World::Monster',
     clearer   => '_clear_monster',
     predicate => 'has_monster',
@@ -94,7 +108,7 @@ has monster => (
 
 has items => (
     metaclass  => 'Collection::Array',
-    is         => 'rw',
+    is         => 'ro',
     isa        => 'ArrayRef[NetHack::Item]',
     default    => sub { [] },
     auto_deref => 1,
@@ -107,47 +121,55 @@ has items => (
 );
 
 has last_step => (
+    is            => 'rw',
     isa           => 'Int',
     documentation => "The last step that we were on this tile",
 );
 
 has last_turn => (
+    is            => 'rw',
     isa           => 'Int',
     default       => 0,
     documentation => "The last turn that we were on this tile",
 );
 
 has in_shop => (
+    is            => 'rw',
     isa           => 'Bool',
     default       => 0,
     documentation => "Is this tile inside a shop?",
 );
 
 has in_temple => (
+    is            => 'rw',
     isa           => 'Bool',
     default       => 0,
     documentation => "Is this tile inside a temple?",
 );
 
 has in_vault => (
+    is            => 'rw',
     isa           => 'Bool',
     default       => 0,
     documentation => "Is this tile inside a vault?",
 );
 
 has in_zoo => (
+    is            => 'rw',
     isa           => 'Bool',
     default       => 0,
     documentation => "Is this tile inside a zoo?",
 );
 
 has is_lit => (
+    is            => 'rw',
     isa           => 'Maybe[Bool]',
     documentation => "Is this tile probably lit?  Will usually be wrong except on floor and corridors.",
 );
 
 has pathfind => (
     metaclass => 'Counter',
+    is            => 'ro',
     documentation => "How many times this tile has been expanded in a pathfind this step",
 );
 

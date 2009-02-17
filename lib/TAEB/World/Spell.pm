@@ -5,21 +5,25 @@ use List::Util qw/max min/;
 use overload %TAEB::Meta::Overload::default;
 
 has name => (
+    is       => 'ro',
     isa      => 'Str',
     required => 1,
 );
 
 has learned_at => (
+    is       => 'rw',
     isa      => 'Int',
     default  => sub { TAEB->turn },
 );
 
 has fail => (
+    is       => 'ro',
     isa      => 'Int',
     required => 1,
 );
 
 has slot => (
+    is       => 'rw',
     isa      => 'Str',
     required => 1,
 );

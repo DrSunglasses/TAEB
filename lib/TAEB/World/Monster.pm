@@ -5,16 +5,19 @@ use TAEB::Util qw/:colors align2str/;
 use overload %TAEB::Meta::Overload::default;
 
 has glyph => (
+    is       => 'ro',
     isa      => 'Str',
     required => 1,
 );
 
 has color => (
+    is       => 'ro',
     isa      => 'Str',
     required => 1,
 );
 
 has tile => (
+    is       => 'ro',
     isa      => 'TAEB::World::Tile',
     weak_ref => 1,
     handles  => [qw/x y z level in_shop in_temple in_los distance/],

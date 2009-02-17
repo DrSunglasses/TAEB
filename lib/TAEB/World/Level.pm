@@ -9,6 +9,7 @@ with 'TAEB::Meta::Role::Reblessing';
 use overload %TAEB::Meta::Overload::default;
 
 has tiles => (
+    is      => 'ro',
     isa     => 'ArrayRef[Maybe[ArrayRef[TAEB::World::Tile]]]',
     default => sub {
         my $self = shift;
@@ -24,13 +25,14 @@ has tiles => (
 );
 
 has dungeon => (
+    is       => 'ro',
     isa      => 'TAEB::World::Dungeon',
     weak_ref => 1,
 );
 
 has special_level => (
-    isa      => 'Str',
     is       => 'rw',
+    isa      => 'Str',
     default  => "",
     trigger  => sub {
         my $self = shift;
@@ -44,6 +46,7 @@ has special_level => (
 );
 
 has branch => (
+    is        => 'rw',
     isa       => 'TAEB::Type::Branch',
     predicate => 'known_branch',
     trigger   => sub {
@@ -53,12 +56,13 @@ has branch => (
 );
 
 has z => (
+    is  => 'ro',
     isa => 'Int',
 );
 
 has monsters => (
     metaclass  => 'Collection::Array',
-    is         => 'rw',
+    is         => 'ro',
     isa        => 'ArrayRef[TAEB::World::Monster]',
     auto_deref => 1,
     default    => sub { [] },
@@ -72,14 +76,17 @@ has monsters => (
 
 has turns_spent_on => (
     metaclass => 'Counter',
+    is        => 'ro',
 );
 
 has pickaxe => (
+    is      => 'rw',
     isa     => 'Int',
     default => 0,
 );
 
 has tiles_by_type => (
+    is      => 'ro',
     isa     => 'HashRef[ArrayRef[TAEB::World::Tile]]',
     default => sub { {} },
 );
@@ -96,6 +103,7 @@ has items => (
 );
 
 has fully_explored => (
+    is      => 'rw',
     isa     => 'Bool',
     default => 0,
 );
@@ -103,11 +111,13 @@ has fully_explored => (
 # Note that the quest portal can be on the rogue level, so this can't
 # be just another special level.
 has has_quest_portal => (
+    is      => 'rw',
     isa     => 'Bool',
     default => 0,
 );
 
 has _astar_cache => (
+    is      => 'ro',
     isa     => 'HashRef[Str]',
     lazy    => 1,
     clearer => 'clear_astar_cache',

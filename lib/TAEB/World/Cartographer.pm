@@ -3,16 +3,19 @@ use TAEB::OO;
 use NetHack::FOV 'calculate_fov';
 
 has dungeon => (
+    is       => 'ro',
     isa      => 'TAEB::World::Dungeon',
     weak_ref => 1,
     required => 1,
 );
 
 has x => (
+    is  => 'rw',
     isa => 'Int',
 );
 
 has y => (
+    is  => 'rw',
     isa => 'Int',
 );
 
