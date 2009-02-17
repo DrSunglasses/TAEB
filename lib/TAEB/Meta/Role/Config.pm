@@ -3,6 +3,7 @@ package TAEB::Meta::Role::Config;
 use Moose::Role;
 
 has config => (
+    is  => 'rw',
     isa => 'Maybe[HashRef]',
     lazy => 1,
     default => sub {
