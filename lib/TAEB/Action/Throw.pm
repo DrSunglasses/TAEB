@@ -18,20 +18,24 @@ has '+direction' => (
 );
 
 has target_tile => (
+    is  => 'ro',
     isa => 'TAEB::World::Tile',
 );
 
 has threw_multiple => (
+    is      => 'rw',
     isa     => 'Bool',
     default => 0,
 );
 
 has killed => (
+    is      => 'rw',
     isa     => 'Bool',
     default => 0,
 );
 
 has monster => (
+    is        => 'rw',
     isa       => 'TAEB::World::Monster',
     predicate => 'has_monster',
 );

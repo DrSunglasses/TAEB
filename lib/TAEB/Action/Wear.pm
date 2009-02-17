@@ -3,8 +3,7 @@ use TAEB::OO;
 extends 'TAEB::Action';
 with 'TAEB::Action::Role::Item';
 
-has item => (
-    traits   => [qw/TAEB::Provided/],
+has '+item' => (
     isa      => 'NetHack::Item',
     required => 1,
 );

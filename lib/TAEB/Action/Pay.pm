@@ -1,10 +1,9 @@
 package TAEB::Action::Pay;
 use TAEB::OO;
 extends 'TAEB::Action';
+with 'TAEB::Action::Role::Item';
 
-has item => (
-    traits   => [qw/TAEB::Provided/],
-    isa      => 'NetHack::Item | Str',
+has '+item' => (
     required => 1,
 );
 

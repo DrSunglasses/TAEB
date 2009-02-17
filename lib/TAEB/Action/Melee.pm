@@ -8,6 +8,7 @@ has '+direction' => (
 );
 
 has monster => (
+    is        => 'rw',
     isa       => 'TAEB::World::Monster',
     predicate => 'has_monster',
 );

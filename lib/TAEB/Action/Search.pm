@@ -3,6 +3,7 @@ use TAEB::OO;
 extends 'TAEB::Action';
 
 has started => (
+    is      => 'ro',
     isa     => 'Int',
     default => sub { TAEB->turn },
 );

@@ -12,15 +12,18 @@ TAEB::Interface::SSH - how TAEB talks to /dev/null
 extends 'TAEB::Interface::Local';
 
 has server => (
+    is      => 'ro',
     isa     => 'Str',
     default => 'devnull.kraln.com',
 );
 
 has account => (
+    is  => 'ro',
     isa => 'Str',
 );
 
 has password => (
+    is  => 'ro',
     isa => 'Str',
 );
 

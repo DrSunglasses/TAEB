@@ -6,19 +6,18 @@ use TAEB::Util 'vi2delta';
 with 'TAEB::Action::Role::Direction';
 
 has path => (
+    is  => 'ro',
     isa => 'TAEB::World::Path',
 );
 
-has '+direction' => (
-    required => 0,
-);
-
 has starting_tile => (
+    is      => 'ro',
     isa     => 'TAEB::World::Tile',
     default => sub { TAEB->current_tile },
 );
 
 has hit_obscured_monster => (
+    is      => 'rw',
     isa     => 'Bool',
     default => 0,
 );

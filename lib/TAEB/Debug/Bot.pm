@@ -5,12 +5,14 @@ use Set::Object;
 requires 'speak', 'quit_message', 'tick';
 
 has paused => (
+    is      => 'rw',
     isa     => 'Bool',
     default => 0,
 );
 
 has step => (
     metaclass => 'Counter',
+    is      => 'ro',
     default => -1,
     trigger => sub {
         my $self = shift;

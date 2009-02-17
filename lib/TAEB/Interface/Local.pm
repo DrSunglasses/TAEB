@@ -14,6 +14,7 @@ TAEB::Interface::Local - how TAEB talks to a local nethack
 extends 'TAEB::Interface';
 
 has name => (
+    is      => 'ro',
     isa     => 'Str',
     default => 'nethack',
 );
@@ -25,6 +26,7 @@ has args => (
 );
 
 has pty => (
+    is      => 'ro',
     isa     => 'IO::Pty::Easy',
     lazy    => 1,
     handles => ['is_active'],

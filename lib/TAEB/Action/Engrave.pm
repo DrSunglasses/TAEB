@@ -22,6 +22,7 @@ has add_engraving => (
 );
 
 has got_identifying_message => (
+    is      => 'rw',
     isa     => 'Bool',
     default => 0,
 );

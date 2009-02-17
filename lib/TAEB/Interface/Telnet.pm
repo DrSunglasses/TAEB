@@ -36,10 +36,12 @@ has password => (
 );
 
 has socket => (
+    is  => 'rw',
     isa => 'IO::Socket::Telnet',
 );
 
 has sent_login => (
+    is      => 'rw',
     isa     => 'Bool',
     default => 0,
 );

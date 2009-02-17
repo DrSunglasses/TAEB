@@ -7,7 +7,8 @@ use List::Util 'first';
 use constant command => "e";
 
 has '+item' => (
-    isa => 'NetHack::Item::Food | Str',
+    is       => 'rw',
+    isa      => 'NetHack::Item::Food | Str',
     required => 1,
 );
 
