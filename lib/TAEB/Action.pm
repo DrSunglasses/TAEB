@@ -16,6 +16,23 @@ has aborted => (
     default => 0,
 );
 
+around BUILDARGS => sub {
+    my $orig = shift;
+    my $class = shift;
+    my $args = $class->$orig(@_);
+    my %real_args;
+    for my $arg (keys %$args) {
+        my $attr = $class->meta->get_attribute($arg);
+        if (blessed($attr) && $attr->does('TAEB::Provided') && $attr->provided) {
+            $real_args{$arg} = $args->{$arg};
+        }
+        else {
+            TAEB->log->action("Only provided attributes may be set from the constructor", level => 'warning');
+        }
+    }
+    return \%real_args;
+};
+
 =head2 command
 
 This is the basic command for the action. For example, C<E> for engraving, and
