@@ -1,12 +1,11 @@
 package TAEB::Action::Wield;
 use TAEB::OO;
 extends 'TAEB::Action';
+with 'TAEB::Action::Role::Item' => { items => [qw/weapon/] };
 
 use constant command => "w";
 
-has weapon => (
-    traits   => [qw/TAEB::Provided/],
-    is       => 'ro',
+has '+weapon' => (
     isa      => 'NetHack::Item | Str',
     required => 1,
 );
