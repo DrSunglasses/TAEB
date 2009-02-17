@@ -2,13 +2,11 @@ package TAEB::Action::Unlock;
 use TAEB::OO;
 extends 'TAEB::Action';
 with 'TAEB::Action::Role::Direction';
+with 'TAEB::Action::Role::Item' => { items => [qw/implement/] };
 
 use constant command => 'a';
 
-has implement => (
-    traits   => [qw/TAEB::Provided/],
-    is       => 'ro',
-    isa      => 'NetHack::Item',
+has '+implement' => (
     required => 1,
 );
 
