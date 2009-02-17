@@ -7,10 +7,9 @@ all_from       'lib/TAEB.pm';
 
 # the object system
 requires 'Moose';
-requires 'MooseX::AttributeHelpers'    => 0.09;
-requires 'MooseX::ClassAttribute'      => 0.07;
-requires 'MooseX::Role::Parameterized' => 0.04;
-requires 'MooseX::Role::Matcher'       => 0.03;
+requires 'MooseX::AttributeHelpers' => 0.09;
+requires 'MooseX::ClassAttribute' => 0.07;
+requires 'MooseX::Role::Matcher' => 0.03;
 requires 'Module::Pluggable';
 
 # parse escape codes into an addressable screen
