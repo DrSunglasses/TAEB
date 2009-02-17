@@ -9,9 +9,7 @@ has '+direction' => (
 );
 
 # sadly, Melee doesn't give an "In what direction?" message
-sub command {
-    'F' . shift->direction
-}
+sub command { 'F' . shift->direction }
 
 sub msg_killed {
     my ($self, $monster_name) = @_;
