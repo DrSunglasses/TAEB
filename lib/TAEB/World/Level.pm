@@ -125,6 +125,7 @@ our @special_levels = qw/minetown rogue oracle bigroom/;
 
 for my $level (@special_levels) {
     has "is_$level" => (
+        is      => 'rw',
         isa     => 'Bool',
         trigger => sub {
             my ($self, $is_level) = @_;
