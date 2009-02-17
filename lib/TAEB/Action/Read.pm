@@ -21,7 +21,7 @@ sub post_responses {
     my $self = shift;
     my $item = $self->item;
 
-    if ($item->match(class => 'scroll')) {
+    if ($item->match(type => 'scroll')) {
         TAEB->inventory->decrease_quantity($item->slot)
     }
 }
@@ -37,7 +37,7 @@ sub can_read {
     my $self = shift;
     my $item = shift;
 
-    return 0 unless $item->match(class => [qw/scroll spellbook/]);
+    return 0 unless $item->match(type => [qw/scroll spellbook/]);
     return 1;
 }
 
