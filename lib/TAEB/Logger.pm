@@ -1,5 +1,3 @@
-use strict;
-use warnings;
 package TAEB::Logger;
 use TAEB::OO;
 use Log::Dispatch::Twitter;
