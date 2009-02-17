@@ -24,7 +24,7 @@ role {
         lazy     => 1,
         default  => sub {
             my $self = shift;
-            my $item_attr = $items[0];
+            my $item_attr = $items->[0];
             return $self->$item_attr;
         };
     );
