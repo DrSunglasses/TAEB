@@ -6,17 +6,10 @@ with 'TAEB::Action::Role::Item' => { items => [qw/weapon/] };
 use constant command => "w";
 
 has '+weapon' => (
-    isa      => 'NetHack::Item | Str',
     required => 1,
 );
 
-sub to_wield {
-    my $self = shift;
-    return $self->weapon->slot if blessed $self->weapon;
-    return $self->weapon;
-}
-
-sub respond_wield_what { shift->to_wield }
+sub respond_wield_what { shift->weapon->slot }
 
 sub done {
     my $self = shift;
