@@ -8,7 +8,7 @@ has '+direction' => (
 );
 
 # ctrl-D
-use constant command => chr(4);
+use constant command => "\cd";
 
 # sorry sir!
 sub respond_buy_door { 'y' }
