@@ -4,10 +4,8 @@ extends 'TAEB::Action';
 
 use constant command => "q";
 
-has from => (
-    traits   => [qw/TAEB::Provided/],
+has '+item' => (
     isa      => 'NetHack::Item::Potion | Str',
-    required => 1,
 );
 
 sub respond_drink_from {
@@ -15,10 +13,10 @@ sub respond_drink_from {
     my $from = shift;
 
     # no, we want to drink an item, not from the floor tile
-    return 'n' if blessed $self->from;
+    return 'n' if blessed $self->item;
 
     # we're specific about this. really
-    return 'y' if $from eq $self->from;
+    return 'y' if $from eq $self->item;
 
     # this means something probably went wrong. respond_drink_what will catch it
     return 'n';
@@ -26,16 +24,16 @@ sub respond_drink_from {
 
 sub respond_drink_what {
     my $self = shift;
-    return $self->from->slot if blessed($self->from);
+    return $self->item->slot if blessed($self->item);
 
-    TAEB->log->action("Unable to drink from '" . $self->into . "'. Sending escape, but I doubt this will work.", level => 'error');
+    TAEB->log->action("Unable to drink from '" . $self->item . "'. Sending escape, but I doubt this will work.", level => 'error');
     return "\e";
 }
 
 sub done {
     my $self = shift;
-    if (blessed $self->from) {
-        TAEB->inventory->decrease_quantity($self->from->slot)
+    if (blessed $self->item) {
+        TAEB->inventory->decrease_quantity($self->item->slot)
     }
 }
 
