@@ -1,8 +1,7 @@
 package TAEB::Action::Move;
 use TAEB::OO;
-extends 'TAEB::Action';
 use TAEB::Util 'vi2delta';
-
+extends 'TAEB::Action';
 with 'TAEB::Action::Role::Direction';
 
 has path => (
