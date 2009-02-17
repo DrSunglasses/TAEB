@@ -18,11 +18,6 @@ has '+direction' => (
     required => 1,
 );
 
-has target_tile => (
-    is  => 'ro',
-    isa => 'TAEB::World::Tile',
-);
-
 has threw_multiple => (
     is      => 'rw',
     isa     => 'Bool',
