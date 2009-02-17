@@ -3,6 +3,7 @@ use TAEB::OO;
 extends 'TAEB::Action';
 with 'TAEB::Action::Role::Direction';
 with 'TAEB::Action::Role::Item';
+with 'TAEB::Action::Role::Monster';
 
 use TAEB::Util 'vi2delta';
 
@@ -33,20 +34,6 @@ has killed => (
     isa     => 'Bool',
     default => 0,
 );
-
-has monster => (
-    is        => 'rw',
-    isa       => 'TAEB::World::Monster',
-    predicate => 'has_monster',
-);
-
-sub BUILD {
-    my $self = shift;
-
-    if (my $monster = $self->target_tile->monster) {
-        $self->monster($monster);
-    }
-}
 
 sub respond_throw_what { shift->item->slot }
 

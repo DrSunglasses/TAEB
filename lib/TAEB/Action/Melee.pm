@@ -2,24 +2,11 @@ package TAEB::Action::Melee;
 use TAEB::OO;
 extends 'TAEB::Action';
 with 'TAEB::Action::Role::Direction';
+with 'TAEB::Action::Role::Monster';
 
 has '+direction' => (
     required => 1,
 );
-
-has monster => (
-    is        => 'rw',
-    isa       => 'TAEB::World::Monster',
-    predicate => 'has_monster',
-);
-
-sub BUILD {
-    my $self = shift;
-
-    if (my $monster = $self->target_tile->monster) {
-        $self->monster($monster);
-    }
-}
 
 # sadly, Melee doesn't give an "In what direction?" message
 sub command {
