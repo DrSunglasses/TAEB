@@ -18,7 +18,6 @@ has name => (
 has specific => (
     traits   => [qw/TAEB::Provided/],
     isa      => 'Bool',
-    required => 1,
     default  => 0,
 );
 
