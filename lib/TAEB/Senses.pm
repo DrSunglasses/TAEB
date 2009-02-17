@@ -481,7 +481,7 @@ sub msg_life_saving {
     # oh well, i guess it wasn't my "oLS
     # trigger a discoveries check if we didn't know the appearance
     TAEB->enqueue_message(check => 'discoveries') if
-        TAEB->item_pool->possible_appearances_for("amulet of life saving") > 1;
+        TAEB->item_pool->possible_appearances_of("amulet of life saving") > 1;
 }
 
 sub msg_engulfed {
