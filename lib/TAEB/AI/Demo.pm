@@ -52,6 +52,24 @@ sub if_adjacent {
     );
 }
 
+sub path_to {
+    my $code = shift;
+
+    if (!ref($code)) {
+        my $type = $code;
+        $code = sub { shift->type eq $type };
+    }
+
+    my $path = TAEB::World::Path->first_match($code);
+
+    return unless $path;
+
+    return TAEB::Action::Move->new(
+        path => $path,
+    );
+
+}
+
 sub try_pray {
     return unless TAEB->can_pray;
 
@@ -68,20 +86,13 @@ sub try_melee {
 }
 
 sub try_hunt {
-    # look for the nearest tile with a monster
-    my $path = TAEB::World::Path->first_match(sub {
+    path_to(sub {
         my $tile = shift;
 
         return $tile->has_enemy
             && $tile->monster->is_meleeable
             && !$tile->monster->is_seen_through_warning
     });
-
-    return unless $path;
-
-    return TAEB::Action::Move->new(
-        path => $path,
-    );
 }
 
 sub try_descend {
@@ -93,16 +104,7 @@ sub try_descend {
 }
 
 sub try_to_stairs {
-    # look for the nearest tile with a down staircase
-    my $path = TAEB::World::Path->first_match(sub {
-        shift->type eq 'stairsdown'
-    });
-
-    return unless $path;
-
-    return TAEB::Action::Move->new(
-        path => $path,
-    );
+    path_to('stairsdown');
 }
 
 sub try_open_door {
@@ -116,29 +118,11 @@ sub try_open_door {
 }
 
 sub try_to_door {
-    # look for the nearest tile with a closed door
-    my $path = TAEB::World::Path->first_match(sub {
-        shift->type eq 'closeddoor'
-    });
-
-    return unless $path;
-
-    return TAEB::Action::Move->new(
-        path => $path,
-    );
+    path_to('closeddoor');
 }
 
 sub try_explore {
-    # look for the nearest tile that isn't explored
-    my $path = TAEB::World::Path->first_match(sub {
-        not shift->explored
-    });
-
-    return unless $path;
-
-    return TAEB::Action::Move->new(
-        path => $path,
-    );
+    path_to(sub { not shift->explored });
 }
 
 sub try_search {
@@ -146,14 +130,7 @@ sub try_search {
 }
 
 sub to_search {
-    # look for the nearest tile that isn't sufficiently searched.
-    my $path = TAEB::World::Path->first_match(sub {
-        shift->searched < 30
-    });
-
-    return TAEB::Action::Move->new(
-        path => $path,
-    );
+    path_to(sub { shift->searched < 30 })
 }
 
 __PACKAGE__->meta->make_immutable;
