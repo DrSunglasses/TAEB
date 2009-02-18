@@ -4,6 +4,7 @@ extends 'TAEB::Action';
 with 'TAEB::Action::Role::Item';
 
 has '+item' => (
+    isa      => 'NetHack::Item | Str',
     required => 1,
 );
 

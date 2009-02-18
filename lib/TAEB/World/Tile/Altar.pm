@@ -3,6 +3,7 @@ use TAEB::OO;
 extends 'TAEB::World::Tile';
 
 has align => (
+    is        => 'rw',
     isa       => 'TAEB::Type::Align',
     predicate => 'has_align',
 );

@@ -3,6 +3,7 @@ use TAEB::OO;
 extends 'TAEB::World::Level';
 
 has angry_watch => (
+    is      => 'rw',
     isa     => 'Bool',
     default => 0,
 );

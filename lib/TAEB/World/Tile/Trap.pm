@@ -4,6 +4,7 @@ extends 'TAEB::World::Tile';
 use TAEB::Util ':colors';
 
 has trap_type => (
+    is  => 'rw',
     isa => 'TAEB::Type::Trap',
 );
 

@@ -8,6 +8,7 @@ has '+type' => (
 );
 
 has is_shop => (
+    is      => 'rw',
     isa     => 'Bool',
     default => 0,
 );
