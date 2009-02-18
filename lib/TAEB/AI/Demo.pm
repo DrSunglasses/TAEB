@@ -4,32 +4,18 @@ use TAEB::OO;
 sub next_action {
     my $self = shift;
 
-    # Is there an adjacent monster? If so, attack it.
-    my $melee = $self->try_melee;
-    return $melee if $melee;
+    for my $name (qw/melee hunt descend to_stairs explore/) {
+        my $method = "try_$name";
+        my $action = $self->$method;
 
-    # Is there a monster in sight? If so, move next to it.
-    my $hunt = $self->try_hunt;
-    return $hunt if $hunt;
-
-    # Are we on a down staircase? If so, descend.
-    my $descend = $self->try_descend;
-    return $descend if $descend;
-
-    # Is there a down staircase in sight? If so, move to it.
-    my $to_stairs = $self->try_to_stairs;
-    return $to_stairs if $to_stairs;
-
-    # Is there an unexplored area? If so, go to it.
-    my $explore = $self->try_explore;
-    return $explore if $explore;
+        return $action if $action;
+    }
 
     # We must be trapped! Search for an exit.
     return $self->search;
 }
 
 sub try_melee {
-
     # Look around for a monster.
     my ($monster, $direction);
     TAEB->each_adjacent(sub {
