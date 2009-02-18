@@ -1,6 +1,5 @@
-package TAEB::Meta::Attribute;
-use Moose;
-extends 'Moose::Meta::Attribute';
+package TAEB::Meta::Role::Provided;
+use Moose::Role;
 
 has 'provided' => (
     is      => 'rw',
@@ -14,7 +13,7 @@ around legal_options_for_inheritance => sub {
     return ('provided', $self->$orig(@_));
 };
 
-no TAEB::OO;
+no Moose::Role;
 
 1;
 
