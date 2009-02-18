@@ -39,6 +39,11 @@ sub if_adjacent {
     my $code   = shift;
     my $action = shift;
 
+    if (!ref($code)) {
+        my $type = $code;
+        $code = sub { shift->type eq $type };
+    }
+
     my ($tile, $direction) = find_adjacent($code);
 
     return unless $direction;
@@ -79,7 +84,7 @@ sub try_pray {
 }
 
 sub try_melee {
-    if_adjacent(sub { $_[0]->has_enemy && $_[0]->monster->is_meleeable; },
+    if_adjacent(sub { $_[0]->has_enemy && $_[0]->monster->is_meleeable },
         'melee',
     );
 }
@@ -107,13 +112,11 @@ sub try_to_stairs {
 }
 
 sub try_open_door {
-    if_adjacent(sub { shift->type eq 'closeddoor' },
-        sub {
-            my $door = shift;
-            return 'kick' if $door->is_locked;
-            return 'open';
-        },
-    );
+    if_adjacent(closeddoor => sub {
+        my $door = shift;
+        return 'kick' if $door->is_locked;
+        return 'open';
+    });
 }
 
 sub try_to_door {
