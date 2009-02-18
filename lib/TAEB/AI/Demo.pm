@@ -157,13 +157,7 @@ sub path_to {
         $code = sub { shift->type eq $type };
     }
 
-    my $path = TAEB::World::Path->first_match($code, @_);
-
-    return unless $path;
-
-    return TAEB::Action::Move->new(
-        path => $path,
-    );
+    return TAEB::World::Path->first_match($code, @_);
 }
 
 __PACKAGE__->meta->make_immutable;
