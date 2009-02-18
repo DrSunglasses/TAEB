@@ -1,4 +1,4 @@
-package TAEB::Meta::Role::Reblessing;
+package TAEB::Role::Reblessing;
 use Moose::Role;
 
 requires 'base_class';

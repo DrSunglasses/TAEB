@@ -4,7 +4,7 @@ use TAEB::Util qw/deltas delta2vi vi2delta tile_types/;
 use List::MoreUtils 'any';
 use List::Util 'first';
 
-with 'TAEB::Meta::Role::Reblessing';
+with 'TAEB::Role::Reblessing';
 
 use overload %TAEB::Meta::Overload::default;
 

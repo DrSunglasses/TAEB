@@ -3,7 +3,7 @@ use TAEB::OO;
 use TAEB::Util qw/delta2vi vi2delta :colors/;
 use List::MoreUtils qw/any all apply/;
 
-with 'TAEB::Meta::Role::Reblessing';
+with 'TAEB::Role::Reblessing';
 
 use overload %TAEB::Meta::Overload::default;
 
