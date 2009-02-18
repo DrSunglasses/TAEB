@@ -27,7 +27,7 @@ sub try_pray {
     return unless TAEB->can_pray;
 
     # Only pray if we're low on nutrition or health.
-    return unless TAEB->nutrition < 100
+    return unless TAEB->nutrition < 0
                || TAEB->in_pray_heal_range;
 
     return TAEB::Action::Pray->new;
