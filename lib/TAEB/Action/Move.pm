@@ -129,8 +129,8 @@ sub done {
 
 sub handle_items_in_rock {
     my $self = shift;
-    my $dx   = shift;
-    my $dy   = shift;
+    my $dx   = shift || 0;
+    my $dy   = shift || 0;
 
     my $tile = TAEB->current_tile;
     return if $tile->type eq 'trap' && ($tile->trap_type eq 'bear trap'
