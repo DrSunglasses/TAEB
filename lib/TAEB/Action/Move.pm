@@ -56,6 +56,7 @@ around new => sub {
                 $monster->glyph . "; Elberething instead.");
             if ($monster->respects_elbereth && TAEB->elbereth_count == 0) {
                 $action = 'Engrave';
+                %args = ();
             }
             elsif (!defined($monster->is_shk) || $monster->is_shk) {
                 # Shopkeeps don't usually move unless we do ...
@@ -71,11 +72,12 @@ around new => sub {
                     $args{direction} = $poss[rand @poss];
                 } else {
                     $action = 'Search';
+                    %args = ();
                 }
             }
             else {
                 $action = 'Search';
-                $args{iterations} = 1;
+                %args = (iterations => 1);
             }
         }
     }
