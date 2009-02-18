@@ -9,10 +9,14 @@ sub next_action {
         my $method = "try_$name";
         my $action = $self->$method;
 
-        return $action if $action;
+        next unless $action;
+
+        $self->currently($name);
+        return $action;
     }
 
     # We must be trapped! Search for an exit.
+    $self->currently('search');
     return $self->search;
 }
 
