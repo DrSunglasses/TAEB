@@ -128,8 +128,8 @@ sub if_adjacent {
         $code = sub { shift->type eq $type };
     }
 
-    my ($tile, $direction) = find_adjacent($code)
-        or return;
+    my ($tile, $direction) = find_adjacent($code);
+    return if !$tile;
 
     # If they pass in a coderef for action, then they need to do some additional
     # processing based on tile type. Let them decide an action name.
