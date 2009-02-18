@@ -20,9 +20,8 @@ sub init_meta {
     Moose->init_meta(%options, metaclass => 'TAEB::Meta::Class');
     Moose::Util::MetaRole::apply_metaclass_roles(
         for_class                 => $options{for_class},
-        # XXX: can we apply this to only the Action hierarchy?
         attribute_metaclass_roles => ['TAEB::Meta::Role::Provided'],
-    );
+    ) if $options{for_class} =~ /^TAEB::Action/;
     return $options{for_class}->meta;
 }
 
