@@ -24,7 +24,7 @@ sub try_pray {
     return unless TAEB->can_pray;
 
     return unless TAEB->nutrition < 100
-               || (TAEB->hp * 7 < TAEB->maxhp || TAEB->hp < 6);
+               || TAEB->in_pray_heal_range;
 
     return TAEB::Action::Pray->new;
 }

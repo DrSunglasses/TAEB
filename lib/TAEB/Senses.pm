@@ -394,6 +394,11 @@ sub can_move {
             || $self->is_engulfed;
 }
 
+sub in_pray_heal_range {
+    my $self = shift;
+    return $self->hp * 7 < $self->maxhp || $self->hp < 6;
+}
+
 sub msg_beartrap {
     my $self = shift;
     $self->in_beartrap(1);
