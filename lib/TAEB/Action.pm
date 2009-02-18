@@ -5,11 +5,6 @@ use Module::Pluggable
     require     => 1,
     sub_name    => 'actions';
 
-# force loading of all the actions for compile errors etc
-BEGIN {
-    my @discard = __PACKAGE__->actions;
-}
-
 has aborted => (
     is      => 'rw',
     isa     => 'Bool',
@@ -128,6 +123,10 @@ sub action_names {
 
 __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
+
+# force loading of all the actions for compile errors etc
+__PACKAGE__->actions;
+
 
 1;
 
