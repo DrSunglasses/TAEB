@@ -7,27 +7,35 @@ use List::Util 'first';
 use constant command => "e";
 
 has '+food' => (
-    is       => 'rw',
     isa      => 'NetHack::Item::Food | Str',
     required => 1,
 );
 
+has eaten_food => (
+    is => 'rw',
+    isa => 'NetHack::Item',
+);
+
 sub respond_eat_ground {
     my $self = shift;
+    my $floor = shift;
 
     # no, we want to eat something in our inventory
     return 'n' if blessed $self->food;
 
-    my $floor_item = TAEB->current_tile->find_item(shift);
+    my $floor_item = TAEB->current_tile->find_item($floor);
 
     # user specified something like "eat => item => 'lizard corpse'"
-    return 'y' if $floor_item->match(identity => $self->food);
+    if ($floor_item->match(identity => $self->food)) {
+        $self->eaten_food($floor_item);
+        return 'y';
+    }
 
     if ($self->food eq 'any') {
         if ($floor_item->is_safely_edible) {
             TAEB->log->action("Floor-food $floor_item is good enough for me.");
             # keep track of what we're eating for nutrition purposes later
-            $self->food($floor_item);
+            $self->eaten_food($floor_item);
             return 'y';
         }
         else {
@@ -41,13 +49,16 @@ sub respond_eat_ground {
 
 sub respond_eat_what {
     my $self = shift;
-    return $self->food->slot if blessed($self->food);
+    if (blessed $self->food) {
+        $self->eaten_food($self->food);
+        return $self->food->slot;
+    }
 
     if ($self->food eq 'any') {
         my $item = first { $self->can_eat($_) } TAEB->inventory->items;
 
         if ($item) {
-            $self->food($item);
+            $self->eaten_food($item);
             return $item->slot;
         }
         TAEB->log->action("There's no safe food in my inventory, so I can't eat 'any'. Sending escape, but I doubt this will work.", level => 'error');
@@ -78,7 +89,7 @@ sub msg_stopped_eating {
 
 sub post_responses {
     my $self = shift;
-    my $item = $self->food;
+    my $item = $self->eaten_food;
 
     if (blessed $item && $item->slot)  {
         TAEB->inventory->decrease_quantity($item->slot)
