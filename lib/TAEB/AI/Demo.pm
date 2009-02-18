@@ -87,12 +87,18 @@ sub try_explore {
 
 # If there's an unsearched tile next to us, search.
 sub try_search {
-    if_adjacent(sub { shift->searched < 30 } => 'search');
+    if_adjacent(
+        sub { $_[0]->is_searchable && $_[0]->searched < 30 },
+        'search',
+    );
 }
 
 # If there's an unsearched tile, go to it.
 sub to_search {
-    path_to(sub { shift->searched < 30 }, include_endpoints => 1)
+    path_to(
+        sub { $_[0]->is_searchable && $_[0]->searched < 30 },
+        include_endpoints => 1,
+    );
 }
 
 # These helper functions make our behavior code far more concise and

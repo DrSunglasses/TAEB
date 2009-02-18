@@ -882,6 +882,14 @@ sub unexplored {
     not shift->explored;
 }
 
+sub searchable {
+    my $self = shift;
+
+    return $self->type eq 'wall'
+        || $self->type eq 'rock'
+        || $self->type eq 'unexplored';
+}
+
 __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
 
