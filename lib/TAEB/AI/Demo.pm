@@ -17,7 +17,7 @@ sub next_action {
         return $action;
     }
 
-    # We must be trapped! Search for an exit.
+    # We must be trapped! Search for a secret door.
     $self->currently('to_search');
     return $self->to_search;
 }
