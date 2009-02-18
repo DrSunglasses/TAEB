@@ -60,9 +60,29 @@ sub try_descend {
 }
 
 sub try_to_stairs {
+    # look for the nearest tile with a down staircase
+    my $path = TAEB::World::Path->first_match(sub {
+        shift->type eq 'stairsdown'
+    });
+
+    return unless $path;
+
+    return TAEB::Action::Move->new(
+        path => $path,
+    );
 }
 
 sub try_explore {
+    # look for the nearest tile that isn't explored
+    my $path = TAEB::World::Path->first_match(sub {
+        not shift->explored
+    });
+
+    return unless $path;
+
+    return TAEB::Action::Move->new(
+        path => $path,
+    );
 }
 
 sub search {
