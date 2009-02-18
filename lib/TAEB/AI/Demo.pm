@@ -65,7 +65,7 @@ sub path_to {
         $code = sub { shift->type eq $type };
     }
 
-    my $path = TAEB::World::Path->first_match($code);
+    my $path = TAEB::World::Path->first_match($code, @_);
 
     return unless $path;
 
@@ -120,7 +120,7 @@ sub try_open_door {
 }
 
 sub try_to_door {
-    path_to('closeddoor');
+    path_to('closeddoor', include_endpoints => 1);
 }
 
 sub try_explore {
@@ -132,7 +132,7 @@ sub try_search {
 }
 
 sub to_search {
-    path_to(sub { shift->searched < 30 })
+    path_to(sub { shift->searched < 30 }, include_endpoints => 1)
 }
 
 __PACKAGE__->meta->make_immutable;
