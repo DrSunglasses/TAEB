@@ -29,6 +29,8 @@ before attach_to_class => sub {
         || confess "Persistent attributes must be applied to a class that does TAEB::Meta::Role::Persistency";
 };
 
+no Moose::Role;
+
 package Moose::Meta::Attribute::Custom::Trait::TAEB::Persistent;
 sub register_implementation { 'TAEB::Meta::Trait::Persistent' }
 
