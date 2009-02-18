@@ -10,9 +10,8 @@ sub next_action {
 
     for my $behavior (qw/pray melee hunt descend to_stairs open_door to_door explore search/) {
         my $method = "try_$behavior";
-        my $action = $self->$method;
-
-        next unless $action;
+        my $action = $self->$method
+            or next;
 
         $self->currently($behavior);
         return $action;
@@ -141,8 +140,7 @@ sub try_to_stairs {
 # down.
 sub try_open_door {
     if_adjacent(closeddoor => sub {
-        my $door = shift;
-        return 'kick' if $door->is_locked;
+        return 'kick' if shift->is_locked;
         return 'open';
     });
 }
