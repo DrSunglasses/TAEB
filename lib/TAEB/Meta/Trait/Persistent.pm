@@ -25,8 +25,8 @@ before _process_options => sub {
 before attach_to_class => sub {
     my ($self, $class) = @_;
 
-    $class->does_role('TAEB::Meta::Role::Persistency')
-        || confess "Persistent attributes must be applied to a class that does TAEB::Meta::Role::Persistency";
+    $class->does_role('TAEB::Role::Persistency')
+        || confess "Persistent attributes must be applied to a class that does TAEB::Role::Persistency";
 };
 
 no Moose::Role;

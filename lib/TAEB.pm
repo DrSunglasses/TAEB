@@ -17,8 +17,8 @@ use TAEB::Action;
 use TAEB::Publisher;
 use TAEB::Debug;
 
-with 'TAEB::Meta::Role::Persistency';
-with 'TAEB::Meta::Role::Initialize';
+with 'TAEB::Role::Persistency';
+with 'TAEB::Role::Initialize';
 
 =head1 NAME
 

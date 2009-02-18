@@ -1,4 +1,4 @@
-package TAEB::Meta::Role::Persistency;
+package TAEB::Role::Persistency;
 use Moose::Role;
 use Storable;
 

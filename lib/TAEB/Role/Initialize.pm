@@ -1,4 +1,4 @@
-package TAEB::Meta::Role::Initialize;
+package TAEB::Role::Initialize;
 use Moose::Role;
 
 sub initialize { }

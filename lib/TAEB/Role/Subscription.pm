@@ -1,4 +1,4 @@
-package TAEB::Meta::Role::Subscription;
+package TAEB::Role::Subscription;
 use Moose::Role;
 
 requires 'initialize';
