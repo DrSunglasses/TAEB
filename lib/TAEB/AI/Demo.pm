@@ -22,8 +22,81 @@ sub next_action {
     return $self->to_search;
 }
 
-# Before we begin defining behaviors, these helper methods will make our
-# behavior code far more concise.
+sub try_pray {
+    # can_pray returns false if we prayed recently, or our god is angry, etc.
+    return unless TAEB->can_pray;
+
+    # Only pray if we're low on nutrition or health.
+    return unless TAEB->nutrition < 100
+               || TAEB->in_pray_heal_range;
+
+    return TAEB::Action::Pray->new;
+}
+
+# Find an adjacent enemy and swing at it.
+sub try_melee {
+    if_adjacent(
+        sub {
+            my $tile = shift;
+            $tile->has_enemy && $tile->monster->is_meleeable
+        } => 'melee',
+    );
+}
+
+# Find an enemy on the level and hunt it down.
+sub try_hunt {
+    path_to(sub {
+        my $tile = shift;
+
+        return $tile->has_enemy
+            && $tile->monster->is_meleeable
+            && !$tile->monster->is_seen_through_warning
+    });
+}
+
+# If we're on stairs then descend.
+sub try_descend {
+    return unless TAEB->current_tile->type eq 'stairsdown';
+
+    return TAEB::Action::Descend->new;
+}
+
+# If we see stairs, then go to them.
+sub try_to_stairs {
+    path_to('stairsdown');
+}
+
+# If there's an adjacent closed door, try opening it. If it's locked, kick it
+# down.
+sub try_open_door {
+    if_adjacent(closeddoor => sub {
+        return 'kick' if shift->is_locked;
+        return 'open';
+    });
+}
+
+# If we see a closed door, then go to it.
+sub try_to_door {
+    path_to('closeddoor', include_endpoints => 1);
+}
+
+# If there's an unexplored tile (tracked by the framework), go to it.
+sub try_explore {
+    path_to(sub { shift->unexplored });
+}
+
+# If there's an unsearched tile next to us, search.
+sub try_search {
+    if_adjacent(sub { shift->searched < 30 } => 'search');
+}
+
+# If there's an unsearched tile, go to it.
+sub to_search {
+    path_to(sub { shift->searched < 30 }, include_endpoints => 1)
+}
+
+# These helper functions make our behavior code far more concise and
+# declarative.
 
 # find_adjacent finds and adjacent tile that satisfies some predicate. It takes
 # a coderef and returns the (tile, direction) corresponding to the adjacent
@@ -91,78 +164,6 @@ sub path_to {
     return TAEB::Action::Move->new(
         path => $path,
     );
-}
-
-# Now behaviors.
-
-sub try_pray {
-    # can_pray returns false if we prayed recently, or our god is angry, etc.
-    return unless TAEB->can_pray;
-
-    # Only pray if we're low on nutrition or health.
-    return unless TAEB->nutrition < 100
-               || TAEB->in_pray_heal_range;
-
-    return TAEB::Action::Pray->new;
-}
-
-# Find an adjacent enemy and swing at it.
-sub try_melee {
-    if_adjacent(sub { $_[0]->has_enemy && $_[0]->monster->is_meleeable },
-        'melee',
-    );
-}
-
-# Find an enemy on the level and hunt it down.
-sub try_hunt {
-    path_to(sub {
-        my $tile = shift;
-
-        return $tile->has_enemy
-            && $tile->monster->is_meleeable
-            && !$tile->monster->is_seen_through_warning
-    });
-}
-
-# If we're on stairs then descend.
-sub try_descend {
-    return unless TAEB->current_tile->type eq 'stairsdown';
-
-    return TAEB::Action::Descend->new;
-}
-
-# If we see stairs, then go to them.
-sub try_to_stairs {
-    path_to('stairsdown');
-}
-
-# If there's an adjacent closed door, try opening it. If it's locked, kick it
-# down.
-sub try_open_door {
-    if_adjacent(closeddoor => sub {
-        return 'kick' if shift->is_locked;
-        return 'open';
-    });
-}
-
-# If we see a closed door, then go to it.
-sub try_to_door {
-    path_to('closeddoor', include_endpoints => 1);
-}
-
-# If there's an unexplored tile (tracked by the framework), go to it.
-sub try_explore {
-    path_to(sub { shift->unexplored });
-}
-
-# If there's an unsearched tile next to us, search.
-sub try_search {
-    if_adjacent(sub { shift->searched < 30 } => 'search');
-}
-
-# If there's an unsearched tile, go to it.
-sub to_search {
-    path_to(sub { shift->searched < 30 }, include_endpoints => 1)
 }
 
 __PACKAGE__->meta->make_immutable;
