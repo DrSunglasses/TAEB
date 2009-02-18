@@ -132,6 +132,24 @@ sub try_explore {
 }
 
 sub search {
+    # Look around for an adjacent insufficiently-searched tile.
+    my ($adjacent_search);
+    TAEB->each_adjacent(sub {
+        my $tile = shift;
+        $adjacent_search = 1 if $tile->searched < 30;
+    });
+
+    return TAEB::Action::Search->new if $adjacent_search;
+
+
+    # look for the nearest tile that isn't sufficiently searched.
+    my $path = TAEB::World::Path->first_match(sub {
+        shift->searched < 30
+    });
+
+    return TAEB::Action::Move->new(
+        path => $path,
+    );
 }
 
 __PACKAGE__->meta->make_immutable;
