@@ -7,12 +7,12 @@ has state => (
     isa => 'TAEB::Type::DoorState',
 );
 
-sub locked {
+sub is_locked {
     my $self = shift;
     $self->state && $self->state eq 'locked';
 }
 
-sub unlocked {
+sub is_unlocked {
     my $self = shift;
     $self->state && $self->state eq 'unlocked';
 }

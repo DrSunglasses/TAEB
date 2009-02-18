@@ -18,10 +18,10 @@ augment debug_color => sub {
     if ($self->is_shop) {
         return Curses::A_BOLD | Curses::COLOR_PAIR(COLOR_RED);
     }
-    elsif ($self->locked) {
+    elsif ($self->is_locked) {
         return Curses::A_BOLD | Curses::COLOR_PAIR(COLOR_BROWN);
     }
-    elsif ($self->unlocked) {
+    elsif ($self->is_unlocked) {
         return Curses::A_BOLD | Curses::COLOR_PAIR(COLOR_GREEN);
     }
 
