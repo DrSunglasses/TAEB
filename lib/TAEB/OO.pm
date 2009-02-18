@@ -4,7 +4,6 @@ use MooseX::ClassAttribute ();
 use Moose::Exporter;
 
 use TAEB::Meta::Class;
-use TAEB::Meta::Trait::Provided;
 use TAEB::Meta::Trait::Persistent;
 use TAEB::Meta::Trait::GoodStatus;
 use TAEB::Meta::Types;
