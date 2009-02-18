@@ -882,7 +882,7 @@ sub unexplored {
     not shift->explored;
 }
 
-sub searchable {
+sub is_searchable {
     my $self = shift;
 
     return $self->type eq 'wall'
