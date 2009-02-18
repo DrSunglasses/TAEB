@@ -5,7 +5,7 @@ extends 'TAEB::AI';
 sub next_action {
     my $self = shift;
 
-    for my $name (qw/melee hunt descend to_stairs open_door to_door explore/) {
+    for my $name (qw/pray melee hunt descend to_stairs open_door to_door explore/) {
         my $method = "try_$name";
         my $action = $self->$method;
 
@@ -18,6 +18,15 @@ sub next_action {
     # We must be trapped! Search for an exit.
     $self->currently('search');
     return $self->search;
+}
+
+sub try_pray {
+    return unless TAEB->can_pray;
+
+    return unless TAEB->nutrition < 100
+               || (TAEB->hp * 7 < TAEB->maxhp || TAEB->hp < 6);
+
+    return TAEB::Action::Pray->new;
 }
 
 sub try_melee {
