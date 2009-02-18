@@ -67,7 +67,6 @@ sub path_to {
     return TAEB::Action::Move->new(
         path => $path,
     );
-
 }
 
 sub try_pray {
