@@ -59,9 +59,9 @@ class_has ai => (
     predicate => 'has_ai',
     lazy      => 1,
     default   => sub {
-	my $ai = TAEB->config->get_ai;
-	$ai->institute; # default doesn't fire triggers
-	$ai;
+        my $ai = TAEB->config->get_ai;
+        $ai->institute; # default doesn't fire triggers
+        $ai;
     },
     trigger   => sub {
         my ($self, $ai) = @_;
