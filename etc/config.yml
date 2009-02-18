@@ -2,7 +2,7 @@
 
 #### Mandatory options ####
 # What should be controlling TAEB
-ai: 'TAEB::AI::Human'
+ai: 'TAEB::AI::Demo'
 # How TAEB should communicate with NetHack (another option is Telnet)
 interface: Local
 
