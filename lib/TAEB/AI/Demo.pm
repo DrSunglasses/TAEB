@@ -152,7 +152,7 @@ sub try_to_door {
 
 # If there's an unexplored tile (tracked by the framework), go to it.
 sub try_explore {
-    path_to(sub { not shift->explored });
+    path_to(sub { shift->unexplored });
 }
 
 # If there's an unsearched tile next to us, search.

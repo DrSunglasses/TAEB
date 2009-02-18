@@ -855,6 +855,11 @@ sub find_item {
     return $item;
 }
 
+sub unexplored {
+    confess "Set 'explored' not 'unexplored'" if @_ > 1;
+    not shift->explored;
+}
+
 __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
 
