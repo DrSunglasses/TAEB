@@ -1,5 +1,6 @@
 package TAEB::Debug::IRC;
 use TAEB::OO;
+with 'TAEB::Role::Config';
 
 has bot => (
     isa => 'Maybe[TAEB::Debug::IRC::Bot]',

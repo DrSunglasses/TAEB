@@ -3,6 +3,7 @@ use TAEB::OO;
 use Curses ();
 use TAEB::Util ':colors';
 use Time::HiRes 'gettimeofday';
+with 'TAEB::Role::Config';
 
 has color_method => (
     is      => 'rw',

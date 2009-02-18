@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-package TAEB::Meta::Role::Config;
+package TAEB::Role::Config;
 use Moose::Role;
 
 has config => (

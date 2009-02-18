@@ -4,6 +4,7 @@ use Log::Dispatch::Twitter;
 use Log::Dispatch::File;
 use Carp;
 extends 'Log::Dispatch::Channels';
+with 'TAEB::Role::Config';
 
 has default_outputs => (
     is      => 'ro',

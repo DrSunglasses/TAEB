@@ -1,5 +1,6 @@
 package TAEB::Debug::Console;
 use TAEB::OO;
+with 'TAEB::Role::Config';
 
 sub msg_key {
     my $self = shift;
