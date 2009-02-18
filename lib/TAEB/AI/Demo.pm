@@ -5,7 +5,7 @@ extends 'TAEB::AI';
 sub next_action {
     my $self = shift;
 
-    for my $name (qw/melee hunt descend to_stairs explore/) {
+    for my $name (qw/melee hunt descend to_stairs open_door to_door explore/) {
         my $method = "try_$name";
         my $action = $self->$method;
 
@@ -68,6 +68,38 @@ sub try_to_stairs {
     # look for the nearest tile with a down staircase
     my $path = TAEB::World::Path->first_match(sub {
         shift->type eq 'stairsdown'
+    });
+
+    return unless $path;
+
+    return TAEB::Action::Move->new(
+        path => $path,
+    );
+}
+
+sub try_open_door {
+    # Look around for a closed door.
+    my ($monster, $direction);
+    TAEB->each_adjacent(sub {
+        my ($tile, $dir) = @_;
+
+        ($door, $direction) = ($tile, $dir)
+            if $tile->type eq 'closeddoor';
+    });
+
+    return unless $door;
+
+    if ($door->locked) {
+        return TAEB::Action::Kick->new(direction => $direction);
+    }
+
+    return TAEB::Action::Open->new(direction => $direction);
+}
+
+sub try_to_door {
+    # look for the nearest tile with a closed door
+    my $path = TAEB::World::Path->first_match(sub {
+        shift->type eq 'closeddoor'
     });
 
     return unless $path;
