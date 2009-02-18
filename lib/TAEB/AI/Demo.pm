@@ -209,7 +209,7 @@ Implement this policy.
 =item
 
 Pick up food (but not corpses). Is
-L<TAEB::Meta::Role::Item::Food::Corpse/is_safely_edible> sufficient to
+L<TAEB::Role::Item::Food::Corpse/is_safely_edible> sufficient to
 determine which food to pick up?
 
 =item
