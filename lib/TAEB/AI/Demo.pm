@@ -1,5 +1,6 @@
 package TAEB::AI::Demo;
 use TAEB::OO;
+extends 'TAEB::AI';
 
 sub next_action {
     my $self = shift;
