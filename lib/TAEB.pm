@@ -55,7 +55,7 @@ class_has interface => (
 class_has ai => (
     is        => 'rw',
     isa       => 'TAEB::AI',
-    handles   => [qw(want_item currently next_action)],
+    handles   => [qw(want_item currently)],
     predicate => 'has_ai',
     lazy      => 1,
     default   => sub {
@@ -280,6 +280,19 @@ around action => sub {
     TAEB->publisher->subscribe($self->action);
     return $ret;
 };
+
+sub next_action {
+    my $self = shift;
+
+    my $action = $self->ai->next_action(@_)
+        or confess $self->ai . " did not return a next_action!";
+
+    if ($action->isa('TAEB::World::Path')) {
+        return TAEB::Action::Move->new(path => $action);
+    }
+
+    return $action;
+}
 
 =head2 iterate
 
