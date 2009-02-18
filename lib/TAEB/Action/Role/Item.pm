@@ -40,7 +40,7 @@ role {
     };
 };
 
-no Moose::Role;
+no MooseX::Role::Parameterized;
 
 1;
 
