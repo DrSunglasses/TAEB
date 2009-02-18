@@ -11,9 +11,9 @@ role {
     my $items = $p->items;
 
     has $items => (
-        traits   => [qw/TAEB::Provided/],
         is       => 'ro',
         isa      => 'NetHack::Item',
+        provided => 1,
     );
 
     has current_item => (

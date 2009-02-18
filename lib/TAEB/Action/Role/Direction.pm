@@ -3,17 +3,17 @@ use Moose::Role;
 use List::MoreUtils 'none';
 
 has direction => (
-    traits   => [qw/TAEB::Provided/],
     is       => 'ro',
     isa      => 'Str',
+    provided => 1,
 );
 
 has target_tile => (
-    traits   => [qw/TAEB::Provided/],
     is       => 'ro',
     isa      => 'TAEB::World::Tile',
     lazy     => 1,
     default  => sub { TAEB->current_level->at_direction(shift->direction) },
+    provided => 1,
 );
 
 sub respond_what_direction { shift->direction }

@@ -11,17 +11,17 @@ has '+engraver' => (
 );
 
 has text => (
-    traits  => [qw/TAEB::Provided/],
-    is      => 'ro',
-    isa     => 'Str',
-    default => 'Elbereth',
+    is       => 'ro',
+    isa      => 'Str',
+    default  => 'Elbereth',
+    provided => 1,
 );
 
 has add_engraving => (
-    traits  => [qw/TAEB::Provided/],
-    is      => 'ro',
-    isa     => 'Bool',
-    default => 1,
+    is       => 'ro',
+    isa      => 'Bool',
+    default  => 1,
+    provided => 1,
 );
 
 has got_identifying_message => (

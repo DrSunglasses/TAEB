@@ -17,8 +17,8 @@ around BUILDARGS => sub {
     my $args = $class->$orig(@_);
     my %real_args;
     for my $arg (keys %$args) {
-        my $attr = $class->meta->get_attribute($arg);
-        if (blessed($attr) && $attr->does('TAEB::Provided') && $attr->provided) {
+        my $attr = $class->meta->find_attribute_by_name($arg);
+        if (blessed($attr) && $attr->can('provided') && $attr->provided) {
             $real_args{$arg} = $args->{$arg};
         }
         else {

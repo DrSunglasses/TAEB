@@ -9,10 +9,10 @@ has started => (
 );
 
 has iterations => (
-    traits   => [qw/TAEB::Provided/],
     is       => 'ro',
     isa      => 'Int',
     default  => 20,
+    provided => 1,
 );
 
 sub command { shift->iterations . 's' }

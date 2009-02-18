@@ -3,9 +3,9 @@ use TAEB::OO;
 extends 'TAEB::Action';
 
 has count => (
-    traits   => [qw/TAEB::Provided/],
     is       => 'ro',
     isa      => 'Int',
+    provided => 1,
 );
 
 sub command { (shift->count || '') . ',' }

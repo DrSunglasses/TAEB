@@ -10,17 +10,17 @@ has '+item' => (
 );
 
 has name => (
-    traits   => [qw/TAEB::Provided/],
     is       => 'ro',
     isa      => 'Str',
     required => 1,
+    provided => 1,
 );
 
 has specific => (
-    traits   => [qw/TAEB::Provided/],
     is       => 'ro',
     isa      => 'Bool',
     default  => 0,
+    provided => 1,
 );
 
 sub respond_name_specific {

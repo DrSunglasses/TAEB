@@ -10,10 +10,10 @@ has '+direction' => (
 );
 
 has amount => (
-    traits   => [qw/TAEB::Provided/],
     is       => 'ro',
     isa      => 'Int',
     default  => 1,
+    provided => 1,
 );
 
 sub respond_donate { shift->amount . "\n" }
