@@ -135,12 +135,14 @@ sub if_adjacent {
     # processing based on tile type. Let them decide an action name.
     $action = $action->($tile, $direction) if ref($action);
 
-    # I think it's safe to assume that the action wants a direction, given that
-    # this is if_adjacent.
     my $action_class = "TAEB::Action::\u$action";
-    return $action_class->new(
-        direction => $direction,
-    );
+
+    # We only want to pass in a direction if the action cares about direction.
+    my %args;
+    $args{direction} = $direction
+        if $action_class->meta->find_attribute_by_name('direction');
+
+    return $action_class->new(%args);
 }
 
 # path_to takes a predicate (and optional arguments to pass to the pathfinder)
