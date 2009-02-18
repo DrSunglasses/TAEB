@@ -186,5 +186,64 @@ distribution so it's not a great idea.
 
 This is also an example AI for people interested in writing one.
 
+=head1 EXERCISES
+
+If you're interested in bot development, here are some recommended enhancements
+to make to this demonstration AI. You can use these exercises to get accustomed
+to the TAEB code base.
+
+If you get stuck, one place to look is L<TAEB::AI::Behavioral>, where we've
+implemented all of these behaviors.
+
+=over 4
+
+=item
+
+Have the bot write Elbereth if its HP is less than 50%.
+
+=item
+
+When there's an adjacent Elbereth-ignoring monster, don't write Elbereth (so
+that you fall through to melee).
+
+=item
+
+Design a sane policy for writing Elbereth and meleeing monsters when there are
+both Elbereth-respecters and Elbereth-ignorers.
+
+Implement this policy.
+
+=item
+
+Pick up food (but not corpses). Is
+L<TAEB::Meta::Role::Item::Food::Corpse/is_safely_edible> sufficient to
+determine which food to pick up?
+
+=item
+
+Eat food from inventory before resorting to prayer.
+
+Be sure to support eating inventory food while standing on a tile with food
+(recall that NetHack asks you if you want to eat that floor food).
+
+=item
+
+Dip for Excalibur when appropriate.
+
+=item
+
+If you have projectiles, throw them at monsters. Be sure to pick up projectiles
+as well.
+
+=item
+
+Retrieve projectiles you've thrown.
+
+=item
+
+Pick up and wear armor.
+
+=back
+
 =cut
 
