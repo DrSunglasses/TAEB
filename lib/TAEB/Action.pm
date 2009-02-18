@@ -22,7 +22,7 @@ around BUILDARGS => sub {
             $real_args{$arg} = $args->{$arg};
         }
         else {
-            TAEB->log->action("Only provided attributes may be set from the constructor", level => 'warning');
+            die "Only provided attributes may be set from the constructor, $arg is not provided";
         }
     }
     return \%real_args;
