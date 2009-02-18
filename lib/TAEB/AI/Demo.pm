@@ -5,7 +5,7 @@ extends 'TAEB::AI';
 sub next_action {
     my $self = shift;
 
-    for my $name (qw/pray melee hunt descend to_stairs open_door to_door explore/) {
+    for my $name (qw/pray melee hunt descend to_stairs open_door to_door explore search/) {
         my $method = "try_$name";
         my $action = $self->$method;
 
@@ -16,8 +16,40 @@ sub next_action {
     }
 
     # We must be trapped! Search for an exit.
-    $self->currently('search');
-    return $self->search;
+    $self->currently('to_search');
+    return $self->to_search;
+}
+
+# first, some helper methods
+sub find_adjacent {
+    my $code = shift;
+
+    my ($tile, $direction);
+
+    TAEB->each_adjacent(sub {
+        my ($t, $d) = @_;
+        ($tile, $direction) = ($t, $d) if $code->($t, $d);
+    });
+
+    return $tile if !wantarray;
+    return ($tile, $direction);
+}
+
+sub if_adjacent {
+    my $code   = shift;
+    my $action = shift;
+
+    my ($tile, $direction) = find_adjacent($code);
+
+    return unless $direction;
+
+    # allow coderefs for action to do some additional decisionmaking
+    $action = $action->($tile, $direction) if ref($action);
+
+    my $action_class = "TAEB::Action::\u$action";
+    return $action_class->new(
+        direction => $direction,
+    );
 }
 
 sub try_pray {
@@ -30,21 +62,8 @@ sub try_pray {
 }
 
 sub try_melee {
-    # Look around for a monster.
-    my ($monster, $direction);
-    TAEB->each_adjacent(sub {
-        my ($tile, $dir) = @_;
-
-        ($monster, $direction) = ($tile->monster, $dir)
-            if $tile->has_enemy
-            && $tile->monster->is_meleeable;
-    });
-
-    return unless $monster;
-
-    # Swing!
-    return TAEB::Action::Melee->new(
-        direction => $direction,
+    if_adjacent(sub { $_[0]->has_enemy && $_[0]->monster->is_meleeable; },
+        'melee',
     );
 }
 
@@ -87,22 +106,13 @@ sub try_to_stairs {
 }
 
 sub try_open_door {
-    # Look around for a closed door.
-    my ($monster, $direction);
-    TAEB->each_adjacent(sub {
-        my ($tile, $dir) = @_;
-
-        ($door, $direction) = ($tile, $dir)
-            if $tile->type eq 'closeddoor';
-    });
-
-    return unless $door;
-
-    if ($door->locked) {
-        return TAEB::Action::Kick->new(direction => $direction);
-    }
-
-    return TAEB::Action::Open->new(direction => $direction);
+    if_adjacent(sub { shift->type eq 'closeddoor' },
+        sub {
+            my $door = shift;
+            return 'kick' if $door->is_locked;
+            return 'open';
+        },
+    );
 }
 
 sub try_to_door {
@@ -131,17 +141,11 @@ sub try_explore {
     );
 }
 
-sub search {
-    # Look around for an adjacent insufficiently-searched tile.
-    my ($adjacent_search);
-    TAEB->each_adjacent(sub {
-        my $tile = shift;
-        $adjacent_search = 1 if $tile->searched < 30;
-    });
+sub try_search {
+    if_adjacent(sub { shift->searched < 30 } => 'search');
+}
 
-    return TAEB::Action::Search->new if $adjacent_search;
-
-
+sub to_search {
     # look for the nearest tile that isn't sufficiently searched.
     my $path = TAEB::World::Path->first_match(sub {
         shift->searched < 30
