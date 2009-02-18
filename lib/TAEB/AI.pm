@@ -135,7 +135,7 @@ Action, if any.
 
 has debug_path => (
     is  => 'rw',
-    isa => 'TAEB::World::Path',
+    isa => 'Maybe[TAEB::World::Path]',
 );
 
 sub respond_really_attack { "y" }
