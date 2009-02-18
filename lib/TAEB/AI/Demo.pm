@@ -36,17 +36,13 @@ sub try_melee {
 
 sub try_hunt {
     # look for the nearest tile with a monster
-    my $path = TAEB::World::Path->first_match(
-        sub {
-            my $tile = shift;
+    my $path = TAEB::World::Path->first_match(sub {
+        my $tile = shift;
 
-            return $tile->has_enemy
-                && $tile->monster->is_meleeable
-                && !$tile->monster->is_seen_through_warning
-        },
-        through_unknown => 1,
-        why => "Demo::try_hunt",
-    );
+        return $tile->has_enemy
+            && $tile->monster->is_meleeable
+            && !$tile->monster->is_seen_through_warning
+    });
 
     return unless $path;
 
