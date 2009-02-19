@@ -283,7 +283,7 @@ sub radiate {
 
         my ($newx, $newy) = ($dx+$oldx, $dy+$oldy);
 
-        my $tile = TAEB->at($newx, $newy);
+        my $tile = $self->at($newx, $newy);
 
         push @$output, [$range - 1, $tile] if $tile;
 
@@ -295,13 +295,13 @@ sub radiate {
         $reflect  = 1 if !_beamable($tile, 0, 1);
 
         if ($reflect && $dx && $dy) {
-            my $offside = TAEB->at($newx, $oldy);
-            my $into    = TAEB->at($newx+$dx, $oldy);
+            my $offside = $self->at($newx, $oldy);
+            my $into    = $self->at($newx+$dx, $oldy);
 
             $hmirror = 1 if _beamable($offside, 1, 0) && _beamable($into);
 
-            $offside = TAEB->at($oldx, $newy);
-            $into    = TAEB->at($oldx, $newy+$dy);
+            $offside = $self->at($oldx, $newy);
+            $into    = $self->at($oldx, $newy+$dy);
 
             $vmirror = 1 if _beamable($offside, 1, 0) && _beamable($into);
         }
