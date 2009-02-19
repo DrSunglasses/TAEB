@@ -3,6 +3,7 @@ use TAEB::OO;
 use Log::Dispatch::Twitter;
 use Log::Dispatch::File;
 use Carp;
+use Scalar::Util qw/weaken/;
 extends 'Log::Dispatch::Channels';
 with 'TAEB::Role::Config';
 
@@ -30,7 +31,7 @@ has everything => (
             name      => 'everything',
             min_level => $self->_default_min_level,
             filename  => logfile_for("everything"),
-            callbacks => sub { $self->_format(@_) },
+            callbacks => sub { _format(@_) },
         );
         $self->add_as_default($output);
         return $output;
@@ -47,7 +48,7 @@ has warning => (
             name      => 'warning',
             min_level => 'warning',
             filename  => logfile_for("warning"),
-            callbacks => sub { $self->_format(@_) },
+            callbacks => sub { _format(@_) },
         );
         $self->add_as_default($output);
         return $output;
@@ -64,7 +65,7 @@ has error => (
             name      => 'error',
             min_level => 'error',
             filename  => logfile_for("error"),
-            callbacks => sub { $self->_format(@_) },
+            callbacks => sub { _format(@_) },
         );
         $self->add_as_default($output);
         return $output;
@@ -153,12 +154,14 @@ sub AUTOLOAD {
     return unless $self->_should_log($channel_name);
     my $channel = $self->channel($channel_name);
     if (!$channel) {
+        my $weakself = $self;
+        weaken $weakself;
         # XXX: would be nice if LDC had global callbacks
         $self->add_channel($channel_name,
                            callbacks => [
                            sub {
                                my %args = @_;
-                               if ($self->bt_levels->{$args{level}}) {
+                               if ($weakself->bt_levels->{$args{level}}) {
                                    return Carp::longmess($args{message});
                                }
                                else {
@@ -177,7 +180,7 @@ sub AUTOLOAD {
                        name      => $channel_name,
                        min_level => $self->_default_min_level,
                        filename  => logfile_for($channel_name),
-                       callbacks => sub { $self->_format(@_) },
+                       callbacks => sub { _format(@_) },
                    ),
                    channels => $channel_name);
     }
@@ -196,7 +199,6 @@ sub add_as_default {
 }
 
 sub _format {
-    my $self = shift;
     my %args = @_;
 
     chomp $args{message};
