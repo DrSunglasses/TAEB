@@ -6,8 +6,8 @@ use TAEB;
 use Curses;
 
 if (grep { $_ eq '--help' } @ARGV) {
-    print STDERR <<'USAGE';
-TAEB - the Tactical Amulet Extraction Bot
+    print STDERR <<"USAGE";
+TAEB $TAEB::VERSION - the Tactical Amulet Extraction Bot
 Options:
     --rc         Print TAEB's required nethackrc to stdout
     --loop       Run TAEB repeatedly
