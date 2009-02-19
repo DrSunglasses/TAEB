@@ -210,6 +210,7 @@ has polyself => (
 has spell_protection => (
     is  => 'rw',
     isa => 'Int',
+    default => 0,
 );
 
 sub parse_botl {
