@@ -292,7 +292,7 @@ sub radiate {
         my ($continue, $hmirror, $vmirror, $reflect) = (0,0,0,0);
 
         $continue = 1 if _beamable($tile);
-        $reflect  = 1 if !_beamable($tile, 0, 1);
+        $reflect  = 1 if !_beamable($tile, 0, 1) && $bouncy;
 
         if ($reflect && $dx && $dy) {
             my $offside = $self->at($newx, $oldy);
