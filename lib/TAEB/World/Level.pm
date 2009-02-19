@@ -239,9 +239,31 @@ How far to radiate outwards. You probably can't throw a dagger all the way
 across the level, so you may want to decrease it to something more realistic.
 Like 3, har har. You're weak.
 
+=item bouncy (default: false)
+
+If true, the item will be assumed capable of bouncing.
+
+=item stopper (default: sub { 0 })
+
+If a path intersects a tile with this set, we will not allow that path.
+
+=item allowself (default: 0)
+
+Like stopper, but for our own tile (a common special case).
+
 =back
 
 =cut
+
+my %beamblock = map { $_ => 1 } qw/wall tree stone/;
+
+sub _beamable {
+    my ($tile, $nodoor, $nounknown) = @_;
+
+    return $tile && !$beamblock{$tile->type}
+        && (!$nodoor    || $tile->type ne 'closeddoor')
+        && (!$nounknown || $tile->type ne 'unknown');
+}
 
 sub radiate {
     my $self = shift;
@@ -251,20 +273,59 @@ sub radiate {
         @_,
     );
 
-    my $stopper = $args{stopper} || sub { 0 };
+    my $stopper   = $args{stopper} || sub { 0 };
+    my $allowself = $args{allowself};
+    my $bouncy    = $args{bouncy};
+
+    my $fly;
+    $fly = sub {
+        my ($output, $dx, $dy, $oldx, $oldy, $range) = @_;
+
+        my ($newx, $newy) = ($dx+$oldx, $dy+$oldy);
+
+        my $tile = TAEB->at($newx, $newy);
+
+        push @$output, [$range - 1, $tile] if $tile;
+
+        return if $range <= 1;
+
+        my ($continue, $hmirror, $vmirror, $reflect) = (0,0,0,0);
+
+        $continue = 1 if _beamable($tile);
+        $reflect  = 1 if !_beamable($tile, 0, 1);
+
+        if ($reflect && $dx && $dy) {
+            my $offside = TAEB->at($newx, $oldy);
+            my $into    = TAEB->at($newx+$dx, $oldy);
+
+            $hmirror = 1 if _beamable($offside, 1, 0) && _beamable($into);
+
+            $offside = TAEB->at($oldx, $newy);
+            $into    = TAEB->at($oldx, $newy+$dy);
+
+            $vmirror = 1 if _beamable($offside, 1, 0) && _beamable($into);
+        }
+
+        $fly->($output,  $dx,  $dy, $newx, $newy, $range-1) if $continue;
+        $fly->($output,  $dx, -$dy, $newx, $newy, $range-2) if $hmirror;
+        $fly->($output, -$dx,  $dy, $newx, $newy, $range-2) if $vmirror;
+        $fly->($output, -$dx, -$dy, $newx, $newy, $range-2) if $reflect;
+    };
 
     # check each direction
     DIRECTION: for (deltas) {
         my ($dx, $dy) = @$_;
-        my ($x, $y) = (TAEB->x, TAEB->y);
 
-        for (1 .. $args{max}) {
-            $x += $dx; $y += $dy;
+        my @accum = ();
 
-            # have we fallen off the map? if so, stop this line of radiation
-            my $tile = $self->at($x, $y) or next DIRECTION;
+        $fly->(\@accum, $dx, $dy, TAEB->x, TAEB->y, $args{max});
+
+        for (@accum) {
+            my ($rr, $tile) = @$_;
 
             next DIRECTION if $stopper->($tile);
+
+            next DIRECTION if $tile == TAEB->current_tile && !$allowself;
 
             my $ret = $code->($tile);
             if ($ret) {
@@ -272,15 +333,10 @@ sub radiate {
                 return delta2vi($dx, $dy) if !wantarray;
 
                 # if they ask for a list, give them (direction, distance, $tile)
-                return (delta2vi($dx, $dy), $_, $tile);
+                return (delta2vi($dx, $dy), $args{max} - $rr, $tile);
             }
-
-            # stop radiating
-            $tile->is_walkable(1) or next DIRECTION;
-
         }
     }
-
 }
 
 sub remove_monster {
