@@ -5,6 +5,12 @@ with 'TAEB::Action::Role::Item';
 
 use constant command => "Da\n";
 
+has items => (
+    is  => 'ro',
+    isa => 'ArrayRef',
+    provided => 1,
+);
+
 # logic is elsewhere sadly
 
 sub msg_ring {
