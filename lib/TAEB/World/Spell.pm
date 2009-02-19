@@ -17,7 +17,7 @@ has learned_at => (
 );
 
 has fail => (
-    is       => 'ro',
+    is       => 'rw',
     isa      => 'Int',
     required => 1,
 );
