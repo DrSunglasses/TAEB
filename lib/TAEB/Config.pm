@@ -196,6 +196,11 @@ sub get_interface {
     return $interface_class->new(%interface_options);
 }
 
+sub nethackrc_contents {
+    local $/;
+    return <DATA>;
+}
+
 # yes autoload is bad. but, I am lazy
 our $AUTOLOAD;
 sub AUTOLOAD {
@@ -214,3 +219,54 @@ no TAEB::OO;
 
 1;
 
+__DATA__
+# improve the consistency of telnet ping/pong
+OPTIONS=!sparkle
+OPTIONS=runmode:teleport
+OPTIONS=!timed_delay
+
+# display
+OPTIONS=showexp
+OPTIONS=showscore
+OPTIONS=time
+OPTIONS=color
+OPTIONS=boulder:0
+OPTIONS=!tombstone
+OPTIONS=!news
+OPTIONS=!legacy
+OPTIONS=suppress_alert:3.4.3
+OPTIONS=hilite_pet
+
+# functionality
+OPTIONS=autopickup
+OPTIONS=pickup_types:$/
+OPTIONS=pickup_burden:unburdened
+OPTIONS=!prayconfirm
+OPTIONS=pettype:none
+OPTIONS=!cmdassist
+OPTIONS=disclose:+iavgc
+
+# miscellaneous
+OPTIONS=!mail
+
+# map changes for code simplicity
+OPTIONS=monsters:abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@X'&;:wm
+# "strange monster" = m (mimic)
+# ghost/shade = X     now space is solid rock
+# worm tail = w       now ~ is water
+
+OPTIONS=traps:\^\^\^\^\^\^\^\^\^\^\^\^\^\^\^\^\^\^\^\^\^
+# spider web = ^      now " is amulet
+
+OPTIONS=dungeon: |--------||.-|]]}}.##<><>_\\\\{{~.}..}} #}
+#  sink => {          one less #, walkable
+#  drawbridge => }    one less #, not walkable
+#  iron bars => }     one less #, not walkable (color: cyan)
+#  trees => }         one less #, not walkable (color: green)
+#  closed doors => ]  now + is spellbook
+#  grave => \         now gray | and - are walls, (grey -- thrones)
+#  water => ~         it looks cool (blue -- long worm tail)
+
+OPTIONS=objects:m
+# "strange object" = m (mimic)
+# now ] is closed door

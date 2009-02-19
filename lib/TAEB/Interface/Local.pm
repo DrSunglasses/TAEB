@@ -40,7 +40,11 @@ sub _build_pty {
     chomp(my $pwd = `pwd`);
 
     my $rcfile = TAEB->config->taebdir_file('TAEB.nethackrc');
-    -e $rcfile or die "Could not find a nethackrc file. You should copy TAEB's etc/TAEB.nethackrc into $ENV{TAEBDIR}/TAEB.nethackrc!";
+    unless (-e $rcfile) {
+        open my $fh, '>', $rcfile or die "$ENV{TAEBDIR} must be writable";
+        $fh->write(TAEB->config->nethackrc_contents);
+        close $fh;
+    }
 
     local $ENV{NETHACKOPTIONS} = '@' . $rcfile;
     local $ENV{TERM} = 'xterm-color';

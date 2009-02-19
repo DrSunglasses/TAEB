@@ -5,6 +5,10 @@ use lib 'lib';
 use TAEB;
 use Curses;
 
+if (grep { $_ eq '--rc' } @ARGV) {
+    print TAEB->config->nethackrc_contents;
+    exit 0;
+}
 my $loop = grep { $_ eq '--loop' } @ARGV;
 
 my $tstp = $SIG{TSTP} = sub {
