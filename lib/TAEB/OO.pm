@@ -56,7 +56,7 @@ sub init_meta {
     );
     Moose::Util::MetaRole::apply_metaclass_roles(
         for_class                 => $options{for_class},
-        attribute_metaclass_roles => ['TAEB::Meta::Role::Provided'],
+        attribute_metaclass_roles => ['TAEB::Meta::Trait::Provided'],
     ) if $options{for_class} =~ /^TAEB::Action/;
     return $options{for_class}->meta;
 }

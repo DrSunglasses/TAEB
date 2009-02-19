@@ -1,4 +1,4 @@
-package TAEB::Meta::Role::Provided;
+package TAEB::Meta::Trait::Provided;
 use Moose::Role;
 
 has 'provided' => (
