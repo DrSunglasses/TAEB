@@ -69,20 +69,17 @@ our %msg_string = (
         ['dungeon_feature', 'fountain dries up'],
     "As the hand retreats, the fountain disappears!" =>
         ['dungeon_feature', 'fountain dries up'],
+    # We need to calculate the amount we would gain _right now_ because
+    # if we wait, the publisher queue is run after the bottom line and
+    # we use the new AC.  Yuk.
     "The air around you begins to shimmer with a golden haze." =>
-        ['buff', 'protection', 1, +1],
+        ['protection_add', sub { TAEB->senses->spell_protection_return }],
     "The golden haze around you becomes more dense." =>
-        ['buff', 'protection', 1, +1],
+        ['protection_add', sub { TAEB->senses->spell_protection_return }],
     "The golden haze around you becomes less dense." =>
-        ['buff', 'protection', 1, -1],
+        ['protection_dec'],
     "The golden haze around you disappears." =>
-        ['buff', 'protection', 0, -1],
-    "You are suddenly moving much faster." =>
-        ['buff', 'haste self', 1, +1],
-    "Your legs get new energy." =>
-        ['buff', 'haste self', 1, +1],
-    "You feel yourself slowing down." =>
-        ['buff', 'haste self', 0, -1],
+        ['protection_gone'],
     "This door is locked." =>
         ['door', 'locked'],
     "This door resists!" =>

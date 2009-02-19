@@ -207,6 +207,11 @@ has polyself => (
     isa => 'Maybe[Str]',
 );
 
+has spell_protection => (
+    is  => 'rw',
+    isa => 'Int',
+);
+
 sub parse_botl {
     my $self = shift;
     my $status = TAEB->vt->row_plaintext(22);
@@ -667,6 +672,43 @@ sub speed {
         }
     }
     return ($min, $max);
+}
+
+# XXX this belongs elsewhere, but where?
+
+=head2 spell_protection_return :: Int
+
+Returns the amount of protection the PC would get from the spell right now.
+
+=cut
+
+sub spell_protection_return {
+    my $self = shift;
+
+    my $nat_rank = int((10 - ($self->ac + $self->spell_protection)) / 10);
+    $nat_rank = 3 if $nat_rank > 3;
+
+    my $lev = $self->level;
+    my $amt = - int($self->spell_protection / (4 - $nat_rank));
+
+    while ($lev >= 1) { $lev = int($lev / 2); $amt++ };
+
+    return $amt > 0 ? $amt : 0;
+}
+
+sub msg_protection_add {
+    my ($self, $amt) = @_;
+    $self->spell_protection($self->spell_protection + $amt);
+}
+
+sub msg_protection_dec {
+    my ($self) = @_;
+    $self->spell_protection($self->spell_protection - 1);
+}
+
+sub msg_protection_gone {
+    my ($self) = @_;
+    $self->spell_protection(0);
 }
 
 =head2 has_infravision :: Bool
