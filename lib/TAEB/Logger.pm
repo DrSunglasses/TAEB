@@ -264,7 +264,7 @@ sub logfile_for {
 }
 
 sub _creation_time {
-    open my $everything, "<", logfile_for("everything");
+    open my $everything, "<", logfile_for("everything") or return;
     my $start_line = <$everything>;
     $start_line =~ s/^<T-> (\S+ \S+).*/$1/;
     $start_line =~ /(\d\d\d\d)-(\d\d)-(\d\d) (\d\d):(\d\d):(\d\d)/;
@@ -279,6 +279,7 @@ sub _backup_logs {
                                     "log rotate");
 
     my ($year, $mon, $mday, $hour, $min, $sec) = $self->_creation_time;
+    return unless defined $year;
     my $timestamp = sprintf "%04d%02d%02d%02d%02d%02d", $year, $mon, $mday,
                                                         $hour, $min, $sec;
 
