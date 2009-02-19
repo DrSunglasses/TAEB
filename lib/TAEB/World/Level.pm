@@ -255,7 +255,7 @@ Like stopper, but for our own tile (a common special case).
 
 =cut
 
-my %beamblock = map { $_ => 1 } qw/wall tree stone/;
+my %beamblock = map { $_ => 1 } qw/wall tree rock/;
 
 sub _beamable {
     my ($tile, $nodoor, $nounknown) = @_;
