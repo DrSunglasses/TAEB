@@ -636,7 +636,7 @@ __END__
 
 =head1 NAME
 
-TAEB - Tactical Amulet Extraction Bot
+TAEB - the Tactical Amulet Extraction Bot (for NetHack)
 
 =head1 DESCRIPTION
 
