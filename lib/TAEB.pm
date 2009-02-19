@@ -20,12 +20,6 @@ use TAEB::Debug;
 with 'TAEB::Role::Persistency';
 with 'TAEB::Role::Initialize';
 
-=head1 NAME
-
-TAEB - Tactical Amulet Extraction Bot
-
-=cut
-
 # report errors to the screen? should only be done while playing NetHack, not
 # during REPL or testing
 our $ToScreen = 0;
@@ -294,14 +288,6 @@ sub next_action {
     return $action;
 }
 
-=head2 iterate
-
-This will perform one input/output iteration of TAEB.
-
-It will return any input it receives, so you can follow along at home.
-
-=cut
-
 sub iterate {
     my $self = shift;
 
@@ -368,12 +354,6 @@ sub handle_logging_in {
 
 sub handle_saving { shift->save }
 
-=head2 full_input
-
-Run a full input loop, sending messages, updating the screen, and so on.
-
-=cut
-
 sub full_input {
     my $self = shift;
     my $main_call = shift;
@@ -394,17 +374,6 @@ sub full_input {
         $self->display_topline;
     }
 }
-
-=head2 process_input [Bool]
-
-This will read the interface for input, update the VT object, and print.
-
-It will also return any input it receives.
-
-If the passed in boolean is false, no scraping will occur. If no boolean is
-provided, or if the boolean is true, then the scraping will go down.
-
-=cut
 
 sub process_input {
     my $self = shift;
@@ -434,13 +403,6 @@ sub human_input {
         }
     }
 }
-
-=head2 keypress Str
-
-This accepts a key (such as one typed by the meatbag at the terminal) and does
-something with it.
-
-=cut
 
 sub keypress {
     my $self = shift;
@@ -667,4 +629,38 @@ __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
 
 1;
+
+__END__
+
+=head1 NAME
+
+TAEB - Tactical Amulet Extraction Bot
+
+=head1 DESCRIPTION
+
+=head2 iterate
+
+This will perform one input/output iteration of TAEB.
+
+It will return any input it receives, so you can follow along at home.
+
+=head2 full_input
+
+Run a full input loop, sending messages, updating the screen, and so on.
+
+=head2 process_input [Bool]
+
+This will read the interface for input, update the VT object, and print.
+
+It will also return any input it receives.
+
+If the passed in boolean is false, no scraping will occur. If no boolean is
+provided, or if the boolean is true, then the scraping will go down.
+
+=head2 keypress Str
+
+This accepts a key (such as one typed by the meatbag at the terminal) and does
+something with it.
+
+=cut
 
