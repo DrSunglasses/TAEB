@@ -43,6 +43,21 @@ requires 'NetHack::Menu' => 0.06;
 requires 'NetHack::FOV'  => 0.01;
 requires 'NetHack::Item' => 0.06;
 
+if (!can_run('nethack')) {
+    warn << '__NETHACK__';
+******************************************************************
+It appears that you do not have a "nethack" binary available. You will not be
+able to use TAEB's Local interface until you install nethack.
+
+Alternatively, use the Telnet interface for playing on public servers such as
+nethack.alt.org. Be sure that the "server nethack" dependencies are satisfied.
+******************************************************************
+__NETHACK__
+
+    # Give them some time to read.
+    sleep 10;
+}
+
 features(
     # optional modules that enhance TAEB's playing
     'TAEB for server NetHack' => [
