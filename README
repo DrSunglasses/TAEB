@@ -61,11 +61,12 @@ configuration and storing state and log files. By default, this directory is
 ~/.taeb, but this can by overridden by setting the TAEBDIR environment
 variable. Copy the configuration file into that directory.
 
-Next, TAEB requires certain options to be set in order to recognize dungeon
-features, and to not get confused by extra output. These options are in
-etc/TAEB.nethackrc. For the Local interface, copy this file into $TAEBDIR. To
-play on a DGameLaunch server such as nethack.alt.org, use the Telnet interface,
-and copy the nethackrc into the configuration editor.
+Next, TAEB requires certain options to be set in order to recognize
+dungeon features, and to not get confused by extra output. These options
+can be displayed by running "taeb --rc". For the Local interface, these will
+automatically be copied into $TAEBDIR/TAEB.nethackrc for use by TAEB. To
+play on a DGameLaunch server such as nethack.alt.org, use the Telnet
+interface, and copy the nethackrc into the configuration editor.
 
 
 -- RUNNING TAEB
