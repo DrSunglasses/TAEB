@@ -9,26 +9,9 @@ use TAEB::Meta::Trait::GoodStatus;
 use TAEB::Meta::Types;
 use TAEB::Meta::Overload;
 
-# XXX: replace the ugly gross stuff below here with this commented out version
-# once Moose 0.71 is released
-#Moose::Exporter->setup_import_methods(
-    #also        => ['Moose', 'MooseX::ClassAttribute'],
-    #with_caller => ['extends'],
-#);
-for my $sub (qw(with has before after around override augment super inner)) {
-    no strict 'refs';
-    *{$sub} = sub { goto \&{"Moose::$sub"} };
-}
 Moose::Exporter->setup_import_methods(
-    also        => ['MooseX::ClassAttribute'],
-    with_caller => [
-        qw(extends with has before after around override augment),
-    ],
-    as_is => [
-        qw(super inner),
-        \&Carp::confess,
-        \&Scalar::Util::blessed,
-    ],
+    also        => ['Moose', 'MooseX::ClassAttribute'],
+    with_caller => ['extends'],
 );
 
 # make sure using extends doesn't wipe out our base class roles

@@ -6,7 +6,7 @@ name           'TAEB';
 all_from       'lib/TAEB.pm';
 
 # the object system
-requires 'Moose';
+requires 'Moose'                       => 0.71;
 requires 'MooseX::AttributeHelpers'    => 0.09;
 requires 'MooseX::ClassAttribute'      => 0.07;
 requires 'MooseX::Role::Parameterized' => 0.04;
