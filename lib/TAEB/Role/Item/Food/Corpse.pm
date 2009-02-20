@@ -69,6 +69,9 @@ sub same_race {
 sub should_sac {
     my ($self) = @_;
 
+    return 0 if $self->monster =~ /c(?:o|hi)ckatrice/ &&
+        !TAEB->inventory->gloves;
+
     return 0 if $self->monster ne 'acid blob' && $self->estimate_age > 50;
 
     return 0 if $self->same_race && TAEB->align ne 'Cha';
