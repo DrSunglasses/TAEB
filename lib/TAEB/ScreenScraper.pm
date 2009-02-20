@@ -397,6 +397,20 @@ our %msg_string = (
         [status_change => levitation => 1],
     'You are floating high above the fountain.' =>
         [status_change => levitation => 1],
+    'Your sacrifice sprouts wings and a propeller and roars away!' =>
+        ['sacrifice_gone'],
+    'Your sacrifice puffs up, swelling bigger and bigger, and pops!' =>
+        ['sacrifice_gone'],
+    'Your sacrifice collapses into a cloud of dancing particles and fades away!' =>
+        ['sacrifice_gone'],
+    'Your sacrifice disappears!' =>
+        ['sacrifice_gone'],
+    'Your sacrifice disappears in a flash of light!' =>
+        ['sacrifice_gone'],
+    'Your sacrifice disappears in a burst of flame!' =>
+        ['sacrifice_gone'],
+    'The blood covers the altar!' =>
+        ['sacrifice_gone'],
 );
 
 our @msg_regex = (
@@ -407,8 +421,20 @@ our @msg_regex = (
                     $1 =~ /man|woman|elf|dwarf|gnome|orc/ ? undef : $1; }],
     ],
     [
+            qr/^You offer the Amulet of Yendor to .*$/,
+                ['sacrifice_gone'],
+    ],
+    [
+            qr/^The blood floods the altar, which vanishes in a .* cloud!$/,
+                ['sacrifice_gone'],
+    ],
+    [
             qr/^You return to .* form!$/,
                 ['polyself', undef],
+    ],
+    [
+            qr/^The altar is stained with .* blood.$/,
+                ['sacrifice_gone'],
     ],
     [
             qr/^The .* appears to be in ex(?:cellent|traordinary) health for a statue.$/,
@@ -827,6 +853,7 @@ our @prompts = (
     qr/^Drink from the (fountain|sink)\?/   => 'drink_from',
     qr/^What do you want to drink\?/        => 'drink_what',
     qr/^What do you want to eat\?/          => 'eat_what',
+    qr/^What do you want to sacrifice\?/    => 'sacrifice_what',
     qr/^What do you want to zap\?/          => 'zap_what',
     qr/^What do you want to read\?/         => 'read_what',
     qr/^What do you want to rub\?/          => 'rub_what',
@@ -838,6 +865,7 @@ our @prompts = (
 
     qr/^Dip (.*?) into the (fountain|pool of water|water|moat)\?/ => 'dip_into_water',
     qr/^There (?:is|are) (.*?) here; eat (?:it|one)\?/ => 'eat_ground',
+    qr/^There (?:is|are) (.*?) here; sacrifice (?:it|one)\?/ => 'sacrifice_ground',
     qr/^What do you want to (?:write|engrave|burn|scribble|scrawl|melt) (?:in|into|on) the (.*?) here\?/ => 'write_what',
     qr/^What do you want to add to the (?:writing|engraving|grafitti|scrawl|text) (?:in|on|melted into) the (.*?) here\?/ => 'write_what',
     qr/^Do you want to add to the current engraving\?/ => 'add_engraving',
