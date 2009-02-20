@@ -290,13 +290,13 @@ or undef if the symbol does not uniquely determine the monster.
 sub spoiler {
     my $self = shift;
 
-    my @candidates = TAEB::Spoilers::Monster->search(
+    my @candidates = values %{+{TAEB::Spoilers::Monster->search(
         glyph => $self->glyph,
         color => $self->color,
-    );
+    )}};
 
-    return if @candidates > 2;
-    return $candidates[1];
+    return @candidates if wantarray;
+    return @candidates > 1 ? undef : $candidates[0];
 }
 
 =head2 can_be_outrun :: bool
