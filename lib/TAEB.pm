@@ -20,7 +20,7 @@ use TAEB::Debug;
 with 'TAEB::Role::Persistency';
 with 'TAEB::Role::Initialize';
 
-our $VERSION = '0.00417613';
+our $VERSION = '0.01';
 
 # report errors to the screen? should only be done while playing NetHack, not
 # during REPL or testing
