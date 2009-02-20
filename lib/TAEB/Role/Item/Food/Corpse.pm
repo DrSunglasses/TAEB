@@ -73,12 +73,9 @@ sub should_sac {
 
     return 0 if $self->same_race && TAEB->align ne 'Cha';
 
-    return 0 if $self->unicorn eq TAEB->align;
+    return 0 if ($self->unicorn || "") eq TAEB->align;
 
     return 0 if $self->failed_to_sacrifice;
-
-    # Don't even try.  Why?  Because, for simplicity, we drop corpses before
-    # sacrificing, and permacorpses are no good sitting on an altar.
 
     return 0 if $self->permanent;
 
