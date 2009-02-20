@@ -318,7 +318,7 @@ sub statuses {
     my @statuses;
     my @attr = grep { $_->name =~ /^is_/ }
                grep { !$_->does('TAEB::GoodStatus') }
-               $self->meta->compute_all_applicable_attributes;
+               $self->meta->get_all_attributes;
 
     for my $attr (@attr) {
         next unless $attr->get_value($self);
@@ -332,7 +332,7 @@ sub resistances {
     my $self = shift;
     my @resistances;
     my @attr = grep { $_->name =~ /_resistant$/ }
-               $self->meta->compute_all_applicable_attributes;
+               $self->meta->get_all_attributes;
 
     for my $attr (@attr) {
         next unless $attr->get_value($self);

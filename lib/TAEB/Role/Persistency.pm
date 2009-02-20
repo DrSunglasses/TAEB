@@ -11,9 +11,9 @@ sub save_state {
 
     my $state = {};
 
-    my @attrs = $self->meta->compute_all_applicable_attributes;
-    push @attrs, $self->meta->compute_all_applicable_class_attributes
-        if $self->meta->can('compute_all_applicable_class_attributes');
+    my @attrs = $self->meta->get_all_attributes;
+    push @attrs, $self->meta->get_all_class_attributes
+        if $self->meta->can('get_all_class_attributes');
 
     for my $attr (@attrs) {
         next unless $attr->does('TAEB::Persistent');

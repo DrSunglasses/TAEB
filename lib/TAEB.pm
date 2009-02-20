@@ -149,7 +149,7 @@ class_has dungeon => (
                           farthest_level_from farthest_level deepest_level
                           map_like x y z fov};
 
-        for (map { $_->{name} } $dungeon->compute_all_applicable_methods) {
+        for ($dungeon->get_all_method_names) {
             $delegate{$_} = $_
                 if m{
                     ^
