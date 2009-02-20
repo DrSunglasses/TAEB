@@ -315,25 +315,6 @@ sub can_be_outrun {
     return $spd < $pmin || ($spd == $pmin && $spd < $pmax);
 }
 
-=head2 should_attack_at_range :: Bool
-
-Returns true if the monster is (probably) dangerous in melee to the point
-where wand charges and kiting are preferable.
-
-=cut
-
-sub should_attack_at_range {
-    my $self = shift;
-
-    return 1 if $self->glyph eq 'n';
-    return 1 if $self->is_minotaur;
-
-    # add other things as they become a problem / replace with better spoiler
-    # handling...
-
-    return 0;
-}
-
 =head2 can_be_infraseen :: Bool
 
 Returns true if the player could see this monster using infravision.
@@ -345,22 +326,6 @@ sub can_be_infraseen {
 
     return TAEB->has_infravision
         && $self->glyph !~ /[abceijmpstvwyDEFLMNPSWXZ';:~]/; # evil evil should be in T:M:S XXX
-}
-
-=head2 danger_level -> Int
-
-Returns a number indicating a rating of how difficult the monster is.
-
-Since it should only be used to sort monsters into difficulty, don't worry
-about this function's range.
-
-=cut
-
-sub danger_level {
-    my $self = shift;
-
-    return 1 if !$self->respects_elbereth;
-    return 0;
 }
 
 __PACKAGE__->meta->make_immutable;
