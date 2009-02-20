@@ -41,7 +41,7 @@ sub _build_pty {
 
     my $rcfile = TAEB->config->taebdir_file('TAEB.nethackrc');
     unless (-e $rcfile) {
-        open my $fh, '>', $rcfile or die "$ENV{TAEBDIR} must be writable";
+        open my $fh, '>', $rcfile or die "Unable to open $rcfile for writing: $!";
         $fh->write(TAEB->config->nethackrc_contents);
         close $fh;
     }
