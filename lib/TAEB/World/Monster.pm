@@ -1,6 +1,7 @@
 package TAEB::World::Monster;
 use TAEB::OO;
 use TAEB::Util qw/:colors align2str/;
+use List::Util qw/max min/;
 
 use overload %TAEB::Meta::Overload::default;
 
@@ -326,6 +327,124 @@ sub can_be_infraseen {
 
     return TAEB->has_infravision
         && $self->glyph !~ /[abceijmpstvwyDEFLMNPSWXZ';:~]/; # evil evil should be in T:M:S XXX
+}
+
+=head2 speed :: Int
+
+Returns the (base for now) speed of this monster.  If we can't exactly
+tell what it is, return the speed of the fastest possibility.
+
+=cut
+
+sub speed {
+    max map { $_->{speed} } shift->spoiler;
+}
+
+sub _hitchance {
+    # need to be above a 1dN
+    my ($min_to_hit, $max_to_hit, $die_size) = @_;
+
+    my $cases = $max_to_hit - $min_to_hit + 1;
+
+    my $lowest_random  = max(2, $min_to_hit);
+    my $highest_random = min($max_to_hit, $die_size - 1);
+
+    my $random_cases = $highest_random - $lowest_random + 1;
+
+    my $chance = 0;
+
+    # no chance contribution from the auto miss range
+
+    if ($lowest_random <= $highest_random) {
+        my $avg_tohit = ($lowest_random + $highest_random) / 2;
+
+        my $random_chance = ($avg_tohit - 1) / $die_size;
+
+        $chance += $random_chance * $random_cases / $cases;
+    }
+
+    if ($max_to_hit > $highest_random) {
+        my $min_unrandom = max($min_to_hit, $die_size);
+        $chance += ($max_to_hit - $min_unrandom + 1) / $cases;
+    }
+
+    $chance;
+}
+
+sub _read_attack_string {
+    my $spoil = shift;
+
+    my $total_max = 0;
+    my $total_avg = 0;
+
+    # highest and lowest to-hit ('tmp' in mattacku) values, accounting
+    # for AC rerolling
+    my $min_to_hit = TAEB->ac + 10 + $spoil->{level};
+    my $max_to_hit = TAEB->ac < 0 ? (9 + $spoil->{level}) : $min_to_hit;
+
+    my $atk_index = 0;
+
+    for my $token (split / /, $spoil->{attacks}) {
+        $atk_index++;
+
+        # Active attacks only
+        next unless $token =~ /^(.??)([0-9]+)d([0-9]+)(.??)$/;
+
+        # Ignore the attacks of yellow and black lights, since they do
+        # _large_ amounts of damage that's actually a duration (10d20
+        # and 10d12 respectively).
+        next if $4 eq "b" || $4 eq "h";
+
+        # Ignore non-melee
+        next if $1 eq "M" || $1 eq "B" || $1 eq "G" || $1 eq "S";
+
+        # Ignore attacks that the player has res to
+        next if $4 eq "C" && TAEB->cold_resistant;
+        next if $4 eq "F" && TAEB->fire_resistant;
+        next if $4 eq "E" && TAEB->shock_resistant;
+
+        my $hitch = _hitchance($min_to_hit, $max_to_hit, 20 + $atk_index - 1);
+
+        $hitch = 1 if $1 eq "E";
+
+        $total_max += $2 * $3;
+
+        # Ballpark the AC reduction, getting it right seems not worth it
+
+        my $damage = $2 * ($3 + 1) / 2;
+
+        if (TAEB->ac < 0) {
+            my $acreduce = - TAEB->ac / 2;
+
+            $damage -= ($acreduce * $damage) / ($acreduce + $damage);
+        }
+
+        $total_avg += $hitch * $damage;
+    }
+
+    return ($total_avg, $total_max);
+}
+
+=head2 maximum_melee_damage :: Int
+
+How much damage can this monster do in a single round of attacks if it
+connects and does full damage with each hit?
+
+=cut
+
+sub maximum_melee_damage {
+    max map { (_read_attack_string $_)[1] } shift->spoiler
+}
+
+=head2 average_melee_damage :: Int
+
+How much damage can this monster do in a single round of attacks in
+the average case, accounting for AC?
+
+=cut
+
+sub average_melee_damage {
+    max map { (_read_attack_string $_)[0] } shift->spoiler
 }
 
 __PACKAGE__->meta->make_immutable;
