@@ -153,7 +153,7 @@ sub if_adjacent {
 
 # path_to takes a predicate (and optional arguments to pass to the pathfinder)
 # and finds the closest tile that satisfies that predicate. If there is such a
-# tile, then a Move action will be returned with that path.
+# tile, then a Path will be returned.
 # If you need to find a path adjacent to an unwalkable tile, then pass in
 # include_endpoints => 1.
 sub path_to {
@@ -165,6 +165,7 @@ sub path_to {
         $code = sub { shift->type eq $type };
     }
 
+    # TAEB will inflate a path into a Move action for us
     return TAEB::World::Path->first_match($code, @_);
 }
 
