@@ -3,6 +3,7 @@ use TAEB::OO;
 use Curses ();
 use TAEB::Util ':colors';
 use Time::HiRes 'gettimeofday';
+use List::Util 'max';
 
 extends 'TAEB::Display';
 with 'TAEB::Role::Config';
@@ -297,29 +298,33 @@ sub draw_menu {
 
     $self->redraw;
 
-    Curses::move(0, 0);
-    Curses::addstr($menu->description);
-    Curses::clrtoeol();
+    my @rows = $menu->description;
 
-    my $row = 0;
-    for my $i ($pager->first .. $pager->last) {
-        my $item = $menu->item($i - 1);
+    my $i = 0;
 
-        Curses::move($row + 1, 0);
-        Curses::addstr(chr($row + ord('a')) . ' - ' . $item);
-        Curses::clrtoeol();
+    push @rows, map {
+        chr($i++ + ord('a')) . ' - ' . $menu->item($_ - 1)
+    } $pager->first .. $pager->last;
 
-        ++$row;
-    }
-
-    Curses::move($row + 1, 0);
     if ($pager->first_page == $pager->last_page) {
-        Curses::addstr("(end) ");
+        push @rows, "(end) ";
     }
     else {
-        Curses::addstr("(Page " . $pager->current_page . " of " . $pager->last_page . ") ");
+        push @rows, "(Page "
+                  . $pager->current_page
+                  . " of "
+                  . $pager->last_page
+                  . ") ";
     }
-    Curses::clrtoeol();
+
+    my $max_length = max map { length } @rows;
+
+    my $row = 0;
+    for (@rows) {
+        Curses::move($row++, 0);
+        Curses::addstr($_);
+        Curses::addstr(' ' x (2 + $max_length - length));
+    };
 }
 
 =head2 change_draw_mode
