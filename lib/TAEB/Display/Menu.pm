@@ -48,7 +48,7 @@ sub select {
     return if $self->select_type eq 'none';
 
     for my $index (@_) {
-        $self->_item_metadata->[$index][1] = 1;
+        $self->_item_metadata->[$index][1] ^= 1;
     }
 }
 
