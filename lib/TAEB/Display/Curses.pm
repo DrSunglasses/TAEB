@@ -46,6 +46,9 @@ sub institute {
 
 augment reinitialize => sub {
     Curses::initscr;
+
+    # need to do this again for some reason
+    shift->redraw(force_clear => 1);
 };
 
 sub deinitialize {
