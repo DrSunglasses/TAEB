@@ -331,6 +331,7 @@ augment display_menu => sub {
             elsif ($c eq ':') {
                 $is_searching = 1;
                 $menu->search('');
+                $pager->current_page(1);
             }
         }
     }
