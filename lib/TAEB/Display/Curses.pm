@@ -266,7 +266,7 @@ sub display_menu {
     $pager->current_page(1);
 
     while (1) {
-        $pager->total_entries(scalar @{ $menu->items });
+        $pager->total_entries($menu->items);
 
         $self->draw_menu($menu, $pager);
 
