@@ -70,7 +70,7 @@ sub should_sac {
     my ($self) = @_;
 
     return 0 if $self->monster =~ /c(?:o|hi)ckatrice/ &&
-        !TAEB->inventory->gloves;
+        !TAEB->equipment->gloves;
 
     return 0 if $self->monster ne 'acid blob' && $self->estimate_age > 50;
 
