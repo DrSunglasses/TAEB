@@ -32,7 +32,7 @@ use constant \%colors;
 
 use Sub::Exporter -setup => {
     exports => [qw(tile_types trap_types delta2vi vi2delta deltas dice colors),
-                qw(crow_flies angle align2str), keys %colors],
+                qw(crow_flies angle align2str display), keys %colors],
     groups => {
         colors => [keys %colors],
     },
@@ -316,6 +316,8 @@ sub crow_flies {
     while ($y     > $y1) { $dir .= 'k'; $y-- }
     while ($x     < $x1) { $dir .= 'l'; $x++ }
 =cut
+
+sub display { TAEB::Display::Color->new(@_) }
 
 1;
 
