@@ -445,6 +445,7 @@ sub keypress {
         my $menu = TAEB::Display::Menu->new(
             description => "The numbers from 1 to 100",
             items       => [1 .. 100],
+            select_type => 'multi',
         );
         $self->display_menu($menu);
         return;
