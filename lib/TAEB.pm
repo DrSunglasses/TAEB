@@ -112,13 +112,8 @@ class_has log => (
             max_level => 'warning',
             callbacks => sub {
                 my %args = @_;
-                if ($TAEB::ToScreen) {
-                    TAEB->notify($args{message}) if TAEB->info_to_screen;
-                }
-                else {
-                    local $SIG{__WARN__};
-                    warn $args{message};
-                }
+                local $SIG{__WARN__};
+                warn $args{message};
             },
         ));
         $log->add_as_default(Log::Dispatch::Null->new(
@@ -169,12 +164,6 @@ class_has dungeon => (
 );
 
 class_has single_step => (
-    is      => 'rw',
-    isa     => 'Bool',
-    default => 0,
-);
-
-class_has info_to_screen => (
     is      => 'rw',
     isa     => 'Bool',
     default => 0,
@@ -440,12 +429,6 @@ sub keypress {
     if ($c eq 'd') {
         $self->display->change_draw_mode;
         return;
-    }
-
-    # turn on/off info to screen
-    if ($c eq 'i') {
-        $self->info_to_screen(!$self->info_to_screen);
-        return "Info to screen " . ($self->info_to_screen ? "on." : "off.");
     }
 
     # user input (for emergencies only)
