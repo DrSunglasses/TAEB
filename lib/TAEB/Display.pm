@@ -10,8 +10,6 @@ sub deinitialize { }
 
 sub notify { }
 
-sub place_cursor { }
-
 sub redraw { }
 
 sub display_topline { }

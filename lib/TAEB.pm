@@ -262,7 +262,6 @@ class_has display => (
         notify          => '_notify',
         redraw          => 'redraw',
         display_topline => 'display_topline',
-        place_cursor    => 'place_cursor',
     },
 );
 
