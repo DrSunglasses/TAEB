@@ -320,7 +320,11 @@ augment display_menu => sub {
             }
             elsif ($c =~ /^[a-z]$/i) {
                 my $index = ($pager->first - 1) + (ord(lc $c) - ord('a'));
-                $menu->select($index) if $index < $pager->last;
+
+                if ($index < $pager->last) {
+                    $menu->select($index);
+                    last if $menu->select_type eq 'single';
+                }
             }
             elsif ($c eq ':') {
                 $is_searching = 1;
