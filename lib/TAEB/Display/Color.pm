@@ -11,7 +11,8 @@ sub debug_line {
 }
 
 has color => (
-    is => 'rw',
+    is  => 'rw',
+    isa => 'Int',
 );
 
 has bold => (
