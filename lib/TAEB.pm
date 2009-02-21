@@ -264,6 +264,7 @@ class_has display => (
         display_topline => 'display_topline',
         get_key         => 'get_key',
         try_key         => 'try_key',
+        place_cursor    => 'place_cursor',
     },
 );
 
