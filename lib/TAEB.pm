@@ -262,7 +262,6 @@ class_has item_pool => (
     isa     => 'TAEB::World::ItemPool',
     default => sub { TAEB::World::ItemPool->new },
     handles => {
-        inventory    => 'inventory',
         get_artifact => 'get_artifact',
     },
 );
@@ -523,6 +522,14 @@ sub new_item {
     (my $taeb_class = $class) =~ s/^NetHack::Item/TAEB::World::Item/;
     $taeb_class->meta->rebless_instance($item);
     return $item;
+}
+
+sub inventory {
+    my $self = shift;
+    my $inventory = $self->item_pool->inventory;
+
+    return $inventory->items if wantarray;
+    return $inventory;
 }
 
 sub has_item {
