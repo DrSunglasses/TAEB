@@ -1,5 +1,6 @@
 package TAEB::Display::Color;
 use TAEB::OO;
+use TAEB::Util ':colors';
 
 use overload %TAEB::Meta::Overload::default;
 sub debug_line {
@@ -11,11 +12,9 @@ sub debug_line {
 }
 
 has color => (
-    is  => 'rw',
-    isa => 'Int',
-
-    # go through the accessor for canonicalization
-    initializer => sub { shift->color(@_) },
+    is      => 'rw',
+    isa     => 'Int',
+    default => COLOR_NONE,
 );
 
 has bold => (
@@ -34,7 +33,11 @@ around color => sub {
     my $orig = shift;
     my $self = shift;
 
-    return $orig->($self) if !@_;
+    if (!@_) {
+        my $color = $orig->($self);
+        $color -= 8 if $color >= 8;
+        return $color;
+    }
 
     my $color = shift;
 
@@ -45,6 +48,14 @@ around color => sub {
     }
 
     $orig->($self, $color);
+};
+
+around bold => sub {
+    my $orig = shift;
+    my $self = shift;
+
+    return 1 if !@_ && $self->{color} > 8;
+    return $orig->$self(@_);
 };
 
 override BUILDARGS => sub {
