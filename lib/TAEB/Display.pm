@@ -8,6 +8,14 @@ sub reinitialize {
 
 sub deinitialize { }
 
+sub notify { }
+
+sub place_cursor { }
+
+sub redraw { }
+
+sub display_topline { }
+
 sub DEMOLISH { shift->deinitialize }
 
 __PACKAGE__->meta->make_immutable;

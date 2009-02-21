@@ -55,7 +55,7 @@ sub deinitialize {
 
 sub pathfinding { shift->color_method eq 'pathfind' }
 
-sub _notify {
+sub notify {
     my $self  = shift;
     my $msg   = shift;
     my $color = shift;

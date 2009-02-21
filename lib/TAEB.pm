@@ -252,13 +252,18 @@ class_has debugger => (
 class_has display => (
     is      => 'ro',
     isa     => 'TAEB::Display::Curses',
+    trigger => sub { shift->display->institute },
     default => sub {
         my $display = TAEB::Display::Curses->new;
         $display->institute; # default doesn't trigger
         $display
     },
-    trigger => sub { shift->display->institute },
-    handles => ['_notify', 'redraw', 'display_topline', 'place_cursor'],
+    handles => {
+        notify          => '_notify',
+        redraw          => 'redraw',
+        display_topline => 'display_topline',
+        place_cursor    => 'place_cursor',
+    },
 );
 
 class_has item_pool => (
