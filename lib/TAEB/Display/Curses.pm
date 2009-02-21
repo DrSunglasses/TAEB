@@ -407,16 +407,16 @@ Eventually we may want a menu interface but this is fine for now.
 =cut
 
 my %mode_changes = (
-    'Displays normal NetHack colors' => sub { shift->color_method('normal') },
-    'Sets debug coloring' => sub { shift->color_method('debug') },
-    'Sets engraving coloring' => sub { shift->color_method('engraving') },
-    'Sets pathfind display' => sub { shift->color_method('pathfind') },
-    'Sets stepped-on coloring' => sub { shift->color_method('stepped') },
-    'Sets time-since-stepped coloring' => sub { shift->color_method('time') },
-    'Displays lit tiles' => sub { shift->color_method('lit') },
-    'Displays tiles in LOS' => sub { shift->color_method('los') },
-    'Draws floor glyphs' => sub { shift->glyph_method('floor') },
-    'Resets color and floor draw modes' => sub {
+    'Normal NetHack colors' => sub { shift->color_method('normal') },
+    'Debug coloring' => sub { shift->color_method('debug') },
+    'Engraving coloring' => sub { shift->color_method('engraving') },
+    'Pathfind display' => sub { shift->color_method('pathfind') },
+    'Stepped-on coloring' => sub { shift->color_method('stepped') },
+    'Time-since-stepped coloring' => sub { shift->color_method('time') },
+    'Lit tiles' => sub { shift->color_method('lit') },
+    'Line-of-sight' => sub { shift->color_method('los') },
+    'Hide objects and monsters' => sub { shift->glyph_method('floor') },
+    'Reset to configured settings' => sub {
         my $self = shift;
         $self->reset_color_method;
         $self->reset_glyph_method;
