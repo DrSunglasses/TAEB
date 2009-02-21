@@ -25,7 +25,8 @@ sub respond_wield_what {
 
 sub done {
     my $self = shift;
-    TAEB->inventory->wielded($self->weapon);
+    $self->weapon->is_wielded(1);
+
     # XXX: we need to track TAEB's offhand weapon too
 }
 
