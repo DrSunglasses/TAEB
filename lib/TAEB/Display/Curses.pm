@@ -256,7 +256,7 @@ sub display_topline {
     $self->place_cursor;
 }
 
-sub display_menu {
+augment display_menu => sub {
     my $self = shift;
     my $menu = shift;
 
@@ -290,7 +290,7 @@ sub display_menu {
             $menu->select($index);
         }
     }
-}
+};
 
 sub draw_menu {
     my $self  = shift;
