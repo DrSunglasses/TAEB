@@ -1,6 +1,15 @@
 package TAEB::Display::Color;
 use TAEB::OO;
 
+use overload %TAEB::Meta::Overload::default;
+sub debug_line {
+    my $self = shift;
+    my $color = $self->color;
+    $color .= 'b' if $self->bold;
+    $color .= 'r' if $self->reverse;
+    return $color;
+}
+
 has color => (
     is => 'rw',
 );
