@@ -3,7 +3,6 @@ use strict;
 use warnings;
 use lib 'lib';
 use TAEB;
-use Curses;
 
 if (grep { $_ eq '--help' } @ARGV) {
     print STDERR <<"USAGE";
@@ -40,19 +39,8 @@ $SIG{CONT} = sub {
 $TAEB::ToScreen = 1;
 $| = 1;
 
-initscr;
-END { endwin }
-noecho;
-cbreak;
-start_color;
-use_default_colors;
-init_pair($_, $_, 0) for 0 .. 7;
-
 while (1) {
-    clear;
-    refresh;
-
-    addstr "Loading TAEB...";
+    TAEB->redraw(force_clear => 1);
 
     eval {
         local $SIG{INT} = sub { TAEB->save; $loop = 0 };
@@ -60,7 +48,6 @@ while (1) {
     };
 
     last unless $loop;
-    endwin;
 
     TAEB->reset_state;
 
