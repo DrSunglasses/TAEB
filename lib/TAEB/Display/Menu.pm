@@ -69,9 +69,12 @@ sub is_selected {
 sub selected {
     my $self  = shift;
 
-    return map { $_->[0] }
-           grep { $_->[1] }
-           @{ $self->_item_metadata }
+    my @selected = map { $_->[0] }
+                   grep { $_->[1] }
+                   @{ $self->_item_metadata }
+
+    return $selected[0] if $self->select_type eq 'single';
+    return @selected;
 }
 
 sub clear_selections {
