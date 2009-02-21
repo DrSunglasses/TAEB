@@ -99,7 +99,7 @@ around _item_metadata => sub {
     $search = "(?i:$search)" unless $search =~ /[A-Z]/;
 
     # compile regex
-    $search = eval { qr/$search/ }
+    $search = eval { local @SIG{'__DIE__', '__WARN__'}; qr/$search/ }
         or return $orig->($self);
 
     return [ grep { $_->[0] =~ $search } @{ $orig->($self) } ];
