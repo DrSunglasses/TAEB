@@ -252,7 +252,12 @@ class_has debugger => (
 class_has display => (
     is      => 'ro',
     isa     => 'TAEB::Display::Curses',
-    default => sub { TAEB::Display::Curses->new },
+    default => sub {
+        my $display = TAEB::Display::Curses->new;
+        $display->institute; # default doesn't trigger
+        $display
+    },
+    trigger => sub { shift->display->institute },
     handles => ['_notify', 'redraw', 'display_topline', 'place_cursor'],
 );
 
