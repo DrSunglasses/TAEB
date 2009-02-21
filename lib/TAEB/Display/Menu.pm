@@ -95,14 +95,21 @@ around _item_metadata => sub {
 
     my $search = $self->search;
 
+    # chop so if the user begins typing a (..) we don't kick them back out to
+    # all unfiltered results
+    my $compiled;
+    while (1) {
+        eval { local @SIG{'__DIE__', '__WARN__'}; $compiled = qr/$search/ }
+            and last;
+        chop $search;
+    }
+
     # case insensitive until they type a capital letter
-    $search = "(?i:$search)" unless $search =~ /[A-Z]/;
+    # this has to happen after we chop because chopping (?i:...) is not likely
+    # to work
+    $compiled = qr/$search/i unless $search =~ /[A-Z]/;
 
-    # compile regex
-    $search = eval { local @SIG{'__DIE__', '__WARN__'}; qr/$search/ }
-        or return $orig->($self);
-
-    return [ grep { $_->[0] =~ $search } @{ $orig->($self) } ];
+    return [ grep { $_->[0] =~ $compiled } @{ $orig->($self) } ];
 };
 
 __PACKAGE__->meta->make_immutable;
