@@ -37,6 +37,7 @@ requires 'Heap::Simple::XS'; # why doesn't Heap::Simple do this for us...
 
 # miscellaneous
 requires 'Time::HiRes';
+requires 'Data::Page';
 
 # NetHack-specific things
 requires 'NetHack::Menu' => 0.06;
