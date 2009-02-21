@@ -576,7 +576,7 @@ sub is_engravable {
 }
 
 sub normal_color {
-    my $self           = shift;
+    my $self = shift;
 
     my $color = $self->color;
     my $bold  = 0;
@@ -592,19 +592,19 @@ sub normal_color {
 sub debug_color {
     my $self = shift;
 
-    my $color = ($self->in_shop || $self->in_temple
-             ? Curses::COLOR_PAIR(COLOR_GREEN) | Curses::A_BOLD
-             : $self->has_enemy
-             ? Curses::COLOR_PAIR(COLOR_RED) | Curses::A_BOLD
-             : $self->is_interesting
-             ? Curses::COLOR_PAIR(COLOR_RED)
-             : $self->searched > 5
-             ? Curses::COLOR_PAIR(COLOR_CYAN)
-             : $self->stepped_on
-             ? Curses::COLOR_PAIR(COLOR_BROWN)
-             : $self->explored
-             ? Curses::COLOR_PAIR(COLOR_GREEN)
-             : 0);
+    my $color = $self->in_shop || $self->in_temple
+              ? Curses::COLOR_PAIR(COLOR_GREEN) | Curses::A_BOLD
+              : $self->has_enemy
+              ? Curses::COLOR_PAIR(COLOR_RED) | Curses::A_BOLD
+              : $self->is_interesting
+              ? Curses::COLOR_PAIR(COLOR_RED)
+              : $self->searched > 5
+              ? Curses::COLOR_PAIR(COLOR_CYAN)
+              : $self->stepped_on
+              ? Curses::COLOR_PAIR(COLOR_BROWN)
+              : $self->explored
+              ? Curses::COLOR_PAIR(COLOR_GREEN)
+              : 0;
 
     $color |= Curses::A_REVERSE
         if $self->type eq 'rock'; # known rock, not unexplored
