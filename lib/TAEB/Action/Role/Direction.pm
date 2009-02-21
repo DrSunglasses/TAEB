@@ -11,9 +11,8 @@ has direction => (
 has target_tile => (
     is       => 'ro',
     isa      => 'TAEB::World::Tile',
-    lazy     => 1,
+    init_arg => undef,
     default  => sub { TAEB->current_level->at_direction(shift->direction) },
-    provided => 1,
 );
 
 sub respond_what_direction { shift->direction }
