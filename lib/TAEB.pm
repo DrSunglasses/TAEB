@@ -259,7 +259,7 @@ class_has display => (
         $display
     },
     handles => {
-        notify          => '_notify',
+        _notify         => 'notify',
         redraw          => 'redraw',
         display_topline => 'display_topline',
         get_key         => 'get_key',
