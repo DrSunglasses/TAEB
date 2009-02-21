@@ -407,68 +407,35 @@ Eventually we may want a menu interface but this is fine for now.
 =cut
 
 my %mode_changes = (
-    0 => {
-        summary => 'Displays nothing!',
-        execute => sub { shift->glyph_method('nothing') },
-    },
-    n => {
-        summary => 'Displays normal NetHack colors',
-        execute => sub { shift->color_method('normal') },
-    },
-    d => {
-        summary => 'Sets debug coloring',
-        execute => sub { shift->color_method('debug') },
-    },
-    e => {
-        summary => 'Sets engraving coloring',
-        execute => sub { shift->color_method('engraving') },
-    },
-    p => {
-        summary => 'Sets pathfind display',
-        execute => sub { shift->color_method('pathfind') },
-    },
-    s => {
-        summary => 'Sets stepped-on coloring',
-        execute => sub { shift->color_method('stepped') },
-    },
-    t => {
-        summary => 'Sets time-since-stepped coloring',
-        execute => sub { shift->color_method('time') },
-    },
-    l => {
-        summary => 'Displays lit tiles',
-        execute => sub { shift->color_method('lit') },
-    },
-    v => {
-        summary => 'Displays tiles in LOS',
-        execute => sub { shift->color_method('los') },
-    },
-    f => {
-        summary => 'Draws floor glyphs',
-        execute => sub { shift->glyph_method('floor') },
-    },
-    r => {
-        summary => 'Resets color and floor draw modes',
-        execute => sub {
-            my $self = shift;
-            $self->reset_color_method;
-            $self->reset_glyph_method;
-        },
+    'Displays normal NetHack colors' => sub { shift->color_method('normal') },
+    'Sets debug coloring' => sub { shift->color_method('debug') },
+    'Sets engraving coloring' => sub { shift->color_method('engraving') },
+    'Sets pathfind display' => sub { shift->color_method('pathfind') },
+    'Sets stepped-on coloring' => sub { shift->color_method('stepped') },
+    'Sets time-since-stepped coloring' => sub { shift->color_method('time') },
+    'Displays lit tiles' => sub { shift->color_method('lit') },
+    'Displays tiles in LOS' => sub { shift->color_method('los') },
+    'Draws floor glyphs' => sub { shift->glyph_method('floor') },
+    'Resets color and floor draw modes' => sub {
+        my $self = shift;
+        $self->reset_color_method;
+        $self->reset_glyph_method;
     },
 );
 
 sub change_draw_mode {
     my $self = shift;
 
-    my $mode = TAEB->get_key;
-    return if $mode eq "\e";
+    my $menu = TAEB::Display::Menu->new(
+        description => "Change draw mode",
+        items       => [ keys %mode_changes ],
+        select_type => 'single',
+    );
 
-    if (exists $mode_changes{$mode}) {
-        $mode_changes{$mode}->{execute}->($self);
-    }
-    else {
-        TAEB->complain("Invalid draw mode '$mode'");
-    }
+    defined(my $change = $self->display_menu($menu))
+        or return;
+
+    $mode_changes{$change}->($self);
 }
 
 sub msg_step {
