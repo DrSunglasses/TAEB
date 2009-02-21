@@ -407,7 +407,10 @@ sub msg_step {
     splice @$list, 5 if @$list > 5;
 }
 
-sub get_key { Curses::getch }
+sub get_key {
+    Curses::refresh;
+    Curses::getch;
+}
 
 sub try_key {
     my $self = shift;
