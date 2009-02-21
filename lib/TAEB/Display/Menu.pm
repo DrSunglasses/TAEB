@@ -44,6 +44,13 @@ sub select {
     }
 }
 
+sub is_selected {
+    my $self  = shift;
+    my $index = shift;
+
+    return $self->_item_metadata->[$index][1];
+}
+
 sub selected {
     my $self  = shift;
 
