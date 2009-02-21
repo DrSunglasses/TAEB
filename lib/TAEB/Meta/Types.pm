@@ -30,5 +30,7 @@ enum 'TAEB::Type::Urgency' => qw(critical important normal unimportant fallback 
 
 enum 'TAEB::Type::Trap' => trap_types;
 
+enum 'TAEB::Type::Menu' => qw(none single multi);
+
 1;
 
