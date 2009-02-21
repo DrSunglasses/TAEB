@@ -301,20 +301,25 @@ sub draw_menu {
     Curses::addstr($menu->description);
     Curses::clrtoeol();
 
-    my $letter_index = 0;
+    my $row = 0;
     for my $i ($pager->first .. $pager->last) {
         my $item = $menu->item($i);
 
-        Curses::move($letter_index + 1, 0);
-        Curses::addstr(chr($letter_index + ord('a')) . ' - ' . $item);
+        Curses::move($row + 1, 0);
+        Curses::addstr(chr($row + ord('a')) . ' - ' . $item);
         Curses::clrtoeol();
 
-        ++$letter_index;
+        ++$row;
     }
 
-    if ($pager->first_page != $pager->last_page) {
+    if ($pager->first_page == $pager->last_page) {
+        Curses::move($row + 1, 0);
+        Curses::addstr("(end) ");
+        Curses::clrtoeol();
+    }
+    else {
         Curses::move(23, 0);
-        Curses::addstr("(Page " . $pager->current_page . " of " . $pager->last_page . ")");
+        Curses::addstr("(Page " . $pager->current_page . " of " . $pager->last_page . ") ");
         Curses::clrtoeol();
     }
 }
