@@ -1,6 +1,6 @@
 package TAEB::World::Tile;
 use TAEB::OO;
-use TAEB::Util qw/delta2vi vi2delta :colors/;
+use TAEB::Util qw/delta2vi vi2delta display :colors/;
 use List::MoreUtils qw/any all apply/;
 
 with 'TAEB::Role::Reblessing';
@@ -576,37 +576,29 @@ sub is_engravable {
 }
 
 sub normal_color {
-    my $self = shift;
-
-    my $color = $self->color;
-    my $bold  = 0;
-
-    if ($color >= 8) {
-        $color -= 8;
-        $bold  = Curses::A_BOLD;
-    }
-
-    return $bold | Curses::COLOR_PAIR($color);
+    my $color = shift->color;
+    $color = COLOR_WHITE if $color == COLOR_NONE;
+    return display($color);
 }
 
 sub debug_color {
     my $self = shift;
 
     my $color = $self->in_shop || $self->in_temple
-              ? Curses::COLOR_PAIR(COLOR_GREEN) | Curses::A_BOLD
+              ? display(color => COLOR_GREEN, bold => 1)
               : $self->has_enemy
-              ? Curses::COLOR_PAIR(COLOR_RED) | Curses::A_BOLD
+              ? display(color => COLOR_RED, bold => 1)
               : $self->is_interesting
-              ? Curses::COLOR_PAIR(COLOR_RED)
+              ? display(COLOR_RED)
               : $self->searched > 5
-              ? Curses::COLOR_PAIR(COLOR_CYAN)
+              ? display(COLOR_CYAN)
               : $self->stepped_on
-              ? Curses::COLOR_PAIR(COLOR_BROWN)
+              ? display(COLOR_BROWN)
               : $self->explored
-              ? Curses::COLOR_PAIR(COLOR_GREEN)
-              : 0;
+              ? display(COLOR_GREEN)
+              : display(COLOR_WHITE);
 
-    $color |= Curses::A_REVERSE
+    $color->reverse(1)
         if $self->type eq 'rock'; # known rock, not unexplored
 
     return $color;
@@ -617,11 +609,11 @@ sub pathfind_color {
 
     my $pathfind = $self->pathfind;
 
-    my $color = $pathfind == 0 ? 0
-              : $pathfind == 1 ? Curses::COLOR_PAIR(COLOR_RED)
-              : $pathfind == 2 ? Curses::COLOR_PAIR(COLOR_BROWN)
-              : $pathfind == 3 ? Curses::COLOR_PAIR(COLOR_GREEN)
-                               : Curses::COLOR_PAIR(COLOR_MAGENTA);
+    my $color = $pathfind == 0 ? display(COLOR_WHITE)
+              : $pathfind == 1 ? display(COLOR_RED)
+              : $pathfind == 2 ? display(COLOR_BROWN)
+              : $pathfind == 3 ? display(COLOR_GREEN)
+                               : display(COLOR_MAGENTA);
 
     return $color;
 }
@@ -630,30 +622,30 @@ sub lit_color {
     my $self = shift;
 
     return $self->is_lit
-         ? Curses::COLOR_PAIR(COLOR_BROWN) | Curses::A_BOLD
+         ? display(COLOR_YELLOW)
          : !defined $self->is_lit
-         ? Curses::COLOR_PAIR(COLOR_BROWN)
-         : Curses::COLOR_PAIR(COLOR_WHITE) | Curses::A_BOLD;
+         ? display(COLOR_BROWN)
+         : display(color => COLOR_WHITE, bold => 1);
 }
 
 sub los_color {
     my $self = shift;
 
     return $self->in_los
-         ? Curses::COLOR_PAIR(COLOR_BROWN) | Curses::A_BOLD
-         : (Curses::COLOR_PAIR(COLOR_WHITE) | Curses::A_BOLD);
+         ? display(COLOR_YELLOW)
+         : display(color => COLOR_WHITE, bold => 1);
 }
 
 sub stepped_color {
     my $self = shift;
     my $stepped = $self->stepped_on;
 
-    return Curses::COLOR_PAIR(COLOR_WHITE) | Curses::A_BOLD if $stepped == 0;
-    return Curses::COLOR_PAIR(COLOR_RED)                    if $stepped == 1;
-    return Curses::COLOR_PAIR(COLOR_RED) | Curses::A_BOLD   if $stepped == 2;
-    return Curses::COLOR_PAIR(COLOR_BROWN)                  if $stepped < 5;
-    return Curses::COLOR_PAIR(COLOR_BROWN) | Curses::A_BOLD if $stepped < 8;
-    return Curses::COLOR_PAIR(COLOR_MAGENTA);
+    return display(color => COLOR_WHITE, bold => 1) if $stepped == 0;
+    return display(COLOR_RED)                       if $stepped == 1;
+    return display(COLOR_ORANGE)                    if $stepped == 2;
+    return display(COLOR_BROWN)                     if $stepped < 5;
+    return display(COLOR_YELLOW)                    if $stepped < 8;
+    return display(COLOR_MAGENTA);
 }
 
 sub time_color {
@@ -661,27 +653,27 @@ sub time_color {
     my $last_turn = $self->last_turn;
     my $dt = TAEB->turn - $last_turn;
 
-    return Curses::COLOR_PAIR(COLOR_WHITE) | Curses::A_BOLD   if $last_turn == 0;
-    return Curses::COLOR_PAIR(COLOR_RED)                      if $dt > 1000;
-    return Curses::COLOR_PAIR(COLOR_RED) | Curses::A_BOLD     if $dt > 500;
-    return Curses::COLOR_PAIR(COLOR_BROWN)                    if $dt > 100;
-    return Curses::COLOR_PAIR(COLOR_BROWN) | Curses::A_BOLD   if $dt > 50;
-    return Curses::COLOR_PAIR(COLOR_MAGENTA)                  if $dt > 25;
-    return Curses::COLOR_PAIR(COLOR_MAGENTA) | Curses::A_BOLD if $dt > 15;
-    return Curses::COLOR_PAIR(COLOR_GREEN)                    if $dt > 10;
-    return Curses::COLOR_PAIR(COLOR_GREEN) | Curses::A_BOLD   if $dt > 5;
-    return Curses::COLOR_PAIR(COLOR_CYAN)                     if $dt > 3;
-    return Curses::COLOR_PAIR(COLOR_CYAN) | Curses::A_BOLD;
+    return display(color => COLOR_WHITE, bold => 1)   if $last_turn == 0;
+    return display(COLOR_RED)                         if $dt > 1000;
+    return display(COLOR_ORANGE)                      if $dt > 500;
+    return display(COLOR_BROWN)                       if $dt > 100;
+    return display(COLOR_YELLOW)                      if $dt > 50;
+    return display(COLOR_MAGENTA)                     if $dt > 25;
+    return display(color => COLOR_MAGENTA, bold => 1) if $dt > 15;
+    return display(COLOR_GREEN)                       if $dt > 10;
+    return display(color => COLOR_GREEN, bold => 1)   if $dt > 5;
+    return display(COLOR_CYAN)                        if $dt > 3;
+    return display(color => COLOR_CYAN, bold => 1);
 }
 
 sub engraving_color {
     my $self = shift;
     my $engraving = $self->engraving ne '';
-    my $bold = $self->elbereths == 0 ? Curses::A_NORMAL : Curses::A_BOLD;
+    my $bold = $self->elbereths;
 
     return $engraving
-         ? Curses::COLOR_PAIR(COLOR_GREEN) | $bold
-         : Curses::COLOR_PAIR(COLOR_BROWN);
+         ? display(color => COLOR_GREEN, bold => $bold)
+         : display(COLOR_BROWN);
 }
 
 sub normal_glyph {

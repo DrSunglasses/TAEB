@@ -103,7 +103,11 @@ sub redraw {
                 my $color = $tile->$color_method;
                 my $glyph = $tile->$glyph_method;
 
-                Curses::addch($color | ord($glyph));
+                my $curses_color = Curses::COLOR_PAIR($color->color)
+                                 | ($color->bold    ? Curses::A_BOLD    : 0)
+                                 | ($color->reverse ? Curses::A_REVERSE : 0);
+
+                Curses::addch($curses_color | ord($glyph));
             }
         }
     }

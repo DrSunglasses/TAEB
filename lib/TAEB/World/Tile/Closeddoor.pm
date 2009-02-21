@@ -1,7 +1,7 @@
 package TAEB::World::Tile::Closeddoor;
 use TAEB::OO;
+use TAEB::Util qw/:colors display/;
 extends 'TAEB::World::Tile::Door';
-use TAEB::Util ':colors';
 
 has '+type' => (
     default => 'closeddoor',
@@ -17,13 +17,13 @@ override debug_color => sub {
     my $self = shift;
 
     if ($self->is_shop) {
-        return Curses::A_BOLD | Curses::COLOR_PAIR(COLOR_RED);
+        return display(COLOR_ORANGE);
     }
     elsif ($self->is_locked) {
-        return Curses::A_BOLD | Curses::COLOR_PAIR(COLOR_BROWN);
+        return display(COLOR_YELLOW);
     }
     elsif ($self->is_unlocked) {
-        return Curses::A_BOLD | Curses::COLOR_PAIR(COLOR_GREEN);
+        return display(color => COLOR_GREEN, bold => 1);
     }
 
     return super;

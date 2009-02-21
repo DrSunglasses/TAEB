@@ -1,7 +1,7 @@
 package TAEB::World::Tile::Stairs;
 use TAEB::OO;
+use TAEB::Util qw/:colors display/;
 extends 'TAEB::World::Tile';
-use TAEB::Util ':colors';
 
 has other_side => (
     is       => 'rw',
@@ -19,7 +19,7 @@ override debug_color => sub {
                         && $self->branch ne $self->other_side->branch;
 
     return $different_branch
-         ? Curses::A_BOLD | Curses::COLOR_PAIR(COLOR_BROWN)
+         ? display(COLOR_YELLOW)
          : super;
 };
 

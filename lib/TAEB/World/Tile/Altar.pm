@@ -1,5 +1,6 @@
 package TAEB::World::Tile::Altar;
 use TAEB::OO;
+use TAEB::Util qw/:colors display/;
 extends 'TAEB::World::Tile';
 
 has align => (
@@ -11,11 +12,11 @@ has align => (
 sub debug_color {
     my $self = shift;
 
-    return Curses::COLOR_PAIR(Curses::COLOR_RED)   if $self->align eq 'Cha';
-    return Curses::COLOR_PAIR(Curses::COLOR_GREEN) if $self->align eq 'Neu';
-    return Curses::COLOR_PAIR(Curses::COLOR_CYAN)  if $self->align eq 'Law';
+    return display(COLOR_RED)   if $self->align eq 'Cha';
+    return display(COLOR_GREEN) if $self->align eq 'Neu';
+    return display(COLOR_CYAN)  if $self->align eq 'Law';
 
-    return Curses::COLOR_PAIR(Curses::COLOR_MAGENTA);
+    return display(COLOR_MAGENTA);
 }
 
 sub reblessed {

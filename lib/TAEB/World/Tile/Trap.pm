@@ -1,14 +1,14 @@
 package TAEB::World::Tile::Trap;
 use TAEB::OO;
+use TAEB::Util qw/:colors display/;
 extends 'TAEB::World::Tile';
-use TAEB::Util ':colors';
 
 has trap_type => (
     is  => 'rw',
     isa => 'TAEB::Type::Trap',
 );
 
-sub debug_color { Curses::A_BOLD | Curses::COLOR_PAIR(COLOR_BLUE) }
+sub debug_color { display(color => COLOR_BLUE, bold => 1) }
 
 sub reblessed {
     my $self = shift;

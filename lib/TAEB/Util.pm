@@ -317,6 +317,7 @@ sub crow_flies {
     while ($x     < $x1) { $dir .= 'l'; $x++ }
 =cut
 
+require TAEB::Display::Color;
 sub display { TAEB::Display::Color->new(@_) }
 
 1;
