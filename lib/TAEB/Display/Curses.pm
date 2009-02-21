@@ -282,6 +282,16 @@ augment display_menu => sub {
             elsif ($c eq "\n") {
                 $is_searching = 0;
             }
+            elsif ($c eq "\b") {
+                chop(my $search = $menu->search);
+                if (length($search) == 0) {
+                    $is_searching = 0;
+                    $menu->clear_search;
+                }
+                else {
+                    $menu->search($search);
+                }
+            }
             else {
                 $menu->search($menu->search . $c);
             }
