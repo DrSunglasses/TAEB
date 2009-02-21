@@ -89,7 +89,7 @@ sub msg_key {
             TAEB->redraw(level => $level, botl => "Displaying $level");
         }
         elsif ($c eq 'i') {
-            my $menu = TAEB::Menu->new(
+            my $menu = TAEB::Display::Menu->new(
                 description => "The items at $tile",
                 items       => [$level->at($x, $y)->items],
                 select_type => 'none',
