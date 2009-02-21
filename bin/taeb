@@ -24,8 +24,7 @@ my $tstp = $SIG{TSTP} = sub {
     # if we don't invoke TSTP then we won't be suspended
     $SIG{TSTP} = 'DEFAULT';
 
-    def_prog_mode();
-    endwin();
+    TAEB->display->deinitialize;
 
     kill TSTP => $$;
 };
@@ -33,7 +32,7 @@ my $tstp = $SIG{TSTP} = sub {
 $SIG{CONT} = sub {
     $SIG{TSTP} = $tstp;
 
-    TAEB->redraw(force_clear => 1);
+    TAEB->display->reinitialize;
 };
 
 $TAEB::ToScreen = 1;
