@@ -18,6 +18,13 @@ has select_type => (
     default => 'none',
 );
 
+has search => (
+    is        => 'rw',
+    isa       => 'Str',
+    clearer   => 'clear_search',
+    predicate => 'has_search',
+);
+
 sub BUILDARGS {
     my $self = shift;
     my %args = @_;
