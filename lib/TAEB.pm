@@ -431,6 +431,14 @@ sub keypress {
         return;
     }
 
+    if ($c eq 'i') {
+        my $menu = TAEB::Display::Menu->new(
+            description => $self->name . "'s inventory",
+            items       => [$self->inventory],
+        );
+        return $self->display_menu($menu);
+    }
+
     # user input (for emergencies only)
     if ($c eq "\e") {
         $self->write($self->get_key);
