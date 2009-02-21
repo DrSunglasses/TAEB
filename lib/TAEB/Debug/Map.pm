@@ -17,6 +17,7 @@ sub msg_key {
 
         # draw some info about the tile at the top
         TAEB->display_topline($tile->debug_line);
+        TAEB->place_cursor($x, $y);
 
         # where to next?
         my $c = TAEB->get_key;
