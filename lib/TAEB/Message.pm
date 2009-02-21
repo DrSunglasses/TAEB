@@ -1,11 +1,13 @@
 package TAEB::Message;
 use TAEB::OO;
 
-has name => (
-    is       => 'ro',
-    isa      => 'Str',
-    required => 1,
-);
+sub name {
+    my $self = shift;
+    my $class = blessed($self) || $self;
+
+    $class =~ s/.*:://;
+    return lc $class;
+}
 
 __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
