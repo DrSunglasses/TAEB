@@ -18,7 +18,7 @@ sub respond_wield_what {
     } elsif ($self->weapon eq "nothing") {
         return "-";
     } else {
-        TAEB->log->action("Unable to wield " . $self->weapon ".  Sending escape");
+        TAEB->log->action("Unable to wield " . $self->weapon . ".  Sending escape");
         return "\e";
     }
 }
