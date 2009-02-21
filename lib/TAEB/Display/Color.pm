@@ -11,16 +11,18 @@ sub debug_line {
     return $color;
 }
 
-has color => (
-    is      => 'rw',
-    isa     => 'Int',
-    default => COLOR_NONE,
+has _color => (
+    is       => 'rw',
+    isa      => 'Int',
+    init_arg => 'color',
+    default  => COLOR_NONE,
 );
 
-has bold => (
-    is      => 'rw',
-    isa     => 'Bool',
-    default => 0,
+has _bold => (
+    is       => 'rw',
+    isa      => 'Bool',
+    init_arg => 'bold',
+    default  => 0,
 );
 
 has reverse => (
@@ -29,34 +31,31 @@ has reverse => (
     default => 0,
 );
 
-around color => sub {
-    my $orig = shift;
+sub color {
     my $self = shift;
-
-    if (!@_) {
-        my $color = $orig->($self);
-        $color -= 8 if $color >= 8;
-        return $color;
+    if (@_) {
+        my $color = shift;
+        if ($color > 8) {
+            $color -= 8;
+            $self->_bold(1);
+        }
+        return $self->_color($color);
     }
 
-    my $color = shift;
+    my $color = $self->_color;
+    return $color > 8 ? $color - 8 : $color;
+}
 
-    # They're setting to a high color, so use the low color + bold
-    if ($color >= 8) {
-        $self->bold(1);
-        return $orig->($self, $color - 8);
+sub bold {
+    my $self = shift;
+    if (@_) {
+        return $self->_bold(@_);
     }
 
-    $orig->($self, $color);
-};
-
-around bold => sub {
-    my $orig = shift;
-    my $self = shift;
-
-    return 1 if !@_ && $self->{color} > 8;
-    return $orig->$self(@_);
-};
+    my $color = $self->_color;
+    return 1 if $color > 8 || $self->_bold;
+    return 0;
+}
 
 override BUILDARGS => sub {
     my $self = shift;
