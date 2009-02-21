@@ -9,6 +9,7 @@ sub reinitialize {
 }
 
 sub display_menu {
+    my $self = shift;
     my $menu = shift;
 
     inner($menu);
