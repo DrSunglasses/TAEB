@@ -84,6 +84,23 @@ sub clear_selections {
     }
 }
 
+around _item_metadata => sub {
+    my $orig = shift;
+    my $self = shift;
+
+    return $orig->($self, @_) if @_ || !$self->has_search;
+
+    my $search = $self->search;
+
+    # case insensitive until they type a capital letter
+    $search = "(?i:$search)" unless $search =~ /[A-Z]/;
+
+    # compile regex
+    $search = qr/$search/;
+
+    return [ grep { $_->[0] =~ $search } @{ $orig->($self) } ];
+};
+
 __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
 
