@@ -8,13 +8,7 @@ sub reinitialize {
     shift->redraw(force_clear => 1);
 }
 
-sub display_menu {
-    my $menu = shift;
-
-    inner($menu);
-
-    return $menu->selected;
-}
+sub display_menu { }
 
 sub deinitialize { }
 
