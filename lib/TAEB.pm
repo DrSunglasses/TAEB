@@ -262,6 +262,8 @@ class_has display => (
         notify          => '_notify',
         redraw          => 'redraw',
         display_topline => 'display_topline',
+        get_key         => 'get_key',
+        try_key         => 'try_key',
     },
 );
 
@@ -554,19 +556,6 @@ sub new_monster {
 sub equipment {
     my $self = shift;
     $self->inventory->equipment(@_);
-}
-
-sub get_key { Curses::getch }
-
-sub try_key {
-    my $self = shift;
-
-    Curses::nodelay(Curses::stdscr, 1);
-    my $c = Curses::getch;
-    Curses::nodelay(Curses::stdscr, 0);
-
-    return if $c eq -1;
-    return $c;
 }
 
 sub quit {

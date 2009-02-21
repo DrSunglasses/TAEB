@@ -332,6 +332,19 @@ sub msg_step {
     splice @$list, 5 if @$list > 5;
 }
 
+sub get_key { Curses::getch }
+
+sub try_key {
+    my $self = shift;
+
+    Curses::nodelay(Curses::stdscr, 1);
+    my $c = Curses::getch;
+    Curses::nodelay(Curses::stdscr, 0);
+
+    return if $c eq -1;
+    return $c;
+}
+
 __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
 

@@ -14,6 +14,9 @@ sub redraw { }
 
 sub display_topline { }
 
+sub get_key { die "get_key not implemented for " . blessed(shift) }
+sub try_key { }
+
 sub DEMOLISH { shift->deinitialize }
 
 __PACKAGE__->meta->make_immutable;
