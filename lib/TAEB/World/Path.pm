@@ -416,7 +416,7 @@ sub _astar {
     my $start;
     if ($debug) {
         $args{from}->level->each_tile(sub {
-            shift->reset_pathfind();
+            shift->reset_pathfind;
         });
         $start = time;
     }
