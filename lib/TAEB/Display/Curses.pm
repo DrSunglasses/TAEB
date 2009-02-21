@@ -326,15 +326,16 @@ sub draw_menu {
 
     my $max_length = max map { length } @rows;
 
+    my $x = $max_length > 50 ? 0 : 78 - $max_length;
     my $row = 0;
     for (@rows) {
-        Curses::move($row++, 0);
+        Curses::move($row++, $x);
         Curses::addstr(' ' . $_);
-        Curses::addstr(' ' x (2 + $max_length - length));
+        Curses::clrtoeol();
     };
 
     # move to right after the (x of y) or (end) prompt
-    Curses::move($row -1, length($rows[-1]) + 1);
+    Curses::move($row - 1, length($rows[-1]) + $x + 1);
 }
 
 =head2 change_draw_mode
