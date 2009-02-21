@@ -9,7 +9,7 @@ sub debug_line {
     my @eq;
 
     for my $slot ($self->slots) {
-        my $item = $self->$slot
+        my $item = $self->$slot;
         push @eq, $slot . ': ' . $item->debug_line
             if $item;
     }
