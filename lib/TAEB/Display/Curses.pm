@@ -339,10 +339,12 @@ sub draw_menu {
 
     my $i = 0;
 
-    push @rows, map {
-        my $sep = $menu->is_selected($_ - 1) ? '+' : '-';
-        chr($i++ + ord('a')) . " $sep " . $menu->item($_ - 1)
-    } $pager->first .. $pager->last;
+    if ($menu->items) {
+        push @rows, map {
+            my $sep = $menu->is_selected($_ - 1) ? '+' : '-';
+            chr($i++ + ord('a')) . " $sep " . $menu->item($_ - 1)
+        } $pager->first .. $pager->last;
+    }
 
     if ($menu->has_search) {
         push @rows, "(: " . $menu->search . ")";
