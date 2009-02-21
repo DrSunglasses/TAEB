@@ -24,7 +24,7 @@ sub BUILDARGS {
 
     die "Attribute (items) is required and must be an array reference"
         unless $args{items} && ref($args{items}) eq 'ARRAY';
-    $args{_item_metadata} = map { [$_] } @{ delete $args{items} };
+    $args{_item_metadata} = [ map { [$_] } @{ delete $args{items} } ];
 
     return \%args;
 }
