@@ -253,10 +253,10 @@ class_has display => (
     is      => 'ro',
     isa     => 'TAEB::Display::Curses',
     trigger => sub { shift->display->institute },
-    default => sub {
-        my $display = TAEB::Display::Curses->new;
-        $display->institute; # default doesn't trigger
-        $display
+    default   => sub {
+        my $display = TAEB->config->get_display;
+        $display->institute; # default doesn't fire triggers
+        $display;
     },
     handles => {
         _notify         => 'notify',

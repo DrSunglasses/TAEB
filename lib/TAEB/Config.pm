@@ -196,6 +196,24 @@ sub get_interface {
     return $interface_class->new(%interface_options);
 }
 
+=head2 get_display
+
+=cut
+
+sub get_display {
+    my $self = shift;
+
+    my $display = $self->display
+        or die "Specify a class for 'display' in your config";
+
+    my $display_class = $display =~ s/^\+//
+                      ? $display
+                      : "TAEB::Display::$display";
+
+    Class::MOP::load_class($display_class);
+    return $display_class->new;
+}
+
 sub nethackrc_contents {
     local $/;
     return <DATA>;

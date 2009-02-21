@@ -5,6 +5,8 @@
 ai: 'TAEB::AI::Demo'
 # How TAEB should communicate with NetHack (another option is Telnet)
 interface: Local
+# How TAEB should communicate with you!
+display: Curses
 
 #### Interface config #####
 # Configure the interface if necessary (telnet and ssh)
