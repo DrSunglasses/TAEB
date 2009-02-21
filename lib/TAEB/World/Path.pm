@@ -289,7 +289,6 @@ sub _dijkstra {
         my $score = $scorer->($tile, $path, $priority);
         if (defined $score) {
             return ($tile, $path) if $score eq 'q';
-            }
 
             if (!defined($max_score) || $score > $max_score) {
                 ($max_score, $max_tile, $max_path) = ($score, $tile, $path);
