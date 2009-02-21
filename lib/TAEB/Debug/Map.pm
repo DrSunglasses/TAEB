@@ -9,7 +9,6 @@ sub msg_key {
     my ($x, $y) = (TAEB->x, TAEB->y);
     my $level = TAEB->current_level;
     my $z_index = 0;
-    my $items_shown = 0;
 
     TAEB->redraw(botl => "Displaying $level");
 
@@ -21,11 +20,6 @@ sub msg_key {
 
         # where to next?
         my $c = TAEB->get_key;
-
-        if ($items_shown) {
-            TAEB->redraw(botl => "Displaying $level");
-            $items_shown = 0;
-        }
 
            if ($c eq 'h') { --$x }
         elsif ($c eq 'j') { ++$y }
@@ -94,13 +88,13 @@ sub msg_key {
             TAEB->redraw(level => $level, botl => "Displaying $level");
         }
         elsif ($c eq 'i') {
-            my @items = $level->at($x, $y)->items;
-            for my $i (0 .. 23) {
-                my $item = $items[$i] or last;
-                Curses::move($i + 1, 0);
-                Curses::addstr($item);
-            }
-            $items_shown = 1;
+            my $menu = TAEB::Menu->new(
+                description => "The items at $tile",
+                items       => [$level->at($x, $y)->items],
+                select_type => 'none',
+            );
+
+            TAEB->display_menu($menu);
         }
 
         $x %= 80;
