@@ -8,11 +8,9 @@ sub debug_line {
     my $self = shift;
     my @eq;
 
-    for my $attr (__PACKAGE__->meta->get_all_attributes) {
-        next if $attr->name eq 'pool'; # Not actually equipment!
-
-        my $item = $attr->get_value($self);
-        push @eq, $attr->name . ': ' . $item->debug_line
+    for my $slot ($self->slots) {
+        my $item = $self->$slot
+        push @eq, $slot . ': ' . $item->debug_line
             if $item;
     }
 
