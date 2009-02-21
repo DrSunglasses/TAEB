@@ -124,7 +124,6 @@ sub max_match {
         ($path, $complete, $level) = $class->_calculate_path(
             $args{from} => $exit,
             through_unknown => $args{through_unknown},
-            why => $args{why},
         );
         if (!$complete) {
             $args{interlevel_failure}->($level)
@@ -260,10 +259,6 @@ Whether to assume unknown tiles are walkable
 Whether to include nonwalkable endpoints in the scorer checks (in essence, do
 you want to include monsters, walls, etc as targets?)
 
-=item why (default: "unknown")
-
-String used to identify caller in debugging output
-
 =cut
 
 sub _dijkstra {
@@ -271,23 +266,12 @@ sub _dijkstra {
     my $scorer = shift;
     my %args   = @_;
 
-    TAEB->inc_pathfinds;
-
     my $from              = $args{from} || TAEB->current_tile;
     my $through_unknown   = $args{through_unknown};
-    my $why               = $args{why} || "unknown";
     my $include_endpoints = $args{include_endpoints};
     my $sokoban           = $from->known_branch
                          && $from->branch eq 'sokoban';
     my $cant_squeeze       = TAEB->inventory->weight > 500 || $sokoban;
-    my $debug = TAEB->display->pathfinding;
-    my $start;
-    if ($debug) {
-        $args{from}->level->each_tile(sub {
-            shift->reset_pathfind;
-        });
-        $start = time;
-    }
 
     my $max_score;
     my $max_tile;
@@ -301,17 +285,10 @@ sub _dijkstra {
     while ($pq->count) {
         my $priority = $pq->top_key;
         my ($tile, $path) = @{ $pq->extract_top };
-        $tile->inc_pathfind if $debug;
 
         my $score = $scorer->($tile, $path, $priority);
         if (defined $score) {
-            if ($score eq 'q') {
-                if ($debug) {
-                    my $took = sprintf '%.4f', time - $start;
-                    TAEB->redraw;
-                    TAEB->notify("dijkstra $why ${took}s (q: $path)");
-                }
-                return ($tile, $path);
+            return ($tile, $path) if $score eq 'q';
             }
 
             if (!defined($max_score) || $score > $max_score) {
@@ -372,16 +349,6 @@ sub _dijkstra {
         }
     }
 
-    if ($debug) {
-        my $took = sprintf '%.4f', time - $start;
-        TAEB->redraw;
-        if (defined($max_score)) {
-            TAEB->notify("dijkstra $why ${took}s ($max_score: $max_path)");
-        }
-        else {
-            TAEB->notify("dijkstra $why ${took}s (no path)");
-        }
-    }
     return ($max_tile, $max_path);
 }
 
@@ -405,21 +372,9 @@ sub _astar {
     my $cache = $to->level->_astar_cache;
     return $cache->{$key} if exists $cache->{$key};
 
-    my $why               = $args{why} || "unknown";
     my $sokoban           = $from->known_branch
                          && $from->branch eq 'sokoban';
     my $cant_squeeze       = TAEB->inventory->weight > 500 || $sokoban;
-    my $debug = TAEB->display->pathfinding;
-
-    TAEB->inc_pathfinds;
-
-    my $start;
-    if ($debug) {
-        $args{from}->level->each_tile(sub {
-            shift->reset_pathfind;
-        });
-        $start = time;
-    }
 
     my @closed;
 
@@ -429,15 +384,8 @@ sub _astar {
     while ($pq->count) {
         my $priority = $pq->top_key;
         my ($tile, $path) = @{ $pq->extract_top };
-        $tile->inc_pathfind(1) if $debug;
 
         if ($tile == $to) {
-            if ($debug) {
-                my $took = sprintf '%.4f', time - $start;
-                TAEB->redraw;
-                TAEB->notify("A* $why ${took}s ($path)");
-            }
-
             $cache->{$key} = $path;
             return $path;
         }
@@ -487,12 +435,6 @@ sub _astar {
 
             $pq->key_insert($cost + $priority, [$next, $path . $dir]);
         }
-    }
-
-    if ($debug) {
-        my $took = sprintf '%.4f', time - $start;
-        TAEB->redraw;
-        TAEB->notify("A* $why ${took}s (no path)");
     }
 
     $cache->{$key} = undef;

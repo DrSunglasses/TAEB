@@ -125,19 +125,6 @@ has currently => (
     },
 );
 
-=head2 debug_path
-
-A TAEB::World::Path which, if set, is shown in purple in the debug
-view; if this is not set, the purple path is taken from the current
-Action, if any.
-
-=cut
-
-has debug_path => (
-    is  => 'rw',
-    isa => 'Maybe[TAEB::World::Path]',
-);
-
 sub respond_really_attack { "y" }
 sub respond_name          { "\n" }
 sub respond_save_file     { "n" }

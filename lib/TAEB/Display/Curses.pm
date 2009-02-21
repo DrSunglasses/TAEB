@@ -57,8 +57,6 @@ sub deinitialize {
     Curses::endwin();
 }
 
-sub pathfinding { shift->color_method eq 'pathfind' }
-
 sub notify {
     my $self  = shift;
     my $msg   = shift;
@@ -168,7 +166,6 @@ sub draw_botl {
         push @pieces, 'S:' . TAEB->score
             if TAEB->has_score;
         push @pieces, '$' . TAEB->gold;
-        push @pieces, 'P:' . TAEB->pathfinds;
 
         my $resistances = join '', map {  /^(c|f|p|d|sl|sh)\w+/ } TAEB->resistances;
         push @pieces, 'R:' . $resistances
@@ -410,7 +407,6 @@ my %mode_changes = (
     'Normal NetHack colors' => sub { shift->color_method('normal') },
     'Debug coloring' => sub { shift->color_method('debug') },
     'Engraving coloring' => sub { shift->color_method('engraving') },
-    'Pathfind display' => sub { shift->color_method('pathfind') },
     'Stepped-on coloring' => sub { shift->color_method('stepped') },
     'Time-since-stepped coloring' => sub { shift->color_method('time') },
     'Lit tiles' => sub { shift->color_method('lit') },

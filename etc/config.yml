@@ -31,7 +31,7 @@ display: Curses
 # color_method controls how tiles are colored, and glyph_method controls which
 # glyphs to display. They can both be changed at runtime as well, see
 # doc/debug-commands.txt.
-# color_method options: normal, debug, engraving, pathfind, stepped, time, lit
+# color_method options: normal, debug, engraving, stepped, time, lit
 # glyph_method options: normal, floor
 #display:
 #    color_method: normal

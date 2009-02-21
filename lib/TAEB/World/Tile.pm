@@ -167,12 +167,6 @@ has is_lit => (
     documentation => "Is this tile probably lit?  Will usually be wrong except on floor and corridors.",
 );
 
-has pathfind => (
-    metaclass => 'Counter',
-    is            => 'ro',
-    documentation => "How many times this tile has been expanded in a pathfind this step",
-);
-
 has kill_times => (
     metaclass => 'Collection::Array',
     is        => 'ro',
@@ -600,20 +594,6 @@ sub debug_color {
 
     $color->reverse(1)
         if $self->type eq 'rock'; # known rock, not unexplored
-
-    return $color;
-}
-
-sub pathfind_color {
-    my $self           = shift;
-
-    my $pathfind = $self->pathfind;
-
-    my $color = $pathfind == 0 ? display(COLOR_WHITE)
-              : $pathfind == 1 ? display(COLOR_RED)
-              : $pathfind == 2 ? display(COLOR_BROWN)
-              : $pathfind == 3 ? display(COLOR_GREEN)
-                               : display(COLOR_MAGENTA);
 
     return $color;
 }

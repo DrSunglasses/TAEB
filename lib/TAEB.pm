@@ -225,14 +225,6 @@ class_has new_game => (
     },
 );
 
-class_has pathfinds => (
-    metaclass => 'Counter',
-    provides  => {
-        inc   => 'inc_pathfinds',
-        reset => 'reset_pathfinds',
-    },
-);
-
 class_has debugger => (
     is      => 'ro',
     isa     => 'TAEB::Debug',
@@ -313,7 +305,6 @@ sub handle_playing {
     }
 
     $self->currently('?');
-    $self->reset_pathfinds;
     $self->action($self->next_action);
     TAEB->log->main("Current action: " . $self->action);
     $self->write($self->action->run);
