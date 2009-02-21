@@ -11,6 +11,12 @@ has aborted => (
     default => 0,
 );
 
+has starting_tile => (
+    is      => 'ro',
+    isa     => 'TAEB::World::Tile',
+    default => sub { TAEB->current_tile },
+);
+
 =head2 command
 
 This is the basic command for the action. For example, C<E> for engraving, and

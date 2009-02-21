@@ -10,12 +10,6 @@ has path => (
     provided => 1,
 );
 
-has starting_tile => (
-    is      => 'ro',
-    isa     => 'TAEB::World::Tile',
-    default => sub { TAEB->current_tile },
-);
-
 has hit_obscured_monster => (
     is      => 'rw',
     isa     => 'Bool',
