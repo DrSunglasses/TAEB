@@ -125,6 +125,8 @@ sub draw_botl {
     my $botl   = shift;
     my $status = shift;
 
+    return unless TAEB->state eq 'playing' || TAEB->loaded_persistent_data;
+
     Curses::move(22, 0);
 
     if (!$botl) {
