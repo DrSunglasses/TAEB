@@ -37,6 +37,14 @@ around color => sub {
     }
 };
 
+override BUILDARGS => sub {
+    my $self = shift;
+    if (@_ == 1 && !ref($_[0])) {
+        return { color => shift };
+    }
+    super;
+};
+
 __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
 
