@@ -112,7 +112,8 @@ class_has log => (
             max_level => 'warning',
             callbacks => sub {
                 my %args = @_;
-                local $SIG{__WARN__};
+
+                local $SIG{__WARN__} if $TAEB::ToScreen;
                 warn $args{message};
             },
         ));
