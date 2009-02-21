@@ -339,7 +339,7 @@ sub draw_menu {
 
     my $i = 0;
 
-    if ($menu->items) {
+    if ($pager->total_entries > 0) {
         push @rows, map {
             my $sep = $menu->is_selected($_ - 1) ? '+' : '-';
             chr($i++ + ord('a')) . " $sep " . $menu->item($_ - 1)
@@ -362,7 +362,10 @@ sub draw_menu {
 
     my $max_length = max map { length } @rows;
 
-    my $x = $max_length > 50 || $menu->items > 21 ? 0 : 78 - $max_length;
+    my $x = $max_length > 50 || $pager->total_entries > 21
+          ? 0
+          : 78 - $max_length;
+
     my $row = 0;
     for (@rows) {
         Curses::move($row++, $x);
