@@ -41,7 +41,7 @@ sub msg_key {
 
     # we really do need to do this twice. my amateur opinion is that curses
     # isn't fully re-initialized when we call it the first time. oh well.
-    TAEB->redraw(force_clear => 1) for 1..2;
+    TAEB->display->reinitialize;
 }
 
 __PACKAGE__->meta->make_immutable;

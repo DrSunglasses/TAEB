@@ -36,8 +36,6 @@ has time_buffer => (
 );
 
 sub institute {
-    my $self = shift;
-
     Curses::initscr;
     Curses::noecho;
     Curses::cbreak;
@@ -45,6 +43,10 @@ sub institute {
     Curses::use_default_colors;
     Curses::init_pair($_, $_, 0) for 0 .. 7;
 }
+
+augment reinitialize => sub {
+    Curses::initscr;
+};
 
 sub pathfinding { shift->color_method eq 'pathfind' }
 
