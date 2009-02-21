@@ -89,9 +89,17 @@ sub msg_key {
             TAEB->redraw(level => $level, botl => "Displaying $level");
         }
         elsif ($c eq 'i') {
+            my @items = $level->at($x, $y)->items;
+            my $description = "The items on $tile";
+
+            if (@items == 0) {
+                $description = "The items on $level";
+                @items = $level->items;
+            }
+
             my $menu = TAEB::Display::Menu->new(
-                description => "The items at $tile",
-                items       => [$level->at($x, $y)->items],
+                description => $description,
+                items       => \@items,
                 select_type => 'none',
             );
 
