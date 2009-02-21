@@ -292,7 +292,7 @@ augment display_menu => sub {
         }
         elsif ($c =~ /^[a-z]$/i) {
             my $index = ($pager->first - 1) + (ord(lc $c) - ord('a'));
-            $menu->select($index);
+            $menu->select($index) if $index < $pager->last;
         }
     }
 };
