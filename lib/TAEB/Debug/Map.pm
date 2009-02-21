@@ -16,11 +16,8 @@ sub msg_key {
     COMMAND: while (1) {
         my $tile = $level->at($x, $y);
 
-        Curses::move(0, 0);
         # draw some info about the tile at the top
-        Curses::addstr($tile->debug_line);
-        Curses::clrtoeol;
-        TAEB->place_cursor($x, $y);
+        TAEB->display_topline($tile->debug_line);
 
         # where to next?
         my $c = TAEB->get_key;
@@ -85,9 +82,7 @@ sub msg_key {
             TAEB->redraw(level => $level, botl => "Displaying $level");
 
             if (@levels > 1) {
-                Curses::move(1, 0);
-                Curses::addstr("Note: there are " . @levels . " levels at this depth. Use v to see the next.");
-                Curses::clrtoeol;
+                TAEB->display_topline("Note: there are " . @levels . " levels at this depth. Use v to see the next.");
             }
         }
         elsif ($c eq 'v') {
