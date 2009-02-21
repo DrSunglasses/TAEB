@@ -435,7 +435,7 @@ sub keypress {
     if ($c eq 'i') {
         my $menu = TAEB::Display::Menu->new(
             description => $self->name . "'s inventory",
-            items       => [$self->inventory],
+            items       => [map { $_->debug_line } $self->inventory->items],
         );
         return $self->display_menu($menu);
     }
