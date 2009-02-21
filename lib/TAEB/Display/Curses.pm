@@ -124,8 +124,6 @@ sub draw_botl {
     my $botl   = shift;
     my $status = shift;
 
-    return unless TAEB->state eq 'playing';
-
     Curses::move(22, 0);
 
     if (!$botl) {
