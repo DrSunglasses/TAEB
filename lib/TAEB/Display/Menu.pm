@@ -45,6 +45,8 @@ sub items {
 sub select {
     my $self = shift;
 
+    return if $self->select_type eq 'none';
+
     for my $index (@_) {
         $self->_item_metadata->[$index][1] = 1;
     }
@@ -67,6 +69,8 @@ sub selected {
 
 sub clear_selections {
     my $self = shift;
+
+    return if $self->select_type eq 'none';
 
     for my $index (0 .. @{ $self->_item_metadata } - 1) {
         $self->_item_metadata->[$index][1] = 0;
