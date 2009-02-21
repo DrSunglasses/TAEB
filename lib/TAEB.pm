@@ -426,9 +426,30 @@ sub keypress {
     if ($c eq 'i') {
         my $menu = TAEB::Display::Menu->new(
             description => $self->name . "'s inventory",
-            items       => [map { $_->debug_line } $self->inventory->items],
+            items       => [$self->inventory->items],
+            select_type => 'single',
         );
-        $self->display_menu($menu);
+        my $item = $self->display_menu($menu) or return;
+
+        my @item_data = (
+            sort map {
+                my $name = $_->name;
+
+                my $value = $item->$name;
+                $value = "(undef)" if !defined($value);
+                $value = "(empty)" if !length($value);
+
+                "$name: $value"
+            }
+            $item->meta->get_all_attributes
+        );
+
+        my $detailed_menu = TAEB::Display::Menu->new(
+            description => "${item}'s attributes",
+            items       => \@item_data,
+        );
+        $self->display_menu($detailed_menu);
+
         return;
     }
 
