@@ -196,6 +196,15 @@ sub place_cursor {
 
 sub display_topline {
     my $self = shift;
+
+    if (@_) {
+        Curses::move 0, 0;
+        Curses::clrtoeol;
+        Curses::addstr "@_";
+        $self->place_cursor;
+        return;
+    }
+
     my @messages = TAEB->parsed_messages;
 
     if (@messages == 0) {
