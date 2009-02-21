@@ -13,6 +13,7 @@ sub display_menu {
     my $menu = shift;
 
     inner($menu);
+    $self->redraw(force_clear => 1);
 
     return $menu->selected;
 }
