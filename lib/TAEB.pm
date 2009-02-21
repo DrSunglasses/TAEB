@@ -6,7 +6,7 @@ use TAEB::OO;
 use Log::Dispatch::Null;
 
 use TAEB::Config;
-use TAEB::Display;
+use TAEB::Display::Curses;
 use TAEB::VT;
 use TAEB::Logger;
 use TAEB::ScreenScraper;
@@ -251,8 +251,8 @@ class_has debugger => (
 
 class_has display => (
     is      => 'ro',
-    isa     => 'TAEB::Display',
-    default => sub { TAEB::Display->new },
+    isa     => 'TAEB::Display::Curses',
+    default => sub { TAEB::Display::Curses->new },
     handles => ['_notify', 'redraw', 'display_topline', 'place_cursor'],
 );
 
