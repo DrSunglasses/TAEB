@@ -275,8 +275,10 @@ augment display_menu => sub {
         $self->draw_menu($menu, $pager);
 
         my $c = $self->get_key;
-
-        if ($is_searching) {
+        if ($c eq "\cr") {
+            $self->redraw(force_clear => 1);
+        }
+        elsif ($is_searching) {
             if ($c eq "\e") {
                 $is_searching = 0;
                 $menu->clear_search;
