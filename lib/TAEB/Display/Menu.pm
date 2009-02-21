@@ -29,6 +29,13 @@ sub BUILDARGS {
     return \%args;
 }
 
+sub item {
+    my $self = shift;
+    my $index = shift;
+
+    return $self->_item_metadata->[$index][0];
+}
+
 sub select {
 }
 
