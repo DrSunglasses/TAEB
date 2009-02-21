@@ -326,13 +326,20 @@ sub draw_menu {
 
     my $max_length = max map { length } @rows;
 
-    my $x = $max_length > 50 ? 0 : 78 - $max_length;
+    my $x = $max_length > 50 || $menu->items > 21 ? 0 : 78 - $max_length;
     my $row = 0;
     for (@rows) {
         Curses::move($row++, $x);
         Curses::addstr(' ' . $_);
         Curses::clrtoeol();
     };
+
+    if ($x == 0) {
+        for ($row .. 23) {
+            Curses::move($_, 0);
+            Curses::clrtoeol();
+        }
+    }
 
     # move to right after the (x of y) or (end) prompt
     Curses::move($row - 1, length($rows[-1]) + $x + 1);
