@@ -48,6 +48,11 @@ augment reinitialize => sub {
     Curses::initscr;
 };
 
+sub deinitialize {
+    Curses::def_prog_mode();
+    Curses::endwin();
+}
+
 sub pathfinding { shift->color_method eq 'pathfind' }
 
 sub _notify {

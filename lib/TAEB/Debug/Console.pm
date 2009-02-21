@@ -14,8 +14,7 @@ sub msg_key {
         $ENV{PERL_RL} ||= $self->config->{readline}
             if $self->config && exists $self->config->{readline};
 
-        Curses::def_prog_mode();
-        Curses::endwin();
+        TAEB->display->deinitialize;
 
         print "\n"
             . "\e[1;37m+"
