@@ -277,6 +277,12 @@ augment display_menu => sub {
         elsif ($c eq '<' && $pager->previous_page) {
             $pager->current_page($pager->previous_page);
         }
+        elsif ($c eq '^') {
+            $pager->current_page($pager->first_page);
+        }
+        elsif ($c eq '|') {
+            $pager->current_page($pager->last_page);
+        }
         elsif ($c eq ' ' || $c eq "\n") {
             last;
         }
