@@ -360,7 +360,7 @@ sub draw_menu {
     }
 
     if ($menu->has_search) {
-        push @rows, " :  " . $menu->search;
+        push @rows, $pager->total_entries . ":  " . $menu->search;
     }
     elsif ($pager->first_page == $pager->last_page) {
         push @rows, "(end) ";
