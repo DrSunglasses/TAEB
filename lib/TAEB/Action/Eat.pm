@@ -55,7 +55,7 @@ sub respond_eat_what {
     }
 
     if ($self->food eq 'any') {
-        my $item = first { $self->can_eat($_) } TAEB->inventory->items;
+        my $item = first { $self->can_eat($_) } TAEB->inventory;
 
         if ($item) {
             $self->eaten_food($item);
@@ -119,7 +119,7 @@ sub edible_items {
 
     return grep { $self->can_eat($_) }
            TAEB->current_tile->items,
-           TAEB->inventory->items;
+           TAEB->inventory;
 }
 
 sub can_eat {
