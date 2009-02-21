@@ -317,7 +317,7 @@ sub draw_menu {
         push @rows, "(end) ";
     }
     else {
-        push @rows, "(Page "
+        push @rows, "("
                   . $pager->current_page
                   . " of "
                   . $pager->last_page
@@ -329,7 +329,7 @@ sub draw_menu {
     my $row = 0;
     for (@rows) {
         Curses::move($row++, 0);
-        Curses::addstr($_);
+        Curses::addstr(' ' . $_);
         Curses::addstr(' ' x (2 + $max_length - length));
     };
 }
