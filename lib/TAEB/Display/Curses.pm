@@ -1,4 +1,4 @@
-package TAEB::Display;
+package TAEB::Display::Curses;
 use TAEB::OO;
 use Curses ();
 use TAEB::Util ':colors';
