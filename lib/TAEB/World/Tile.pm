@@ -592,11 +592,7 @@ sub normal_color {
 sub debug_color {
     my $self = shift;
 
-    my $color;
-
-    $color ||= inner();
-
-    $color ||= ($self->in_shop || $self->in_temple
+    my $color = ($self->in_shop || $self->in_temple
              ? Curses::COLOR_PAIR(COLOR_GREEN) | Curses::A_BOLD
              : $self->has_enemy
              ? Curses::COLOR_PAIR(COLOR_RED) | Curses::A_BOLD

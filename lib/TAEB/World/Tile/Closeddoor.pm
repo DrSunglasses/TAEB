@@ -13,7 +13,7 @@ has is_shop => (
     default => 0,
 );
 
-augment debug_color => sub {
+override debug_color => sub {
     my $self = shift;
 
     if ($self->is_shop) {
@@ -26,7 +26,7 @@ augment debug_color => sub {
         return Curses::A_BOLD | Curses::COLOR_PAIR(COLOR_GREEN);
     }
 
-    return;
+    return super;
 };
 
 __PACKAGE__->meta->make_immutable;

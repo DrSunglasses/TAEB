@@ -8,7 +8,7 @@ has trap_type => (
     isa => 'TAEB::Type::Trap',
 );
 
-augment debug_color => sub { Curses::A_BOLD | Curses::COLOR_PAIR(COLOR_BLUE) };
+sub debug_color { Curses::A_BOLD | Curses::COLOR_PAIR(COLOR_BLUE) }
 
 sub reblessed {
     my $self = shift;
