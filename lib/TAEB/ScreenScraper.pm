@@ -411,6 +411,8 @@ our %msg_string = (
         ['sacrifice_gone'],
     'The blood covers the altar!' =>
         ['sacrifice_gone'],
+    'You fall through...' =>
+        ['trapdoor'],
 );
 
 our @msg_regex = (
