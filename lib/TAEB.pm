@@ -448,26 +448,6 @@ sub keypress {
         return;
     }
 
-    if ($c eq '5') {
-        my $menu = TAEB::Display::Menu->new(
-            description => "The numbers from 1 to 100",
-            items       => [1 .. 100],
-            select_type => 'multi',
-        );
-        $self->display_menu($menu);
-        return;
-    }
-
-    if ($c eq '0') {
-        my $menu = TAEB::Display::Menu->new(
-            description => "The empty menu",
-            items       => [],
-            select_type => 'multi',
-        );
-        $self->display_menu($menu);
-        return;
-    }
-
     if ($c eq 'I') {
         my $menu = TAEB::Display::Menu->new(
             description => "Every item we have a spoiler for",
