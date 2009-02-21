@@ -73,7 +73,7 @@ my %responses = (
         sprintf "%s %s", TAEB->current_tile, TAEB->current_level
     },
     inventory => sub {
-        my $inv = sprintf "%s", TAEB->inventory;
+        my $inv = TAEB->inventory;
         $inv =~ s/\n/, /g;
         $inv
     },
