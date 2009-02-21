@@ -467,7 +467,8 @@ sub keypress {
             items       => [ NetHack::Item::Spoiler->all_identities ],
             select_type => 'single',
         );
-        my $item = $self->display_menu($menu);
+        my $item = $self->display_menu($menu)
+            or return;
 
         my $spoiler = NetHack::Item::Spoiler->spoiler_for($item);
         my @spoiler_data = (
