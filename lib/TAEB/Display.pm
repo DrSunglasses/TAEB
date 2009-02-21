@@ -31,6 +31,8 @@ sub place_cursor { }
 sub get_key { die "get_key not implemented for " . blessed(shift) }
 sub try_key { }
 
+sub change_draw_mode { }
+
 sub DEMOLISH { shift->deinitialize }
 
 __PACKAGE__->meta->make_immutable;
