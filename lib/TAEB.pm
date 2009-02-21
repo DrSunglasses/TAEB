@@ -265,6 +265,7 @@ class_has display => (
         get_key         => 'get_key',
         try_key         => 'try_key',
         place_cursor    => 'place_cursor',
+        display_menu    => 'display_menu',
     },
 );
 
