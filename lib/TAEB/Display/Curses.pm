@@ -297,6 +297,8 @@ sub draw_menu {
     my $menu  = shift;
     my $pager = shift;
 
+    $self->redraw;
+
     Curses::move(0, 0);
     Curses::addstr($menu->description);
     Curses::clrtoeol();
