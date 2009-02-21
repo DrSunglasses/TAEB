@@ -303,7 +303,8 @@ sub draw_menu {
     my $i = 0;
 
     push @rows, map {
-        chr($i++ + ord('a')) . ' - ' . $menu->item($_ - 1)
+        my $sep = $menu->is_selected($_ - 1) ? '+' : '-';
+        chr($i++ + ord('a')) . " $sep " . $menu->item($_ - 1)
     } $pager->first .. $pager->last;
 
     if ($pager->first_page == $pager->last_page) {
