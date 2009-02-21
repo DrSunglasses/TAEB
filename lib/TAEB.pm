@@ -437,7 +437,17 @@ sub keypress {
             description => $self->name . "'s inventory",
             items       => [map { $_->debug_line } $self->inventory->items],
         );
-        return $self->display_menu($menu);
+        $self->display_menu($menu);
+        return;
+    }
+
+    if ($c eq '5') {
+        my $menu = TAEB::Display::Menu->new(
+            description => "The numbers from 1 to 100",
+            items       => [1 .. 100],
+        );
+        $self->display_menu($menu);
+        return;
     }
 
     # user input (for emergencies only)
