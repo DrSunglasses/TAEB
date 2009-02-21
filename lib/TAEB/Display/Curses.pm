@@ -314,16 +314,14 @@ sub draw_menu {
         ++$row;
     }
 
+    Curses::move($row + 1, 0);
     if ($pager->first_page == $pager->last_page) {
-        Curses::move($row + 1, 0);
         Curses::addstr("(end) ");
-        Curses::clrtoeol();
     }
     else {
-        Curses::move(23, 0);
         Curses::addstr("(Page " . $pager->current_page . " of " . $pager->last_page . ") ");
-        Curses::clrtoeol();
     }
+    Curses::clrtoeol();
 }
 
 =head2 change_draw_mode
