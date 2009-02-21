@@ -13,6 +13,9 @@ sub debug_line {
 has color => (
     is  => 'rw',
     isa => 'Int',
+
+    # go through the accessor for canonicalization
+    initializer => sub { shift->color(@_) },
 );
 
 has bold => (
