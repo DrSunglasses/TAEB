@@ -216,6 +216,11 @@ sub is_minotaur {
     $self->glyph eq 'H' && $self->color eq COLOR_BROWN
 }
 
+sub is_nymph {
+    my $self = shift;
+    $self->glyph eq 'n';
+}
+
 sub is_unicorn {
     my $self = shift;
     return 0 if $self->glyph ne 'u';
