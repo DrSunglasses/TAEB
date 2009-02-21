@@ -38,16 +38,13 @@ around color => sub {
 
     my $color = shift;
 
-    if ($color =~ /^\d+$/) {
-        # They're setting to a high color, so use the low color + bold
-        if ($color >= 8) {
-            $self->color($color - 8);
-            $self->bold(1);
-        }
+    # They're setting to a high color, so use the low color + bold
+    if ($color >= 8) {
+        $self->bold(1);
+        return $orig->($self, $color - 8);
     }
-    else {
-        # parse color names?
-    }
+
+    $orig->($self, $color);
 };
 
 override BUILDARGS => sub {
