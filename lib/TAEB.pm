@@ -450,7 +450,7 @@ sub keypress {
 
     if ($c eq 'I') {
         my $menu = TAEB::Display::Menu->new(
-            description => "Every item we have a spoiler for",
+            description => "Item spoiler data",
             items       => [ NetHack::Item::Spoiler->all_identities ],
             select_type => 'single',
         );
