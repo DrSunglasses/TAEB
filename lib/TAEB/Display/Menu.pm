@@ -19,11 +19,6 @@ has select_type => (
     default => 'none',
 );
 
-has is_done => (
-    is  => 'rw',
-    isa => 'Bool',
-);
-
 sub select {
 }
 
