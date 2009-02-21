@@ -37,9 +37,26 @@ sub item {
 }
 
 sub select {
+    my $self = shift;
+
+    for my $index (@_) {
+        $self->_item_metadata->[$index][1] = 1;
+    }
 }
 
 sub selected {
+    my $self  = shift;
+    my $index = shift;
+
+    $self->_item_metadata->[$index][1];
+}
+
+sub clear_selections {
+    my $self = shift;
+
+    for my $index (0 .. @{ $self->_item_metadata } - 1) {
+        $self->_item_metadata->[$index][1] = 0;
+    }
 }
 
 __PACKAGE__->meta->make_immutable;
