@@ -95,24 +95,22 @@ sub redraw {
         Curses::refresh;
     }
 
-    unless ($self->glyph_method eq 'nothing') {
-        my $level  = $args{level} || TAEB->current_level;
-        my $color_method = $self->color_method . '_color';
-        my $glyph_method = $self->glyph_method . '_glyph';
+    my $level  = $args{level} || TAEB->current_level;
+    my $color_method = $self->color_method . '_color';
+    my $glyph_method = $self->glyph_method . '_glyph';
 
-        for my $y (1 .. 21) {
-            Curses::move($y, 0);
-            for my $x (0 .. 79) {
-                my $tile = $level->at($x, $y);
-                my $color = $tile->$color_method;
-                my $glyph = $tile->$glyph_method;
+    for my $y (1 .. 21) {
+        Curses::move($y, 0);
+        for my $x (0 .. 79) {
+            my $tile = $level->at($x, $y);
+            my $color = $tile->$color_method;
+            my $glyph = $tile->$glyph_method;
 
-                my $curses_color = Curses::COLOR_PAIR($color->color)
-                                 | ($color->bold    ? Curses::A_BOLD    : 0)
-                                 | ($color->reverse ? Curses::A_REVERSE : 0);
+            my $curses_color = Curses::COLOR_PAIR($color->color)
+                                | ($color->bold    ? Curses::A_BOLD    : 0)
+                                | ($color->reverse ? Curses::A_REVERSE : 0);
 
-                Curses::addch($curses_color | ord($glyph));
-            }
+            Curses::addch($curses_color | ord($glyph));
         }
     }
 
