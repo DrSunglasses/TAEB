@@ -198,6 +198,8 @@ sub place_cursor {
     my $x    = shift || TAEB->x;
     my $y    = shift || TAEB->y;
 
+    return unless defined($x) && defined($y);
+
     Curses::move($y, $x);
     Curses::refresh;
 }
