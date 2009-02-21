@@ -256,8 +256,67 @@ sub display_topline {
     $self->place_cursor;
 }
 
-sub display_menu {
+augment display_menu => sub {
     my $self = shift;
+    my $menu = shift;
+
+    require Data::Page;
+    my $pager = Data::Page->new;
+    $pager->entries_per_page(22);
+    $pager->current_page(1);
+
+    until ($menu->is_done) {
+        $pager->total_entries(scalar @{ $menu->items });
+
+        $self->draw_menu($menu, $pager);
+
+        my $c = $self->get_key;
+
+        if (($c eq '>' || $c eq ' ') && $pager->next_page) {
+            $pager->current_page($pager->next_page);
+        }
+        elsif ($c eq '<' && $pager->previous_page) {
+            $pager->current_page($pager->previous_page);
+        }
+        elsif ($c eq ' ' || $c eq "\n") {
+            last;
+        }
+        elsif ($c eq "\e") {
+            $menu->clear_selections;
+            last;
+        }
+        elsif ($c =~ /^[a-z]$/i) {
+            my $index = ord(lc $c) - ord('a');
+            $menu->select($index);
+        }
+    }
+};
+
+sub draw_menu {
+    my $self  = shift;
+    my $menu  = shift;
+    my $pager = shift;
+
+    Curses::move(0, 0);
+    Curses::addstr($menu->description);
+    Curses::clrtoeol();
+
+    my $letter_index = 0;
+    for my $i ($pager->first .. $pager->last) {
+        my $item = $menu->item($i);
+
+        Curses::move($letter_index + 1, 0);
+        Curses::addstr(chr($letter_index + ord('a')) . ' - ' . $item);
+        Curses::clrtoeol();
+
+        ++$letter_index;
+    }
+
+    if ($pager->first_page != $pager->last_page) {
+        Curses::move(23, 0);
+        Curses::addstr("(Page " . $pager->current_page . " of " . $pager->last_page . ")");
+        Curses::clrtoeol();
+    }
 }
 
 =head2 change_draw_mode
