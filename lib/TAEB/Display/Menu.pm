@@ -7,10 +7,9 @@ has description => (
     required => 1,
 );
 
-has items => (
-    is       => 'ro',
-    isa      => 'ArrayRef',
-    required => 1,
+has _item_metadata => (
+    is  => 'ro',
+    isa => 'ArrayRef',
 );
 
 has select_type => (
@@ -18,6 +17,17 @@ has select_type => (
     isa     => 'TAEB::Type::Menu',
     default => 'none',
 );
+
+sub BUILDARGS {
+    my $self = shift;
+    my %args = @_;
+
+    die "Attribute (items) is required and must be an array reference"
+        unless $args{items} && ref($args{items}) eq 'ARRAY';
+    $args{_item_metadata} = map { [$_] } @{ delete $args{items} };
+
+    return \%args;
+}
 
 sub select {
 }
