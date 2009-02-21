@@ -332,6 +332,9 @@ sub draw_menu {
         Curses::addstr(' ' . $_);
         Curses::addstr(' ' x (2 + $max_length - length));
     };
+
+    # move to right after the (x of y) or (end) prompt
+    Curses::move($row -1, length($rows[-1]) + 1);
 }
 
 =head2 change_draw_mode
