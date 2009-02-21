@@ -441,6 +441,22 @@ sub keypress {
         return;
     }
 
+    if ($c eq 'e') {
+        my $eq = $self->equipment;
+        my @eq = (
+            map { "$_: " . ($eq->$_ ? $eq->$_->debug_line : "(none)") }
+            sort { ($eq->$b ? 1 : 0) <=> ($eq->$a ? 1 : 0) }
+            $eq->slots
+        );
+
+        my $menu = TAEB::Display::Menu->new(
+            description => $self->name . "'s equipment",
+            items       => \@eq,
+        );
+        $self->display_menu($menu);
+        return;
+    }
+
     if ($c eq '5') {
         my $menu = TAEB::Display::Menu->new(
             description => "The numbers from 1 to 100",
