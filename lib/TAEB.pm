@@ -451,6 +451,16 @@ sub keypress {
         return;
     }
 
+    if ($c eq '0') {
+        my $menu = TAEB::Display::Menu->new(
+            description => "The empty menu",
+            items       => [],
+            select_type => 'multi',
+        );
+        $self->display_menu($menu);
+        return;
+    }
+
     # user input (for emergencies only)
     if ($c eq "\e") {
         $self->write($self->get_key);
