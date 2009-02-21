@@ -481,7 +481,7 @@ sub keypress {
     if ($c eq 't') {
         my @types = (
             grep { !TAEB->current_level->is_unregisterable($_) }
-            sort
+            sort { $a cmp $b }
             tile_types(),
         );
 
