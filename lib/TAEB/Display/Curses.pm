@@ -249,6 +249,10 @@ sub display_topline {
     $self->place_cursor;
 }
 
+sub display_menu {
+    my $self = shift;
+}
+
 =head2 change_draw_mode
 
 This is a debug command. It's expected to read another character from the

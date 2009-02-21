@@ -24,9 +24,6 @@ has is_done => (
     isa => 'Bool',
 );
 
-sub display_menu {
-}
-
 sub select {
 }
 
