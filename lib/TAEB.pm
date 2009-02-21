@@ -461,6 +461,35 @@ sub keypress {
         return;
     }
 
+    if ($c eq 'I') {
+        my $menu = TAEB::Display::Menu->new(
+            description => "Every item we have a spoiler for",
+            items       => [ NetHack::Item::Spoiler->all_identities ],
+            select_type => 'single',
+        );
+        my $item = $self->display_menu($menu);
+
+        my $spoiler = NetHack::Item::Spoiler->spoiler_for($item);
+        my @spoiler_data = (
+            map {
+                my $value = $spoiler->{$_};
+                $value = "(undef)" if !defined($value);
+                $value = "(empty)" if !length($value);
+
+                "$_: $value"
+            }
+            sort keys %$spoiler
+        );
+
+        my $spoiler_menu = TAEB::Display::Menu->new(
+            description => "Spoiler data for '$item'",
+            items => \@spoiler_data,
+        );
+        $self->display_menu($spoiler_menu);
+
+        return;
+    }
+
     # user input (for emergencies only)
     if ($c eq "\e") {
         $self->write($self->get_key);
