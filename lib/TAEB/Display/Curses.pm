@@ -266,6 +266,7 @@ augment display_menu => sub {
     $pager->entries_per_page(22);
     $pager->current_page(1);
 
+    my $is_searching = 0;
     while (1) {
         $pager->total_entries(scalar $menu->items);
 
@@ -273,28 +274,46 @@ augment display_menu => sub {
 
         my $c = $self->get_key;
 
-        if (($c eq '>' || $c eq ' ') && $pager->next_page) {
-            $pager->current_page($pager->next_page);
+        if ($is_searching) {
+            if ($c eq "\e") {
+                $is_searching = 0;
+                $menu->clear_search;
+            }
+            elsif ($c eq "\n") {
+                $is_searching = 0;
+            }
+            else {
+                $menu->search($menu->search . $c);
+            }
         }
-        elsif ($c eq '<' && $pager->previous_page) {
-            $pager->current_page($pager->previous_page);
-        }
-        elsif ($c eq '^') {
-            $pager->current_page($pager->first_page);
-        }
-        elsif ($c eq '|') {
-            $pager->current_page($pager->last_page);
-        }
-        elsif ($c eq ' ' || $c eq "\n") {
-            last;
-        }
-        elsif ($c eq "\e") {
-            $menu->clear_selections;
-            last;
-        }
-        elsif ($c =~ /^[a-z]$/i) {
-            my $index = ($pager->first - 1) + (ord(lc $c) - ord('a'));
-            $menu->select($index) if $index < $pager->last;
+        else {
+            if (($c eq '>' || $c eq ' ') && $pager->next_page) {
+                $pager->current_page($pager->next_page);
+            }
+            elsif ($c eq '<' && $pager->previous_page) {
+                $pager->current_page($pager->previous_page);
+            }
+            elsif ($c eq '^') {
+                $pager->current_page($pager->first_page);
+            }
+            elsif ($c eq '|') {
+                $pager->current_page($pager->last_page);
+            }
+            elsif ($c eq ' ' || $c eq "\n") {
+                last;
+            }
+            elsif ($c eq "\e") {
+                $menu->clear_selections;
+                last;
+            }
+            elsif ($c =~ /^[a-z]$/i) {
+                my $index = ($pager->first - 1) + (ord(lc $c) - ord('a'));
+                $menu->select($index) if $index < $pager->last;
+            }
+            elsif ($c eq ':') {
+                $is_searching = 1;
+                $menu->search('');
+            }
         }
     }
 };
@@ -315,7 +334,10 @@ sub draw_menu {
         chr($i++ + ord('a')) . " $sep " . $menu->item($_ - 1)
     } $pager->first .. $pager->last;
 
-    if ($pager->first_page == $pager->last_page) {
+    if ($menu->has_search) {
+        push @rows, "(: " . $menu->search . ")";
+    }
+    elsif ($pager->first_page == $pager->last_page) {
         push @rows, "(end) ";
     }
     else {
