@@ -11,23 +11,6 @@ has aborted => (
     default => 0,
 );
 
-around BUILDARGS => sub {
-    my $orig = shift;
-    my $class = shift;
-    my $args = $class->$orig(@_);
-    my %real_args;
-    for my $arg (keys %$args) {
-        my $attr = $class->meta->find_attribute_by_name($arg);
-        if (blessed($attr) && $attr->can('provided') && $attr->provided) {
-            $real_args{$arg} = $args->{$arg};
-        }
-        else {
-            die "Only provided attributes may be set from the constructor, $arg is not provided";
-        }
-    }
-    return \%real_args;
-};
-
 =head2 command
 
 This is the basic command for the action. For example, C<E> for engraving, and
