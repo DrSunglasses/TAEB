@@ -479,11 +479,17 @@ sub keypress {
     }
 
     if ($c eq 't') {
+        my @types = (
+            grep { !TAEB->current_level->is_unregisterable($_) }
+            tile_types,
+        );
+
         my $type_menu = TAEB::Display::Menu->new(
             description => "Select a tile type",
-            items       => [tile_types],
+            items       => \@types,
             select_type => 'single',
         );
+
         my $type = $self->display_menu($type_menu)
             or return;
 
