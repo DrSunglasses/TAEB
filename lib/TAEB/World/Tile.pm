@@ -592,19 +592,7 @@ sub normal_color {
 sub debug_color {
     my $self = shift;
 
-    my $path = TAEB->ai->debug_path
-            || TAEB->has_action
-            && TAEB->action->can('path')
-            && TAEB->action->path;
-
     my $color;
-
-    if ($path) {
-        $color = Curses::COLOR_PAIR(COLOR_MAGENTA)
-            if $path->contains_tile($self) && $path->from ne $self;
-        $color |= Curses::A_BOLD
-            if $path->to eq $self;
-    }
 
     $color ||= inner();
 
