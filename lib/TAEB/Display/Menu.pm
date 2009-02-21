@@ -36,6 +36,12 @@ sub item {
     return $self->_item_metadata->[$index][0];
 }
 
+sub items {
+    my $self = shift;
+
+    return map { $_->[0] } @{ $self->_item_metadata };
+}
+
 sub select {
     my $self = shift;
 
