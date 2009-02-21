@@ -46,9 +46,10 @@ sub select {
 
 sub selected {
     my $self  = shift;
-    my $index = shift;
 
-    $self->_item_metadata->[$index][1];
+    return map { $_->[0] }
+           grep { $_->[1] }
+           @{ $self->_item_metadata }
 }
 
 sub clear_selections {
