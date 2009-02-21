@@ -282,6 +282,12 @@ augment display_menu => sub {
                 $menu->clear_search;
             }
             elsif ($c eq "\n") {
+                # If we hit enter on a search with only one result, return it
+                if ($pager->total_entries == 1) {
+                    $menu->select(0);
+                    last;
+                }
+
                 $is_searching = 0;
             }
             elsif ($c eq "\b" || ord($c) == 127) {
