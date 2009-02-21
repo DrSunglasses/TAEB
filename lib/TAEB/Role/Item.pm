@@ -1,6 +1,9 @@
 package TAEB::Role::Item;
 use Moose::Role;
-with 'MooseX::Role::Matcher' => { default_match => 'identity' };
+with 'MooseX::Role::Matcher' => {
+    default_match => 'name',
+    allow_missing_methods => 1,
+};
 
 sub is_auto_picked_up {
     my $self = shift;
