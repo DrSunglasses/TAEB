@@ -1,5 +1,5 @@
 package TAEB;
-use TAEB::Util ':colors';
+use TAEB::Util qw/:colors tile_types/;
 
 use TAEB::OO;
 
@@ -474,6 +474,29 @@ sub keypress {
             items => \@spoiler_data,
         );
         $self->display_menu($spoiler_menu);
+
+        return;
+    }
+
+    if ($c eq 't') {
+        my $type_menu = TAEB::Display::Menu->new(
+            description => "Select a tile type",
+            items       => [tile_types],
+            select_type => 'single',
+        );
+        my $type = $self->display_menu($type_menu)
+            or return;
+
+        my @tiles = map { $_->level->debug_line . ': ' . $_->debug_line }
+                    map { $_->tiles_of($type) }
+                    map { @$_ }
+                    @{ TAEB->dungeon->levels };
+
+        my $tile_menu = TAEB::Display::Menu->new(
+            description => "$type tiles",
+            items       => \@tiles,
+        );
+        $self->display_menu($tile_menu);
 
         return;
     }
