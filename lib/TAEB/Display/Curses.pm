@@ -303,7 +303,7 @@ sub draw_menu {
 
     my $row = 0;
     for my $i ($pager->first .. $pager->last) {
-        my $item = $menu->item($i);
+        my $item = $menu->item($i - 1);
 
         Curses::move($row + 1, 0);
         Curses::addstr(chr($row + ord('a')) . ' - ' . $item);
