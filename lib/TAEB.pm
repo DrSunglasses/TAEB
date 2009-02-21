@@ -482,7 +482,7 @@ sub keypress {
         my @types = (
             grep { !TAEB->current_level->is_unregisterable($_) }
             sort
-            tile_types,
+            tile_types(),
         );
 
         my $type_menu = TAEB::Display::Menu->new(
