@@ -1,5 +1,7 @@
 package TAEB::Display;
 use TAEB::OO;
+use TAEB::Display::Color;
+use TAEB::Display::Menu;
 
 sub reinitialize {
     inner();
