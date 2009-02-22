@@ -371,7 +371,7 @@ sub iterate_tiles {
     my $level = $self->level;
 
     my @tiles = grep { defined } map {
-                                     $level->at(
+                                     $level->at_safe(
                                          $x + $_->[0],
                                          $y + $_->[1]
                                      )

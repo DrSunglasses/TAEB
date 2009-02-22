@@ -168,6 +168,19 @@ sub at {
     return $self->{tiles}->[$y][$x];
 }
 
+# A safer version of at, returns undef if given a tile out of range
+# Call this if you know you're going to give out-of range input
+# sometimes (for instance, adjacencies at the edge of the map)
+sub at_safe {
+    my ($self, $x, $y) = @_;
+    my $cartographer = TAEB->dungeon->{cartographer};
+    $x = $cartographer->{x} unless defined $x;
+    $y = $cartographer->{y} unless defined $y;
+    return undef if $x < 0 || $x > 79;
+    return undef if $y < 1 || $y > 21;
+    return $self->at($x, $y);
+}
+
 sub at_direction {
     my $self      = shift;
     my $x         = @_ > 2 ? shift : TAEB->x;
