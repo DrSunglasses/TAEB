@@ -172,6 +172,25 @@ sub select_identify {
     return $item->match(identity => undef, '!buc' => 'cursed');
 }
 
+# Hook for AI-specific drawing modes
+#
+# Example:
+#
+# use TAEB::Util qw/:colors display/;
+#
+# sub drawing_modes {
+#     white => { description => "All white",
+#                color => sub { display(COLOR_WHITE) } },
+#     rot13 => { description => "Rot-13",
+#                glyph => sub { local $_ = shift->normal_glyph;
+#                               tr/A-Za-z/M-ZA-Lm-za-l/; $_ } },
+# }
+#
+# Also available are 'immediate', which is run by the select menu,
+# and 'onframe', which is run before each colorized frame.
+
+sub drawing_modes {}
+
 __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
 

@@ -84,6 +84,8 @@ sub notify {
     $self->redraw;
 }
 
+our %standard_modes;
+
 sub redraw {
     my $self = shift;
     my %args = @_;
@@ -94,15 +96,25 @@ sub redraw {
     }
 
     my $level  = $args{level} || TAEB->current_level;
-    my $color_method = $self->color_method . '_color';
-    my $glyph_method = $self->glyph_method . '_glyph';
+
+    my %modes = (%standard_modes, TAEB->ai->drawing_modes);
+
+    my $color_mode = $modes{$self->color_method} || {};
+    my $glyph_mode = $modes{$self->glyph_method} || {};
+
+    my $glyph_fun = $glyph_mode->{glyph} || sub { shift->normal_glyph };
+    my $color_fun = $color_mode->{color} || sub { shift->normal_color };
+
+    $color_mode->{onframe}() if $color_mode->{onframe};
+    $glyph_mode->{onframe}() if $glyph_mode->{onframe} &&
+        $color_mode != $glyph_mode;
 
     for my $y (1 .. 21) {
         Curses::move($y, 0);
         for my $x (0 .. 79) {
             my $tile = $level->at($x, $y);
-            my $color = $tile->$color_method;
-            my $glyph = $tile->$glyph_method;
+            my $color = $color_fun->($tile);
+            my $glyph = $glyph_fun->($tile);
 
             my $curses_color = Curses::COLOR_PAIR($color->color)
                                 | ($color->bold    ? Curses::A_BOLD    : 0)
@@ -403,35 +415,51 @@ Eventually we may want a menu interface but this is fine for now.
 
 =cut
 
-my %mode_changes = (
-    'Normal NetHack colors' => sub { shift->color_method('normal') },
-    'Debug coloring' => sub { shift->color_method('debug') },
-    'Engraving coloring' => sub { shift->color_method('engraving') },
-    'Stepped-on coloring' => sub { shift->color_method('stepped') },
-    'Time-since-stepped coloring' => sub { shift->color_method('time') },
-    'Lit tiles' => sub { shift->color_method('lit') },
-    'Line-of-sight' => sub { shift->color_method('los') },
-    'Hide objects and monsters' => sub { shift->glyph_method('floor') },
-    'Reset to configured settings' => sub {
-        my $self = shift;
-        $self->reset_color_method;
-        $self->reset_glyph_method;
-    },
+%standard_modes = (
+    normal =>    { description => 'Normal NetHack colors',
+                   color => sub{ shift->normal_color } },
+    debug  =>    { description => 'Debug coloring',
+                   color => sub{ shift->debug_color } },
+    engraving => { description => 'Engraving coloring',
+                   color => sub{ shift->engraving_color } },
+    stepped =>   { description => 'Stepped-on coloring',
+                   color => sub{ shift->stepped_color } },
+    time =>      { description => 'Time-since-stepped coloring',
+                   color => sub{ shift->time_color } },
+    lit =>       { description => 'Highlight lit tiles',
+                   color => sub{ shift->lit_color } },
+    los =>       { description => 'Highlight line-of-sight',
+                   color => sub{ shift->los_color } },
+    floor =>     { description => 'Hide objects and monsters',
+                   glyph => sub{ shift->floor_glyph } },
+    reset =>     { description => 'Reset to configured settings', 
+                   immediate => sub {
+                       my $self = shift;
+                       $self->reset_color_method;
+                       $self->reset_glyph_method;
+                   } },
 );
 
 sub change_draw_mode {
     my $self = shift;
 
+    my %modes = (%standard_modes, TAEB->ai->drawing_modes);
+
     my $menu = TAEB::Display::Menu->new(
         description => "Change draw mode",
-        items       => [ keys %mode_changes ],
+        items       => [ map { $_->{description} } values %modes ],
         select_type => 'single',
     );
 
     defined(my $change = $self->display_menu($menu))
         or return;
 
-    $mode_changes{$change}->($self);
+    my ($key) = grep { $modes{$_}{description} eq $change } keys %modes;
+
+    $self->glyph_method($key) if $modes{$key}{glyph};
+    $self->color_method($key) if $modes{$key}{color};
+
+    $modes{$key}{immediate}($self) if $modes{$key}{immediate};
 }
 
 sub msg_step {
