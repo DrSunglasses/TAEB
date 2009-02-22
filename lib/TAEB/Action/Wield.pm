@@ -25,7 +25,13 @@ sub respond_wield_what {
 
 sub done {
     my $self = shift;
-    $self->weapon->is_wielded(1);
+
+    if (blessed $self->weapon) {
+        $self->weapon->is_wielded(1);
+        TAEB->inventory->update($self->weapon);
+    } else {
+        TAEB->inventory->clear_weapon;
+    }
 
     # XXX: we need to track TAEB's offhand weapon too
 }
