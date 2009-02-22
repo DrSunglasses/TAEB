@@ -453,6 +453,16 @@ sub keypress {
         return;
     }
 
+    if ($c eq "\cP") {
+        my $menu = TAEB::Display::Menu->new(
+            description => "Old messages",
+            items       => [ TAEB->scraper->old_messages ],
+        );
+        $self->display_menu($menu);
+
+        return;
+    }
+
     if ($c eq 'e') {
         my $eq = $self->equipment;
         my @eq = (
