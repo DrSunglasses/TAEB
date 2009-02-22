@@ -320,21 +320,19 @@ sub radiate {
 
         $fly->(\@accum, $dx, $dy, TAEB->x, TAEB->y, $args{max});
 
-        for (@accum) {
-            my ($rr, $tile) = @$_;
+        if (grep { $stopper->($_->[1]) ||
+                $_->[1] == TAEB->current_tile && !$allowself } @accum) {
+            next DIRECTION;
+        }
 
-            next DIRECTION if $stopper->($tile);
+        my ($rr, $tile) = map { @$_ } grep { $code->($_->[1]) } @accum;
 
-            next DIRECTION if $tile == TAEB->current_tile && !$allowself;
+        if (defined $rr) {
+            # if they ask for a scalar, give them the direction
+            return delta2vi($dx, $dy) if !wantarray;
 
-            my $ret = $code->($tile);
-            if ($ret) {
-                # if they ask for a scalar, give them the direction
-                return delta2vi($dx, $dy) if !wantarray;
-
-                # if they ask for a list, give them (direction, distance, $tile)
-                return (delta2vi($dx, $dy), $args{max} - $rr, $tile);
-            }
+            # if they ask for a list, give them (direction, distance, $tile)
+            return (delta2vi($dx, $dy), $args{max} - $rr, $tile);
         }
     }
 }
