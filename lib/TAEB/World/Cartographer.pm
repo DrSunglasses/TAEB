@@ -30,6 +30,23 @@ has fov => (
     lazy      => 1,
 );
 
+# The last two locations the TAEB's been to, so we know which
+# way we're going when entering a shop or other room.
+has _earlier_location => (
+    isa       => 'TAEB::World::Tile',
+    is        => 'rw',
+);
+has _last_location => (
+    isa       => 'TAEB::World::Tile',
+    is        => 'rw',
+    trigger   => sub {
+        my $self = shift;
+        my $new  = shift;
+        return if $self->_last_location == $new;
+        $self->_earlier_location($self->_last_location);
+    }
+);
+
 sub update {
     my $self  = shift;
 
@@ -361,20 +378,41 @@ sub msg_debt {
     shift->floodfill_room('shop');
 }
 
+sub msg_step {
+    shift->_last_location(TAEB->current_tile);
+}
+
 sub msg_enter_room {
     my $self     = shift;
     my $type     = shift || return;
     my $subtype  = shift;
     # Okay, so we want to floodfill the room when we enter it.
     # Because we get the message in the doorway, we can't floodfill from that
-    # tile, so therefore we will use the target tile which (presumably?) is
-    # inside the room.
-    return unless TAEB->has_action
-               && TAEB->action->can('path')
-               && TAEB->action->path
-               && TAEB->action->path->to;
+    # tile.
+    # Instead, we take into account which way the TAEB is going. If there's
+    # exactly one square that is orthogonal to us, not adjacent to our
+    # previous location, and walkable, fill from there. Otherwise we're
+    # confused (maybe we teleported into the room?); log a warning and don't
+    # fill anything.
+    my @possibly_inside = ();
+    my $lasttile = $self->_last_location;
+    defined $lasttile and $lasttile == TAEB->current_tile
+                      and $lasttile = $self->_earlier_location;
+    my $ltx = $lasttile ? $lasttile->x : -2;
+    my $lty = $lasttile ? $lasttile->y : -2;
+    TAEB->current_tile->each_orthogonal(sub {
+        my $tile = shift;
+        abs($tile->x-$ltx)<=1 && abs($tile->y-$lty)<=1 and return;
+        $tile->is_walkable(1) or return;
+        unshift @possibly_inside, $tile;
+    });
 
-    $self->floodfill_room($type,TAEB->action->path->to);
+    $self->floodfill_room($type,$possibly_inside[0])
+        if scalar @possibly_inside == 1;
+    TAEB->log->cartographer(
+        "Can't figure out where the boundaries of this room are: ".
+        (scalar @possibly_inside)." possibilities",
+        level => 'info') unless scalar @possibly_inside == 0;
 }
 
 sub msg_vault_guard {
