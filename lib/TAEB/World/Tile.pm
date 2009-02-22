@@ -649,7 +649,7 @@ sub time_color {
 sub engraving_color {
     my $self = shift;
     my $engraving = $self->engraving ne '';
-    my $bold = $self->elbereths;
+    my $bold = $self->elbereths ? 1 : 0;
 
     return $engraving
          ? display(color => COLOR_GREEN, bold => $bold)
