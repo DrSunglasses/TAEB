@@ -197,12 +197,21 @@ sub _get_controller_config {
     return $options->{$controller_class_config};
 }
 
-sub get_ai_class         { shift->_get_controller_class('AI')         }
-sub get_interface_class  { shift->_get_controller_class('Interface')  }
-sub get_display_class    { shift->_get_controller_class('Display')    }
-sub get_ai_config        { shift->_get_controller_config('AI')        }
-sub get_interface_config { shift->_get_controller_config('Interface') }
-sub get_display_config   { shift->_get_controller_config('Display')   }
+sub get_ai_class         { shift->_get_controller_class('AI')        }
+sub get_interface_class  { shift->_get_controller_class('Interface') }
+sub get_display_class    { shift->_get_controller_class('Display')   }
+sub get_ai_config {
+    my $self = shift;
+    $self->_get_controller_config('AI', @_);
+}
+sub get_interface_config {
+    my $self = shift;
+    $self->_get_controller_config('Interface', @_);
+}
+sub get_display_config {
+    my $self = shift;
+    $self->_get_controller_config('Display', @_);
+}
 
 sub nethackrc_contents {
     local $/;
