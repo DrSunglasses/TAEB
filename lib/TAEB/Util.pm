@@ -393,7 +393,7 @@ sub object_menu {
 sub list_menu {
     my $menu = TAEB::Display::Menu->new(
         description => "Unknown list",
-        items       => [@_],
+        items       => shift,
         select_type => 'single',
     );
     my $selected = TAEB->display_menu($menu) or return;
