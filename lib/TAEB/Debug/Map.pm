@@ -103,7 +103,7 @@ sub msg_key {
         elsif ($c eq 't') {
             attribute_menu($tile);
         }
-        elsif ($c eq 'l') {
+        elsif ($c eq 'T') {
             attribute_menu($level);
         }
 
