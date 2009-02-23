@@ -278,7 +278,7 @@ augment display_menu => sub {
     while (1) {
         $pager->total_entries(scalar $menu->items);
 
-        $self->draw_menu($menu, $pager);
+        $self->draw_menu($menu, $pager, $is_searching);
 
         my $c = $self->get_key;
         if ($c eq "\cr") {
@@ -350,9 +350,10 @@ augment display_menu => sub {
 };
 
 sub draw_menu {
-    my $self  = shift;
-    my $menu  = shift;
-    my $pager = shift;
+    my $self   = shift;
+    my $menu   = shift;
+    my $pager  = shift;
+    my $search = shift;
 
     $self->redraw;
 
@@ -368,7 +369,8 @@ sub draw_menu {
     }
 
     if ($menu->has_search) {
-        push @rows, $pager->total_entries . ":  " . $menu->search;
+        my $sep = $search ? ':' : '-';
+        push @rows, $pager->total_entries . "$sep  " . $menu->search;
     }
     elsif ($pager->first_page == $pager->last_page) {
         push @rows, "(end) ";
