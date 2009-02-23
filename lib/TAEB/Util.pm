@@ -344,6 +344,9 @@ sub item_menu {
     elsif (ref($thing) && ref($thing) eq 'ARRAY') {
         return list_menu("Unknown list", @$thing);
     }
+    elsif (blessed($thing) && $thing->isa('Set::Object')) {
+        return list_menu("Unknown set", $thing->members);
+    }
 
     die "No valid menu type for '$thing'" unless $quiet;
 }
