@@ -1,6 +1,6 @@
 package TAEB::Debug::Map;
 use TAEB::OO;
-use TAEB::Util qw/attribute_menu object_menu/;
+use TAEB::Util qw/list_menu object_menu/;
 
 sub msg_key {
     my $self = shift;
@@ -98,13 +98,13 @@ sub msg_key {
                 @items = $level->items;
             }
 
-            object_menu($description => @items);
+            list_menu($description => @items);
         }
         elsif ($c eq 't') {
-            attribute_menu($tile);
+            object_menu($tile);
         }
         elsif ($c eq 'T') {
-            attribute_menu($level);
+            object_menu($level);
         }
 
         $x %= 80;

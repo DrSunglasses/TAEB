@@ -33,8 +33,9 @@ use constant \%colors;
 
 use Sub::Exporter -setup => {
     exports => [qw(tile_types trap_types delta2vi vi2delta deltas dice colors),
-                qw(crow_flies angle align2str display attribute_menu),
-                qw(object_menu), keys %colors],
+                qw(crow_flies angle align2str display),
+                qw(item_menu hashref_menu object_menu list_menu),
+                keys %colors],
     groups => {
         colors => [keys %colors],
     },
@@ -322,35 +323,71 @@ sub crow_flies {
 require TAEB::Display::Color;
 sub display { TAEB::Display::Color->new(@_) }
 
-sub attribute_menu {
+sub _canonicalize_name_value {
+    my ($name, $value) = @_;
+    $value = "(undef)" if !defined($value);
+    $value = "(empty)" if !length($value);
+
+    return TAEB::Util::Pair->new(name => $name, value => $value);
+}
+
+sub item_menu {
+    my $thing = shift;
+    my $quiet = shift;
+
+    if (blessed($thing) && $thing->can('meta')) {
+        return object_menu($thing);
+    }
+    elsif (ref($thing) && ref($thing) eq 'HASH') {
+        return hashref_menu($thing);
+    }
+    elsif (ref($thing) && ref($thing) eq 'ARRAY') {
+        return list_menu("Unknown list", @$thing);
+    }
+
+    die "No valid menu type for '$thing'" unless $quiet;
+}
+
+sub hashref_menu {
+    my $hash = shift;
+
+    my @hash_data = (
+        map {
+            _canonicalize_name_value($_, $hash->{$_});
+        }
+        sort keys %$hash
+    );
+
+    my $menu = TAEB::Display::Menu->new(
+        description => "${hash}'s keys/values",
+        items       => \@hash_data,
+        select_type => 'single',
+    );
+    my $selected = TAEB->display_menu($menu) or return;
+    item_menu($selected->value => 1);
+}
+
+sub object_menu {
     my $object = shift;
 
     my @object_data = (
         sort map {
             my $name = $_->name;
-
-            my $value = $object->$name;
-            $value = "(undef)" if !defined($value);
-            $value = "(empty)" if !length($value);
-
-            "$name: $value"
+            _canonicalize_name_value($name, $object->$name);
         }
         $object->meta->get_all_attributes
     );
 
-    my $detailed_menu = TAEB::Display::Menu->new(
+    my $menu = TAEB::Display::Menu->new(
         description => "${object}'s attributes",
         items       => \@object_data,
         select_type => 'single',
     );
-    my $selected = TAEB->display_menu($detailed_menu);
-
-    if (blessed $selected && $selected->can('meta')) {
-        attribute_menu($selected);
-    }
+    my $selected = TAEB->display_menu($menu) or return;
+    item_menu($selected->value => 1);
 }
 
-sub object_menu {
+sub list_menu {
     my $description = shift;
 
     my $menu = TAEB::Display::Menu->new(
@@ -358,10 +395,36 @@ sub object_menu {
         items       => [@_],
         select_type => 'single',
     );
-    my $object = TAEB->display_menu($menu) or return;
-
-    attribute_menu($object);
+    my $selected = TAEB->display_menu($menu) or return;
+    item_menu($selected => 1);
 }
+
+do {
+    package TAEB::Util::Pair;
+    use Moose;
+
+    has name => (
+        is       => 'ro',
+        isa      => 'Str',
+        required => 1,
+    );
+
+    has value => (
+        is       => 'ro',
+        required => 1,
+    );
+
+    use overload (
+        fallback => 1,
+        q{""} => sub {
+            my $self = shift;
+            $self->name . ': ' . $self->value
+        },
+    );
+
+    __PACKAGE__->meta->make_immutable;
+    no Moose;
+};
 
 1;
 

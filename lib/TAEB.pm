@@ -1,5 +1,5 @@
 package TAEB;
-use TAEB::Util qw/:colors tile_types object_menu/;
+use TAEB::Util qw/:colors tile_types list_menu/;
 
 use TAEB::OO;
 
@@ -425,7 +425,7 @@ sub keypress {
     }
 
     if ($c eq 'i') {
-        object_menu($self->name . "'s inventory" => TAEB->inventory);
+        list_menu($self->name . "'s inventory" => TAEB->inventory);
         return;
     }
 
@@ -447,7 +447,7 @@ sub keypress {
             $eq->slots
         );
 
-        object_menu($self->name . "'s equipment", @eq);
+        list_menu($self->name . "'s equipment", @eq);
         return;
     }
 
@@ -461,22 +461,7 @@ sub keypress {
             or return;
 
         my $spoiler = NetHack::Item::Spoiler->spoiler_for($item);
-        my @spoiler_data = (
-            map {
-                my $value = $spoiler->{$_};
-                $value = "(undef)" if !defined($value);
-                $value = "(empty)" if !length($value);
-
-                "$_: $value"
-            }
-            sort keys %$spoiler
-        );
-
-        my $spoiler_menu = TAEB::Display::Menu->new(
-            description => "Spoiler data for '$item'",
-            items => \@spoiler_data,
-        );
-        $self->display_menu($spoiler_menu);
+        hashref_menu("Spoiler data for '$item'", $spoiler);
 
         return;
     }
@@ -502,7 +487,7 @@ sub keypress {
                     map { @$_ }
                     @{ TAEB->dungeon->levels };
 
-        object_menu("$type tiles" => @tiles);
+        list_menu("$type tiles" => @tiles);
 
         return;
     }
