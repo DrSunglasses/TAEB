@@ -171,7 +171,7 @@ sub _get_controller_class {
         or die "Specify a class for '$controller_config' in your config";
     $controller_class = $controller_class =~ s/^\+//
                       ? $controller_class
-                      : "TAEB::$controller::$controller_class";
+                      : "TAEB::${controller}::${controller_class}";
 
     Class::MOP::load_class($controller_class);
 
