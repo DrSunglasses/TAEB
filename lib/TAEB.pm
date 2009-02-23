@@ -231,7 +231,7 @@ class_has debugger => (
 
 class_has display => (
     is      => 'ro',
-    isa     => 'TAEB::Display::Curses',
+    isa     => 'TAEB::Display',
     trigger => sub { shift->display->institute },
     default   => sub {
         my $display = TAEB->config->get_display;
