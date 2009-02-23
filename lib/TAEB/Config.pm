@@ -148,71 +148,47 @@ sub get_align {
     return '*';
 }
 
-=head2 get_ai
-
-=cut
-
-sub get_ai {
+sub _get_controller_class {
     my $self = shift;
+    my ($controller) = @_;
+    my $controller_config = lc($controller);
 
-    my $ai_class = $self->ai
-        or die "Specify a class for 'ai' in your config";
+    my $controller_class = $self->$controller_config
+        or die "Specify a class for '$controller_config' in your config";
+    $controller_class = $controller_class =~ s/^\+//
+                      ? $controller_class
+                      : "TAEB::$controller::$controller_class";
 
-    Class::MOP::load_class($ai_class);
-    return $ai_class->new;
+    Class::MOP::load_class($controller_class);
+
+    return $controller_class;
 }
 
-sub get_ai_config {
+sub _get_controller_config {
     my $self = shift;
-    my ($ai_class) = @_;
-    my $options = $self->contents->{ai_options};
+    my ($controller, $controller_class) = @_;
+    my $controller_config = lc($controller);
+
+    my $options = $self->contents->{"${controller_config}_options"};
     return unless $options;
-    $ai_class ||= caller;
-    $ai_class = $self->get_ai if $ai_class !~ /^TAEB::AI::/;
-    $ai_class =~ s/^TAEB::AI::(.*?)::.*/$1/;
-    $ai_class = lc $ai_class;
-    return $options->{$ai_class};
+
+    $controller_class ||= caller;
+    $controller_class = $self->get_controller_class
+        if $controller_class !~ /^TAEB::${controller}::/;
+
+    my $controller_class_config = $controller_class;
+    $controller_class_config =~ s/^TAEB::${controller}::(.*?)::.*/$1/;
+    $controller_class_config = lc($controller_class_config);
+
+    return $options->{$controller_class_config};
 }
 
-=head2 get_interface
-
-=cut
-
-sub get_interface {
-    my $self = shift;
-
-    my $interface = $self->interface
-        or die "Specify a class for 'interface' in your config";
-
-    my $interface_class = $interface =~ s/^\+//
-                        ? $interface
-                        : "TAEB::Interface::$interface";
-
-    Class::MOP::load_class($interface_class);
-
-    my %interface_options;
-    %interface_options = %{ $self->interface_options->{$interface} || {} }
-        if defined $self->interface_options;
-    return $interface_class->new(%interface_options);
-}
-
-=head2 get_display
-
-=cut
-
-sub get_display {
-    my $self = shift;
-
-    my $display = $self->display
-        or die "Specify a class for 'display' in your config";
-
-    my $display_class = $display =~ s/^\+//
-                      ? $display
-                      : "TAEB::Display::$display";
-
-    Class::MOP::load_class($display_class);
-    return $display_class->new;
-}
+sub get_ai_class         { shift->_get_controller_class('AI')         }
+sub get_interface_class  { shift->_get_controller_class('Interface')  }
+sub get_display_class    { shift->_get_controller_class('Display')    }
+sub get_ai_config        { shift->_get_controller_config('AI')        }
+sub get_interface_config { shift->_get_controller_config('Interface') }
+sub get_display_config   { shift->_get_controller_config('Display')   }
 
 sub nethackrc_contents {
     local $/;

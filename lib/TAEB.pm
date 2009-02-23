@@ -41,7 +41,10 @@ class_has interface => (
     isa      => 'TAEB::Interface',
     handles  => [qw/read write/],
     lazy     => 1,
-    default  => sub { TAEB->config->get_interface },
+    default  => sub {
+        my $interface_config = TAEB->config->get_interface_config;
+        TAEB->config->get_interface_class->new($interface_config);
+    },
 );
 
 class_has ai => (
@@ -51,7 +54,7 @@ class_has ai => (
     predicate => 'has_ai',
     lazy      => 1,
     default   => sub {
-        my $ai = TAEB->config->get_ai;
+        my $ai = TAEB->config->get_ai_class->new;
         $ai->institute; # default doesn't fire triggers
         $ai;
     },
@@ -234,7 +237,7 @@ class_has display => (
     isa     => 'TAEB::Display',
     trigger => sub { shift->display->institute },
     default   => sub {
-        my $display = TAEB->config->get_display;
+        my $display = TAEB->config->get_display_class->new;
         $display->institute; # default doesn't fire triggers
         $display;
     },
