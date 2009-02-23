@@ -1,5 +1,6 @@
 package TAEB::Debug::Map;
 use TAEB::OO;
+use TAEB::Util 'object_menu';
 
 sub msg_key {
     my $self = shift;
@@ -97,13 +98,7 @@ sub msg_key {
                 @items = $level->items;
             }
 
-            my $menu = TAEB::Display::Menu->new(
-                description => $description,
-                items       => \@items,
-                select_type => 'none',
-            );
-
-            TAEB->display_menu($menu);
+            object_menu($description => @items);
         }
 
         $x %= 80;
