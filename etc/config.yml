@@ -2,11 +2,16 @@
 
 #### Mandatory options ####
 # What should be controlling TAEB
-ai: 'TAEB::AI::Demo'
+ai: Demo
 # How TAEB should communicate with NetHack (another option is Telnet)
 interface: Local
 # How TAEB should communicate with you!
 display: Curses
+
+#### AI config ############
+# Configure AI-specific options here (none of the AIs that ship with TAEB are
+# configurable though...)
+#ai_options:
 
 #### Interface config #####
 # Configure the interface if necessary (telnet and ssh)
@@ -18,14 +23,6 @@ display: Curses
 #        account: taeb
 #        password: pass
 
-#### Character config #####
-# Specify what TAEB should choose when picking a character
-#character:
-#    role: '*'
-#    race: '*'
-#    gender: '*'
-#    align: '*'
-
 #### Display config #######
 # How TAEB should look when you're watching him
 # color_method controls how tiles are colored, and glyph_method controls which
@@ -33,9 +30,18 @@ display: Curses
 # doc/debug-commands.txt.
 # color_method options: normal, debug, engraving, stepped, time, lit
 # glyph_method options: normal, floor
-#display:
-#    color_method: normal
-#    glyph_method: normal
+#display_options:
+#    Curses:
+#        color_method: normal
+#        glyph_method: normal
+
+#### Character config #####
+# Specify what TAEB should choose when picking a character
+#character:
+#    role: '*'
+#    race: '*'
+#    gender: '*'
+#    align: '*'
 
 #### Debugging config #####
 # Configure various debugging plugins for TAEB here
