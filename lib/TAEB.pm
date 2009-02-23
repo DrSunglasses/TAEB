@@ -1,5 +1,5 @@
 package TAEB;
-use TAEB::Util qw/:colors tile_types list_menu/;
+use TAEB::Util qw/:colors tile_types hashref_menu list_menu/;
 
 use TAEB::OO;
 
