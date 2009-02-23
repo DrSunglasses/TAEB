@@ -1,6 +1,7 @@
 package TAEB::Config;
 use Moose;
 use YAML;
+use List::Util qw/first/;
 use Hash::Merge 'merge';
 Hash::Merge::set_behavior('RIGHT_PRECEDENT');
 
@@ -80,6 +81,23 @@ sub BUILD {
     }
 }
 
+sub _get_character_info {
+    my $self = shift;
+    my ($crga_type, $parser) = @_;
+    return '*' unless $self->character;
+    my $crga;
+    if (ref $crga_type) {
+        $crga = first { defined }
+                map   { $self->character->{$_} }
+                @$crga_type;
+    }
+    else {
+        $crga = $self->character->{$crga_type};
+    }
+    return '*' unless $crga;
+    return $parser->($crga) || '*';
+}
+
 =head2 get_role
 
 Retrieves the role from the config, or picks randomly.
@@ -88,16 +106,15 @@ Retrieves the role from the config, or picks randomly.
 
 sub get_role {
     my $self = shift;
-    return '*' unless $self->character;
-    my $role = $self->character->{role}
-        or return '*';
-    return $1
-        if lc($role) =~ /^([abchkmpstvw])/;
-    return 'r'
-        if $role =~ /^R[^a]/ || $role eq 'r';
-    return 'R'
-        if $role =~ /^Ra/i || $role eq 'R';
-    return '*';
+    return $self->_get_character_info('role', sub {
+        my $role = shift;
+        return $1
+            if lc($role) =~ /^([abchkmpstvw])/;
+        return 'r'
+            if $role =~ /^R[^a]/ || $role eq 'r';
+        return 'R'
+            if $role =~ /^Ra/i || $role eq 'R';
+    });
 }
 
 =head2 get_race
@@ -108,12 +125,11 @@ Retrieves the race from the config, or picks randomly.
 
 sub get_race {
     my $self = shift;
-    return '*' unless $self->character;
-    my $role = $self->character->{race}
-        or return '*';
-    return $1
-        if lc($role) =~ /^([hedgo])/;
-    return '*';
+    return $self->_get_character_info('race', sub {
+        my $race = shift;
+        return $1
+            if lc($race) =~ /^([hedgo])/;
+    });
 }
 
 =head2 get_gender
@@ -124,12 +140,11 @@ Retrieves the gender from the config, or picks randomly.
 
 sub get_gender {
     my $self = shift;
-    return '*' unless $self->character;
-    my $role = $self->character->{gender}
-        or return '*';
-    return $1
-        if lc($role) =~ /^([mf])/;
-    return '*';
+    return $self->_get_character_info('gender', sub {
+        my $gender = shift;
+        return $1
+            if lc($gender) =~ /^([mf])/;
+    });
 }
 
 =head2 get_align
@@ -140,12 +155,11 @@ Retrieves the alignment from the config, or picks randomly.
 
 sub get_align {
     my $self = shift;
-    return '*' unless $self->character;
-    my $role = $self->character->{align} || $self->character->{alignment}
-        or return '*';
-    return $1
-        if lc($role) =~ /^([lnc])/;
-    return '*';
+    return $self->_get_character_info([qw/align alignment/], sub {
+        my $align = shift;
+        return $1
+            if lc($align) =~ /^([lnc])/;
+    });
 }
 
 sub _get_controller_class {
