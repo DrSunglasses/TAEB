@@ -152,6 +152,14 @@ for my $level (@special_levels) {
 
 sub base_class { __PACKAGE__ }
 
+sub is_on_map {
+    my $self = shift;
+    my ($x, $y) = @_;
+    return if $x < 0 || $x > 79;
+    return if $y < 1 || $y > 21;
+    return 1;
+}
+
 # XXX: Yes this REALLY sucks but it's an "easy" optimization
 sub at {
     my ($self, $x, $y) = @_;
@@ -160,7 +168,7 @@ sub at {
     $y = $cartographer->{y} unless defined $y;
 
     # XXX: reenable this if we start getting weird errors
-    #if ($x < 0 || $y < 0) {
+    #if (!$self->is_on_map($x, $y)) {
         #Carp::cluck("Level->at($x, $y) called. Stop doing that!");
         #return undef;
     #}
@@ -172,12 +180,12 @@ sub at {
 # Call this if you know you're going to give out-of range input
 # sometimes (for instance, adjacencies at the edge of the map)
 sub at_safe {
-    my ($self, $x, $y) = @_;
-    my $cartographer = TAEB->dungeon->{cartographer};
-    $x = $cartographer->{x} unless defined $x;
-    $y = $cartographer->{y} unless defined $y;
-    return undef if $x < 0 || $x > 79;
-    return undef if $y < 1 || $y > 21;
+    my $self = shift;
+    # note: i'm assuming here that the cartographer always makes sure our
+    # position is on the map
+    return $self->at unless @_;
+    my ($x, $y) = @_;
+    return undef unless $self->is_on_map($x, $y);
     return $self->at($x, $y);
 }
 
