@@ -419,22 +419,22 @@ Eventually we may want a menu interface but this is fine for now.
 
 %standard_modes = (
     normal =>    { description => 'Normal NetHack colors',
-                   color => sub{ shift->normal_color } },
+                   color => sub { shift->normal_color } },
     debug  =>    { description => 'Debug coloring',
-                   color => sub{ shift->debug_color } },
+                   color => sub { shift->debug_color } },
     engraving => { description => 'Engraving coloring',
-                   color => sub{ shift->engraving_color } },
+                   color => sub { shift->engraving_color } },
     stepped =>   { description => 'Stepped-on coloring',
-                   color => sub{ shift->stepped_color } },
+                   color => sub { shift->stepped_color } },
     time =>      { description => 'Time-since-stepped coloring',
-                   color => sub{ shift->time_color } },
+                   color => sub { shift->time_color } },
     lit =>       { description => 'Highlight lit tiles',
-                   color => sub{ shift->lit_color } },
+                   color => sub { shift->lit_color } },
     los =>       { description => 'Highlight line-of-sight',
-                   color => sub{ shift->los_color } },
+                   color => sub { shift->los_color } },
     floor =>     { description => 'Hide objects and monsters',
-                   glyph => sub{ shift->floor_glyph } },
-    reset =>     { description => 'Reset to configured settings', 
+                   glyph => sub { shift->floor_glyph } },
+    reset =>     { description => 'Reset to configured settings',
                    immediate => sub {
                        my $self = shift;
                        $self->reset_color_method;
