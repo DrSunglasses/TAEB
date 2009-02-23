@@ -6,7 +6,6 @@ use Time::HiRes 'gettimeofday';
 use List::Util 'max';
 
 extends 'TAEB::Display';
-with 'TAEB::Role::Config';
 
 use constant to_screen => 1;
 
@@ -16,7 +15,7 @@ has color_method => (
     clearer => 'reset_color_method',
     lazy    => 1,
     default => sub {
-        my $config = shift->config || {};
+        my $config = TAEB->config->get_display_config || {};
         return $config->{color_method} || 'normal';
     },
 );
@@ -27,7 +26,7 @@ has glyph_method => (
     clearer => 'reset_glyph_method',
     lazy    => 1,
     default => sub {
-        my $config = shift->config || {};
+        my $config = TAEB->config->get_display_config || {};
         return $config->{glyph_method} || 'normal';
     },
 );
