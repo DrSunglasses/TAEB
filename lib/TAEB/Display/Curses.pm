@@ -86,7 +86,7 @@ sub notify {
     $self->redraw;
 }
 
-our %standard_modes;
+my %standard_modes;
 
 sub redraw {
     my $self = shift;
