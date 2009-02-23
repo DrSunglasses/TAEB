@@ -302,7 +302,7 @@ sub spoiler {
     );
     return values %candidates if wantarray;
     return if values %candidates > 1;
-    return values %candidates;
+    return (values %candidates)[0];
 }
 
 =head2 can_be_outrun :: bool
