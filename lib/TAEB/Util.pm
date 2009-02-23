@@ -3,6 +3,7 @@ use strict;
 use warnings;
 
 use List::Util qw/min max/;
+use Scalar::Util 'blessed';
 use List::MoreUtils 'uniq';
 
 our %colors;
