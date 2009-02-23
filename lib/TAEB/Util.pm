@@ -342,10 +342,10 @@ sub item_menu {
         return hashref_menu($thing);
     }
     elsif (ref($thing) && ref($thing) eq 'ARRAY') {
-        return list_menu("Unknown list", @$thing);
+        return list_menu($thing);
     }
     elsif (blessed($thing) && $thing->isa('Set::Object')) {
-        return list_menu("Unknown set", $thing->members);
+        return list_menu([$thing->members]);
     }
 
     die "No valid menu type for '$thing'" unless $quiet;
@@ -391,10 +391,8 @@ sub object_menu {
 }
 
 sub list_menu {
-    my $description = shift;
-
     my $menu = TAEB::Display::Menu->new(
-        description => $description,
+        description => "Unknown list",
         items       => [@_],
         select_type => 'single',
     );
