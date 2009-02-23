@@ -1,5 +1,5 @@
 ---
-ai: 'TAEB::AI::Behavioral::Personality::Explorer'
+ai: Behavioral::Personality::Explorer
 
 interface: Telnet
 interface_options:
@@ -10,6 +10,8 @@ interface_options:
     Local:
         read_iterations: 2
         args: ['-D']
+
+display: Curses
 
 character:
     role: Valkyrie
