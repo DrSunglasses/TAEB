@@ -51,7 +51,7 @@ while (1) {
 
     print ' ';
     for (reverse 1..5) {
-        print "\x08$_";
+        print "\b$_";
         sleep 1;
     }
 }
