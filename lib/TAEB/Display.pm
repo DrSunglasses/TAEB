@@ -3,6 +3,10 @@ use TAEB::OO;
 use TAEB::Display::Color;
 use TAEB::Display::Menu;
 
+# whether or not this output writes to the terminal: if it does, we don't want
+# to also be sending warnings/errors there, for example.
+use constant to_screen => 0;
+
 sub reinitialize {
     inner();
     shift->redraw(force_clear => 1);

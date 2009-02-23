@@ -28,7 +28,6 @@ sub msg_key {
 
         no warnings 'redefine';
         require Devel::REPL::Script;
-        local $TAEB::ToScreen;
 
         eval {
             local $SIG{__WARN__};

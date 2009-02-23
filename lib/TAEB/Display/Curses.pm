@@ -8,6 +8,8 @@ use List::Util 'max';
 extends 'TAEB::Display';
 with 'TAEB::Role::Config';
 
+use constant to_screen => 1;
+
 has color_method => (
     is      => 'rw',
     isa     => 'Str',

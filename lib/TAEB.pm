@@ -22,10 +22,6 @@ with 'TAEB::Role::Initialize';
 
 our $VERSION = '0.01';
 
-# report errors to the screen? should only be done while playing NetHack, not
-# during REPL or testing
-our $ToScreen = 0;
-
 class_has persistent_data => (
     is        => 'ro',
     isa       => 'HashRef',
@@ -112,7 +108,7 @@ class_has log => (
             max_level => 'warning',
             callbacks => sub {
                 my %args = @_;
-                if (!$TAEB::ToScreen) {
+                if (!TAEB->display->to_screen) {
                     local $SIG{__WARN__};
                     warn $args{message};
                 }
@@ -123,7 +119,7 @@ class_has log => (
             min_level => 'error',
             callbacks => sub {
                 my %args = @_;
-                if (!$TAEB::ToScreen) {
+                if (!TAEB->display->to_screen) {
                     local $SIG{__WARN_};
                     confess $args{message};
                 }
