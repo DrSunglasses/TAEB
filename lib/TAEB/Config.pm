@@ -186,7 +186,7 @@ sub _get_controller_config {
     my $options = $self->contents->{"${controller_config}_options"};
     return unless $options;
 
-    $controller_class ||= caller;
+    $controller_class ||= (caller(1))[0];
     $controller_class = $self->get_controller_class
         if $controller_class !~ /^TAEB::${controller}::/;
 
