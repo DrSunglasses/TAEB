@@ -112,9 +112,10 @@ class_has log => (
             max_level => 'warning',
             callbacks => sub {
                 my %args = @_;
-
-                local $SIG{__WARN__} if $TAEB::ToScreen;
-                warn $args{message};
+                if (!$TAEB::ToScreen) {
+                    local $SIG{__WARN__};
+                    warn $args{message};
+                }
             },
         ));
         $log->add_as_default(Log::Dispatch::Null->new(
@@ -122,11 +123,12 @@ class_has log => (
             min_level => 'error',
             callbacks => sub {
                 my %args = @_;
-                if ($TAEB::ToScreen) {
-                    TAEB->complain(Carp::shortmess($args{message}));
+                if (!$TAEB::ToScreen) {
+                    local $SIG{__WARN_};
+                    confess $args{message};
                 }
                 else {
-                    confess $args{message};
+                    TAEB->complain(Carp::shortmess($args{message}));
                 }
             },
         ));
