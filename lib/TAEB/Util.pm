@@ -340,8 +340,13 @@ sub attribute_menu {
     my $detailed_menu = TAEB::Display::Menu->new(
         description => "${object}'s attributes",
         items       => \@object_data,
+        select_type => 'single',
     );
-    TAEB->display_menu($detailed_menu);
+    my $selected = TAEB->display_menu($detailed_menu);
+
+    if (blessed $selected && $selected->can('meta')) {
+        attribute_menu($selected);
+    }
 }
 
 sub object_menu {
