@@ -32,7 +32,7 @@ use constant \%colors;
 
 use Sub::Exporter -setup => {
     exports => [qw(tile_types trap_types delta2vi vi2delta deltas dice colors),
-                qw(crow_flies angle align2str display), keys %colors],
+                qw(crow_flies angle align2str display object_menu), keys %colors],
     groups => {
         colors => [keys %colors],
     },
@@ -319,6 +319,36 @@ sub crow_flies {
 
 require TAEB::Display::Color;
 sub display { TAEB::Display::Color->new(@_) }
+
+sub object_menu {
+    my $description = shift;
+
+    my $menu = TAEB::Display::Menu->new(
+        description => $description,
+        items       => [@_],
+        select_type => 'single',
+    );
+    my $object = TAEB->display_menu($menu) or return;
+
+    my @object_data = (
+        sort map {
+            my $name = $_->name;
+
+            my $value = $object->$name;
+            $value = "(undef)" if !defined($value);
+            $value = "(empty)" if !length($value);
+
+            "$name: $value"
+        }
+        $object->meta->get_all_attributes
+    );
+
+    my $detailed_menu = TAEB::Display::Menu->new(
+        description => "${object}'s attributes",
+        items       => \@object_data,
+    );
+    TAEB->display_menu($detailed_menu);
+}
 
 1;
 

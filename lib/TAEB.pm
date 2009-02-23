@@ -425,32 +425,7 @@ sub keypress {
     }
 
     if ($c eq 'i') {
-        my $menu = TAEB::Display::Menu->new(
-            description => $self->name . "'s inventory",
-            items       => [$self->inventory->items],
-            select_type => 'single',
-        );
-        my $item = $self->display_menu($menu) or return;
-
-        my @item_data = (
-            sort map {
-                my $name = $_->name;
-
-                my $value = $item->$name;
-                $value = "(undef)" if !defined($value);
-                $value = "(empty)" if !length($value);
-
-                "$name: $value"
-            }
-            $item->meta->get_all_attributes
-        );
-
-        my $detailed_menu = TAEB::Display::Menu->new(
-            description => "${item}'s attributes",
-            items       => \@item_data,
-        );
-        $self->display_menu($detailed_menu);
-
+        object_menu($self->name . "'s inventory" => TAEB->inventory);
         return;
     }
 
@@ -472,11 +447,7 @@ sub keypress {
             $eq->slots
         );
 
-        my $menu = TAEB::Display::Menu->new(
-            description => $self->name . "'s equipment",
-            items       => \@eq,
-        );
-        $self->display_menu($menu);
+        object_menu($self->name . "'s equipment", @eq);
         return;
     }
 
@@ -531,11 +502,7 @@ sub keypress {
                     map { @$_ }
                     @{ TAEB->dungeon->levels };
 
-        my $tile_menu = TAEB::Display::Menu->new(
-            description => "$type tiles",
-            items       => \@tiles,
-        );
-        $self->display_menu($tile_menu);
+        object_menu("$type tiles" => @tiles);
 
         return;
     }
