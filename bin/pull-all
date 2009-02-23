@@ -5,7 +5,7 @@ my $all = shift;
 @ARGV = "etc/REPOSITORIES" if -e "etc/REPOSITORIES";
 
 while (<>) {
-    s/^-/*/ if $all;
+    s/^-/*/ if $ENV{PULL_ALL_ALL} || $all;
 
     next unless my ($url) = /^\* (.*)/;
     next if $ENV{PULL_ALL_SKIP} && $url =~ $ENV{PULL_ALL_SKIP};
