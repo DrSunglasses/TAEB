@@ -184,7 +184,7 @@ sub _get_controller_config {
     my $controller_config = lc($controller);
 
     my $options = $self->contents->{"${controller_config}_options"};
-    return unless $options;
+    return {} unless $options;
 
     $controller_class ||= (caller(1))[0];
     $controller_class = $self->_get_controller_class($controller)
