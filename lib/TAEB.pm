@@ -1,5 +1,5 @@
 package TAEB;
-use TAEB::Util qw/:colors tile_types/;
+use TAEB::Util qw/:colors tile_types object_menu/;
 
 use TAEB::OO;
 
