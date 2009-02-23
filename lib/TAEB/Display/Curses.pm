@@ -15,8 +15,7 @@ has color_method => (
     clearer => 'reset_color_method',
     lazy    => 1,
     default => sub {
-        my $config = TAEB->config->get_display_config || {};
-        return $config->{color_method} || 'normal';
+        TAEB->config->get_display_config->{color_method} || 'normal';
     },
 );
 
@@ -26,8 +25,7 @@ has glyph_method => (
     clearer => 'reset_glyph_method',
     lazy    => 1,
     default => sub {
-        my $config = TAEB->config->get_display_config || {};
-        return $config->{glyph_method} || 'normal';
+        TAEB->config->get_display_config->{glyph_method} || 'normal';
     },
 );
 

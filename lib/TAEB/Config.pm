@@ -193,7 +193,7 @@ sub _get_controller_config {
     my $controller_class_config = $controller_class;
     $controller_class_config =~ s/^TAEB::${controller}::(.*?)(?:::.*)?/$1/;
 
-    return $options->{$controller_class_config};
+    return $options->{$controller_class_config} || {};
 }
 
 for my $controller (qw/AI Interface Display/) {
