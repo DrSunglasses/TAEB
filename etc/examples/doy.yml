@@ -1,13 +1,18 @@
 ---
-ai: 'TAEB::AI::Behavioral::Personality::Explorer'
+ai: '+TAEB::AI::Behavioral::Personality::Explorer'
 ai_options:
-    behavioral:
+    Behavioral:
         avoid_branch: mines
 
 interface: Telnet
 interface_options:
     Telnet:
         account: doytaeb
+
+display: Curses
+# display_options:
+    # Curses:
+        # color_method: debug
 
 character:
     role: Valkyrie
