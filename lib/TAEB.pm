@@ -43,7 +43,7 @@ class_has interface => (
     lazy     => 1,
     default  => sub {
         my $interface_config = TAEB->config->get_interface_config;
-        TAEB->config->get_interface_class->new($interface_config);
+        TAEB->config->get_interface_class->new($interface_config || ());
     },
 );
 
