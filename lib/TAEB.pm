@@ -610,13 +610,13 @@ sub equipment {
 
 sub quit {
     my $self = shift;
-    $self->write("   \e   \e     #quit\ny");
+    $self->write("   \e   \e     #quit\n");
     # screenscraper handles the message sending and die call
 }
 
 sub save {
     my $self = shift;
-    $self->write("   \e   \e     Sy");
+    $self->write("   \e   \e     S");
     $self->enqueue_message('save');
 }
 
