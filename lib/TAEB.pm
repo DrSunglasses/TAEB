@@ -425,7 +425,8 @@ sub keypress {
     }
 
     if ($c eq 'i') {
-        item_menu([TAEB->inventory]);
+        item_menu('Inventory (' . TAEB->inventory->weight . ' hzm)',
+                  [TAEB->inventory]);
         return;
     }
 
@@ -440,7 +441,7 @@ sub keypress {
     }
 
     if ($c eq "\cX") {
-        item_menu(TAEB->senses);
+        item_menu("Senses", TAEB->senses);
         return;
     }
 
@@ -452,7 +453,7 @@ sub keypress {
             $eq->slots
         );
 
-        item_menu(\@eq);
+        item_menu("Equipment", \@eq);
         return;
     }
 
@@ -466,7 +467,7 @@ sub keypress {
             or return;
 
         my $spoiler = NetHack::Item::Spoiler->spoiler_for($item);
-        item_menu($spoiler);
+        item_menu("Spoiler data for $item", $spoiler);
 
         return;
     }
@@ -492,7 +493,7 @@ sub keypress {
                     map { @$_ }
                     @{ TAEB->dungeon->levels };
 
-        item_menu(\@tiles);
+        item_menu("Tiles of type $type", \@tiles);
 
         return;
     }

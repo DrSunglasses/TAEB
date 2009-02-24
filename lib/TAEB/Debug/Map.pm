@@ -98,13 +98,13 @@ sub msg_key {
                 @items = $level->items;
             }
 
-            item_menu(\@items);
+            item_menu($description, \@items);
         }
         elsif ($c eq 't') {
-            item_menu($tile);
+            item_menu("Tile data for ($x, $y)", $tile);
         }
         elsif ($c eq 'T') {
-            item_menu($level);
+            item_menu("Level data for $z_index", $level);
         }
 
         $x %= 80;
