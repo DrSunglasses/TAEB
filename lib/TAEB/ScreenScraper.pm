@@ -891,7 +891,6 @@ our @prompts = (
     qr/^Do you want to keep the save file\?/ => 'save_file',
     qr/^Advance skills without practice\?/ => 'advance_without_practice',
     qr/^Dump core\?/ => 'dump_core',
-    qr/^Die\?/ => 'die',
     qr/^Stop eating\?/ => 'stop_eating',
     qr/^Really quit\?/ => 'quit',
     qr/^Really save\?/ => 'save',
@@ -1328,7 +1327,7 @@ sub handle_location_request {
 sub handle_death {
     my $self = shift;
 
-    if (TAEB->topline =~ /^Do you want your possessions identified\?/) {
+    if (TAEB->topline =~ /^Do you want your possessions identified\?|^Die\?/) {
         TAEB->state('dying');
         TAEB->write('y');
         TAEB->log->scraper("Oh no! We died!");
