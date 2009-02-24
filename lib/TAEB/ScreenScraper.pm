@@ -890,7 +890,6 @@ our @prompts = (
     qr/^How much will you offer\?/      => 'donate',
     qr/^Do you want to keep the save file\?/ => 'save_file',
     qr/^Advance skills without practice\?/ => 'advance_without_practice',
-    qr/^Dump core\?/ => 'dump_core',
     qr/^Stop eating\?/ => 'stop_eating',
     qr/^You have (?:a little|much) trouble lifting .*\. Continue\?/ => 'continue_lifting',
     qr/^Beware, there will be no return! Still climb\?/ => 'really_escape',
@@ -1340,7 +1339,7 @@ sub handle_game_end {
 
     return unless TAEB->state eq 'dying';
 
-    if (TAEB->topline =~ /^Save bones\?/) {
+    if (TAEB->topline =~ /^Save bones\?|^Dump core\?/) {
         TAEB->write('n');
         _recurse;
     }
