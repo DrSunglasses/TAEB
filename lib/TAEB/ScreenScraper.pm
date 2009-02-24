@@ -1355,6 +1355,9 @@ sub handle_death {
     # No easy thing to check for here, so assume death_state isn't lying to us
     elsif (TAEB->death_state eq 'inventory') {
         TAEB->write(' ');
+
+        # XXX: parse inventory
+
         _recurse;
     }
 
