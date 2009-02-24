@@ -1249,12 +1249,6 @@ sub handle_fallback {
     my $topline = TAEB->topline;
     $topline =~ s/\s+$/ /;
 
-    if ($topline =~ /^Really save\? / && TAEB->vt->y == 0) {
-        $self->messages($self->messages . '  ' . $topline . 'y');
-        TAEB->write("y");
-        die "Game over, man!";
-    }
-
     my $response_needed = TAEB->vt->y == 0
                        || (TAEB->vt->y == 1 && TAEB->vt->x == 0);
 
@@ -1315,46 +1309,6 @@ sub handle_location_request {
 }
 
 sub handle_death {
-    my $name = TAEB->name;
-    if (TAEB->topline =~ /^(\s+|Really quit\? \[yn\] \(n\) y\s+)Final Attributes:/) {
-        TAEB->log->scraper("I see Final Attributes!");
-        TAEB->died;
-    }
-    elsif (TAEB->dead && TAEB->topline =~ /^Vanquished creatures:/) {
-        TAEB->log->scraper("I see Vanquished creatures!");
-    }
-    elsif (TAEB->dead && TAEB->topline =~ /Voluntary challenges:/) {
-        TAEB->log->scraper("I see Voluntary challenges!");
-    }
-    elsif (TAEB->dead && TAEB->topline =~ /^(?:Goodbye|Farvel|Aloha) $name/) {
-        TAEB->log->scraper("I see Goodbye!");
-
-        # there is no pause between displaying the high score table and going
-        # back to the dgl menu. this means that if we just wait for the next
-        # time screenscraper is called, the only thing we will see is the dgl
-        # menu... the high score list will have been overwritten. thus, we have
-        # to read/parse it ourselves.
-        TAEB->write(' ');
-        my $response = TAEB->read;
-        my $death_message = '';
-        while (1) {
-            last unless $response =~ s/^.*?\e\[7m//s;
-            $response =~ s/^(.*?)\e\[m//s;
-            $death_message .= $1;
-        }
-        $death_message = join ' ', split ' ', $death_message;
-        TAEB->log->scraper("Death message: $death_message");
-        my ($rank, $score, $end_reason, $death) = $death_message =~ /^(?:(\d+) )?(\d+) [-\w]+ (\w+) .*?\. (.*?\.)?/;
-        TAEB->enqueue_message('death', $rank, $score, $end_reason, $death);
-        TAEB->publisher->send_messages;
-        die("Game over, man!\n");
-    }
-
-    if (TAEB->dead) {
-        TAEB->log->scraper("I'm dead! Spacing through the endgame messages...");
-        TAEB->write(' ');
-        _recurse;
-    }
 }
 
 sub all_messages {

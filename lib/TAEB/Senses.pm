@@ -186,12 +186,6 @@ has ac => (
     default => 10,
 );
 
-has dead => (
-    is      => 'rw',
-    isa     => 'Bool',
-    default => 0,
-);
-
 has burden => (
     is  => 'rw',
     isa => 'TAEB::Type::Burden',

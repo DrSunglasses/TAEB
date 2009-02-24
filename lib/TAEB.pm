@@ -620,14 +620,6 @@ sub save {
     my $self = shift;
     $self->write("   \e   \e     Sy");
     $self->enqueue_message('save');
-    $self->publisher->send_messages;
-    die "See you soon!";
-}
-
-sub died {
-    my $self = shift;
-    $self->dead(1);
-    $self->destroy_saved_state;
 }
 
 sub persistent_file {
@@ -664,17 +656,6 @@ sub setup_handlers {
 
     $SIG{__DIE__} = sub {
         TAEB->save_state;
-
-        unless ("@_" =~ /Game over, man|See you soon|Until we meet again/) {
-            TAEB->log->perl($_[0], level => 'error');
-            if (TAEB->config->unattended) {
-                TAEB->quit;
-                TAEB->died;
-            } else {
-                TAEB->save;
-            }
-        }
-
         die @_;
     };
 }
