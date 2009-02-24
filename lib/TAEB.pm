@@ -655,9 +655,18 @@ sub setup_handlers {
     };
 
     $SIG{__DIE__} = sub {
+        my $message = shift;
+
         TAEB->save_state;
-        TAEB->log->perl($_[0], level => 'error');
-        die @_;
+
+        if ($message =~ /^The game has ended\./) {
+            TAEB->log->main('The game has ended.', level => 'info');
+        }
+        else {
+            TAEB->log->perl($message, level => 'error')
+        }
+
+        die $message;
     };
 }
 
