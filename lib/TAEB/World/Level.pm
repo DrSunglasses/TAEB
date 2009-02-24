@@ -346,14 +346,15 @@ sub radiate {
             next DIRECTION;
         }
 
-        my ($rr, $tile) = map { @$_ } grep { $code->($_->[1]) } @accum;
+        my ($remaining_range, $tile) =
+            map { @$_ } grep { $code->($_->[1]) } @accum;
 
-        if (defined $rr) {
+        if (defined $remaining_range) {
             # if they ask for a scalar, give them the direction
             return delta2vi($dx, $dy) if !wantarray;
 
             # if they ask for a list, give them (direction, distance, $tile)
-            return (delta2vi($dx, $dy), $args{max} - $rr, $tile);
+            return (delta2vi($dx, $dy), $args{max} - $remaining_range, $tile);
         }
     }
 }
