@@ -631,9 +631,16 @@ sub persistent_file {
 sub play {
     my $self = shift;
 
-    while (1) {
-        $self->iterate;
-    }
+    eval {
+        while (1) {
+            $self->iterate;
+        }
+    };
+
+    local $SIG{__DIE__};
+    die $@ unless $@ =~ /^The game has ended\./;
+
+    return 1;
 }
 
 sub reset_state {
