@@ -961,11 +961,11 @@ sub scrape {
         # handle ^X
         $self->handle_attributes;
 
-        # handle death messages
-        $self->handle_death;
-
         # handle --More-- menus
         $self->handle_more_menus;
+
+        # handle death messages
+        $self->handle_death;
 
         # handle menus
         $self->handle_menus;
@@ -1120,6 +1120,14 @@ sub handle_more_menus {
             return 0;
         };
     }
+    elsif (TAEB->topline =~ /Voluntary challenges:\s*$/) {
+        my $skip = 2;
+        $each = sub {
+            return if $skip-- > 0;
+            TAEB->death_report->add_conduct($_);
+        };
+    }
+
 
     if ($each) {
         my $iter = 0;
