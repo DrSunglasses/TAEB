@@ -642,6 +642,7 @@ sub play {
     local $SIG{__DIE__};
     die $@ unless $@ =~ /^The game has ended\./;
 
+    TAEB->destroy_saved_state;
     return TAEB->death_report;
 }
 
@@ -666,12 +667,12 @@ sub setup_handlers {
     $SIG{__DIE__} = sub {
         my $message = shift;
 
-        TAEB->save_state;
-
         if ($message =~ /^The game has ended\./) {
+            TAEB->destroy_saved_state;
             TAEB->log->main('The game has ended.', level => 'info');
         }
         else {
+            TAEB->save_state;
             TAEB->log->perl($message, level => 'error')
         }
 
