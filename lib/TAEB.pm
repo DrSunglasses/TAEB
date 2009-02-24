@@ -640,10 +640,11 @@ sub play {
     TAEB->display->deinitialize;
 
     local $SIG{__DIE__};
-    die $@ unless $@ =~ /^The game has ended\./;
+    die $@ unless $@ =~ /^The game has ended\.|The game has been saved\./;
 
-    TAEB->destroy_saved_state;
-    return TAEB->death_report;
+    return TAEB->state eq 'dying'
+         ? TAEB->death_report
+         : TAEB::Message::Report::Saved->new;
 }
 
 sub reset_state {
@@ -667,9 +668,15 @@ sub setup_handlers {
     $SIG{__DIE__} = sub {
         my $message = shift;
 
-        if ($message =~ /^The game has ended\./) {
-            TAEB->destroy_saved_state;
-            TAEB->log->main('The game has ended.', level => 'info');
+        if ($message =~ /^(The game has ended\.|The game has been saved\.)/) {
+            TAEB->log->main($1, level => 'info');
+
+            if ($1 =~ /ended/) {
+                TAEB->destroy_saved_state;
+            }
+            else {
+                TAEB->save_state;
+            }
         }
         else {
             TAEB->save_state;
