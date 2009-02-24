@@ -640,7 +640,7 @@ sub play {
     local $SIG{__DIE__};
     die $@ unless $@ =~ /^The game has ended\./;
 
-    return 1;
+    return TAEB->death_report;
 }
 
 sub reset_state {
