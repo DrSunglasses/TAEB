@@ -73,5 +73,3 @@ interface, and copy the nethackrc into the configuration editor.
 
 Then you should be ready to run him! Type taeb and cross your fingers.
 
-If you're interested in developing TAEB, please see the NEWTASKS file.
-
