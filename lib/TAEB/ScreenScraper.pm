@@ -892,7 +892,6 @@ our @prompts = (
     qr/^Advance skills without practice\?/ => 'advance_without_practice',
     qr/^Dump core\?/ => 'dump_core',
     qr/^Stop eating\?/ => 'stop_eating',
-    qr/^Really quit\?/ => 'quit',
     qr/^You have (?:a little|much) trouble lifting .*\. Continue\?/ => 'continue_lifting',
     qr/^Beware, there will be no return! Still climb\?/ => 'really_escape',
 );
@@ -1326,7 +1325,7 @@ sub handle_location_request {
 sub handle_game_end {
     my $self = shift;
 
-    if (TAEB->topline =~ /^Do you want your possessions identified\?|^Die\?/) {
+    if (TAEB->topline =~ /^Do you want your possessions identified\?|^Die\?|^Really quit\?/) {
         TAEB->state('dying');
         TAEB->write('y');
         TAEB->log->scraper("Oh no! We died!");
