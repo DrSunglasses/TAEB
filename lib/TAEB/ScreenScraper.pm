@@ -937,15 +937,6 @@ has saw_floor_list_this_step => (
     default   => 0,
 );
 
-has death_state => (
-    is  => 'rw',
-    isa => 'TAEB::Type::DeathState',
-    trigger => sub {
-        my (undef, $new_state) = @_;
-        TAEB->log->scraper("Death state is now $new_state.");
-    },
-);
-
 sub _recurse {
     local $SIG{__DIE__};
     die "Recursing screenscraper.\n";
@@ -1324,14 +1315,14 @@ sub handle_death {
         TAEB->state('dying');
         TAEB->write('y');
         TAEB->log->scraper("Oh no! We died!");
-        $self->death_state('inventory');
+        TAEB->death_state('inventory');
         _recurse;
     }
 
     return unless TAEB->state eq 'dying';
 
     if (TAEB->topline =~ /^\s*Final Attributes:\s*$/) {
-        $self->death_state('attributes');
+        TAEB->death_state('attributes');
 
         # XXX: parse attributes
 
@@ -1340,7 +1331,7 @@ sub handle_death {
     }
 
     if (TAEB->topline =~ /^\s*Voluntary challenges:\s*$/) {
-        $self->death_state('conducts');
+        TAEB->death_state('conducts');
 
         # XXX: parse conducts
 
@@ -1349,7 +1340,7 @@ sub handle_death {
     }
 
     if (TAEB->topline =~ /^Goodbye /) {
-        $self->death_state('summary');
+        TAEB->death_state('summary');
 
         # XXX: parse summary
         # especially for the death reason and score
@@ -1359,15 +1350,15 @@ sub handle_death {
     }
 
     # summary is always one page, so after that is high scores
-    if ($self->death_state eq 'summary') {
-        $self->death_state('scores');
+    if (TAEB->death_state eq 'summary') {
+        TAEB->death_state('scores');
 
         # nethack has now exited!
         _recurse;
     }
 
     # No easy thing to check for here, so assume death_state isn't lying to us
-    if ($self->death_state eq 'inventory') {
+    if (TAEB->death_state eq 'inventory') {
         TAEB->write(' ');
         _recurse;
     }

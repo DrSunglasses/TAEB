@@ -207,6 +207,15 @@ has spell_protection => (
     default => 0,
 );
 
+has death_state => (
+    is  => 'rw',
+    isa => 'TAEB::Type::DeathState',
+    trigger => sub {
+        my (undef, $new_state) = @_;
+        TAEB->log->senses("Death state is now $new_state.");
+    },
+);
+
 sub parse_botl {
     my $self = shift;
     my $status = TAEB->vt->row_plaintext(22);
