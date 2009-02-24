@@ -13,7 +13,7 @@ $ENV{TAEBDIR} ||= do {
 };
 
 -d $ENV{TAEBDIR} or do {
-    $SIG{__DIE__} = 'DEFAULT';
+    local $SIG{__DIE__} = 'DEFAULT';
     die "Please create a $ENV{TAEBDIR} directory.\n";
 };
 
@@ -33,7 +33,7 @@ has file => (
 
         -e $_ and return $_ for @locations;
 
-        $SIG{__DIE__} = 'DEFAULT';
+        local $SIG{__DIE__} = 'DEFAULT';
         die "Could not find a config file. You should copy TAEB's etc/config.yml into $ENV{TAEBDIR}/config.yml!";
     },
 );
