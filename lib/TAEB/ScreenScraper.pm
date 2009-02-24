@@ -1338,8 +1338,7 @@ sub handle_death {
         TAEB->write(' ');
         _recurse;
     }
-
-    if (TAEB->topline =~ /^Goodbye /) {
+    elsif (TAEB->topline =~ /^(Fare the well|Sayonara|Aloha|Farvel|Goodbye) /) {
         TAEB->death_state('summary');
 
         # XXX: parse summary
