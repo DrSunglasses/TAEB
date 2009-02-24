@@ -114,7 +114,7 @@ sub get_generic_response {
                         TAEB->log->publisher(blessed($responder) . " explicitly refrained from responding to $name.");
                     }
                     else {
-                        TAEB->log->publisher(blessed($responder) . " is responding to $name.");
+                        TAEB->log->publisher(blessed($responder) . " is responding to $name with $response.");
                         return $response;
                     }
                 }
