@@ -1124,6 +1124,7 @@ sub handle_more_menus {
         my $skip = 2;
         $each = sub {
             return if $skip-- > 0;
+            s/\s+$//;
             TAEB->death_report->add_conduct($_);
         };
     }
