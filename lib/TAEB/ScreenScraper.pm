@@ -1329,8 +1329,7 @@ sub handle_death {
         TAEB->write(' ');
         _recurse;
     }
-
-    if (TAEB->topline =~ /^\s*Voluntary challenges:\s*$/) {
+    elsif (TAEB->topline =~ /^\s*Voluntary challenges:\s*$/) {
         TAEB->death_state('conducts');
 
         # XXX: parse conducts
@@ -1347,20 +1346,21 @@ sub handle_death {
         TAEB->write(' ');
         _recurse;
     }
-
     # summary is always one page, so after that is high scores
-    if (TAEB->death_state eq 'summary') {
+    elsif (TAEB->death_state eq 'summary') {
         TAEB->death_state('scores');
 
+        TAEB->write(' ');
         # nethack has now exited!
         _recurse;
     }
-
     # No easy thing to check for here, so assume death_state isn't lying to us
-    if (TAEB->death_state eq 'inventory') {
+    elsif (TAEB->death_state eq 'inventory') {
         TAEB->write(' ');
         _recurse;
     }
+
+    die "We're dying but I don't understand the message " . TAEB->topline;
 }
 
 sub all_messages {
