@@ -50,20 +50,6 @@ after msg_step => sub {
     $self->dec_step;
 };
 
-sub msg_death {
-    my $self = shift;
-    my ($rank, $score, $end_reason, $death) = @_;
-    $self->quit_message(sprintf "%s (%s %s %s %s), %d points, %s",
-                                TAEB->name, TAEB->role, TAEB->race,
-                                TAEB->gender, TAEB->align, TAEB->score,
-                                $death || $end_reason);
-}
-
-sub msg_save {
-    my $self = shift;
-    $self->quit_message("Saving...");
-}
-
 my %responses = (
     who      => sub {
         sprintf "%s (%s %s %s %s)", TAEB->name, TAEB->role, TAEB->race,
