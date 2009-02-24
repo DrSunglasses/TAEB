@@ -341,7 +341,7 @@ sub handle_logging_in {
         $self->state('playing');
     }
     elsif ($self->topline =~ /^\s*It is written in the Book of /) {
-        TAEB->log->main("Using etc/TAEB.nethackrc is MANDATORY",
+        TAEB->log->main("Using TAEB's nethackrc is MANDATORY. Use $0 --rc.",
                         level => 'error');
         $self->quit;
         die "Using etc/TAEB.nethackrc is MANDATORY";
