@@ -35,6 +35,10 @@ $SIG{CONT} = sub {
     TAEB->display->reinitialize;
 };
 
+$SIG{TERM} = sub {
+    TAEB->display->deinitialize;
+};
+
 $| = 1;
 
 while (1) {
