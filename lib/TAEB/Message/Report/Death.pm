@@ -18,7 +18,9 @@ sub as_string {
     my $self = shift;
     my $conducts = join ', ', $self->conducts;
 
-    $conducts;
+    return << "REPORT";
+Conducts: $conducts
+REPORT
 }
 
 __PACKAGE__->meta->make_immutable;
