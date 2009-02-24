@@ -1337,6 +1337,11 @@ sub handle_death {
 
     return unless TAEB->state eq 'dying';
 
+    if (TAEB->topline =~ /^Save bones\?/) {
+        TAEB->write('n');
+        _recurse;
+    }
+
     if (TAEB->topline =~ /^\s*Final Attributes:\s*$/) {
         TAEB->death_state('attributes');
 
