@@ -8,7 +8,7 @@ TAEB::Meta::Types - TAEB-specific types
 
 =cut
 
-enum 'TAEB::Type::PlayState' => qw(logging_in playing saving dying);
+enum 'TAEB::Type::PlayState' => qw(logging_in playing dying);
 
 enum 'TAEB::Type::Role'   => qw(Arc Bar Cav Hea Kni Mon Pri Ran Rog Sam Tou Val Wiz);
 enum 'TAEB::Type::Race'   => qw(Hum Elf Dwa Gno Orc);

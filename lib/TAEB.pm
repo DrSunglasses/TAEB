@@ -348,8 +348,6 @@ sub handle_logging_in {
     }
 }
 
-sub handle_saving { shift->save }
-
 sub full_input {
     my $self = shift;
     my $main_call = shift;
@@ -512,7 +510,7 @@ sub keypress {
     }
 
     if ($c eq 'q') {
-        $self->state('saving');
+        $self->save;
         return;
     }
 
