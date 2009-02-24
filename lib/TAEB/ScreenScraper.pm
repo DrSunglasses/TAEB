@@ -1343,13 +1343,12 @@ sub handle_death {
         # XXX: parse summary
         # especially for the death reason and score
 
+        # summary is always one page, so after that is high scores with no
+        # "press space to close nethack"
         TAEB->write(' ');
-        _recurse;
-    }
-    # summary is always one page, so after that is high scores
-    elsif (TAEB->death_state eq 'summary') {
-        TAEB->write(' ');
-        # nethack has now exited!
+
+        # at this point the nethack process has now ended
+
         die "The game has ended.\n";
     }
     # No easy thing to check for here, so assume death_state isn't lying to us
