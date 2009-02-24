@@ -937,6 +937,11 @@ has saw_floor_list_this_step => (
     default   => 0,
 );
 
+has death_state => (
+    is  => 'rw',
+    isa => (enum ['inventory', 'attributes', 'conducts', 'summary', 'scores']),
+);
+
 sub _recurse {
     local $SIG{__DIE__};
     die "Recursing screenscraper.\n";
@@ -1313,6 +1318,54 @@ sub handle_death {
 
     if (TAEB->topline =~ /^Do you want your possessions identified\?/) {
         TAEB->state('dying');
+        TAEB->write('y');
+        TAEB->log->scraper("Oh no! We died!");
+        $self->death_state('inventory');
+        _recurse;
+    }
+
+    return unless TAEB->state eq 'dying';
+
+    if (TAEB->topline =~ /^\s*Final Attributes:\s*$/) {
+        $self->death_state('attributes');
+
+        # XXX: parse attributes
+
+        TAEB->write(' ');
+        _recurse;
+    }
+
+    if (TAEB->topline =~ /^\s*Voluntary challenges:\s*$/) {
+        $self->death_state('conducts');
+
+        # XXX: parse conducts
+
+        TAEB->write(' ');
+        _recurse;
+    }
+
+    if (TAEB->topline =~ /^Goodbye /) {
+        $self->death_state('summary');
+
+        # XXX: parse summary
+        # especially for the death reason and score
+
+        TAEB->write(' ');
+        _recurse;
+    }
+
+    # summary is always one page, so after that is high scores
+    if ($self->death_state eq 'summary') {
+        $self->death_state('scores');
+
+        # nethack has now exited!
+        _recurse;
+    }
+
+    # No easy thing to check for here, so assume death_state isn't lying to us
+    if ($self->death_state eq 'inventory') {
+        TAEB->write(' ');
+        _recurse;
     }
 }
 
