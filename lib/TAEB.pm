@@ -656,6 +656,7 @@ sub setup_handlers {
 
     $SIG{__DIE__} = sub {
         TAEB->save_state;
+        TAEB->log->error($_[0]);
         die @_;
     };
 }
