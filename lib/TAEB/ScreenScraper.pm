@@ -1345,7 +1345,7 @@ sub handle_game_end {
         _recurse;
     }
 
-    if (TAEB->topline =~ /^\s*Final Attributes:\s*$/) {
+    if (TAEB->topline =~ /\s+Final Attributes:\s*$/) {
         TAEB->death_state('attributes');
 
         # XXX: parse attributes
@@ -1353,7 +1353,7 @@ sub handle_game_end {
         TAEB->write(' ');
         _recurse;
     }
-    elsif (TAEB->topline =~ /^\s*Voluntary challenges:\s*$/) {
+    elsif (TAEB->topline =~ /\s+Voluntary challenges:\s*$/) {
         TAEB->death_state('conducts');
 
         # XXX: parse conducts
