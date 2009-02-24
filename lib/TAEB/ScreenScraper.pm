@@ -3,6 +3,13 @@ use TAEB::OO;
 use TAEB::Util qw/crow_flies/;
 use NetHack::Menu;
 
+use Module::Pluggable (
+    require     => 1,
+    sub_name    => 'load_message_classes',
+    search_path => ['TAEB::Message'],
+);
+__PACKAGE__->load_message_classes;
+
 our %msg_string = (
     "You are blinded by a blast of light!" =>
         ['status_change', 'blindness', 1],
