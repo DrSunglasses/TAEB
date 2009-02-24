@@ -14,11 +14,10 @@ has estimated_date => (
     default => sub { TAEB->turn },
 );
 
-has failed_to_sacrifice => (
-    is      => 'rw',
-    isa     => 'Bool',
-    default => 0,
-);
+sub failed_to_sacrifice {
+    my $self = shift;
+    $self->estimated_date(TAEB->turn - 50);
+}
 
 sub estimate_age {
     my $self = shift;
