@@ -1074,6 +1074,11 @@ sub handle_attributes {
         TAEB->write(' ');
         _recurse;
     }
+    # wizmode data; we should parse this eventually
+    elsif (TAEB->topline =~ /^\s*Current Attributes:\s*$/) {
+        TAEB->write(' ');
+        _recurse;
+    }
 }
 
 sub handle_more_menus {
