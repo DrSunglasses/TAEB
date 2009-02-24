@@ -216,6 +216,13 @@ has death_state => (
     },
 );
 
+has death_report => (
+    is      => 'ro',
+    isa     => 'TAEB::Message::Report::Death',
+    lazy    => 1,
+    default => sub { TAEB::Message::Report::Death->new },
+);
+
 sub parse_botl {
     my $self = shift;
     my $status = TAEB->vt->row_plaintext(22);
