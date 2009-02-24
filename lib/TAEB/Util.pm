@@ -331,28 +331,39 @@ sub _canonicalize_name_value {
     return TAEB::Util::Pair->new(name => $name, value => $value);
 }
 
+sub _shorten_title {
+    my $title = shift;
+    return $title if length($title) <= 75;
+    $title = substr $title, -75;
+    $title = "... " . $title;
+    return $title;
+}
+
 sub item_menu {
+    my $title = shift;
     my $thing = shift;
     my $quiet = shift;
 
     if (blessed($thing) && $thing->can('meta')) {
-        return object_menu($thing);
+        return object_menu($title, $thing);
     }
     elsif (ref($thing) && ref($thing) eq 'HASH') {
-        return hashref_menu($thing);
+        return hashref_menu($title, $thing);
     }
     elsif (ref($thing) && ref($thing) eq 'ARRAY') {
-        return list_menu($thing);
+        return list_menu($title, $thing);
     }
     elsif (blessed($thing) && $thing->isa('Set::Object')) {
-        return list_menu([$thing->members]);
+        return list_menu($title, [$thing->members]);
     }
 
     die "No valid menu type for '$thing'" unless $quiet;
 }
 
 sub hashref_menu {
+    my $title = shift;
     my $hash = shift;
+    $title ||= "${hash}'s keys/values";
 
     my @hash_data = (
         map {
@@ -362,16 +373,18 @@ sub hashref_menu {
     );
 
     my $menu = TAEB::Display::Menu->new(
-        description => "${hash}'s keys/values",
+        description => _shorten_title($title),
         items       => \@hash_data,
         select_type => 'single',
     );
     my $selected = TAEB->display_menu($menu) or return;
-    item_menu($selected->value => 1);
+    item_menu("$title -> " . $selected->name, $selected->value => 1);
 }
 
 sub object_menu {
+    my $title = shift;
     my $object = shift;
+    $title ||= "${object}'s attributes";
 
     my @object_data = (
         sort map {
@@ -382,22 +395,24 @@ sub object_menu {
     );
 
     my $menu = TAEB::Display::Menu->new(
-        description => "${object}'s attributes",
+        description => _shorten_title($title),
         items       => \@object_data,
         select_type => 'single',
     );
     my $selected = TAEB->display_menu($menu) or return;
-    item_menu($selected->value => 1);
+    item_menu("$title -> " . $selected->name, $selected->value => 1);
 }
 
 sub list_menu {
+    my $title = shift || "Unknown list";
+    my $items = shift;
     my $menu = TAEB::Display::Menu->new(
-        description => "Unknown list",
-        items       => shift,
+        description => _shorten_title($title),
+        items       => $items,
         select_type => 'single',
     );
     my $selected = TAEB->display_menu($menu) or return;
-    item_menu($selected => 1);
+    item_menu("$title -> $selected", $selected => 1);
 }
 
 do {
