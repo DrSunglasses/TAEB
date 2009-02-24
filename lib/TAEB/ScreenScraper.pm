@@ -939,7 +939,7 @@ has saw_floor_list_this_step => (
 
 has death_state => (
     is  => 'rw',
-    isa => (enum ['inventory', 'attributes', 'conducts', 'summary', 'scores']),
+    isa => 'TAEB::Type::DeathState',
     trigger => sub {
         my (undef, $new_state) = @_;
         TAEB->log->scraper("Death state is now $new_state.");

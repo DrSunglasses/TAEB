@@ -32,5 +32,7 @@ enum 'TAEB::Type::Trap' => trap_types;
 
 enum 'TAEB::Type::Menu' => qw(none single multi);
 
+enum 'TAEB::Type::DeathState' => qw(inventory attributes conducts summary scores);
+
 1;
 
