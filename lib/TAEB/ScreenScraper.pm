@@ -963,7 +963,7 @@ sub scrape {
         $self->handle_more_menus;
 
         # handle death messages
-        $self->handle_death;
+        $self->handle_game_end;
 
         # handle menus
         $self->handle_menus;
@@ -1323,7 +1323,7 @@ sub handle_location_request {
     }
 }
 
-sub handle_death {
+sub handle_game_end {
     my $self = shift;
 
     if (TAEB->topline =~ /^Do you want your possessions identified\?|^Die\?/) {
