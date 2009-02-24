@@ -52,6 +52,9 @@ augment reinitialize => sub {
 };
 
 sub deinitialize {
+    Curses::clear();
+    Curses::refresh();
+
     Curses::def_prog_mode();
     Curses::endwin();
 }
