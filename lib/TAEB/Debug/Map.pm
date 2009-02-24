@@ -106,6 +106,11 @@ sub msg_key {
         elsif ($c eq 'T') {
             item_menu("Level data for $z_index", $level);
         }
+        elsif ($c eq 'm') {
+            if (my $monster = $tile->monster) {
+                item_menu("Monster data for $monster", $monster);
+            }
+        }
 
         $x %= 80;
         $y = ($y-1)%21+1;
