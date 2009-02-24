@@ -1309,6 +1309,11 @@ sub handle_location_request {
 }
 
 sub handle_death {
+    my $self = shift;
+
+    if (TAEB->topline =~ /^Do you want your possessions identified\?/) {
+        TAEB->state('dying');
+    }
 }
 
 sub all_messages {
