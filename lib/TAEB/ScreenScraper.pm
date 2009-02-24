@@ -889,6 +889,7 @@ our @prompts = (
     qr/^Really quit\?/ => 'quit',
     qr/^Really save\?/ => 'save',
     qr/^You have (?:a little|much) trouble lifting .*\. Continue\?/ => 'continue_lifting',
+    qr/^Beware, there will be no return! Still climb\?/ => 'really_escape',
 );
 
 our @exceptions = (

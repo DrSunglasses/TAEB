@@ -52,6 +52,8 @@ after done => sub {
     }
 };
 
+sub respond_really_escape { 'y' }
+
 __PACKAGE__->meta->make_immutable(inline_constructor => 0);
 no TAEB::OO;
 
