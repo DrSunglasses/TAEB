@@ -35,7 +35,14 @@ has time_buffer => (
     default => sub { [] },
 );
 
+has initialized => (
+    is  => 'rw',
+    isa => 'Bool',
+);
+
 sub institute {
+    shift->initialized(1);
+
     Curses::initscr;
     Curses::noecho;
     Curses::cbreak;
@@ -45,13 +52,22 @@ sub institute {
 }
 
 augment reinitialize => sub {
+    my $self = shift;
+    $self->initialized(1);
+
     Curses::initscr;
 
     # need to do this again for some reason
-    shift->redraw(force_clear => 1);
+    $self->redraw(force_clear => 1);
 };
 
 sub deinitialize {
+    my $self = shift;
+
+    return unless $self->initialized;
+
+    $self->initialized(0);
+
     Curses::clear();
     Curses::refresh();
 
