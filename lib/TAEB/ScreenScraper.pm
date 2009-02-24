@@ -1348,11 +1348,9 @@ sub handle_death {
     }
     # summary is always one page, so after that is high scores
     elsif (TAEB->death_state eq 'summary') {
-        TAEB->death_state('scores');
-
         TAEB->write(' ');
         # nethack has now exited!
-        _recurse;
+        die "The game has ended.\n";
     }
     # No easy thing to check for here, so assume death_state isn't lying to us
     elsif (TAEB->death_state eq 'inventory') {
