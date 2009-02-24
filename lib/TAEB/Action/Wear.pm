@@ -9,9 +9,9 @@ has '+item' => (
 
 # Only matters if we have a choice in the matter (i.e. rings)
 has slot => (
-    isa     => 'NetHack::Item::Hand',
+    isa     => 'NetHack::Item::Slot',
     is      => 'ro',
-    default => 'left',
+    default => 'left_ring',
 );
 
 sub command {
@@ -28,14 +28,14 @@ sub respond_wear_what { shift->item->slot }
 sub respond_which_finger {
     my $self = shift;
 
-    $self->slot eq 'left' ? 'l' : 'r';
+    $self->slot eq 'left_ring' ? 'l' : 'r';
 }
 
 sub done {
     my $self = shift;
 
     if ($self->item->type eq 'ring') {
-        $self->item->hand($self->slot eq 'left' ? 'left' : 'right');
+        $self->item->hand($self->slot eq 'left_ring' ? 'left' : 'right');
     }
 
     $self->item->is_worn(1);
