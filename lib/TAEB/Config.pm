@@ -256,7 +256,7 @@ OPTIONS=pickup_burden:unburdened
 OPTIONS=!prayconfirm
 OPTIONS=pettype:none
 OPTIONS=!cmdassist
-OPTIONS=disclose:+iavgc
+OPTIONS=disclose:yi +avgc
 
 # miscellaneous
 OPTIONS=!mail
