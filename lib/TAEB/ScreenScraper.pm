@@ -981,6 +981,7 @@ sub scrape {
         goto TAEB->can('process_input');
     }
     elsif ($@) {
+        local $SIG{__DIE__}; # don't need to log again
         die "$@\n";
     }
 }
