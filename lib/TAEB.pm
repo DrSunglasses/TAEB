@@ -637,6 +637,8 @@ sub play {
         }
     };
 
+    TAEB->display->deinitialize;
+
     local $SIG{__DIE__};
     die $@ unless $@ =~ /^The game has ended\./;
 
