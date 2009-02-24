@@ -3,8 +3,14 @@ use TAEB::OO;
 extends 'TAEB::Message::Report';
 
 has conducts => (
-    is  => 'rw',
-    isa => 'ArrayRef',
+    metaclass => 'Collection::Array',
+    is        => 'ro',
+    isa       => 'ArrayRef',
+    lazy      => 1,
+    default   => sub { [] },
+    provides  => {
+        push => 'add_conduct',
+    },
 );
 
 __PACKAGE__->meta->make_immutable;
