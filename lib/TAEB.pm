@@ -439,6 +439,11 @@ sub keypress {
         return;
     }
 
+    if ($c eq "\cX") {
+        item_menu(TAEB->senses);
+        return;
+    }
+
     if ($c eq 'e') {
         my $eq = $self->equipment;
         my @eq = (
