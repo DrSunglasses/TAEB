@@ -60,6 +60,7 @@ sub debug_line {
 
     return "No inventory." unless $self->has_items;
 
+    push @items, 'Inventory (' . $self->weight . ' hzm)';
     for my $slot (sort $self->slots) {
         push @items, sprintf '%s - %s', $slot, $self->get($slot)->debug_line;
     }
