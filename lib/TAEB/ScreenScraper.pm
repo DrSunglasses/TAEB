@@ -893,7 +893,6 @@ our @prompts = (
     qr/^Dump core\?/ => 'dump_core',
     qr/^Stop eating\?/ => 'stop_eating',
     qr/^Really quit\?/ => 'quit',
-    qr/^Really save\?/ => 'save',
     qr/^You have (?:a little|much) trouble lifting .*\. Continue\?/ => 'continue_lifting',
     qr/^Beware, there will be no return! Still climb\?/ => 'really_escape',
 );
@@ -1333,6 +1332,11 @@ sub handle_death {
         TAEB->log->scraper("Oh no! We died!");
         TAEB->death_state('inventory');
         _recurse;
+    }
+
+    if (TAEB->topline =~ /^Really save\?/) {
+        TAEB->write('y');
+        die "The game has been saved.\n";
     }
 
     return unless TAEB->state eq 'dying';
