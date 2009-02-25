@@ -6,6 +6,9 @@ requires 'persistent_file';
 
 sub save_state {
     my $self = shift;
+
+    return if Class::MOP::in_global_destruction;
+
     my $file = $self->persistent_file;
     return unless defined $file;
 
