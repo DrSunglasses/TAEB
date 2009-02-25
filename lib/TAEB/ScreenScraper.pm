@@ -1360,7 +1360,7 @@ sub handle_game_end {
         TAEB->write(' ');
         _recurse;
     }
-    elsif (TAEB->topline =~ /^(Fare the well|Sayonara|Aloha|Farvel|Goodbye) /) {
+    elsif (TAEB->topline =~ /^(Fare thee well|Sayonara|Aloha|Farvel|Goodbye) /) {
         TAEB->death_state('summary');
 
         # XXX: parse summary
