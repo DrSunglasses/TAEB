@@ -14,12 +14,21 @@ has conducts => (
     },
 );
 
+has ['score', 'turns'] => (
+    is  => 'rw',
+    isa => 'Int',
+);
+
 sub as_string {
     my $self = shift;
     my $conducts = join ', ', $self->conducts;
+    my $score = $self->score;
+    my $turns = $self->turns;
 
     return << "REPORT";
 Conducts: $conducts
+Score:    $score
+Turns:    $turns
 REPORT
 }
 

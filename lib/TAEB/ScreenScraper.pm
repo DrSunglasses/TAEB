@@ -1380,7 +1380,7 @@ sub handle_game_end {
     elsif (TAEB->topline =~ /\s+Voluntary challenges:\s*$/) {
         TAEB->death_state('conducts');
 
-        # XXX: parse conducts
+        # We parse conducts in handle_more_menus
 
         TAEB->write(' ');
         _recurse;
@@ -1388,8 +1388,11 @@ sub handle_game_end {
     elsif (TAEB->topline =~ /^(Fare thee well|Sayonara|Aloha|Farvel|Goodbye) /) {
         TAEB->death_state('summary');
 
-        # XXX: parse summary
-        # especially for the death reason and score
+        TAEB->death_report->score($1)
+            if TAEB->vt->row_plaintext(2) =~ /(\d+) points?/;
+
+        TAEB->death_report->turns($1)
+            if TAEB->vt->row_plaintext(3) =~ /(\d+) moves?/;
 
         # summary is always one page, so after that is high scores with no
         # "press space to close nethack"
