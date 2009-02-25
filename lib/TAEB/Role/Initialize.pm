@@ -12,14 +12,29 @@ after initialize => sub {
     for my $attr (@attrs) {
         next if $attr->is_weak_ref;
 
-        my $reader = $attr->get_read_method_ref;
-        my $value  = $reader->($self);
-        next unless blessed($value);
-
-        my $meta = Class::MOP::Class->initialize(blessed $value);
-        if ($meta && $meta->can('does_role') && $meta->does_role(__PACKAGE__)) {
-            $value->initialize;
+        my $class;
+        if ($attr->has_type_constraint) {
+            my $type_constraint = $attr->type_constraint;
+            # don't check non-classes
+            # XXX: do we care about Maybe types? or unions?
+            next unless $type_constraint->is_a_type_of('ClassName');
+            $class = $type_constraint->name;
+            Class::MOP::load_class($class);
         }
+        else {
+            my $value = $attr->get_read_method_ref->($self);
+            $class = blessed($value);
+        }
+
+        next unless $class;
+        # don't go into non-cmop classes
+        next unless $class->can('meta');
+        # don't go into non-moose classes
+        next unless $class->meta->can('does_role');
+        # don't go into non-taeb classes
+        next unless $class->meta->does_role(__PACKAGE__);
+
+        $attr->get_read_method_ref->($self)->initialize;
     }
 };
 
