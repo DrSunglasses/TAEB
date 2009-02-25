@@ -1361,7 +1361,7 @@ sub handle_game_end {
         _recurse;
     }
 
-    if (TAEB->topline =~ /\s+Final Attributes:\s*$/) {
+    if (TAEB->topline =~ /Final Attributes:\s*$/) {
         TAEB->death_state('attributes');
 
         # XXX: parse attributes
@@ -1369,7 +1369,7 @@ sub handle_game_end {
         TAEB->write(' ');
         _recurse;
     }
-    elsif (TAEB->topline =~ /\s+Vanquished creatures:\s*$/) {
+    elsif (TAEB->topline =~ /Vanquished creatures:\s*$/) {
         TAEB->death_state('kills');
 
         # XXX: parse kills
@@ -1377,7 +1377,7 @@ sub handle_game_end {
         TAEB->write(' ');
         _recurse;
     }
-    elsif (TAEB->topline =~ /\s+Voluntary challenges:\s*$/) {
+    elsif (TAEB->topline =~ /Voluntary challenges:\s*$/) {
         TAEB->death_state('conducts');
 
         # We parse conducts in handle_more_menus
