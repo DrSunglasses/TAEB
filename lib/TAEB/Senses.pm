@@ -213,6 +213,7 @@ has death_state => (
     trigger => sub {
         my (undef, $new_state) = @_;
         TAEB->log->senses("Death state is now $new_state.");
+        TAEB->display->redraw;
     },
 );
 
