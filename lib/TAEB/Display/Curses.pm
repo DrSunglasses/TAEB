@@ -162,7 +162,7 @@ sub draw_botl {
         $command =~ s/\cd/^D/g;
 
         $botl = TAEB->checking ? "Checking " . TAEB->checking
-              : TAEB->death_state ? "Death-listing " . TAEB->death_state
+              : TAEB->state eq 'dying' ? "Viewing death " . TAEB->death_state
               : TAEB->currently . " ($command)";
     }
 
