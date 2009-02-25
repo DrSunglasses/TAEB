@@ -817,6 +817,8 @@ sub distance {
     my $self  = shift;
     my $other = shift || TAEB->current_tile;
 
+    return undef if $self->level != TAEB->current_level;
+
     return sqrt(($self->x - $other->x) ** 2 + ($self->y - $other->y) ** 2);
 }
 
