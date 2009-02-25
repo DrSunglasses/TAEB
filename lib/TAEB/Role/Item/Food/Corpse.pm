@@ -16,7 +16,8 @@ has estimated_date => (
 
 sub failed_to_sacrifice {
     my $self = shift;
-    $self->estimated_date(TAEB->turn - 50);
+    $self->estimated_date(TAEB->turn - 50)
+        if $self->estimated_date > TAEB->turn - 50;
 }
 
 sub estimate_age {
