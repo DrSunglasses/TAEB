@@ -17,6 +17,14 @@ sub debug_line {
     return join "\n", @eq;
 }
 
+sub msg_slot_empty {
+    my ($self, $slot) = @_;
+
+    my $clear = "clear_$slot";
+
+    $self->$clear;
+}
+
 __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
 

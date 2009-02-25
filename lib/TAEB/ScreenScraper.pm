@@ -420,9 +420,15 @@ our %msg_string = (
         ['sacrifice_gone'],
     'You fall through...' =>
         ['trapdoor'],
+    'You have no secondary weapon readied.' =>
+        ['slot_empty', 'offhand'],
 );
 
 our @msg_regex = (
+    [
+            qr/^You are(?: already)? empty .*\.$/,
+                ['slot_empty', 'weapon'],
+    ],
     [
             qr/^You (?:turn into an?|feel like a new)(?: female| male|) ([^!]*)!$/,
                 # Luckily, all the base races are M2_NOPOLY.
