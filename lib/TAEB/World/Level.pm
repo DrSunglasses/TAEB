@@ -555,6 +555,14 @@ sub _detect_mines {
     return 1 if any { $_->known_branch && $_->branch eq 'dungeons' }
                 $self->dungeon->get_levels($self->z);
 
+    # the check we make is that any level where there are diagonally adjacent
+    # walls with the same glyph, it's mines. that captures the following:
+    # .....
+    # ..---
+    # ..-..
+    # .....
+
+    # future possibilities:
     # convex walls
     # - futilius has crazy schemes!
     #   + two diagonally adjacent walls of the same glyph
@@ -565,6 +573,7 @@ sub _detect_mines {
 
     # >6 or so floor tiles in a row (rooms have a max height)
 
+    # the check
     my $mines = 0;
     return 1 if $self->first_tile(sub {
         my $tile = shift;
