@@ -1116,7 +1116,7 @@ sub handle_more_menus {
             return 0;
         };
     }
-    elsif (TAEB->death_state eq 'conducts' && TAEB->topline =~ /Voluntary challenges:\s*$/) {
+    elsif ((TAEB->death_state||'') eq 'conducts' && TAEB->topline =~ /Voluntary challenges:\s*$/) {
         my $skip = 2;
         $each = sub {
             return if $skip-- > 0;
