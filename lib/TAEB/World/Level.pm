@@ -412,7 +412,7 @@ sub exits {
     my @exits = map { $self->tiles_of($_) } qw/stairsup stairsdown/;
 
     @exits = grep { $_->type ne 'stairsup' } @exits
-        if $self->z == 1; # XXX check for Amulet
+        if $self->z == 1 && !TAEB->has_item("Amulet of Yendor");
 
     return @exits;
 }
