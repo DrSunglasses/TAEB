@@ -34,7 +34,9 @@ after initialize => sub {
         # don't go into non-taeb classes
         next unless $class->meta->does_role(__PACKAGE__);
 
-        $attr->get_read_method_ref->($self)->initialize;
+        my $value = $attr->get_read_method_ref->($self);
+        next unless $value;
+        $value->initialize;
     }
 };
 
