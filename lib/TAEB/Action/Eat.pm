@@ -2,70 +2,32 @@ package TAEB::Action::Eat;
 use TAEB::OO;
 extends 'TAEB::Action';
 with 'TAEB::Action::Role::Item' => { items => [qw/food/] };
-use List::Util 'first';
 
 use constant command => "e";
 
 has '+food' => (
-    isa      => 'NetHack::Item::Food | Str',
     required => 1,
-);
-
-has eaten_food => (
-    is => 'rw',
-    isa => 'NetHack::Item',
 );
 
 sub respond_eat_ground {
     my $self = shift;
     my $floor = shift;
 
-    # no, we want to eat something in our inventory
-    return 'n' if blessed $self->food;
-
     my $floor_item = TAEB->current_tile->find_item($floor);
 
-    # user specified something like "eat => item => 'lizard corpse'"
-    if ($floor_item->match(identity => $self->food)) {
-        $self->eaten_food($floor_item);
-        return 'y';
-    }
-
-    if ($self->food eq 'any') {
-        if ($floor_item->is_safely_edible) {
-            TAEB->log->action("Floor-food $floor_item is good enough for me.");
-            # keep track of what we're eating for nutrition purposes later
-            $self->eaten_food($floor_item);
-            return 'y';
-        }
-        else {
-            TAEB->log->action("Floor-food $floor_item is not safely edible.");
-        }
-    }
-
-    # no thanks, I brought my own lunch
-    return 'n';
+    # no, we want to eat something in our inventory
+    return 'n' unless $self->food == $floor_item;
+    return 'y';
 }
 
 sub respond_eat_what {
     my $self = shift;
-    if (blessed $self->food) {
-        $self->eaten_food($self->food);
+
+    if ($self->food->slot) {
         return $self->food->slot;
     }
 
-    if ($self->food eq 'any') {
-        my $item = first { $self->can_eat($_) } TAEB->inventory;
-
-        if ($item) {
-            $self->eaten_food($item);
-            return $item->slot;
-        }
-        TAEB->log->action("There's no safe food in my inventory, so I can't eat 'any'. Sending escape, but I doubt this will work.", level => 'error');
-    }
-    else {
-        TAEB->log->action("Unable to eat '" . $self->food . "'. Sending escape, but I doubt this will work.", level => 'error');
-    }
+    TAEB->log->action("Unable to eat '" . $self->food . "'. Sending escape, but I doubt this will work.", level => 'error');
 
     TAEB->enqueue_message(check => 'inventory');
     TAEB->enqueue_message(check => 'floor');
@@ -89,19 +51,12 @@ sub msg_stopped_eating {
 
 sub post_responses {
     my $self = shift;
-    my $item = $self->eaten_food;
+    my $item = $self->food;
 
-    if (blessed $item && $item->slot)  {
+    if ($item->slot)  {
         TAEB->inventory->decrease_quantity($item->slot)
     }
-    elsif ($item eq 'any') {
-        #we had some issues, and none of the responses were called. bail out.
-        TAEB->log->action("Tried to eat food but no responses were called",
-                          level => 'warning');
-        return;
-    }
     else {
-        $item = TAEB->new_item($item) if !blessed($item);
         #This doesn't work well with a stack of corpses on the floor
         #because maybe_is used my remove_floor_item tries to match quantity
         TAEB->enqueue_message(remove_floor_item => $item);
@@ -130,13 +85,6 @@ sub can_eat {
     return 0 unless $item->is_safely_edible;
     return 1;
 }
-
-before exception_missing_item => sub {
-    my $self = shift;
-    if ($self->food eq 'any') {
-        TAEB->enqueue_message(check => 'inventory');
-    }
-};
 
 sub overfull {
     # make sure we don't eat anything until we stop being satiated
