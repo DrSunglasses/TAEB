@@ -528,6 +528,7 @@ sub _detect_dungeons {
     my $self = shift;
 
     # out of range of the mines
+    # XXX: this may misidentify gehennom, quest, sokoban..
     return 1 if $self->z < 3 || $self->z > 13;
 
     # is there a parallel mines level?
@@ -535,14 +536,14 @@ sub _detect_dungeons {
                 $self->dungeon->get_levels($self->z);
 
     # dungeon features (fountain, sink, altar, door, etc)
-    # watch out for minetown
+    # the z constraint means we won't misidentify minetown as dungeons
     return 1 if ($self->z != 5 && $self->z != 6)
              && ($self->has_type('closeddoor')
              ||  $self->has_type('opendoor')
              ||  $self->has_type('altar')
              ||  $self->has_type('sink')
-             ||  $self->has_type('fountain'));
-
+             ||  $self->has_type('fountain')
+             ||  $self->has_type('throne'));
 
     return 0;
 }
