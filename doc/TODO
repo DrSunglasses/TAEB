@@ -1,0 +1,8 @@
+Before 0.01 release:
+    - fix --loop bugs
+    - TAEB.pm documentation
+    - Make sure README is up to date with config, AI, installation instructions
+
+After 0.01 release:
+    - Configurable botl
+
