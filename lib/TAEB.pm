@@ -623,7 +623,8 @@ sub save {
 
 sub persistent_file {
     my $self = shift;
-    my $interface = $self->config->interface ;
+
+    my $interface = $self->config->interface;
     my $state_file = $self->config->taebdir_file("$interface.state");
 }
 
