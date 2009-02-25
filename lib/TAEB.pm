@@ -236,6 +236,7 @@ class_has display => (
     is      => 'ro',
     isa     => 'TAEB::Display',
     trigger => sub { shift->display->institute },
+    lazy    => 1,
     default   => sub {
         my $display = TAEB->config->get_display_class->new;
         $display->institute; # default doesn't fire triggers
