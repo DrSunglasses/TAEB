@@ -167,12 +167,6 @@ sub at {
     $x = $cartographer->{x} unless defined $x;
     $y = $cartographer->{y} unless defined $y;
 
-    # XXX: reenable this if we start getting weird errors
-    #if (!$self->is_on_map($x, $y)) {
-        #Carp::cluck("Level->at($x, $y) called. Stop doing that!");
-        #return undef;
-    #}
-
     return $self->{tiles}->[$y][$x];
 }
 
