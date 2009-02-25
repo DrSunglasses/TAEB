@@ -1352,6 +1352,14 @@ sub handle_game_end {
         TAEB->write(' ');
         _recurse;
     }
+    elsif (TAEB->topline =~ /\s+Vanquished creatures:\s*$/) {
+        TAEB->death_state('kills');
+
+        # XXX: parse kills
+
+        TAEB->write(' ');
+        _recurse;
+    }
     elsif (TAEB->topline =~ /\s+Voluntary challenges:\s*$/) {
         TAEB->death_state('conducts');
 
