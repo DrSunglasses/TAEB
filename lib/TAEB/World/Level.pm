@@ -180,7 +180,7 @@ sub at_safe {
     return $self->at unless @_;
     my ($x, $y) = @_;
     return undef unless $self->is_on_map($x, $y);
-    return $self->at($x, $y);
+    return $self->{tiles}->[$y][$x];
 }
 
 sub at_direction {
