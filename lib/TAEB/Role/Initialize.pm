@@ -17,7 +17,7 @@ after initialize => sub {
             my $type_constraint = $attr->type_constraint;
             # don't check non-classes
             # XXX: do we care about Maybe types? or unions?
-            next unless $type_constraint->is_a_type_of('ClassName');
+            next unless $type_constraint->is_a_type_of('Object');
             $class = $type_constraint->name;
             Class::MOP::load_class($class);
         }
