@@ -37,8 +37,6 @@ sub try_key { }
 
 sub change_draw_mode { }
 
-sub DEMOLISH { shift->deinitialize }
-
 __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
 
