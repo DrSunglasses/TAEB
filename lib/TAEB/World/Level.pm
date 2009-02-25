@@ -390,8 +390,7 @@ sub unregister_tile {
 
     for (my $i = 0; $i < @{ $self->tiles_by_type->{$type} || [] }; ++$i) {
         if ($self->tiles_by_type->{$type}->[$i] == $tile) {
-            splice @{ $self->tiles_by_type->{$type} }, $i, 1;
-            return 1;
+            return splice @{ $self->tiles_by_type->{$type} }, $i, 1;
         }
     }
 
