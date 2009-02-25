@@ -1116,11 +1116,27 @@ sub handle_more_menus {
             return 0;
         };
     }
-    elsif (TAEB->topline =~ /Voluntary challenges:\s*$/) {
+    elsif (TAEB->death_state eq 'conducts' && TAEB->topline =~ /Voluntary challenges:\s*$/) {
         my $skip = 2;
         $each = sub {
             return if $skip-- > 0;
             s/\s+$//;
+
+            s{^You were vegetarian\.$}                {vegetarian}   ||
+            s{^You followed a strict vegan diet\.$}   {vegan}        ||
+            s{^You went without food\.$}              {foodless}     ||
+            s{^You were an atheist\.$}                {atheist}      ||
+            s{^You never hit with a wielded weapon\.$}{weaponless}   ||
+            s{^You were illiterate\.$}                {illiterate}   ||
+            s{^You never genocided any monsters\.$}   {genoless}     ||
+            s{^You never polymorphed an object\.$}    {polyitemless} ||
+            s{^You never changed form\.$}             {polyselfless} ||
+            s{^You used no wishes\.$}                 {wishless}     ||
+            s{^You did not wish for any artifacts\.}  {artiwishless} ||
+            (/^You used \d+ wish(es)\./ && next)                     ||
+
+            TAEB->log->scraper("Unable to parse conduct string '$_'.");
+
             TAEB->death_report->add_conduct($_);
         };
     }
