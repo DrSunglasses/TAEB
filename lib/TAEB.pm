@@ -96,6 +96,10 @@ class_has state => (
     is      => 'rw',
     isa     => 'TAEB::Type::PlayState',
     default => 'logging_in',
+    trigger => sub {
+        my (undef, $state) = @_;
+        TAEB->log->main("Game state has changed to $state.");
+    },
 );
 
 class_has log => (
