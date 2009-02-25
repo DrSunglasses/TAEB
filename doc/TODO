@@ -1,3 +1,5 @@
+Everyone is free to add and claim things from this file.
+
 Before 0.01 release:
     - fix --loop bugs
     - TAEB.pm documentation
@@ -7,4 +9,6 @@ After 0.01 release:
     - Configurable botl
     - Map keystrokes to actions (for an Interhack-like interface)
     - Announcements
+    - netcat commits to NHBot
+      - Probably a subclass of Darcs::Notify
 
