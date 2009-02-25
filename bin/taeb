@@ -36,7 +36,11 @@ $SIG{CONT} = sub {
 };
 
 $SIG{TERM} = sub {
+    $SIG{TERM} = 'DEFAULT';
+
     TAEB->display->deinitialize;
+
+    kill TERM => $$;
 };
 
 $| = 1;
