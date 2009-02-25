@@ -792,12 +792,13 @@ sub is_transparent {
 
 =cut
 
+my %shows_items = map { $_ => 1 } qw(floor ice trap stairsup stairsdown altar grave throne sink fountain corridor air);
+
 sub shows_items {
     my $self = shift;
     return 0 if !$self->is_lit;
 
-    # XXX: use type so this works on Rogue
-    return $self->glyph =~ /[\.\^<>_\\{#]/;
+    return $shows_items{$self->type};
 }
 
 =head2 in_los -> Bool
