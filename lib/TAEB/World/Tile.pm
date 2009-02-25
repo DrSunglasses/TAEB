@@ -521,7 +521,7 @@ sub try_monster {
 
         # if we're standing in a corridor, unexplored wall tiles are still
         # ' ' glyphs. this does mean that ghosts in corridors won't be noticed,
-        # but not much to do about that, i don't think
+        # but there's not much we can do about that
         return unless TAEB->current_tile->type ne 'corridor'
                    && $self->any_adjacent(sub { shift->type eq 'floor' });
 
