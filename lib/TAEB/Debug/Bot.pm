@@ -39,7 +39,7 @@ sub send_message {
     $msg =~ s/msg_//;
 
     if ($self->watching_message($msg)) {
-        $self->speak("I received a $msg message with args " join(', ', @_));
+        $self->speak("I received a $msg message with args " . join(', ', @_));
         $self->unwatch_message($msg);
     }
 }
