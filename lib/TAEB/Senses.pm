@@ -553,8 +553,9 @@ sub msg_grabbed {
 }
 
 sub elbereth_count {
-    TAEB->write(":");
     TAEB->currently("Checking the ground for elbereths");
+    TAEB->action(TAEB::Action->new_action('look'));
+    TAEB->write(TAEB->action->run);
     TAEB->full_input;
     my $tile = TAEB->current_tile;
     my $elbereths = $tile->elbereths;
