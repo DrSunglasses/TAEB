@@ -15,11 +15,10 @@ after initialize => sub {
         my $class;
         if ($attr->has_type_constraint) {
             my $type_constraint = $attr->type_constraint;
-            # don't check non-classes
             # XXX: do we care about unions?
-            if ($type_constraint->is_a_type_of('Maybe')) {
-                $type_constraint = $type_constraint->type_parameter;
-            }
+            $type_constraint = $type_constraint->type_parameter
+                if $type_constraint->is_a_type_of('Maybe');
+            # don't check non-classes
             next unless $type_constraint->is_a_type_of('Object');
             $class = $type_constraint->name;
             Class::MOP::load_class($class);
