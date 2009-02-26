@@ -44,12 +44,6 @@ sub send_message {
     }
 }
 
-sub msg_step {}
-after msg_step => sub {
-    my $self = shift;
-    $self->dec_step;
-};
-
 my %responses = (
     who      => sub {
         sprintf "%s (%s %s %s %s)", TAEB->name, TAEB->role, TAEB->race,
@@ -138,6 +132,8 @@ sub msg_step {
     do {
         $self->tick;
     } while ($self->paused && $self->step == 0);
+
+    $self->dec_step;
 }
 
 no Moose::Role;
