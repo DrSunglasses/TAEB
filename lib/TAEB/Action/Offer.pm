@@ -3,7 +3,7 @@ use TAEB::OO;
 extends 'TAEB::Action';
 with 'TAEB::Action::Role::Item';
 
-use constant command => "#offer";
+use constant command => "#offer\n";
 
 has '+item' => (
     required => 1,
