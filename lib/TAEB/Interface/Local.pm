@@ -39,7 +39,7 @@ sub _build_pty {
 
     chomp(my $pwd = `pwd`);
 
-    my $rcfile = TAEB->config->taebdir_file('TAEB.nethackrc');
+    my $rcfile = TAEB->config->taebdir_file('nethackrc');
     unless (-e $rcfile) {
         open my $fh, '>', $rcfile or die "Unable to open $rcfile for writing: $!";
         $fh->write(TAEB->config->nethackrc_contents);
