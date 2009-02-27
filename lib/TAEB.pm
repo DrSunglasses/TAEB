@@ -242,7 +242,6 @@ class_has display => (
     },
     handles => [qw/notify redraw display_topline get_key try_key place_cursor
                    display_menu/],
-    },
 );
 
 class_has item_pool => (
