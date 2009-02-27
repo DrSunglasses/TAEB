@@ -293,13 +293,28 @@ sub next_action {
 sub iterate {
     my $self = shift;
 
-    TAEB->log->main("Starting a new step.");
+    eval {
+        TAEB->log->main("Starting a new step.");
 
-    $self->full_input(1);
-    $self->human_input;
+        $self->full_input(1);
+        $self->human_input;
 
-    my $method = "handle_" . $self->state;
-    $self->$method;
+        my $method = "handle_" . $self->state;
+        $self->$method;
+    };
+
+    if ($@) {
+        TAEB->display->deinitialize;
+
+        local $SIG{__DIE__};
+        die $@ unless $@ =~ /^The game has ended\.|The game has been saved\./;
+
+        return TAEB->state eq 'dying'
+             ? TAEB->death_report
+             : TAEB::Message::Report::Saved->new;
+    }
+
+    return;
 }
 
 sub handle_playing {
@@ -637,20 +652,10 @@ sub persistent_file {
 sub play {
     my $self = shift;
 
-    eval {
-        while (1) {
-            $self->iterate;
-        }
-    };
-
-    TAEB->display->deinitialize;
-
-    local $SIG{__DIE__};
-    die $@ unless $@ =~ /^The game has ended\.|The game has been saved\./;
-
-    return TAEB->state eq 'dying'
-         ? TAEB->death_report
-         : TAEB::Message::Report::Saved->new;
+    while (1) {
+        my $report = $self->iterate;
+        return $report if $report;
+    }
 }
 
 sub reset_state {
