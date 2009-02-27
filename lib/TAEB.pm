@@ -533,6 +533,7 @@ around notify => sub {
     unshift @_, TAEB::Util::COLOR_CYAN if !@_;
 
     $self->orig($msg, @_);
+};
 
 sub complain {
     my $self = shift;
