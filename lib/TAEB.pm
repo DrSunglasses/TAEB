@@ -712,7 +712,14 @@ TAEB - the Tactical Amulet Extraction Bot (for NetHack)
 =head1 DESCRIPTION
 
 TAEB is a framework for programmatically playing NetHack
-(L<http://nethack.org>).
+(L<http://nethack.org>). This framework is useful for, among other things,
+writing autonomous NetHack bots, or providing unconventional interfaces to
+NetHack for humans.
+
+Once installed, run the F<taeb> script to run L<TAEB::AI::Demo>. This
+simplistic AI is provided so that TAEB does something out of the box, and for
+didactic purposes. You should select a more robust TAEB AI (such as
+L<TAEB::AI::Behavioral>) to run.
 
 =head1 CODE
 
