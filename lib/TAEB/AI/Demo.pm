@@ -182,9 +182,9 @@ TAEB::AI::Demo - a demonstration autonomous AI
 
 =head1 DESCRIPTION
 
-This is so we can have something that *plays* NetHack in the core TAEB distro,
-a default AI. We could use L<TAEB::AI::Behavioral> but that is a separate
-distribution so it's not a great idea.
+This exists so we include have something that *plays* NetHack in the core TAEB
+distro: a default AI. We could use L<TAEB::AI::Behavioral> but that is a
+separate distribution, one that depends on L<TAEB> at that.
 
 This is also an example AI for people interested in writing one.
 
@@ -192,7 +192,7 @@ This is also an example AI for people interested in writing one.
 
 If you're interested in bot development, here are some recommended enhancements
 to make to this demonstration AI. You can use these exercises to get accustomed
-to the TAEB code base.
+to the TAEB codebase.
 
 If you get stuck, one place to look is L<TAEB::AI::Behavioral>, where we've
 implemented all of these behaviors.
@@ -234,8 +234,7 @@ Dip for Excalibur when appropriate.
 
 =item
 
-If you have projectiles, throw them at monsters. Be sure to pick up projectiles
-as well.
+If you have projectiles, throw them at enemies.
 
 =item
 
