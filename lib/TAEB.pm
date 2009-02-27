@@ -169,12 +169,6 @@ class_has dungeon => (
     },
 );
 
-class_has single_step => (
-    is      => 'rw',
-    isa     => 'Bool',
-    default => 0,
-);
-
 class_has senses => (
     traits    => [qw/TAEB::Persistent/],
     is        => 'ro',
@@ -407,8 +401,7 @@ sub human_input {
     my $self = shift;
 
     my $c;
-    $c = $self->single_step ? $self->get_key : $self->try_key
-        unless $self->ai->is_human_controlled;
+    $c = $self->try_key unless $self->ai->is_human_controlled;
 
     if (defined $c) {
         my $out = $self->keypress($c);
@@ -428,13 +421,6 @@ sub keypress {
         TAEB->get_key;
         TAEB->redraw;
         return;
-    }
-
-    # turn on/off step mode
-    if ($c eq 's') {
-        $self->single_step(not $self->single_step);
-        return "Single step mode "
-             . ($self->single_step ? "enabled." : "disabled.");
     }
 
     if ($c eq 'd') {
