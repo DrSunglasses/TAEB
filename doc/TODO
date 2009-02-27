@@ -3,8 +3,6 @@ Everyone is free to add and claim things from this file.
 Before 0.01 release:
     - fix --loop bugs
     - TAEB.pm documentation
-      - Especially a list of modules that have been written because of TAEB
-        and modules that have been improved because of TAEB
     - Make sure README is up to date with config, AI, installation instructions
 
 After 0.01 release:
