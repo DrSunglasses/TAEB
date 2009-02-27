@@ -709,29 +709,5 @@ TAEB - the Tactical Amulet Extraction Bot (for NetHack)
 
 =head1 DESCRIPTION
 
-=head2 iterate
-
-This will perform one input/output iteration of TAEB.
-
-It will return any input it receives, so you can follow along at home.
-
-=head2 full_input
-
-Run a full input loop, sending messages, updating the screen, and so on.
-
-=head2 process_input [Bool]
-
-This will read the interface for input, update the VT object, and print.
-
-It will also return any input it receives.
-
-If the passed in boolean is false, no scraping will occur. If no boolean is
-provided, or if the boolean is true, then the scraping will go down.
-
-=head2 keypress Str
-
-This accepts a key (such as one typed by the meatbag at the terminal) and does
-something with it.
-
 =cut
 
