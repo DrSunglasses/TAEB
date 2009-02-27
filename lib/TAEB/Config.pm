@@ -12,7 +12,7 @@ $ENV{TAEBDIR} ||= do {
     File::Spec->catdir(File::HomeDir->my_home, '.taeb');
 };
 
--d $ENV{TAEBDIR} or do {
+-d $ENV{TAEBDIR} or mkdir($ENV{TAEBDIR}, 0700) or do {
     local $SIG{__DIE__} = 'DEFAULT';
     die "Please create a $ENV{TAEBDIR} directory.\n";
 };
