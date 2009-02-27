@@ -709,5 +709,47 @@ TAEB - the Tactical Amulet Extraction Bot (for NetHack)
 
 =head1 DESCRIPTION
 
+=head1 AUTHORS
+
+The primary authors of TAEB are:
+
+=over 4
+
+=item Shawn M Moore C<sartak@gmail.com>
+
+=item Jesse Luehrs C<doy@tozt.net>
+
+=item Stefan O'Rear C<stefanor@cox.net>
+
+=back
+
+TAEB has also had features, fixes, and improvements from:
+
+=over 4
+
+=item Sebbe
+
+=item arcanehl
+
+=item sawtooth
+
+=item Jerub
+
+=item ais523
+
+=item dho
+
+=item futilius
+
+=item bd
+
+=item Zaba
+
+=item toft
+
+=item HanClinto
+
+=back
+
 =cut
 
