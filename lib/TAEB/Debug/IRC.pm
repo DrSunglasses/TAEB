@@ -15,7 +15,6 @@ has bot => (
         my $name    = $self->config->{name}    || TAEB->name;
 
         TAEB->log->irc("Connecting to $channel on $server:$port with nick $name");
-        require TAEB::Debug::IRC::Bot;
         TAEB::Debug::IRC::Bot->new(
             # Bot::BasicBot settings
             server   => $server,
@@ -30,6 +29,13 @@ has bot => (
 sub msg_character {
     my $self = shift;
     $self->bot->run if $self->bot;
+}
+
+sub initialize {
+    my $self = shift;
+    # XXX: hack around initialization order stuff until i restructure
+    # TAEB::Debug
+    require TAEB::Debug::IRC::Bot if defined $self->config;
 }
 
 __PACKAGE__->meta->make_immutable;
