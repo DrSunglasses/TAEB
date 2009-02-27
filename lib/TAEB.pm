@@ -768,12 +768,12 @@ A message bus for communicating information across all of TAEB's components
 
 =item action
 
-The L<TAEB::Action> that was taken or is about to be taken.
+The L<TAEB::Action> that was taken or is about to be taken
 
 =item new_game
 
 A boolean indicating whether the current session started a new game or
-continued a previously saved game.
+continued a previously saved game
 
 =item debugger
 
