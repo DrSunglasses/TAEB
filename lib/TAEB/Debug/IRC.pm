@@ -29,7 +29,6 @@ has bot => (
 
 sub msg_character {
     my $self = shift;
-    local $SIG{__DIE__};
     $self->bot->run if $self->bot;
 }
 
