@@ -776,5 +776,12 @@ TAEB has also had features, fixes, and improvements from:
 
 =back
 
+=head1 COPYRIGHT & LICENSE
+
+Copyright 2007-2009 TAEB DevTeam.
+
+This program is free software; you can redistribute it and/or modify it
+under terms of the GNU General Public License version 2.
+
 =cut
 
