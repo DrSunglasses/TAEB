@@ -709,6 +709,8 @@ TAEB - the Tactical Amulet Extraction Bot (for NetHack)
 
 =head1 DESCRIPTION
 
+=head1 DEBT
+
 While working on TAEB, the authors have worked on several other projects to
 add features and fixes, as well as start new projects. Here's a list of new
 modules written by TAEB hackers to make TAEB better:
@@ -718,8 +720,8 @@ modules written by TAEB hackers to make TAEB better:
 =item L<MooseX::Singleton>
 
 Sartak rewrote MooseX::Singleton from its unreleased "around new" state; others
-have built upon it. TAEB has since moved to MooseX::ClassAttribute due to being
-faster and better.
+have built upon it. TAEB has since moved to MooseX::ClassAttribute due it to
+being faster and better.
 
 =item L<MooseX::Role::Matcher>
 
