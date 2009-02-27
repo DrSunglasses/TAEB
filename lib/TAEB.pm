@@ -709,6 +709,15 @@ TAEB - the Tactical Amulet Extraction Bot (for NetHack)
 
 =head1 DESCRIPTION
 
+TAEB is a framework for programmatically playing NetHack
+(L<http://nethack.org>).
+
+=head1 CODE
+
+TAEB is versioned using C<darcs>. You can get a checkout of the code with:
+
+    darcs get --partial http://sartak.org/code/TAEB
+
 =head1 AUTHORS
 
 The primary authors of TAEB are:
