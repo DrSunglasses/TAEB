@@ -240,14 +240,8 @@ class_has display => (
         $display->institute; # default doesn't fire triggers
         $display;
     },
-    handles => {
-        _notify         => 'notify',
-        redraw          => 'redraw',
-        display_topline => 'display_topline',
-        get_key         => 'get_key',
-        try_key         => 'try_key',
-        place_cursor    => 'place_cursor',
-        display_menu    => 'display_menu',
+    handles => [qw/notify redraw display_topline get_key try_key place_cursor
+                   display_menu/],
     },
 );
 
@@ -532,17 +526,20 @@ sub keypress {
     return;
 }
 
-sub notify {
+around notify => sub {
+    my $orig = shift;
     my $self = shift;
     my $msg  = shift;
 
-    $self->_notify($msg, TAEB::Util::COLOR_CYAN, @_);
-}
+    unshift @_, TAEB::Util::COLOR_CYAN if !@_;
+
+    $self->orig($msg, @_);
 
 sub complain {
     my $self = shift;
     my $msg  = shift;
-    $self->_notify($msg, TAEB::Util::COLOR_RED, @_);
+
+    $self->notify($msg, TAEB::Util::COLOR_RED, @_);
 }
 
 around write => sub {
