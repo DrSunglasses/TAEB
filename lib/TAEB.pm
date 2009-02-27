@@ -718,6 +718,13 @@ TAEB is versioned using C<darcs>. You can get a checkout of the code with:
 
     darcs get --partial http://sartak.org/code/TAEB
 
+=head1 BLOG
+
+The TAEB authors maintain something resembling a blog of ideas, difficulties,
+and progress at:
+
+    http://taeb-nethack.blogspot.com
+
 =head1 AUTHORS
 
 The primary authors of TAEB are:
