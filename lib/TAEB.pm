@@ -560,22 +560,24 @@ around ai => sub {
     my $orig = shift;
     my $self = shift;
 
-    if (@_ && $self->has_ai) {
-        $self->ai->deinstitute;
-    }
+    if (@_) {
+        $self->ai->deinstitute
+            if $self->has_ai;
 
-    if (@_ && $_[0] =~ /^\w+$/) {
-        my $name = shift;
+        if ($_[0] =~ /^\w+$/) {
+            my $name = shift;
 
-        # guess the case unless they tell us what it is (because of ScoreWhore)
-        $name = "\L\u$name" if $name eq lc $name;
+            # guess the case unless they tell us what it is (because of
+            # ScoreWhore)
+            $name = "\L\u$name" if $name eq lc $name;
 
-        $name = "TAEB::AI::$name";
+            $name = "TAEB::AI::$name";
 
-        (my $file = "$name.pm") =~ s{::}{/}g;
-        require $file;
+            (my $file = "$name.pm") =~ s{::}{/}g;
+            require $file;
 
-        return $self->$orig($name->new);
+            return $self->$orig($name->new);
+        }
     }
 
     return $self->$orig(@_);
