@@ -15,4 +15,5 @@ After 0.01 release:
       - Probably a subclass of Darcs::Notify
     - Move the spells attribute from TAEB to.. dungeon?
     - Move the new_game attribute to Senses
+    - Make TAEB::Debug more pluggable
 
