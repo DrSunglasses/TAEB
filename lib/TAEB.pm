@@ -715,44 +715,44 @@ modules written by TAEB hackers to make TAEB better:
 
 =over 4 
 
-=item MooseX::Singleton
+=item L<MooseX::Singleton>
 
 Sartak rewrote MooseX::Singleton from its unreleased "around new" state; others
 have built upon it. TAEB has since moved to MooseX::ClassAttribute due to being
 faster and better.
 
-=item MooseX::Role::Matcher
+=item L<MooseX::Role::Matcher>
 
 doy wrote MooseX::Role::Matcher as a generalization of old item match code.
 
-=item Tie::Handle::TtyRec
+=item L<Tie::Handle::TtyRec>
 
 Sartak wrote this to give TAEB ttyrec output without having to worry about
 the ttyrec format.
 
-=item Games::Mastermind::Cracker
+=item L<Games::Mastermind::Cracker>
 
 Sartak wrote this so that TAEB wouldn't have to use his original C program to
 open the castle drawbridge.
 
-=item Log::Dispatch::Twitter
+=item L<Log::Dispatch::Twitter>
 
 Sartak wrote this to automatically tweet TAEB errors
 (L<http://twitter.com/TAEB_errors>) and TAEB deaths
 (L<http://twitter.com/TAEB_deaths>).  
 
-=item Log::Dispatch::Channels
+=item L<Log::Dispatch::Channels>
 
 doy wrote this to give TAEB an arbitrary number of logfiles with no fuss.
 Simply writing to a new log name creates a new logfile.
 
-=item NetHack::Item
+=item L<NetHack::Item>
 
-=item NetHack::Menu
+=item L<NetHack::Menu>
 
-=item NetHack::FOV
+=item L<NetHack::FOV>
 
-=item NetHack::Monster::Spoiler
+=item L<NetHack::Monster::Spoiler>
 
 All written for expressly TAEB. They've been factored out so that they could
 have sane test suites and be useful to other projects. NetHack::Item in
@@ -765,31 +765,31 @@ And now a list of modules improved by TAEB hackers for TAEB:
 
 =over 4
 
-=item Moose
+=item L<Moose>
 
 Sartak and doy have contributed a lot to Moose just for TAEB. (TAEB was
 Sartak's first Moose application, even)
 
-=item Devel::REPL
+=item L<Devel::REPL>
 
 Sartak added quite a few plugins to make TAEB's debug REPL better.
 
-=item IO::Socket::Telnet
+=item L<IO::Socket::Telnet>
 
 Sartak wrote the original version for Interhack. Added callbacks and made some
 improvements on day one of TAEB development.
 
-=item IO::Pty::Easy
+=item L<IO::Pty::Easy>
 
 doy wrote the original version for Interhack. Made many fixes found through
 constant use by TAEB.
 
-=item Continuity
+=item L<Continuity>
 
 Sartak made the debug logging pluggable to put debug messages from Continuity
 into TAEB's logfiles.
 
-=item PadWalker
+=item L<PadWalker>
 
 doy submitted a patch to PadWalker (C<rt.cpan.org #41710>) to fix a crashbug
 tickled a lot in TAEB's REPL.
