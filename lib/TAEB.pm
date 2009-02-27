@@ -691,7 +691,11 @@ sub setup_handlers {
         }
         else {
             TAEB->save_state;
-            TAEB->log->perl($message, level => 'error')
+
+            my $level = $message =~ /^Interrupted\./
+                      ? 'info'
+                      : 'error';
+            TAEB->log->perl($message, level => $level);
         }
 
         die $message;
