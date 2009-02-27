@@ -26,15 +26,13 @@ has file => (
     is      => 'ro',
     isa     => 'Str',
     default => sub {
-        my @locations = (
-            shift->taebdir_file('config.yml'),
-            'etc/config.yml',
-        );
-
-        -e $_ and return $_ for @locations;
-
-        local $SIG{__DIE__} = 'DEFAULT';
-        die "Could not find a config file. You should copy TAEB's etc/config.yml into $ENV{TAEBDIR}/config.yml!";
+        my $file = shift->taebdir_file('config.yml');
+        if (!-e $file) {
+            # XXX: instead, create it!
+            local $SIG{__DIE__} = 'DEFAULT';
+            die "Could not find a config file. You should copy TAEB's etc/config.yml into $ENV{TAEBDIR}/config.yml!";
+        }
+        return $file;
     },
 );
 
