@@ -1,4 +1,5 @@
 package TAEB;
+use 5.008001;
 use TAEB::Util qw/:colors tile_types item_menu/;
 
 use TAEB::OO;
