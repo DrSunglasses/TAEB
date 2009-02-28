@@ -200,29 +200,7 @@ for my $controller (qw/AI Interface Display/) {
 }
 
 sub nethackrc_contents {
-    local $/;
-    return <DATA>;
-}
-
-# yes autoload is bad. but, I am lazy
-our $AUTOLOAD;
-sub AUTOLOAD {
-    my $self = shift;
-    $AUTOLOAD =~ s{.*::}{};
-
-    if (@_) {
-        TAEB->config->contents->{$AUTOLOAD} = shift;
-    }
-
-    return TAEB->config->contents->{$AUTOLOAD};
-}
-
-__PACKAGE__->meta->make_immutable;
-no TAEB::OO;
-
-1;
-
-__DATA__
+    return << 'NETHACKRC';
 # improve the consistency of telnet ping/pong
 OPTIONS=!sparkle
 OPTIONS=runmode:teleport
@@ -273,3 +251,24 @@ OPTIONS=dungeon: |--------||.-|]]}}.##<><>_\\\\{{~.}..}} #}
 OPTIONS=objects:m
 # "strange object" = m (mimic)
 # now ] is closed door
+NETHACKRC
+}
+
+# yes autoload is bad. but, I am lazy
+our $AUTOLOAD;
+sub AUTOLOAD {
+    my $self = shift;
+    $AUTOLOAD =~ s{.*::}{};
+
+    if (@_) {
+        TAEB->config->contents->{$AUTOLOAD} = shift;
+    }
+
+    return TAEB->config->contents->{$AUTOLOAD};
+}
+
+__PACKAGE__->meta->make_immutable;
+no TAEB::OO;
+
+1;
+
