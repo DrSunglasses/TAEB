@@ -1141,7 +1141,7 @@ sub handle_more_menus {
             s{^You did not wish for any artifacts\.}  {artiwishless} ||
             s{^You were a pacifist\.}                 {pacifist}     ||
             (/^You used \d+ wish(es)\./ && next)                     ||
-
+            (/You used a wielded weapon \d+ times?\./ && next)       ||
             TAEB->log->scraper("Unable to parse conduct string '$_'.");
 
             TAEB->death_report->add_conduct($_);
