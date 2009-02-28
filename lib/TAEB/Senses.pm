@@ -218,6 +218,7 @@ has death_state => (
 );
 
 has death_report => (
+    traits  => [qw/TAEB::Meta::Trait::DontInitialize/],
     is      => 'ro',
     isa     => 'TAEB::Message::Report::Death',
     lazy    => 1,
