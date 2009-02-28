@@ -22,30 +22,23 @@ sub taebdir_file {
     File::Spec->catfile($ENV{TAEBDIR}, @_),
 }
 
-has file => (
-    is      => 'ro',
-    isa     => 'Str',
-    default => sub {
-        my $file = shift->taebdir_file('config.yml');
-        if (!-e $file) {
-            # XXX: instead, create it!
-            local $SIG{__DIE__} = 'DEFAULT';
-            die "Could not find a config file. You should copy TAEB's etc/config.yml into $ENV{TAEBDIR}/config.yml!";
-        }
-        return $file;
-    },
-);
-
 has contents => (
     is      => 'rw',
     isa     => 'HashRef',
-    default => sub { {} },
+    default => sub {
+        return {
+            ai        => 'Demo',
+            interface => 'Local',
+            display   => 'Curses',
+        };
+    },
 );
 
 sub BUILD {
     my $self = shift;
 
-    my @config = $self->file;
+    my @config = grep { -e } $self->taebdir_file('config.yml')
+        or return;
 
     my %seen;
 
