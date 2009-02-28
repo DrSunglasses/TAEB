@@ -1,4 +1,4 @@
-#!/usr/bin/env perl
+#!perl
 use strict;
 use warnings;
 use TAEB::Test tests => 1374;

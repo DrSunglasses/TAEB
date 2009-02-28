@@ -1,4 +1,4 @@
-#!perl -T
+#!perl
 use TAEB::Test::Monsters (
     [ 'peaceful priestess of Moloch', { name => 'priestess' } ],
     [ 'high priestess of Moloch',     { name => 'high priest' } ],
