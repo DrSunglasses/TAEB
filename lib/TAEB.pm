@@ -21,7 +21,7 @@ use TAEB::Debug;
 with 'TAEB::Role::Persistency';
 with 'TAEB::Role::Initialize';
 
-our $VERSION = '0.01';
+our $VERSION = '0.03';
 
 class_has persistent_data => (
     is        => 'ro',
