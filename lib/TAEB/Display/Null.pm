@@ -1,4 +1,3 @@
-#!/usr/bin/perl
 package TAEB::Display::Null;
 use TAEB::OO;
 extends 'TAEB::Display';
