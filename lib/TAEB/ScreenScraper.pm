@@ -1416,6 +1416,15 @@ sub handle_game_end {
 
         _recurse;
     }
+    # No easy thing to check for on subsequent pages, so again assume
+    # death_state is honest
+    elsif (TAEB->death_state eq 'kills') {
+        TAEB->write(' ');
+
+        # XXX: parse kills
+
+        _recurse;
+    }
 
     die "We're dying but I don't understand the message " . TAEB->topline;
 }
