@@ -35,6 +35,8 @@ after initialize => sub {
         next unless $class->meta->can('does_role');
         # don't go into non-taeb classes
         next unless $class->meta->does_role(__PACKAGE__);
+        # don't go into attributes we explicitly don't allow
+        next if $attr->does('TAEB::Meta::Trait::DontInitialize');
 
         my $value = $attr->get_read_method_ref->($self);
         next unless $value;
