@@ -25,6 +25,13 @@ sub speak {
     );
 }
 
+# XXX: we use this instead of calling run, and poe whines loudly if run is
+# never called, assuming it's a bug. the standard fix is to call
+# $poe_kernel->run before starting any sessions; the poe docs say it should
+# just return immediately. this used to work, but now just hangs inside the
+# call to ->run and i have no idea why, so i just removed it - so now we get an
+# annoying warning when taeb exits. if anyone wants to look into this, that
+# would be sweet. -doy
 sub tick {
     my $self = shift;
 
