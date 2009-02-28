@@ -679,6 +679,8 @@ sub setup_handlers {
                       ? 'info'
                       : 'error';
             TAEB->log->perl($message, level => $level);
+
+            TAEB->save;
         }
 
         die $message;
