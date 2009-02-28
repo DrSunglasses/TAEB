@@ -15,12 +15,6 @@ BEGIN {
 
 with 'TAEB::Debug::Bot';
 
-sub initialize {
-    # does nothing (the irc component isn't initialized yet), but shuts up
-    # warnings about run never being called
-    $poe_kernel->run;
-}
-
 sub speak {
     my $self = shift;
     my $msg  = shift;
