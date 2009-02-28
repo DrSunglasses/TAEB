@@ -31,12 +31,11 @@ sub msg_character {
     $self->bot->run if $self->bot;
 }
 
-sub initialize {
+# XXX: hack around initialization order stuff until i restructure TAEB::Debug
+before initialize => sub {
     my $self = shift;
-    # XXX: hack around initialization order stuff until i restructure
-    # TAEB::Debug
     require TAEB::Debug::IRC::Bot if defined $self->config;
-}
+};
 
 __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
