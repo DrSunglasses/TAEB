@@ -320,8 +320,10 @@ sub crow_flies {
     while ($x     < $x1) { $dir .= 'l'; $x++ }
 =cut
 
-require TAEB::Display::Color;
-sub display { TAEB::Display::Color->new(@_) }
+sub display {
+    require TAEB::Display::Color;
+    TAEB::Display::Color->new(@_)
+}
 
 sub _canonicalize_name_value {
     my ($name, $value) = @_;
