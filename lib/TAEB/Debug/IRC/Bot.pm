@@ -1,12 +1,15 @@
 package TAEB::Debug::IRC::Bot;
 use TAEB::OO;
 use Time::HiRes qw/time/;
+# POE::Kernel and POE::Component::IRC use eval/die a bunch without
+# localizing it
 BEGIN {
-    # POE::Kernel and POE::Component::IRC use eval/die a bunch without
-    # localizing it
     local $SIG{__DIE__};
     require POE::Kernel;
     POE::Kernel->import;
+}
+{
+    local $SIG{__DIE__};
     extends 'Bot::BasicBot';
 }
 
