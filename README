@@ -48,7 +48,7 @@ you via Curses). You aren't required to set up config, but if you want to
 change how TAEB operates, such as by making him play on a NetHack server, you
 can. Specify configuration in ~/.taeb/config.yml, which is written in YAML
 (http://en.wikipedia.org/wiki/Yaml). Read the sample configuration in
-doc/config.yml for more details.
+TAEB::Config for more details.
 
 TAEB requires certain NetHack options to be set in order to recognize
 dungeon features, and to not get confused by extra output. These options
