@@ -36,6 +36,7 @@ has _earlier_location => (
     isa       => 'TAEB::World::Tile',
     is        => 'rw',
 );
+
 has _last_location => (
     isa       => 'TAEB::World::Tile',
     is        => 'rw',
@@ -386,6 +387,7 @@ sub msg_enter_room {
     my $self     = shift;
     my $type     = shift || return;
     my $subtype  = shift;
+
     # Okay, so we want to floodfill the room when we enter it.
     # Because we get the message in the doorway, we can't floodfill from that
     # tile.
@@ -394,25 +396,30 @@ sub msg_enter_room {
     # previous location, and walkable, fill from there. Otherwise we're
     # confused (maybe we teleported into the room?); log a warning and don't
     # fill anything.
-    my @possibly_inside = ();
-    my $lasttile = $self->_last_location;
-    defined $lasttile and $lasttile == TAEB->current_tile
-                      and $lasttile = $self->_earlier_location;
-    my $ltx = $lasttile ? $lasttile->x : -2;
-    my $lty = $lasttile ? $lasttile->y : -2;
+    my @possibly_inside;
+    my $last_tile = $self->_last_location;
+    $last_tile = $self->_earlier_location
+        if defined $last_tile && $last_tile == TAEB->current_tile;
+    my $ltx = $last_tile ? $last_tile->x : -2;
+    my $lty = $last_tile ? $last_tile->y : -2;
     TAEB->current_tile->each_orthogonal(sub {
         my $tile = shift;
-        abs($tile->x-$ltx)<=1 && abs($tile->y-$lty)<=1 and return;
-        $tile->is_walkable(1) or return;
-        unshift @possibly_inside, $tile;
+        return if abs($tile->x - $ltx) <= 1
+               && abs($tile->y - $lty) <= 1;
+        return unless $tile->is_walkable(1);
+        push @possibly_inside, $tile;
     });
 
-    $self->floodfill_room($type,$possibly_inside[0])
-        if scalar @possibly_inside == 1;
-    TAEB->log->cartographer(
-        "Can't figure out where the boundaries of this room are: ".
-        (scalar @possibly_inside)." possibilities",
-        level => 'info') unless scalar @possibly_inside == 0;
+    if (@possibly_inside == 1) {
+        $self->floodfill_room($type, $possibly_inside[0]);
+    }
+    else {
+        TAEB->log->cartographer(
+            "Can't figure out where the boundaries of this room are: "
+          . @possibly_inside . " possibilities",
+            level => 'warning'
+        );
+    }
 }
 
 sub msg_vault_guard {
