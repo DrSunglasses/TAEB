@@ -2,7 +2,6 @@ Everyone is free to add and claim things from this file.
 
 Before 0.01 release:
     - fix --loop bugs
-    - TAEB.pm documentation
     - Make sure README is up to date with config, AI, installation instructions
       - Everything is done except for those related to the next item..
     - Running "taeb" with no taebdir *should* work

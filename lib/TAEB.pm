@@ -788,12 +788,6 @@ possibilities for each appearance, and so on.
 
 =back
 
-=head1 METHODS
-
-=over 4
-
-=back
-
 =head1 CODE
 
 TAEB is versioned using C<darcs>. You can get a checkout of the code with:
