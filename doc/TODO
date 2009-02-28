@@ -4,8 +4,6 @@ Before 0.01 release:
     - fix --loop bugs
     - Make sure README is up to date with config, AI, installation instructions
       - Everything is done except for those related to the next item..
-    - Running "taeb" with no taebdir *should* work
-      - I believe all that's left is populating config.yml
 
 After 0.01 release:
     - Configurable botl
