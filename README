@@ -1,11 +1,3 @@
-TAEB is a modular NetHack framework.
-
-The framework is ultimately in control of everything. Each turn it just
-asks the AI for an action to run. Any prompts or menus are handled
-through the use of callbacks. This divide made it easy to add a web
-interface in a day's work.
-
-
 -- GETTING TAEB
 
 The preferred method for obtaining the TAEB source is from the darcs repo:
