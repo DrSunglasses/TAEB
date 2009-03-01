@@ -828,7 +828,6 @@ for my $aspect (keys %check_command) {
     __PACKAGE__->meta->add_method("_check_$aspect" => sub {
         my $self = shift;
         $self->checking($aspect);
-        TAEB->remove_messages(check => $aspect);
         TAEB->write($command);
         TAEB->full_input;
         $post->($self) if $post;

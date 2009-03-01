@@ -230,21 +230,6 @@ sub turn_messages {
     delete $self->turn_messages->{TAEB->turn};
 }
 
-sub remove_messages {
-    my $self = shift;
-
-    I: for (my $i = 0; $i < @{ $self->queued_messages }; ) {
-        next if @{ $self->queued_messages->[$i] } < @_;
-        for (my $j = 0; $j < @_; ++$j) {
-            if ($self->queued_messages->[$i][$j] ne $_[$j]) {
-                ++$i;
-                next I;
-            }
-        }
-        splice @{ $self->queued_messages }, $i, 1;
-    }
-}
-
 sub menu_select {
     my $self = shift;
     my $name = shift;
