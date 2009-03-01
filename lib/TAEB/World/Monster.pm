@@ -26,7 +26,7 @@ has tile => (
 );
 
 has possibilities => (
-    is       => 'ro',
+    is       => 'rw',
     isa      => 'ArrayRef[TAEB::Spoilers::Monster]',
     auto_deref => 1,
     lazy     => 1,
