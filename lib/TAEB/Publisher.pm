@@ -52,8 +52,6 @@ sub enqueue_message {
 sub send_messages {
     my $self = shift;
 
-    # if a subscriber generates a message, we want to send it out this turn,
-    # not next
     while (my $msg = $self->_shift_queued_messages) {
         my ($name, @args) = @$msg;
 
@@ -120,7 +118,7 @@ sub get_generic_response {
             my $response = $responder->$code($args{msg});
             next unless defined $response;
 
-            TAEB->log->publisher(blessed($responder) . " is generically responding to $args{msg}.");
+            TAEB->log->publisher("$responder is generically responding to $args{msg}.");
             return $response;
         }
     }
