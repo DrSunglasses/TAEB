@@ -236,7 +236,8 @@ sub display_topline {
         Curses::move 0, 0;
         Curses::clrtoeol;
         Curses::addstr "@_";
-        $self->place_cursor;
+        $self->place_cursor if TAEB->loaded_persistent_data;
+        Curses::refresh;
         return;
     }
 
