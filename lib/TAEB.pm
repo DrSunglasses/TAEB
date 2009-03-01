@@ -352,7 +352,7 @@ sub handle_logging_in {
         TAEB->log->main("Using TAEB's nethackrc is MANDATORY. Use $0 --rc.",
                         level => 'error');
         $self->quit;
-        die "Using etc/TAEB.nethackrc is MANDATORY";
+        die "Using TAEB's nethackrc is MANDATORY";
     }
 }
 
