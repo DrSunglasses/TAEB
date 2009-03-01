@@ -2,6 +2,7 @@ package TAEB::World::Monster;
 use TAEB::OO;
 use TAEB::Util qw/:colors align2str/;
 use List::Util qw/max min/;
+use List::MoreUtils qw/any all/;
 
 use overload %TAEB::Meta::Overload::default;
 
