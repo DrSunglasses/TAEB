@@ -266,8 +266,8 @@ sub is_leprechaun {
 sub is_unicorn {
     my $self = shift;
     # unicorns have unique appearances
-    return unless $self->definitely_known;
-    return ($self->possibilities)[0]->is_unicorn;
+    return $self->definitely_known
+        && $self->spoiler->is_unicorn;
 }
 
 sub is_coaligned_unicorn {
