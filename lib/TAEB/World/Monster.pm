@@ -166,7 +166,9 @@ sub probably_sleeping {
     my $self = shift;
 
     return 0 if TAEB->noisy_turn && TAEB->noisy_turn + 40 > TAEB->turn;
-    return $self->glyph =~ /[ln]/ || TAEB->senses->is_stealthy;
+    return 1 if $self->is_nymph || $self->is_leprechaun;
+    return 1 if TAEB->is_stealthy;
+    return 0;
 }
 
 # Would this monster chase us if it wanted to and noticed us?
@@ -177,10 +179,10 @@ sub would_chase {
     return 0 if $self->is_unicorn;
 
     # Leprechauns avoid the player once they have gold
-    return 0 if $self->glyph eq 'l';
+    return 0 if $self->is_leprechaun;
 
     # Monsters that can't move won't take initiative
-    return 0 if !$self->can_move;
+    return 0 unless $self->can_move;
 
     return 1;
 }
@@ -236,7 +238,12 @@ sub is_minotaur {
 
 sub is_nymph {
     my $self = shift;
-    $self->glyph eq 'n';
+    return $self->glyph eq 'n';
+}
+
+sub is_leprechaun {
+    my $self = shift;
+    return $self->glyph eq 'l';
 }
 
 sub is_unicorn {
