@@ -138,11 +138,6 @@ sub is_enemy {
 # has to be liberal.  If we let a peaceful monster chase us, we'll
 # starve, so is_hostile has to be conservative.
 
-my %hate = ();
-
-for (qw/HumGno OrcHum OrcElf OrcDwa/)
-    { /(...)(...)/; $hate{$1}{$2} = $hate{$2}{$1} = 1; }
-
 sub is_hostile {
     my $self = shift;
 
@@ -153,7 +148,13 @@ sub is_hostile {
     return 0 if $self->is_quest_friendly;
     return 1 if $self->is_quest_nemesis;
 
-    return 1 if $hate{TAEB->race}{$self->spoiler->{cannibal} || ''};
+    my $race = TAEB->race;
+    return 1 if $self->maybe('is_elf')   && ($race eq 'Orc');
+    return 1 if $self->maybe('is_dwarf') && ($race eq 'Orc');
+    return 1 if $self->maybe('is_gnome') && ($race eq 'Hum');
+    return 1 if $self->maybe('is_human') && ($race eq 'Gno' || $race eq 'Orc');
+    return 1 if $self->maybe('is_orc')   && ($race eq 'Hum' || $race eq 'Elf'
+                                                            || $race eq 'Dwa');
 
     return 1 if align2str $self->spoiler->{alignment} ne TAEB->align;
 
