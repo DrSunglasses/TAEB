@@ -290,6 +290,8 @@ sub debug_line {
     my @bits;
 
     push @bits, sprintf '(%d,%d)', $self->x, $self->y;
+    my ($name) = map { $_->name } $self->possibilities;
+    push @bits, $name if $self->definitely_known;
     push @bits, 'g<' . $self->glyph . '>';
     push @bits, 'c<' . $self->color . '>';
 
