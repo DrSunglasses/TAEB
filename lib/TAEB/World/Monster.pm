@@ -24,6 +24,37 @@ has tile => (
     handles  => [qw/x y z level in_shop in_temple in_los distance/],
 );
 
+has possibilities => (
+    is       => 'ro',
+    isa      => 'ArrayRef[TAEB::Spoilers::Monster]',
+    auto_deref => 1,
+    lazy     => 1,
+    default  => sub {
+        my $self = shift;
+        return [TAEB::Spoilers::Monster->lookup(
+            glyph => $self->glyph,
+            color => $self->color,
+        )];
+    },
+);
+
+sub maybe {
+    my $self = shift;
+    my $property = shift;
+    return any { $_->$property } $self->possibilities;
+}
+
+sub definitely {
+    my $self = shift;
+    my $property = shift;
+    return all { $_->$property } $self->possibilities;
+}
+
+sub definitely_known {
+    my $self = shift;
+    return @{ $self->possibilities } == 1;
+}
+
 sub is_shk {
     my $self = shift;
 
