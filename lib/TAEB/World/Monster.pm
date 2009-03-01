@@ -142,9 +142,8 @@ sub is_hostile {
     my $self = shift;
 
     # Otherwise, 1 if the monster is guaranteed hostile
-    return 0 if !$self->spoiler;
-    return 1 if $self->spoiler->{hostile};
-    return 0 if $self->spoiler->{peaceful};
+    return 1 if $self->maybe('always_hostile');
+    return 0 if $self->definitely('always_peaceful');
     return 0 if $self->is_quest_friendly;
     return 1 if $self->is_quest_nemesis;
 
@@ -156,7 +155,8 @@ sub is_hostile {
     return 1 if $self->maybe('is_orc')   && ($race eq 'Hum' || $race eq 'Elf'
                                                             || $race eq 'Dwa');
 
-    return 1 if align2str $self->spoiler->{alignment} ne TAEB->align;
+    return 1 if any { align2str($_->alignment) ne TAEB->align }
+                    $self->possibilities;
 
     # do you have the amulet? is it a minion?  is it cross-aligned?
     return;
@@ -318,25 +318,6 @@ sub debug_line {
     return join ' ', @bits;
 }
 
-=head2 spoiler :: hash
-
-Returns the monster spoiler (L<TAEB::Spoiler::Monster>) entry for this thing,
-or undef if the symbol does not uniquely determine the monster.
-
-=cut
-
-sub spoiler {
-    my $self = shift;
-
-    my %candidates = TAEB::Spoilers::Monster->search(
-        glyph => $self->glyph,
-        color => $self->color,
-    );
-    return values %candidates if wantarray;
-    return if values %candidates > 1;
-    return (values %candidates)[0];
-}
-
 =head2 can_be_outrun :: bool
 
 Return true if the player can definitely outrun the monster.
@@ -346,11 +327,11 @@ Return true if the player can definitely outrun the monster.
 sub can_be_outrun {
     my $self = shift;
 
-    my $spoiler = $self->spoiler || return 0;
-    my $spd = $spoiler->{speed};
-    my ($pmin, $pmax) = TAEB->speed;
+    my ($min_taeb_spd, $max_taeb_spd) = TAEB->speed;
+    my $mon_speed = max map { $_->speed } $self->possibilities;
 
-    return $spd < $pmin || ($spd == $pmin && $spd < $pmax);
+    return $mon_speed < $min_taeb_speed
+        || ($mon_speed == $min_taeb_speed && $mon_speed < $max_taeb_speed);
 }
 
 =head2 can_be_infraseen :: Bool
@@ -385,7 +366,7 @@ connects and does full damage with each hit?
 =cut
 
 sub maximum_melee_damage {
-    max map { (_read_attack_string $_)[1] } shift->spoiler
+    return max map { ($_->_read_attack_string)[1] } shift->possibilities;
 }
 
 =head2 average_melee_damage :: Int
@@ -396,7 +377,7 @@ the average case, accounting for AC?
 =cut
 
 sub average_melee_damage {
-    max map { (_read_attack_string $_)[0] } shift->spoiler
+    return max map { ($_->_read_attack_string)[0] } shift->possibilities;
 }
 
 __PACKAGE__->meta->make_immutable;
