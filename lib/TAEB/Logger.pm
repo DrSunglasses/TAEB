@@ -295,6 +295,7 @@ sub _backup_logs {
             unlink $backup;
         }
     }
+    TAEB->display_topline('');
 }
 
 before _clean_log_dir => sub {
