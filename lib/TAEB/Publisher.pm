@@ -24,12 +24,6 @@ has queued_messages => (
     },
 );
 
-has turn_messages => (
-    is      => 'ro',
-    isa     => 'HashRef[ArrayRef]',
-    default => sub { {} },
-);
-
 before subscribe => sub {
     my $self = shift;
     my $class = shift;
@@ -43,7 +37,6 @@ before unsubscribe => sub {
 
 sub update {
     my $self = shift;
-    $self->turn_messages;
     $self->send_messages;
 }
 
@@ -192,42 +185,6 @@ sub get_location_request {
         sets   => \@TAEB::ScreenScraper::location_requests,
         method => "location",
     );
-}
-
-=head2 send_at_turn turn message args
-
-Send the given message at the given turn.
-
-=cut
-
-sub send_at_turn {
-    my $self = shift;
-    my $turn = shift;
-
-    push @{ $self->turn_messages->{$turn} }, [@_];
-}
-
-=head2 send_in_turns turn message args
-
-Send the given message in the given number of turns.
-
-=cut
-
-sub send_in_turns {
-    my $self = shift;
-    my $turn = TAEB->turn + shift;
-    $self->send_at_turn($turn, @_);
-}
-
-sub turn_messages {
-    my $self = shift;
-    my @messages = splice @{ $self->turn_messages->{TAEB->turn} || [] };
-
-    for (@messages) {
-        $self->enqueue_message(@$_);
-    }
-
-    delete $self->turn_messages->{TAEB->turn};
 }
 
 sub menu_select {
