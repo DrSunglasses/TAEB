@@ -74,6 +74,8 @@ sub set_possibilities {
 sub is_shk {
     my $self = shift;
 
+    return 1 if $self->definitely_known
+             && $self->spoiler->name eq 'shopkeeper';
     # if we've seen a nurse recently, then this monster is probably that nurse
     # we really need proper monster tracking! :)
     return 0 if TAEB->turn < (TAEB->last_seen_nurse || -100) + 3;
@@ -84,18 +86,26 @@ sub is_shk {
     # this also catches angry shks, but that's not too big of a deal
     return 0 unless $self->tile->type eq 'obscured'
                  || $self->tile->type eq 'floor';
-    return $self->in_shop ? 1 : undef;
+    return unless $self->in_shop;
+    $self->set_possibilities(name => 'shopkeeper');
+    return 1;
 }
 
 sub is_priest {
     my $self = shift;
+    return 1 if $self->definitely_known
+             && $self->spoiler->name =~ /priest/;
     return 0 unless $self->glyph eq '@' && $self->color eq COLOR_WHITE;
-    return ($self->in_temple ? 1 : undef);
+    return unless $self->in_temple;
+    $self->set_possibilities(name => 'priest');
+    return 1;
 }
 
 sub is_oracle {
     my $self = shift;
 
+    return 1 if $self->definitely_known
+             && $self->spoiler->name eq 'Oracle';
     # we know the oracle level.. is it this one?
     if (my $oracle_level = TAEB->dungeon->special_level->{oracle}) {
         return 0 if $self->level != $oracle_level;
@@ -106,15 +116,23 @@ sub is_oracle {
     }
 
     return 0 unless $self->x == 39 && $self->y == 12;
-    return 1 if TAEB->is_hallucinating
-             || ($self->glyph eq '@' && $self->color eq COLOR_BRIGHT_BLUE);
+    if (TAEB->is_hallucinating
+     || ($self->glyph eq '@' && $self->color eq COLOR_BRIGHT_BLUE)) {
+       $self->set_possibilities(name => 'Oracle');
+       return 1;
+    }
     return 0;
 }
 
 sub is_vault_guard {
     my $self = shift;
+    return 1 if $self->definitely_known
+             && $self->spoiler->name eq 'guard';
     return 0 unless TAEB->following_vault_guard;
-    return 1 if $self->glyph eq '@' && $self->color eq COLOR_BLUE;
+    if ($self->glyph eq '@' && $self->color eq COLOR_BLUE) {
+        $self->set_possibilities(name => 'guard');
+        return 1;
+    }
     return 0;
 }
 
