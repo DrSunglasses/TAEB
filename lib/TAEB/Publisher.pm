@@ -14,9 +14,14 @@ has _subscribers => (
 );
 
 has queued_messages => (
-    is      => 'ro',
-    isa     => 'ArrayRef',
-    default => sub { [] },
+    metaclass => 'Collection::Array',
+    is        => 'ro',
+    isa       => 'ArrayRef',
+    default   => sub { [] },
+    provides  => {
+        push  => '_push_queued_messages',
+        empty => 'has_queued_messages',
+    },
 );
 
 has turn_messages => (
@@ -50,7 +55,7 @@ sub enqueue_message {
 
     TAEB->log->publisher("Queued message $msgname.");
 
-    push @{ $self->queued_messages }, ["msg_$msgname", @_];
+    $self->_push_queued_messages(["msg_$msgname", @_]);
 }
 
 sub send_messages {
@@ -58,7 +63,7 @@ sub send_messages {
 
     # if a subscriber generates a message, we want to send it out this turn,
     # not next
-    while (@{ $self->queued_messages }) {
+    while ($self->has_queued_messages) {
         my @msgs = splice @{ $self->queued_messages };
 
         for (@msgs) {
