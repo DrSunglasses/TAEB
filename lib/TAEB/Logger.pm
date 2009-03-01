@@ -274,6 +274,7 @@ sub _backup_logs {
 
     return unless _maybe_create_dir(TAEB->config->taebdir_file($config->{dir}),
                                     "log rotate");
+    TAEB->display_topline("Backing up logfiles...");
 
     my ($year, $mon, $mday, $hour, $min, $sec) = $self->_creation_time;
     return unless defined $year;
@@ -284,6 +285,7 @@ sub _backup_logs {
     require File::Copy;
     require IO::Compress::Gzip if $compress;
     for my $file (glob logfile_for('*')) {
+        TAEB->display_topline("Backing up logfiles... ($file)");
         (my $backup = $file) =~ s{(?:.*/)?(.*?)}{$1};
         $backup = TAEB->config->taebdir_file($config->{dir},
                                              "$backup.$timestamp");
