@@ -195,6 +195,7 @@ sub will_chase {
         && !$self->probably_sleeping;
 }
 
+# XXX: should be ai?
 sub is_meleeable {
     my $self = shift;
 
