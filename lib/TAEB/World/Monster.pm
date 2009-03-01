@@ -341,7 +341,7 @@ Return true if the player can definitely outrun the monster.
 sub can_be_outrun {
     my $self = shift;
 
-    my ($min_taeb_spd, $max_taeb_spd) = TAEB->speed;
+    my ($min_taeb_speed, $max_taeb_speed) = TAEB->speed;
     my $mon_speed = max map { $_->speed } $self->possibilities;
 
     return $mon_speed < $min_taeb_speed
