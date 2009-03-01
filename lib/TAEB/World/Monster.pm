@@ -198,23 +198,15 @@ sub is_meleeable {
 
     return 0 unless $self->is_enemy;
 
-    # floating eye (paralysis)
-    return 0 if $self->color eq COLOR_BLUE
-             && $self->glyph eq 'e'
+    return 0 if any { $_->name eq 'floating eye'    } $self->possibilities
              && !TAEB->is_blind;
 
-    # blue jelly (cold)
-    return 0 if $self->color eq COLOR_BLUE
-             && $self->glyph eq 'j'
+    return 0 if any { $_->name eq 'blue jelly'      } $self->possibilities
              && !TAEB->cold_resistant;
 
-    # spotted jelly (acid)
-    return 0 if $self->color eq COLOR_GREEN
-             && $self->glyph eq 'j';
+    return 0 if any { $_->name eq 'spotted jelly'   } $self->possibilities;
 
-    # gelatinous cube (paralysis)
-    return 0 if $self->color eq COLOR_CYAN
-             && $self->glyph eq 'b'
+    return 0 if any { $_->name eq 'gelatinous cube' } $self->possibilities
              && $self->level->has_enemies > 1;
 
     return 1;
@@ -234,18 +226,12 @@ sub is_sleepable {
 
 sub respects_elbereth {
     my $self = shift;
-
-    return 0 if $self->glyph =~ /[A@]/;
-    return 0 if $self->is_minotaur;
-    # return 0 if $self->is_rider;
-    # return 0 if $self->is_blind && !$self->is_permanently_blind;
-
-    return 1;
+    return !$self->maybe('ignores_elbereth');
 }
 
 sub is_minotaur {
     my $self = shift;
-    $self->glyph eq 'H' && $self->color eq COLOR_BROWN
+    return any { $_->name eq 'minotaur' } $self->possibilities;
 }
 
 sub is_nymph {
@@ -255,20 +241,9 @@ sub is_nymph {
 
 sub is_unicorn {
     my $self = shift;
-    return 0 if $self->glyph ne 'u';
-    return 0 if $self->color eq COLOR_BROWN;
-
-    # this is coded somewhat strangely to deal with black unicorns being
-    # blue or dark gray
-    if ($self->color eq COLOR_WHITE) {
-        return 'Law';
-    }
-
-    if ($self->color eq COLOR_GRAY) {
-        return 'Neu';
-    }
-
-    return 'Cha';
+    # unicorns have unique appearances
+    return unless $self->definitely_known;
+    return ($self->possibilities)[0]->is_unicorn;
 }
 
 sub is_coaligned_unicorn {
@@ -297,12 +272,7 @@ sub is_ghost {
 sub can_move {
     my $self = shift;
 
-    # spotted jelly, blue jelly
-    return 0 if $self->glyph eq 'j';
-
-    # brown yellow green red mold
-    return 0 if $self->glyph eq 'F';
-
+    return 0 if all { $_->speed == 0 } $self->possibilities;
     return 0 if $self->is_oracle;
     return 1;
 }
@@ -342,9 +312,7 @@ Returns true if the player could see this monster using infravision.
 
 sub can_be_infraseen {
     my $self = shift;
-
-    return TAEB->has_infravision
-        && $self->glyph !~ /[abceijmpstvwyDEFLMNPSWXZ';:~]/; # evil evil should be in T:M:S XXX
+    return TAEB->has_infravision && $self->maybe('infravision_detectable');
 }
 
 =head2 speed :: Int
