@@ -75,13 +75,7 @@ sub send_messages {
     }
 }
 
-=head2 get_generic_response Paramhash -> Maybe Str
-
-Don't use this.
-
-=cut
-
-sub get_generic_response {
+sub _get_generic_response {
     my $self = shift;
     my %args = (
         responders => [ $self->responders ],
@@ -101,6 +95,7 @@ sub get_generic_response {
                         @captures,
                         $args{msg},
                     );
+
                     if (!defined $response) {
                         TAEB->log->publisher(blessed($responder) . " explicitly refrained from responding to $name.");
                     }
@@ -139,7 +134,7 @@ sub get_exceptional_response {
     my $self = shift;
     my $msg  = shift;
 
-    return $self->get_generic_response(
+    return $self->_get_generic_response(
         msg    => $msg,
         sets   => \@TAEB::ScreenScraper::exceptions,
         method => "exception",
@@ -159,7 +154,7 @@ sub get_response {
     my $self = shift;
     my $line = shift;
 
-    return $self->get_generic_response(
+    return $self->_get_generic_response(
         msg    => $line,
         sets   => \@TAEB::ScreenScraper::prompts,
         method => "respond",
@@ -178,7 +173,7 @@ sub get_location_request {
     my $self = shift;
     my $line = shift;
 
-    return $self->get_generic_response(
+    return $self->_get_generic_response(
         msg    => $line,
         sets   => \@TAEB::ScreenScraper::location_requests,
         method => "location",
