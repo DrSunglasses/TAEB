@@ -56,6 +56,21 @@ sub definitely_known {
     return @{ $self->possibilities } == 1;
 }
 
+sub spoiler {
+    my $self = shift;
+    return unless $self->definitely_known;
+    return ($self->possibilities)[0];
+}
+
+sub set_possibilities {
+    my $self = shift;
+    $self->possibilities([TAEB::Spoilers::Monster->lookup(
+        glyph => $self->glyph,
+        color => $self->color,
+        @_,
+    )]);
+}
+
 sub is_shk {
     my $self = shift;
 
