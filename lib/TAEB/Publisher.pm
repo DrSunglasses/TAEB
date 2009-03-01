@@ -20,7 +20,7 @@ has queued_messages => (
     default   => sub { [] },
     provides  => {
         push  => '_push_queued_messages',
-        empty => 'has_queued_messages',
+        shift => '_shift_queued_messages',
     },
 );
 
@@ -49,13 +49,11 @@ sub update {
 
 sub enqueue_message {
     my $self = shift;
-    my $msgname = shift;
+    my $name = shift;
 
-    return unless $msgname;
+    TAEB->log->publisher("Queued message $name.");
 
-    TAEB->log->publisher("Queued message $msgname.");
-
-    $self->_push_queued_messages(["msg_$msgname", @_]);
+    $self->_push_queued_messages(["msg_$name", @_]);
 }
 
 sub send_messages {
@@ -63,27 +61,24 @@ sub send_messages {
 
     # if a subscriber generates a message, we want to send it out this turn,
     # not next
-    while ($self->has_queued_messages) {
-        my @msgs = splice @{ $self->queued_messages };
+    while (my $msg = $self->_shift_queued_messages) {
+        my ($name, @args) = @$msg;
 
-        for (@msgs) {
-            my $msgname = shift @$_;
-            if (@$_) {
-                TAEB->log->publisher("Sending message $msgname with arguments @$_.");
+        if (@args) {
+            TAEB->log->publisher("Sending message $name with arguments @args.");
+        }
+        else {
+            TAEB->log->publisher("Sending message $name with no arguments.");
+        }
+
+        for my $recipient ($self->subscribers) {
+            next unless $recipient;
+
+            if ($recipient->can('send_message')) {
+                $recipient->send_message($name, @args);
             }
-            else {
-                TAEB->log->publisher("Sending message $msgname with no arguments.");
-            }
-
-            for my $recipient ($self->subscribers) {
-                next unless $recipient;
-
-                if ($recipient->can('send_message')) {
-                    $recipient->send_message($msgname, @$_);
-                }
-                if ($recipient->can($msgname)) {
-                    $recipient->$msgname(@$_)
-                }
+            if ($recipient->can($name)) {
+                $recipient->$name(@args)
             }
         }
     }
