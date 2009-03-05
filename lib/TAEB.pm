@@ -326,7 +326,8 @@ sub handle_playing {
 sub handle_logging_in {
     my $self = shift;
 
-    if ($self->vt->contains("Hit space to continue: ")) {
+    if ($self->vt->contains("Hit space to continue: ") ||
+	$self->vt->contains("Hit return to continue: ")) {
         # This message is sent by NetHack if it itself encounters an error
         # during the login process. If NetHack can't run, we can't play it,
         # so bail out.
