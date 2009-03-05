@@ -207,8 +207,8 @@ sub draw_botl {
 
         my $timebuf = $self->time_buffer;
         if (@$timebuf > 1) {
-            my $spf = ($$timebuf[0] - $$timebuf[-1]) / (@$timebuf - 1);
-            push @pieces, sprintf "%1.1fs", $spf;
+            my $secs = $timebuf->[0] - $timebuf->[1];
+            push @pieces, sprintf "%1.1fs", $secs;
         }
 
         $status = join ' ', @pieces;
@@ -487,7 +487,7 @@ sub msg_step {
     my $list = $self->time_buffer;
 
     unshift @$list, $time;
-    splice @$list, 5 if @$list > 5;
+    splice @$list, 2 if @$list > 2;
 }
 
 sub get_key { Curses::getch }
