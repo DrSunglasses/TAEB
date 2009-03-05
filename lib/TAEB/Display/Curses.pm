@@ -207,8 +207,8 @@ sub draw_botl {
 
         my $timebuf = $self->time_buffer;
         if (@$timebuf > 1) {
-            my $fps = (@$timebuf - 1) / ($$timebuf[0] - $$timebuf[-1]);
-            push @pieces, sprintf "F:%1.1f", $fps;
+            my $spf = ($$timebuf[0] - $$timebuf[-1]) / (@$timebuf - 1);
+            push @pieces, sprintf "%1.1fs", $spf;
         }
 
         $status = join ' ', @pieces;
