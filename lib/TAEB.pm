@@ -295,9 +295,13 @@ sub iterate {
         TAEB->display->deinitialize;
 
         local $SIG{__DIE__};
-        die $@ unless $@ =~ /^The game has ended\.|The game has been saved\./;
+        die $@ unless $@ =~ /^The\ game\ has\ ended\.
+                             |The\ game\ has\ been\ saved\.
+                             |The\ game\ could\ not\ start\./x;
 
-        return TAEB->state eq 'dying'
+        return TAEB->state eq 'unable_to_login'
+             ? TAEB::Message::Report::CouldNotStart->new
+             : TAEB->state eq 'dying'
              ? TAEB->death_report
              : TAEB::Message::Report::Saved->new;
     }
@@ -322,7 +326,16 @@ sub handle_playing {
 sub handle_logging_in {
     my $self = shift;
 
-    if ($self->vt->contains("Shall I pick a character's ")) {
+    if ($self->vt->contains("Hit space to continue: ")) {
+        # This message is sent by NetHack if it itself encounters an error
+        # during the login process. If NetHack can't run, we can't play it,
+        # so bail out.
+        TAEB->log->main("NetHack itself has errored out, we can't continue.",
+                        level => 'info');
+        TAEB->state('unable_to_login');
+        die "The game could not start.";
+    }
+    elsif ($self->vt->contains("Shall I pick a character's ")) {
         TAEB->log->main("We are now in NetHack, starting a new character.");
         $self->write('n');
     }
