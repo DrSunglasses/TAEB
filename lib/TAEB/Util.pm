@@ -33,7 +33,7 @@ use constant \%colors;
 
 use Sub::Exporter -setup => {
     exports => [qw(tile_types trap_types delta2vi vi2delta deltas dice colors),
-                qw(crow_flies angle align2str display),
+                qw(crow_flies angle align2str display assert),
                 qw(item_menu hashref_menu object_menu list_menu),
                 keys %colors],
     groups => {
@@ -415,6 +415,13 @@ sub list_menu {
     );
     my $selected = TAEB->display_menu($menu) or return;
     item_menu("$title -> $selected", $selected => 1);
+}
+
+sub assert {
+    my ($condition, $explanation) = @_;
+
+    return if $condition;
+    TAEB->debug->console->repl($explanation);
 }
 
 do {
