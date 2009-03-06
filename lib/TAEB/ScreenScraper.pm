@@ -285,6 +285,12 @@ our %msg_string = (
         ['noise'],
     "That hurts!" =>
         ['noise'],
+    "This water's no good!" =>
+        [check => 'inventory'],
+    "You feel as if you need some help." =>
+        [check => 'inventory'],
+    "\"A curse upon thee for sitting upon this most holy throne!\"" =>
+        [check => 'inventory'],
     "Your right leg is in no shape for kicking." =>
         [status_change => wounded_legs => 1],
     "You hear nothing special." =>
@@ -480,6 +486,16 @@ our @msg_regex = (
     [
         qr/^You feel more confident in your (?:(weapon|spell casting|fighting) )?skills\.$/,
             [check => 'enhance'],
+    ],
+    # There's no message for cursing intervene() while blind and MRless :(
+    [
+        qr/^You notice a .* glow surrounding you\.$/, #SIC
+            [check => 'inventory'],
+    ],
+    # this can be the only message we get, if blind and MRless
+    [
+        qr/^The voice of.*: "Thou hast angered me\."$/,
+            [check => 'inventory'],
     ],
     [
         qr/^You cannot escape from (?:the )?(.*)!/,
