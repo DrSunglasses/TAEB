@@ -33,6 +33,10 @@ s
     Turn on single-step mode which will automatically wait for a keystroke
     after each turn.
 
+S
+    Toggle sanity check mode, in which TAEB's mental model is checked for
+    consistancy after every action.
+
 Esc
     Send the next keystroke to NetHack directly. If you need to do multiple
     keystrokes, switch to the Human AI or use the REPL to print to the socket.
