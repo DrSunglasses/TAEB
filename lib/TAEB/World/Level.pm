@@ -280,6 +280,45 @@ sub _beamable {
         && (!$nounknown || $tile->type ne 'unknown');
 }
 
+# FIXME this function has far too many parameters
+sub _beam_fly {
+    my ($self, $output, $bouncy, $dx, $dy, $oldx, $oldy, $range) = @_;
+
+    my ($newx, $newy) = ($dx+$oldx, $dy+$oldy);
+
+    my $tile = $self->at($newx, $newy);
+
+    push @$output, [$range - 1, $tile] if $tile;
+
+    return if $range <= 1;
+
+    my ($continue, $hmirror, $vmirror, $reflect) = (0,0,0,0);
+
+    $continue = 1 if _beamable($tile);
+    $reflect  = 1 if !_beamable($tile, 0, 1) && $bouncy;
+
+    if ($reflect && $dx && $dy) {
+        my $offside = $self->at($newx, $oldy);
+        my $into    = $self->at($newx+$dx, $oldy);
+
+        $hmirror = 1 if _beamable($offside, 1, 0) && _beamable($into);
+
+        $offside = $self->at($oldx, $newy);
+        $into    = $self->at($oldx, $newy+$dy);
+
+        $vmirror = 1 if _beamable($offside, 1, 0) && _beamable($into);
+    }
+
+    _beam_fly($self, $output, $bouncy,  $dx,  $dy, $newx, $newy,
+        $range-1) if $continue;
+    _beam_fly($self, $output, $bouncy,  $dx, -$dy, $newx, $newy,
+        $range-2) if $hmirror;
+    _beam_fly($self, $output, $bouncy, -$dx,  $dy, $newx, $newy,
+        $range-2) if $vmirror;
+    _beam_fly($self, $output, $bouncy, -$dx, -$dy, $newx, $newy,
+        $range-2) if $reflect;
+}
+
 sub radiate {
     my $self = shift;
     my $code = shift;
@@ -292,48 +331,13 @@ sub radiate {
     my $allowself = $args{allowself};
     my $bouncy    = $args{bouncy};
 
-    my $fly;
-    $fly = sub {
-        my ($output, $dx, $dy, $oldx, $oldy, $range) = @_;
-
-        my ($newx, $newy) = ($dx+$oldx, $dy+$oldy);
-
-        my $tile = $self->at($newx, $newy);
-
-        push @$output, [$range - 1, $tile] if $tile;
-
-        return if $range <= 1;
-
-        my ($continue, $hmirror, $vmirror, $reflect) = (0,0,0,0);
-
-        $continue = 1 if _beamable($tile);
-        $reflect  = 1 if !_beamable($tile, 0, 1) && $bouncy;
-
-        if ($reflect && $dx && $dy) {
-            my $offside = $self->at($newx, $oldy);
-            my $into    = $self->at($newx+$dx, $oldy);
-
-            $hmirror = 1 if _beamable($offside, 1, 0) && _beamable($into);
-
-            $offside = $self->at($oldx, $newy);
-            $into    = $self->at($oldx, $newy+$dy);
-
-            $vmirror = 1 if _beamable($offside, 1, 0) && _beamable($into);
-        }
-
-        $fly->($output,  $dx,  $dy, $newx, $newy, $range-1) if $continue;
-        $fly->($output,  $dx, -$dy, $newx, $newy, $range-2) if $hmirror;
-        $fly->($output, -$dx,  $dy, $newx, $newy, $range-2) if $vmirror;
-        $fly->($output, -$dx, -$dy, $newx, $newy, $range-2) if $reflect;
-    };
-
     # check each direction
     DIRECTION: for (deltas) {
         my ($dx, $dy) = @$_;
 
         my @accum = ();
 
-        $fly->(\@accum, $dx, $dy, TAEB->x, TAEB->y, $args{max});
+        _beam_fly($self, \@accum, $bouncy, $dx, $dy, TAEB->x, TAEB->y, $args{max});
 
         if (grep { $stopper->($_->[1]) ||
                 $_->[1] == TAEB->current_tile && !$allowself } @accum) {
