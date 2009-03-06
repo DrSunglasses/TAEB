@@ -146,7 +146,7 @@ sub msg_sanity {
 
             assert(@$inv, "equipment has a phantom $slot");
 
-            assert(refaddr $inv->[0] != refaddr $eq,
+            assert(refaddr $inv->[0] == refaddr $eq,
                 "$slot has different items in equipment and inventory");
         }
     }
