@@ -309,13 +309,13 @@ sub _beam_fly {
         $vmirror = 1 if _beamable($offside, 1, 0) && _beamable($into);
     }
 
-    _beam_fly($self, $output, $bouncy,  $dx,  $dy, $newx, $newy,
+    $self->_beam_fly($output, $bouncy,  $dx,  $dy, $newx, $newy,
         $range-1) if $continue;
-    _beam_fly($self, $output, $bouncy,  $dx, -$dy, $newx, $newy,
+    $self->_beam_fly($output, $bouncy,  $dx, -$dy, $newx, $newy,
         $range-2) if $hmirror;
-    _beam_fly($self, $output, $bouncy, -$dx,  $dy, $newx, $newy,
+    $self->_beam_fly($output, $bouncy, -$dx,  $dy, $newx, $newy,
         $range-2) if $vmirror;
-    _beam_fly($self, $output, $bouncy, -$dx, -$dy, $newx, $newy,
+    $self->_beam_fly($output, $bouncy, -$dx, -$dy, $newx, $newy,
         $range-2) if $reflect;
 }
 
@@ -337,7 +337,7 @@ sub radiate {
 
         my @accum = ();
 
-        _beam_fly($self, \@accum, $bouncy, $dx, $dy, TAEB->x, TAEB->y, $args{max});
+        $self->_beam_fly(\@accum, $bouncy, $dx, $dy, TAEB->x, TAEB->y, $args{max});
 
         if (grep { $stopper->($_->[1]) ||
                 $_->[1] == TAEB->current_tile && !$allowself } @accum) {
