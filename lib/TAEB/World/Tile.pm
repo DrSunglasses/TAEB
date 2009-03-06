@@ -50,13 +50,13 @@ has stepped_on => (
 );
 
 has x => (
-    is       => 'rw',
+    is       => 'ro',
     isa      => 'Int',
     required => 1,
 );
 
 has y => (
-    is       => 'rw',
+    is       => 'ro',
     isa      => 'Int',
     required => 1,
 );
