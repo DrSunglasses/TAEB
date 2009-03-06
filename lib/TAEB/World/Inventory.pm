@@ -110,6 +110,54 @@ sub msg_corpse_rot {
     }
 }
 
+sub msg_sanity {
+    my $self = shift;
+
+    {
+        use Scalar::Util 'refaddr';
+
+        my %invent_worn;
+
+        for my $item ($self->items) {
+            push @{$invent_worn{weapon}}, $item if $item->is_wielded;
+            push @{$invent_worn{offhand}}, $item if $item->is_offhand;
+            push @{$invent_worn{quiver}}, $item if $item->is_quivered;
+
+            if ($item->can("is_worn") && $item->is_worn) {
+                if ($item->can("hand")) {
+                    push @{$invent_worn{$item->hand . "_ring"}}, $item;
+                } else {
+                    push @{$invent_worn{$item->specific_slots->[0]}}, $item;
+                }
+            }
+        }
+
+        for my $slot ($self->equipment->slots) {
+
+            my $inv = $invent_worn{$slot} || [];
+            my $eq  = $self->$slot;
+
+            next if (!$eq && !@$inv);
+
+            if (!$eq) {
+                die "Equipment inconsistency: $slot is not registered in equipement";
+            }
+
+            if (@$inv > 1) {
+                die "Equipment inconsistency: $slot holds multiple items in inventory";
+            }
+
+            if (@$inv == 0) {
+                die "Equipment inconsistency: equipment has a phantom $slot";
+            }
+
+            if (refaddr $inv->[0] != refaddr $eq) {
+                die "Equipment inconsistency: $slot has different items in equipment and inventory";
+            }
+        }
+    }
+}
+
 __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
 
