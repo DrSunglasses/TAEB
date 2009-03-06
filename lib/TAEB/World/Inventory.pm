@@ -3,6 +3,7 @@ use TAEB::OO;
 extends 'NetHack::Inventory';
 
 use List::Util 'first';
+use TAEB::Util 'assert';
 
 use overload %TAEB::Meta::Overload::default;
 
@@ -139,21 +140,14 @@ sub msg_sanity {
 
             next if (!$eq && !@$inv);
 
-            if (!$eq) {
-                die "Equipment inconsistency: $slot is not registered in equipement";
-            }
+            assert($eq, "$slot is not registered in equipment");
 
-            if (@$inv > 1) {
-                die "Equipment inconsistency: $slot holds multiple items in inventory";
-            }
+            assert(@$inv <= 1, "$slot holds multiple items in inventory");
 
-            if (@$inv == 0) {
-                die "Equipment inconsistency: equipment has a phantom $slot";
-            }
+            assert(@$inv, "equipment has a phantom $slot");
 
-            if (refaddr $inv->[0] != refaddr $eq) {
-                die "Equipment inconsistency: $slot has different items in equipment and inventory";
-            }
+            assert(refaddr $inv->[0] != refaddr $eq,
+                "$slot has different items in equipment and inventory");
         }
     }
 }
