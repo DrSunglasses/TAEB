@@ -1363,7 +1363,7 @@ sub handle_location_request {
 sub handle_game_end {
     my $self = shift;
 
-    if (TAEB->topline =~ /^Do you want your possessions identified\?|^Die\?|^Really quit\?/) {
+    if (TAEB->topline =~ /^Do you want your possessions identified\?|^Die\?|^Really quit\?|^Do you want to see what you had when you died\?/) {
         TAEB->state('dying');
         TAEB->write('y');
         TAEB->log->scraper("Oh no! We died!");
