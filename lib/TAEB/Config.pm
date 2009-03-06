@@ -328,6 +328,8 @@ TAEB::Config
     # Configure various debugging plugins for TAEB here
     # name for the irc plugin defaults to the bot's name
     #debug:
+    #    sanity:
+    #        enabled: 0
     #    console:
     #        readline: Gnu
     #    irc:
