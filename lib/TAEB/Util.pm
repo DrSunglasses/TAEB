@@ -421,7 +421,7 @@ sub assert {
     my ($condition, $explanation) = @_;
 
     return if $condition;
-    TAEB->debug->console->repl($explanation);
+    TAEB->debugger->console->repl($explanation);
 }
 
 do {
