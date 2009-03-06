@@ -1,31 +1,4 @@
-- Explore optimization (taken by doy?)
-
-  - Track what squares need to be explored, only run Explore if there are any
-
-  - Should give -1 pathfind during boring ops (CurseCheck most notably)
-
-  - Pathfind cache as described below removes the need for this
-
-
-- Special room improvement
-
-  - When we enter a special room, pick a tile that is clearly inside
-
-  - Radiate out in cardinal directions
-
-  - If we hit a doorway or a wall, edge of room
-
-  - Repeat every couple dozen turns
-
-  - Will fix priest whack bug (priest stands outside temple area)
-
-  - But monster tracking would fix it better
-
-
-
 - Smarter searching (mostly done)
-
-  - Should move code into T:A:B:Search for performance/factoring
 
   - Don't search walls we can path around (requires getting the whole tree
     from dijkstra)
@@ -33,33 +6,12 @@
 
 - Armour swapping
 
-  - It's just a pathfinding problem.  Vertices are 53-bit strings representing
-    which items are worn... try to find the "best" reachable state.
+  - The current approach falls over with degenerate slots
 
-  - If you are at the best reachable state, drop unworn armour
+  - A better approach would probably be the greedy one
 
-  - Pick up armour if you are at the best reachable state, but wouldn't be if
-    you had this in inventory (hence 53).  Works best if UpgradeArmour >
-    GetItems.
-
-
-- Pathfind cache
-
-  - The path-finding methods take two extra arguments - an identifier (usually
-    a glob) and a cookie
-
-    - You agree that your predicate depends only on the map and the cookie
-
-  - The pathfind module keeps a hash of identifier -> path
-
-  - A path will be reused if it is less than 200 turns old, the cookie is the
-    same, and no part of the map has changed
-
-  - Usable by GetItems (cookie = interesting coord list), Explore, GotoTile;
-    these will very rarely pathfind (except Explore, which will make many
-    short pathfinds, but only while active)
-
-  - Not usable by Melee and Search
+  - For each item, see if we can approach a better state by putting it
+    on
 
 
 - When we do a pathfind, tile costs are partly determined by personality
@@ -80,23 +32,20 @@
 - Improve special level detection
 
 
-- Behaviors can override actions (taken by doy?)
+- Testing
 
-    - PickaxeFinder subs 'a'pplications for attempts to walk into rock
+  - A test is a situation, expressed in terms of a ttyrecish (probably
+    some human-editable format).  There is an interface for reading
+    ttyrecishes
 
-    - LevitateOverWater
+  - In test mode, TAEB does not load or save state and logs to memory
 
-    - DigAroundTraps
+  - Logs can be tested after the step in question
 
-    - Doors could go here, if it's not better to leave them all open
+  - Many tests will be expressed in terms of demo AI
 
-    - doy suggests Melee will reject attempts to eat rations, replacing
-      them with combat for corpses
+  - Test ability is a big deal; it is an enabler for a lot of caching
+    functions and real performance help
 
-  - Proposed implementation
-
-    - After a behavior does an action, go through the list of behaviors again
-      in reverse priority order and see if anybody wants a substitution?
-
-    - Or do normal priority order and only allow one hook (simpler, I
-      more or less understand the ramifications)
+  - Testing will probably have to be stacked on a process to be reasonably
+    fast
