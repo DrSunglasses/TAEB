@@ -73,7 +73,7 @@ features(
     # debugging tools
     'REPL on ~' => [
         -default => 1,
-        recommends('Devel::REPL'),
+        recommends('Carp::REPL'),
         recommends('Term::ReadLine::Gnu'),
     ],
     'IRC debug interface' => [
