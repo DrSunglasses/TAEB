@@ -489,7 +489,7 @@ our @msg_regex = (
     ],
     # There's no message for cursing intervene() while blind and MRless :(
     [
-        qr/^You notice a .* glow surrounding you\.$/, #SIC
+        qr/^You notice a .* glow surrounding you\.$/, # sic: "a orange glow"
             [check => 'inventory'],
     ],
     # this can be the only message we get, if blind and MRless
