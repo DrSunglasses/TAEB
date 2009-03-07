@@ -7,7 +7,7 @@ sub msg_key {
     my $key = shift;
     return unless $key eq '~';
 
-    $self->repl();
+    $self->repl(undef);
 }
 
 sub repl {
@@ -36,7 +36,7 @@ sub repl {
         require Carp::REPL;
     };
 
-    if ($@ && @_) {
+    if ($@ && @_ && defined($_[0])) {
         # We're dropping into the REPL because of an error from somewhere,
         # but Carp::REPL doesn't load (not installed?).  Report the actual
         # error.
