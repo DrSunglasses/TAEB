@@ -871,6 +871,19 @@ sub at_direction {
     $self->current_level->at($x + $dx, $y + $dy);
 }
 
+sub from_direction {
+    my $self      = shift;
+    my $direction = shift;
+
+    return $self->at_direction('<') if $direction eq '>';
+    return $self->at_direction('>') if $direction eq '<';
+
+    my ($dx, $dy) = vi2delta($direction);
+    my $from_direction = delta2vi(-$dx, -$dy);
+
+    return $self->at_direction($from_direction);
+}
+
 __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
 
