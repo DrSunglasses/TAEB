@@ -189,23 +189,7 @@ sub at_direction {
     my $y         = @_ > 1 ? shift : TAEB->y;
     my $direction = shift;
 
-    if ($direction eq '<' || $direction eq '>') {
-        my $current_tile = $self->at($x, $y);
-        if ($current_tile->isa('TAEB::World::Tile::Stairs')
-         && $current_tile->traverse_command eq $direction) {
-            return $current_tile->other_side;
-        }
-        else {
-            my $error = sprintf "Tried to find the other side of %sstaircase",
-                $current_tile->isa('TAEB::World::Tile::Stairs')
-                    ? "a non-" : "the wrong type of ";
-            TAEB->log->level($error, level => 'error');
-            return;
-        }
-    }
-
-    my ($dx, $dy) = vi2delta($direction);
-    $self->at($x + $dx, $y + $dy);
+    $self->at($x, $y)->at_direction($direction);
 }
 
 sub update_tile {

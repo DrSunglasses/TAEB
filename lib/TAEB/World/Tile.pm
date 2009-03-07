@@ -849,6 +849,28 @@ sub is_searchable {
         || $self->type eq 'unexplored';
 }
 
+sub at_direction {
+    my $self      = shift;
+    my $direction = shift;
+
+    if ($direction eq '<' || $direction eq '>') {
+        if ($self->isa('TAEB::World::Tile::Stairs')
+         && $self->traverse_command eq $direction) {
+            return $self->other_side;
+        }
+        else {
+            my $error = sprintf "Tried to find the other side of %sstaircase",
+                $self->isa('TAEB::World::Tile::Stairs')
+                    ? "a non-" : "the wrong type of ";
+            TAEB->log->level($error, level => 'error');
+            return;
+        }
+    }
+
+    my ($dx, $dy) = vi2delta($direction);
+    $self->current_level->at($x + $dx, $y + $dy);
+}
+
 __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
 
