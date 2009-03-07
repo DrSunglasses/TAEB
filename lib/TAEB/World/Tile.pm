@@ -868,7 +868,7 @@ sub at_direction {
     }
 
     my ($dx, $dy) = vi2delta($direction);
-    $self->current_level->at($x + $dx, $y + $dy);
+    $self->current_level->at($self->x + $dx, $self->y + $dy);
 }
 
 sub from_direction {
