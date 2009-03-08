@@ -42,8 +42,6 @@ around new => sub {
         $action = 'Descend';
     }
 
-    assert(!TAEB->current_level->at_direction($start)->has_monster, "no monster at $start direction");
-
     if ($action) {
         return "TAEB::Action::$action"->new(%args);
     }
