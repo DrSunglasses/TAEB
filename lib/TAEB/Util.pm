@@ -33,7 +33,7 @@ use constant \%colors;
 
 use Sub::Exporter -setup => {
     exports => [qw(tile_types trap_types delta2vi vi2delta deltas dice colors),
-                qw(crow_flies angle align2str display assert),
+                qw(crow_flies angle align2str display assert assert_is),
                 qw(item_menu hashref_menu object_menu list_menu),
                 keys %colors],
     groups => {
@@ -417,15 +417,29 @@ sub list_menu {
     item_menu("$title -> $selected", $selected => 1);
 }
 
+sub _add_file_line {
+    my $explanation = shift;
+
+    my (undef, $file, $line) = caller(1);
+    return $explanation .= " at $file line $line";
+}
+
 sub assert {
     my ($condition, $explanation) = @_;
 
     return if $condition;
 
-    my (undef, $file, $line) = caller;
-    $explanation .= " at $file line $line";
+    TAEB->debugger->console->repl(_add_file_line($explanation));
+}
 
-    TAEB->debugger->console->repl($explanation);
+sub assert_is {
+    my ($got, $expected, $explanation) = @_;
+
+    return if !defined($got) && !defined($expected);
+    return if defined($got) && defined($expected) && $got eq $expected;
+
+    $explanation = "$got does not equal $expected\n$explanation"
+    TAEB->debugger->console->repl(_add_file_line(_add_file_line($explanation)));
 }
 
 do {
