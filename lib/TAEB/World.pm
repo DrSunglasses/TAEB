@@ -1,6 +1,7 @@
 package TAEB::World;
 use strict;
 use warnings;
+use TAEB::Meta::Overload;
 
 use Module::Pluggable (
     require     => 1,
@@ -33,6 +34,12 @@ sub _find_item_role {
 
 for my $class (__PACKAGE__->load_nhi_classes) {
     next if $class =~ /Spoiler/;
+    taebify($class);
+}
+
+sub taebify {
+    my $class = shift;
+
     (my $taeb_class = $class) =~ s/^NetHack::Item/TAEB::World::Item/;
     Moose::Meta::Class->create(
         $taeb_class,
