@@ -1476,6 +1476,7 @@ sub send_messages {
     my $self = shift;
 
     for my $line ($self->all_messages) {
+        study $line;
         my @messages;
 
         if (exists $msg_string{$line}) {
