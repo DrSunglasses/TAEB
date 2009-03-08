@@ -421,6 +421,10 @@ sub assert {
     my ($condition, $explanation) = @_;
 
     return if $condition;
+
+    my (undef, $file, $line) = caller;
+    $explanation .= " at $file line $line";
+
     TAEB->debugger->console->repl($explanation);
 }
 
