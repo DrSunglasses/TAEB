@@ -1,6 +1,8 @@
 ---
 ai: Behavioral::Personality::Explorer
 
+display: Curses
+
 interface: Telnet
 interface_options:
     Telnet:
@@ -11,8 +13,6 @@ interface_options:
         read_iterations: 2
         args: ['-D']
 
-display: Curses
-
 character:
     role: Valkyrie
     race: Dwarf
@@ -22,3 +22,4 @@ character:
 other_config:
     - pass_config.yml
     - temp_config.yml
+
