@@ -1,6 +1,6 @@
 package TAEB::Action::Move;
 use TAEB::OO;
-use TAEB::Util 'vi2delta';
+use TAEB::Util qw/vi2delta assert/;
 extends 'TAEB::Action';
 with 'TAEB::Action::Role::Direction';
 
@@ -41,6 +41,8 @@ around new => sub {
     elsif ($start eq '>') {
         $action = 'Descend';
     }
+
+    assert(!TAEB->current_level->at_direction($start)->has_monster, "no monster at $start direction");
 
     if ($action) {
         return "TAEB::Action::$action"->new(%args);
