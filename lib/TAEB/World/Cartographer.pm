@@ -1,6 +1,7 @@
 package TAEB::World::Cartographer;
 use TAEB::OO;
 use NetHack::FOV 'calculate_fov';
+use TAEB::Util 'assert';
 
 has dungeon => (
     is       => 'ro',
@@ -327,7 +328,7 @@ sub msg_remove_floor_item {
 
     return if $item->is_auto_picked_up;
 
-    TAEB->log->cartographer("Unable to remove $item from the floor. Did we just pick it up or no?", level => 'error');
+    assert(0, "Unable to remove $item from the floor.");
 }
 
 sub msg_floor_message {
