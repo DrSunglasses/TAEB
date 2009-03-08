@@ -51,7 +51,7 @@ sub try_hunt {
         return $tile->has_enemy
             && $tile->monster->is_meleeable
             && !$tile->monster->is_seen_through_warning
-    });
+    }, include_endpoints => 1);
 }
 
 # If we're on stairs then descend.
