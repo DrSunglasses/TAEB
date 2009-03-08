@@ -41,40 +41,6 @@ around new => sub {
     elsif ($start eq '>') {
         $action = 'Descend';
     }
-    else {
-        # XXX: this code is temporary. if the AI says to move, we move. since
-        # our framework can't always cope with that, we have these workarounds
-        my $monster = TAEB->current_level->at_direction($start)->monster;
-        if (defined $monster && $monster->can_move) {
-            TAEB->log->action("Trying to move into an uncooperative " .
-                $monster->glyph . "; Elberething instead.");
-            if ($monster->respects_elbereth && TAEB->elbereth_count == 0) {
-                $action = 'Engrave';
-                %args = ();
-            }
-            elsif (!defined($monster->is_shk) || $monster->is_shk) {
-                # Shopkeeps don't usually move unless we do ...
-                my @poss;
-                TAEB->current_tile->each_adjacent(sub {
-                    my ($tile, $dir) = @_;
-                    push @poss, $dir if $tile->is_walkable
-                                     && !$tile->has_monster;
-                });
-
-                if (@poss) {
-                    $action = 'Move';
-                    $args{direction} = $poss[rand @poss];
-                } else {
-                    $action = 'Search';
-                    %args = ();
-                }
-            }
-            else {
-                $action = 'Search';
-                %args = (iterations => 1);
-            }
-        }
-    }
 
     if ($action) {
         return "TAEB::Action::$action"->new(%args);
