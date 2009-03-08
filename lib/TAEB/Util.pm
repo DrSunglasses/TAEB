@@ -438,8 +438,10 @@ sub assert_is {
     return if !defined($got) && !defined($expected);
     return if defined($got) && defined($expected) && $got eq $expected;
 
-    $explanation = "Assertion failed: $got does not equal $expected\n$explanation"
-    TAEB->debugger->console->repl(_add_file_line(_add_file_line($explanation)));
+    $explanation = "Assertion failed: " . _add_file_line($explanation) . "\n";
+    $explanation .= "'$got' does not equal '$expected'";
+
+    TAEB->debugger->console->repl(_add_file_line($explanation));
 }
 
 do {
