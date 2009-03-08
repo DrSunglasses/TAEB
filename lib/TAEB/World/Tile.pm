@@ -280,6 +280,9 @@ sub is_walkable {
     # pathing through boulders is handled by dedicated behaviors
     return 0 if $self->has_boulder;
 
+    # monsters are not pathable!
+    return 0 if $self->has_monster;
+
     # traps are unpathable in Sokoban
     return 0 if $self->type eq 'trap'
              && $self->level->known_branch
