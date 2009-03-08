@@ -429,7 +429,7 @@ sub assert {
 
     return if $condition;
 
-    TAEB->debugger->console->repl(_add_file_line($explanation));
+    TAEB->debugger->console->repl(_add_file_line("Assertion failed: $explanation"));
 }
 
 sub assert_is {
@@ -438,7 +438,7 @@ sub assert_is {
     return if !defined($got) && !defined($expected);
     return if defined($got) && defined($expected) && $got eq $expected;
 
-    $explanation = "$got does not equal $expected\n$explanation"
+    $explanation = "Assertion failed: $got does not equal $expected\n$explanation"
     TAEB->debugger->console->repl(_add_file_line(_add_file_line($explanation)));
 }
 
