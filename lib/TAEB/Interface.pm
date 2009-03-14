@@ -49,7 +49,7 @@ sub write {
 
     TAEB->log->interface("Sending '$text'");
 
-    inner($text);
+    inner();
 }
 
 __PACKAGE__->meta->make_immutable;
