@@ -24,6 +24,16 @@ has queued_messages => (
     },
 );
 
+has is_paused => (
+    metaclass => 'Bool',
+    is        => 'rw',
+    isa       => 'Bool',
+    provides  => {
+        set   => 'pause',
+        unset => 'unpause',
+    },
+);
+
 before subscribe => sub {
     my $self = shift;
     my $class = shift;
