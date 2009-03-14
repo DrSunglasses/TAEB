@@ -357,9 +357,9 @@ sub handle_logging_in {
     }
     elsif ($self->topline =~ qr/, welcome( back)? to NetHack!/) {
         $self->new_game($1 ? 0 : 1);
+        $self->state('playing');
         $self->send_message('check');
         $self->send_message('game_started');
-        $self->state('playing');
     }
     elsif ($self->topline =~ /^\s*It is written in the Book of /) {
         TAEB->log->main("Using TAEB's nethackrc is MANDATORY. Use $0 --rc.",
