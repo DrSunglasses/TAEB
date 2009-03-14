@@ -73,7 +73,7 @@ sub done {
               || TAEB->z - $self->starting_tile->z;
 
     if ($walked) {
-        TAEB->enqueue_message('walked');
+        TAEB->send_message('walked');
 
         # the rest applies only if we haven't moved
         return;
@@ -146,7 +146,7 @@ sub msg_trapdoor {
 
 sub msg_got_item {
     my $self = shift;
-    TAEB->enqueue_message(remove_floor_item => @_);
+    TAEB->send_message(remove_floor_item => @_);
 }
 
 sub msg_hidden_monster { shift->hit_obscured_monster(1) }

@@ -16,7 +16,7 @@ has enabled => (
 sub msg_step {
     my $self = shift;
 
-    TAEB->enqueue_message('sanity') if $self->enabled;
+    TAEB->send_message('sanity') if $self->enabled;
 }
 
 sub msg_key {

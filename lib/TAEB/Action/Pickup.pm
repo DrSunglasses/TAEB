@@ -14,17 +14,17 @@ sub command { (shift->count || '') . ',' }
 
 sub msg_got_item {
     my $self = shift;
-    TAEB->enqueue_message(remove_floor_item => @_); #what about stacks?
+    TAEB->send_message(remove_floor_item => @_); #what about stacks?
 }
 
 sub begin_select_pickup {
-    TAEB->enqueue_message('clear_floor');
+    TAEB->send_message('clear_floor');
 }
 
 sub select_pickup {
     my $item = TAEB->new_item($_)
         or return;
-    TAEB->enqueue_message('floor_item' => $item);
+    TAEB->send_message('floor_item' => $item);
     TAEB->want_item($item);
 }
 

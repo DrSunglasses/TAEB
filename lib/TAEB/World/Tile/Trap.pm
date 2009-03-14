@@ -26,7 +26,7 @@ sub reblessed {
             $self->trap_type(grep { /^(?:pit|hole)$/ } @$trap_type);
             return;
         }
-        TAEB->enqueue_message(check => tile => $self);
+        TAEB->send_message(check => tile => $self);
     }
     else {
         $self->trap_type($trap_type);

@@ -28,7 +28,7 @@ sub reblessed {
         return;
     }
 
-    TAEB->enqueue_message(check => tile => $self);
+    TAEB->send_message(check => tile => $self);
 }
 
 sub farlooked {

@@ -31,8 +31,8 @@ sub respond_sacrifice_what {
     }
     TAEB->log->action("Unable to sacrifice '" . $self->item . "'. Sending escape, but I doubt this will work.", level => 'error');
 
-    TAEB->enqueue_message(check => 'inventory');
-    TAEB->enqueue_message(check => 'floor');
+    TAEB->send_message(check => 'inventory');
+    TAEB->send_message(check => 'floor');
     return "\e\e\e";
 }
 
@@ -46,7 +46,7 @@ sub msg_sacrifice_gone {
     else {
         #This doesn't work well with a stack of corpses on the floor
         #because maybe_is used my remove_floor_item tries to match quantity
-        TAEB->enqueue_message(remove_floor_item => $item);
+        TAEB->send_message(remove_floor_item => $item);
     }
 }
 

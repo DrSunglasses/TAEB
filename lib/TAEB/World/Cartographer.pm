@@ -96,7 +96,7 @@ sub update {
     if ($tile_changed) {
         $self->autoexplore;
         $self->dungeon->current_level->detect_branch;
-        TAEB->enqueue_message('tile_changes');
+        TAEB->send_message('tile_changes');
     }
 
     if ($tile_changed || $self->x != $old_x || $self->y != $old_y) {
@@ -185,7 +185,7 @@ sub check_dlvl {
         TAEB->log->cartographer("Created level: $newlevel");
 
         $self->dungeon->current_level($newlevel);
-        TAEB->enqueue_message('dlvl_change', $level->z => $dlvl);
+        TAEB->send_message('dlvl_change', $level->z => $dlvl);
     }
 
     return 1;
@@ -458,12 +458,12 @@ sub is_engulfed {
         return 0 unless TAEB->is_engulfed;
 
         TAEB->log->cartographer("We're no longer engulfed! I expected to see $glyph at delta ($dx, $dy) but I saw $got.");
-        TAEB->enqueue_message(engulfed => 0);
+        TAEB->send_message(engulfed => 0);
         return 0;
     }
 
     TAEB->log->cartographer("We're engulfed!");
-    TAEB->enqueue_message(engulfed => 1);
+    TAEB->send_message(engulfed => 1);
     return 1;
 }
 

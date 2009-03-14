@@ -520,7 +520,7 @@ our @msg_regex = (
     [
         qr/^You (?:see|feel) here (.*?)\./,
             ['floor_item', sub {
-                TAEB->enqueue_message('clear_floor');
+                TAEB->send_message('clear_floor');
                 TAEB->new_item($1); }],
     ],
     [
@@ -1093,8 +1093,8 @@ sub handle_attributes {
             undef : $polyrace);
 
         TAEB->log->scraper(sprintf 'It seems we are a %s %s %s %s named %s.', TAEB->role, TAEB->race, TAEB->gender, TAEB->align, TAEB->name);
-        TAEB->enqueue_message('character', TAEB->name, TAEB->role, TAEB->race,
-                                           TAEB->gender, TAEB->align);
+        TAEB->send_message('character', TAEB->name, TAEB->role, TAEB->race,
+                                        TAEB->gender, TAEB->align);
 
         TAEB->write(' ');
         _recurse;
@@ -1116,14 +1116,14 @@ sub handle_more_menus {
             my ($identity, $appearance) = /^\s+(.*?) \((.*?)\)/
                 or return;
             TAEB->log->scraper("Discovery: $appearance is $identity");
-            TAEB->enqueue_message('discovery', $identity, $appearance);
+            TAEB->send_message('discovery', $identity, $appearance);
         };
     }
     elsif (TAEB->topline =~ /Things that (?:are|you feel) here:/
         || ($line_3 = TAEB->vt->row_plaintext(2) =~ /Things that (?:are|you feel) here:/)
     ) {
         $self->messages($self->messages . '  ' . TAEB->topline) if $line_3;
-        TAEB->enqueue_message('clear_floor');
+        TAEB->send_message('clear_floor');
         $self->saw_floor_list_this_step(1);
         my $skip = 1;
         $each = sub {
@@ -1134,7 +1134,7 @@ sub handle_more_menus {
 
             my $item = TAEB->new_item($_);
             TAEB->log->scraper("Adding $item to the current tile.");
-            TAEB->enqueue_message('floor_item' => $item);
+            TAEB->send_message('floor_item' => $item);
             return 0;
         };
     }
@@ -1230,7 +1230,7 @@ sub handle_menus {
                 /^(.*?)\s+\d([ *])\s+\w+\s+(\d+)%\s*$/
                     or return;
 
-            TAEB->enqueue_message('know_spell',
+            TAEB->send_message('know_spell',
                 $slot, $name, $forgotten eq '*', $fail);
 
             return;
@@ -1256,13 +1256,13 @@ sub handle_menus {
                 # dropping a part of the stack
                 if (ref($drop) && $$drop < $item->quantity) {
                     my $new_item = $item->fork_quantity($$drop);
-                    TAEB->enqueue_message('floor_item' => $new_item);
+                    TAEB->send_message('floor_item' => $new_item);
                     return $$drop;
                 }
                 # dropping the whole stack
                 elsif ($drop) {
                     TAEB->inventory->remove($slot) if $item;
-                    TAEB->enqueue_message('floor_item' => $item);
+                    TAEB->send_message('floor_item' => $item);
                     return 'all';
                 }
             }
@@ -1467,7 +1467,7 @@ sub all_messages {
 
 =head2 send_messages
 
-Iterate over all_messages, invoking TAEB->enqueue_message for each one we know
+Iterate over all_messages, invoking TAEB->send_message for each one we know
 about.
 
 =cut
@@ -1498,7 +1498,7 @@ sub send_messages {
         if (@messages) {
             my $msg_names = join ', ', map { $_->[0] } @messages;
             TAEB->log->scraper("Sending '$msg_names' in response to '$line'");
-            TAEB->enqueue_message(@$_) for @messages;
+            TAEB->send_message(@$_) for @messages;
         }
         else {
             TAEB->log->scraper("I don't understand this message: $line");

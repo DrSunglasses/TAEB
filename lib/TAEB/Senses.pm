@@ -360,7 +360,7 @@ sub update {
 
     if ($main) {
         $self->inc_step;
-        TAEB->enqueue_message(step => $self->step);
+        TAEB->send_message(step => $self->step);
     }
 
     $self->parse_botl;
@@ -369,7 +369,7 @@ sub update {
     if ($self->prev_turn) {
         if ($self->turn != $self->prev_turn) {
             for ($self->prev_turn + 1 .. $self->turn) {
-                TAEB->enqueue_message(turn => $_);
+                TAEB->send_message(turn => $_);
             }
         }
     }
@@ -456,7 +456,7 @@ sub in_pray_heal_range {
 sub msg_beartrap {
     my $self = shift;
     $self->in_beartrap(1);
-    TAEB->enqueue_message('dungeon_feature' => 'trap' => 'bear trap');
+    TAEB->send_message('dungeon_feature' => 'trap' => 'bear trap');
 }
 
 sub msg_walked {
@@ -515,13 +515,13 @@ sub msg_resistance_change {
 sub msg_pit {
     my $self = shift;
     $self->msg_status_change(pit => @_);
-    TAEB->enqueue_message('dungeon_feature' => 'trap' => 'pit');
+    TAEB->send_message('dungeon_feature' => 'trap' => 'pit');
 }
 
 sub msg_web {
     my $self = shift;
     $self->msg_status_change(web => @_);
-    TAEB->enqueue_message('dungeon_feature' => 'trap' => 'web');
+    TAEB->send_message('dungeon_feature' => 'trap' => 'web');
 }
 
 sub msg_life_saving {
@@ -539,7 +539,7 @@ sub msg_life_saving {
 
     # oh well, i guess it wasn't my "oLS
     # trigger a discoveries check if we didn't know the appearance
-    TAEB->enqueue_message(check => 'discoveries') if
+    TAEB->send_message(check => 'discoveries') if
         TAEB->item_pool->possible_appearances_of("amulet of life saving") > 1;
 }
 
@@ -747,7 +747,7 @@ sub msg_debt {
     # how much we owe with the $ command
     $self->debt($gold);
     if (!defined($gold)) {
-        TAEB->enqueue_message(check => 'debt');
+        TAEB->send_message(check => 'debt');
     }
 }
 
@@ -840,7 +840,7 @@ sub _check_tile {
     my $tile = shift;
 
     my $msg = TAEB->farlook($tile);
-    TAEB->enqueue_message('farlooked' => $tile, $msg);
+    TAEB->send_message('farlooked' => $tile, $msg);
 }
 
 sub msg_noise {

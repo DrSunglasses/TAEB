@@ -19,7 +19,7 @@ sub msg_nothing_happens {
     # nothing happens is good! we know we don't have these status effects
     if ($item->match(identity => 'unicorn horn')) {
         for (qw/blindness confusion stunning hallucination/) {
-            TAEB->enqueue_message(status_change => $_ => 0);
+            TAEB->send_message(status_change => $_ => 0);
         }
     }
 }

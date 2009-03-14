@@ -36,8 +36,8 @@ sub respond_buy_item {
 
 sub done {
     # XXX: hackish
-    TAEB->enqueue_message('check', 'inventory');
-    TAEB->enqueue_message('check', 'debt');
+    TAEB->send_message('check', 'inventory');
+    TAEB->send_message('check', 'debt');
 }
 
 __PACKAGE__->meta->make_immutable;

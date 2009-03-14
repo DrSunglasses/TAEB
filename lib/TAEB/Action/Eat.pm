@@ -29,8 +29,8 @@ sub respond_eat_what {
 
     TAEB->log->action("Unable to eat '" . $self->food . "'. Sending escape, but I doubt this will work.", level => 'error');
 
-    TAEB->enqueue_message(check => 'inventory');
-    TAEB->enqueue_message(check => 'floor');
+    TAEB->send_message(check => 'inventory');
+    TAEB->send_message(check => 'floor');
     $self->aborted(1);
     return "\e\e\e";
 }
@@ -44,7 +44,7 @@ sub msg_stopped_eating {
     #item from inventory
     my $what = (blessed $item && $item->slot) ? 'inventory' : 'floor';
     TAEB->log->action("Stopped eating $item from $what");
-    TAEB->enqueue_message(check => $what);
+    TAEB->send_message(check => $what);
 
     return;
 }
@@ -59,7 +59,7 @@ sub post_responses {
     else {
         #This doesn't work well with a stack of corpses on the floor
         #because maybe_is used my remove_floor_item tries to match quantity
-        TAEB->enqueue_message(remove_floor_item => $item);
+        TAEB->send_message(remove_floor_item => $item);
     }
 
     my $old_nutrition = TAEB->nutrition;

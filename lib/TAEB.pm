@@ -196,7 +196,7 @@ class_has publisher => (
     isa     => 'TAEB::Publisher',
     lazy    => 1,
     default => sub { TAEB::Publisher->new },
-    handles => [qw/enqueue_message get_exceptional_response get_response get_location_request remove_messages menu_select single_select/],
+    handles => [qw/send_message get_exceptional_response get_response get_location_request remove_messages menu_select single_select/],
 );
 
 class_has action => (
@@ -358,8 +358,8 @@ sub handle_logging_in {
     }
     elsif ($self->topline =~ qr/, welcome( back)? to NetHack!/) {
         $self->new_game($1 ? 0 : 1);
-        $self->enqueue_message('check');
-        $self->enqueue_message('game_started');
+        $self->send_message('check');
+        $self->send_message('game_started');
         $self->state('playing');
     }
     elsif ($self->topline =~ /^\s*It is written in the Book of /) {
@@ -536,7 +536,7 @@ sub keypress {
     # space is always a noncommand
     return if $c eq ' ';
 
-    $self->enqueue_message('key' => $c);
+    $self->send_message('key' => $c);
     return;
 }
 
@@ -637,7 +637,7 @@ sub quit {
 sub save {
     my $self = shift;
     $self->write("   \e   \e     S");
-    $self->enqueue_message('save');
+    $self->send_message('save');
 }
 
 sub persistent_file {

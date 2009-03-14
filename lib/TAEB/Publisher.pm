@@ -50,7 +50,7 @@ after unpause => sub {
     shift->send_queued_messages;
 };
 
-sub enqueue_message {
+sub _enqueue_message {
     my $self = shift;
     my $name = shift;
 
@@ -65,7 +65,7 @@ sub send_message {
 
     my ($name, @args) = @$msg;
 
-    return $self->enqueue_message($name, @args) if $self->is_paused;
+    return $self->_enqueue_message($name, @args) if $self->is_paused;
 
     if (@args) {
         TAEB->log->publisher("Sending message $name with arguments @args.");
