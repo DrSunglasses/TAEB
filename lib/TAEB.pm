@@ -384,12 +384,14 @@ sub full_input {
 
         $self->dungeon->update($main_call);
         $self->senses->update($main_call);
+        $self->publisher->unpause;
 
         $self->redraw;
         $self->display_topline;
     }
-
-    $self->publisher->unpause;
+    else {
+        $self->publisher->unpause;
+    }
 }
 
 sub process_input {
