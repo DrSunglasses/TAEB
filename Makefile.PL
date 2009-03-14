@@ -74,7 +74,6 @@ features(
     'REPL on ~' => [
         -default => 1,
         recommends('Carp::REPL'),
-        recommends('Term::ReadLine::Gnu'),
     ],
     'IRC debug interface' => [
         -default => 0,
