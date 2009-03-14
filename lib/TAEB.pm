@@ -312,10 +312,9 @@ sub iterate {
 sub handle_playing {
     my $self = shift;
 
-    if ($self->has_action && !$self->action->aborted) {
-        $self->action->done;
-        $self->publisher->send_messages;
-    }
+    $self->action->done
+        if $self->has_action
+        && !$self->action->aborted;
 
     $self->currently('?');
     $self->action($self->next_action);
@@ -376,6 +375,7 @@ sub full_input {
 
     $self->scraper->clear;
 
+    $self->publisher->pause;
     $self->process_input;
 
     unless ($self->state eq 'logging_in') {
@@ -384,11 +384,12 @@ sub full_input {
 
         $self->dungeon->update($main_call);
         $self->senses->update($main_call);
-        $self->publisher->update($main_call);
 
         $self->redraw;
         $self->display_topline;
     }
+
+    $self->publisher->unpause;
 }
 
 sub process_input {
