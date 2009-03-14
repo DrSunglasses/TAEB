@@ -56,7 +56,7 @@ sub _enqueue_message {
 
     TAEB->log->publisher("Queued message $name.");
 
-    $self->_push_queued_messages(["msg_$name", @_]);
+    $self->_push_queued_messages([$name, @_]);
 }
 
 sub send_message {
@@ -73,14 +73,15 @@ sub send_message {
         TAEB->log->publisher("Sending message $name with no arguments.");
     }
 
+    my $method = "msg_$name";
     for my $recipient ($self->subscribers) {
         next unless $recipient;
 
         if ($recipient->can('send_message')) {
             $recipient->send_message($name, @args);
         }
-        if ($recipient->can($name)) {
-            $recipient->$name(@args)
+        if ($recipient->can($method)) {
+            $recipient->$method(@args)
         }
     }
 }
