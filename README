@@ -4,21 +4,20 @@ The preferred method for obtaining the TAEB source is from the darcs repo:
     darcs get --partial http://sartak.org/code/TAEB/
 
 Alternatively, you can download "http://sartak.org/dist/TAEB.tar.gz" and
-extract to the directory of your choice. The rest of the instructions assume
-you are in this directory.
+extract to the directory of your choice.
 
-Downloading the tarball means less work up front (no need to install darcs),
-but it'll be more work every time you want to update.
+You can also download TAEB from the CPAN: cpan -i TAEB
 
-Finally, you can download TAEB from the CPAN: cpan -i TAEB
+Downloading the tarball or installing from CPAN means less work up front (no
+need to install darcs), but it'll be more work every time you want to update.
 
 
--- INSTALLING
+-- INSTALLING FROM TARBALL
 
-If you're on Ubuntu, you'll first need to install the "build-essential"
-(for make) and "libncurses5-dev" (for the Curses library) packages.
+If you're on Ubuntu, you'll first need to install the "build-essential" (for
+make) and "libncurses5-dev" (for the Curses library) packages. If you are on OS
+X, you will need Xcode and probably a few packages from MacPorts.
 
-Warning: TAEB makes heavy use of CPAN.
 
 $ perl Makefile.PL
 
@@ -30,6 +29,9 @@ $ make && sudo make install
 This will install the modules from CPAN. TAEB's dependencies themselves
 usually have a few dependencies. All in all you're probably looking at
 about 60 modules.
+
+
+-- AI
 
 Though TAEB ships with a demo AI, you should still install a robust AI. The
 most actively developed AI is Behavioral. The preferred method to get it is
