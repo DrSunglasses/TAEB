@@ -39,16 +39,16 @@ before subscribe => sub {
     my $class = shift;
     TAEB->log->publisher("Subscribe: $class");
 };
+
 before unsubscribe => sub {
     my $self = shift;
     my $class = shift;
     TAEB->log->publisher("Unsubscribe: $class");
 };
 
-sub update {
-    my $self = shift;
-    $self->send_messages;
-}
+after unpause => sub {
+    shift->send_queued_messages;
+};
 
 sub enqueue_message {
     my $self = shift;
@@ -59,29 +59,38 @@ sub enqueue_message {
     $self->_push_queued_messages(["msg_$name", @_]);
 }
 
-sub send_messages {
+sub send_message {
+    my $self = shift;
+    my $msg  = shift;
+
+    my ($name, @args) = @$msg;
+
+    return $self->enqueue_message($name, @args) if $self->is_paused;
+
+    if (@args) {
+        TAEB->log->publisher("Sending message $name with arguments @args.");
+    }
+    else {
+        TAEB->log->publisher("Sending message $name with no arguments.");
+    }
+
+    for my $recipient ($self->subscribers) {
+        next unless $recipient;
+
+        if ($recipient->can('send_message')) {
+            $recipient->send_message($name, @args);
+        }
+        if ($recipient->can($name)) {
+            $recipient->$name(@args)
+        }
+    }
+}
+
+sub send_queued_messages {
     my $self = shift;
 
     while (my $msg = $self->_shift_queued_messages) {
-        my ($name, @args) = @$msg;
-
-        if (@args) {
-            TAEB->log->publisher("Sending message $name with arguments @args.");
-        }
-        else {
-            TAEB->log->publisher("Sending message $name with no arguments.");
-        }
-
-        for my $recipient ($self->subscribers) {
-            next unless $recipient;
-
-            if ($recipient->can('send_message')) {
-                $recipient->send_message($name, @args);
-            }
-            if ($recipient->can($name)) {
-                $recipient->$name(@args)
-            }
-        }
+        $self->send_message($msg);
     }
 }
 
