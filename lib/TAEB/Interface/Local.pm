@@ -96,13 +96,9 @@ This will write to the pty. It will die if an error occurs.
 
 =cut
 
-sub write {
+augment write => sub {
     my $self = shift;
     my $text = shift;
-
-    TAEB->log->interface("Called TAEB->write with no text.",
-                         level => 'error')
-        if length($text) == 0;
 
     die "Pty inactive." unless $self->is_active;
     my $chars = $self->pty->write($text, 1);
@@ -110,7 +106,7 @@ sub write {
 
     die "Pty closed." if $chars == 0;
     return $chars;
-}
+};
 
 __PACKAGE__->meta->make_immutable;
 no TAEB::OO;

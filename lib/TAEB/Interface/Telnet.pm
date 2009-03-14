@@ -130,12 +130,12 @@ This will write to the socket.
 
 =cut
 
-sub write {
+augment write => sub {
     my $self = shift;
     my $text = shift;
 
     print {$self->socket} $text;
-}
+};
 
 =head2 telnet_negotiation OPTION
 

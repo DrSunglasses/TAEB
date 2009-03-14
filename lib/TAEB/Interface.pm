@@ -41,7 +41,16 @@ Your subclass B<must> override this method.
 
 =cut
 
-sub write   { die "You must override the 'write' method in TAEB::Interface." }
+sub write {
+    my $self = shift;
+    my $text = shift;
+
+    return if !defined($text) || length($text) == 0;
+
+    TAEB->log->interface("Sending '$text'");
+
+    inner($text);
+}
 
 __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
