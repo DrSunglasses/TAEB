@@ -165,7 +165,11 @@ has checking => (
     is      => 'rw',
     isa     => 'Str',
     clearer => 'clear_checking',
-    trigger => sub { TAEB->redraw },
+    trigger => sub {
+        my (undef, $checking) = @_;
+        TAEB->log->senses("Checking $checking");
+        TAEB->redraw;
+    },
 );
 
 has last_prayed => (
