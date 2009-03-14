@@ -61,9 +61,8 @@ sub _enqueue_message {
 
 sub send_message {
     my $self = shift;
-    my $msg  = shift;
-
-    my ($name, @args) = @$msg;
+    my $name = shift;
+    my @args = @_;
 
     return $self->_enqueue_message($name, @args) if $self->is_paused;
 
@@ -90,7 +89,7 @@ sub send_queued_messages {
     my $self = shift;
 
     while (my $msg = $self->_shift_queued_messages) {
-        $self->send_message($msg);
+        $self->send_message(@$msg);
     }
 }
 
