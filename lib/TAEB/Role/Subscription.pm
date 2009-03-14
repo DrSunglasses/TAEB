@@ -5,9 +5,10 @@ use List::MoreUtils qw/any/;
 requires 'initialize';
 before initialize => sub {
     my $self = shift;
+
     TAEB->publisher->subscribe($self)
-        if (any { /^(?:msg|exception|respond)_/ || $_ eq 'send_message' }
-            $self->meta->get_method_list);
+        if $self->meta->has_method('send_message')
+        || any { /^(?:msg|exception|respond)_/ } $self->meta->get_method_list;
 };
 
 no Moose::Role;
