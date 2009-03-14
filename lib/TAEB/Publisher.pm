@@ -61,10 +61,11 @@ sub _enqueue_message {
 
 sub send_message {
     my $self = shift;
+
+    return $self->_enqueue_message(@_) if $self->is_paused;
+
     my $name = shift;
     my @args = @_;
-
-    return $self->_enqueue_message($name, @args) if $self->is_paused;
 
     if (@args) {
         TAEB->log->publisher("Sending message $name with arguments @args.");
