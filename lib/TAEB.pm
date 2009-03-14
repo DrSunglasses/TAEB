@@ -357,8 +357,8 @@ sub handle_logging_in {
     }
     elsif ($self->topline =~ qr/, welcome( back)? to NetHack!/) {
         $self->new_game($1 ? 0 : 1);
-        $self->enqueue_message('check');
-        $self->enqueue_message('game_started');
+        $self->send_message('check');
+        $self->send_message('game_started');
         $self->state('playing');
     }
     elsif ($self->topline =~ /^\s*It is written in the Book of /) {
