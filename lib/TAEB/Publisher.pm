@@ -46,6 +46,14 @@ before unsubscribe => sub {
     TAEB->log->publisher("Unsubscribe: $class");
 };
 
+before pause => sub {
+    TAEB->log->publisher("Pausing all subscriptions.");
+};
+
+before unpause => sub {
+    TAEB->log->publisher("Unpausing all subscriptions.");
+};
+
 after unpause => sub {
     shift->send_queued_messages;
 };
