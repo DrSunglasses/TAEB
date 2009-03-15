@@ -33,7 +33,7 @@ has _watching_messages => (
     },
 );
 
-sub send_message {
+sub forward_message {
     my $self = shift;
     my $msg = shift;
     $msg =~ s/msg_//;
