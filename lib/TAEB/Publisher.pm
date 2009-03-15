@@ -86,8 +86,8 @@ sub send_message {
     for my $recipient ($self->subscribers) {
         next unless $recipient;
 
-        if ($recipient->can('send_message')) {
-            $recipient->send_message($name, @args);
+        if ($recipient->can('forward_message')) {
+            $recipient->forward_message($name, @args);
         }
         if ($recipient->can($method)) {
             $recipient->$method(@args)
