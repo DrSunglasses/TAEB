@@ -21,4 +21,6 @@ Everyone is free to add and claim things from this file.
 - items should know the container that they are in (inventory, tile,
     monster, other item), so that the ai doesn't have to search for things
     all the time
-
+- collapsible menus
+    - an arrayref item is a collapsed menu
+- move "selection key" from Display::Curses into menu
