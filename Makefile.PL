@@ -42,7 +42,8 @@ requires 'Data::Page';
 # NetHack-specific things
 requires 'NetHack::Menu' => 0.06;
 requires 'NetHack::FOV'  => 0.01;
-requires 'NetHack::Item' => 0.07;
+requires 'NetHack::Item' => 0.08;
+requires 'NetHack::Monster::Spoiler' => 0.01;
 
 if (!can_run('nethack')) {
     warn << '__NETHACK__';
