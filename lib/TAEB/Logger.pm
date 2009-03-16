@@ -1,6 +1,5 @@
 package TAEB::Logger;
 use TAEB::OO;
-use Log::Dispatch::Twitter;
 use Log::Dispatch::File;
 use Carp;
 use Scalar::Util qw/weaken/;
