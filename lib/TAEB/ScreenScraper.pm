@@ -1493,12 +1493,13 @@ sub send_messages {
 
         if (@messages) {
             my $msg_names = join ', ',
+                            map { "'$_'" }
                             map {
                                 blessed($_) && $_->isa('TAEB::Announcement')
                                 ? $_->name : $_->[0]
                             } @messages;
 
-            TAEB->log->scraper("Sending '$msg_names' in response to '$line'");
+            TAEB->log->scraper("Sending $msg_names in response to '$line'");
 
             for (@messages) {
                 if (blessed($_) && $_->isa('TAEB::Announcement')) {
