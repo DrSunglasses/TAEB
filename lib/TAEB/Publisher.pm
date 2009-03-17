@@ -83,12 +83,18 @@ sub send_message {
     }
 
     my $method = "msg_$name";
+
+    if (@args == 1 && blessed($args[0]) && $args[0]->isa('TAEB::Message')) {
+        $method = "subscription_" . $args[0]->name;
+    }
+
     for my $recipient ($self->subscribers) {
         next unless $recipient;
 
         if ($recipient->can('forward_message')) {
             $recipient->forward_message($name, @args);
         }
+
         if ($recipient->can($method)) {
             $recipient->$method(@args)
         }
