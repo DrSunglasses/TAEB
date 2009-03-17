@@ -3,14 +3,16 @@ use TAEB::OO;
 extends 'TAEB::Announcement::Dungeon';
 
 has state => (
-    is  => 'ro',
-    isa => 'Str', # more general than DoorState
+    is       => 'ro',
+    isa      => 'Str', # more general than DoorState
+    required => 1,
 );
 
 has door => (
-    is      => 'ro',
-    isa     => 'TAEB::World::Tile::Door',
-    default => sub {
+    is       => 'ro',
+    isa      => 'TAEB::World::Tile::Door',
+    init_arg => undef,
+    default  => sub {
         my $action = TAEB->action;
         confess "Unable to figure out the door tile from action $action"
             unless $action->does('TAEB::Action::Role::Direction');
