@@ -8,7 +8,8 @@ before initialize => sub {
 
     TAEB->publisher->subscribe($self)
         if $self->meta->has_method('forward_message')
-        || any { /^(?:msg|exception|respond)_/ } $self->meta->get_method_list;
+        || (any { /^(?:msg|exception|respond)_/ } $self->meta->get_method_list)
+        || (any { /^(?:subscription)_/ } $self->meta->get_method_list);
 };
 
 no Moose::Role;
