@@ -1,14 +1,8 @@
 package TAEB::ScreenScraper;
 use TAEB::OO;
 use TAEB::Util qw/crow_flies/;
+use TAEB::Announcement;
 use NetHack::Menu;
-
-use Module::Pluggable (
-    require     => 1,
-    sub_name    => 'load_announcement_classes',
-    search_path => ['TAEB::Announcement'],
-);
-__PACKAGE__->load_announcement_classes;
 
 our %msg_string = (
     "You are blinded by a blast of light!" =>

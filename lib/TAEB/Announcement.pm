@@ -1,6 +1,13 @@
 package TAEB::Announcement;
 use TAEB::OO;
 
+use Module::Pluggable (
+    require     => 1,
+    sub_name    => 'announcement_classes',
+    search_path => ['TAEB::Announcement'],
+);
+__PACKAGE__->announcement_classes;
+
 has text => (
     is            => 'ro',
     isa           => 'Str',
