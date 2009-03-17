@@ -1,4 +1,4 @@
-package TAEB::Message::SelectSubset;
+package TAEB::Message::Role::SelectSubset;
 use Moose::Role;
 
 has items => (
