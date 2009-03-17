@@ -67,6 +67,22 @@ sub _enqueue_message {
     $self->_push_queued_messages([$name, @_]);
 }
 
+sub announce {
+    my $self = shift;
+    my $announcement;
+
+    if (blessed($_[0])) {
+        $announcement = shift;
+    }
+    else {
+        my $class = TAEB::Announcement->name_to_class(shift);
+        $announcement = $class->new(@_);
+    }
+
+    # XXX: this will improve
+    $self->send_message($announcement->name => $announcement);
+}
+
 sub send_message {
     my $self = shift;
 
