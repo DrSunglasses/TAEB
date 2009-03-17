@@ -62,6 +62,53 @@ do {
     }
 };
 
+do {
+    my %exact_message_table;
+    my @regex_message_table;
+
+    sub parse_messages {
+        my $class = shift;
+
+        while (my ($message, $args) = splice @_, 0, 2) {
+            my $constructor =
+                  ref($args) eq 'HASH' ? sub { $class->new(%$args) }
+                : ref($args) eq 'CODE' ? sub { $class->new($args->(@_)) }
+                : confess "Unknown constructor type '$args' (I can handle hashref and coderef)";
+
+            if (!ref($message)) {
+                $exact_message_table{$message} = $constructor;
+            }
+            elsif (ref($message) eq 'Regexp') {
+                push @regex_message_table, [ $message, $constructor ];
+            }
+            else {
+                confess "Unknown message type '$message' (I can handle string and regex)";
+            }
+        }
+    }
+
+    sub announcements_for_message {
+        my $self = shift;
+        my $text = shift;
+        my @announcements;
+
+        study $text;
+
+        if (my $constructor = $exact_message_table{$text}) {
+            push @announcements, $constructor->();
+        }
+
+        for (@regex_message_table) {
+            my ($regex, $constructor) = @$_;
+            if (my @captures = $text =~ $regex) {
+                push @announcements, $constructor->(@captures);
+            }
+        }
+
+        return @announcements;
+    }
+};
+
 __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
 
