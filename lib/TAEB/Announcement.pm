@@ -76,6 +76,10 @@ do {
                 : confess "Unknown constructor type '$args' (I can handle hashref and coderef)";
 
             if (!ref($message)) {
+                if (exists $exact_message_table{$message}) {
+                    confess "An entry already exists for '$message'. This should not throw an error; perhaps the right refactor would be to compose the existing constructor with the new one?";
+                }
+
                 $exact_message_table{$message} = $constructor;
             }
             elsif (ref($message) eq 'Regexp') {
