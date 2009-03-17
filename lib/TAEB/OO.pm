@@ -11,7 +11,7 @@ use TAEB::Meta::Overload;
 
 Moose::Exporter->setup_import_methods(
     also        => ['Moose', 'MooseX::ClassAttribute'],
-    with_caller => ['extends', 'message'],
+    with_caller => ['extends', 'subscribe'],
 );
 
 # make sure using extends doesn't wipe out our base class roles
@@ -29,12 +29,12 @@ sub extends {
     goto \&Moose::extends;
 }
 
-sub message {
+sub subscribe {
     my $meta = Moose::Meta::Class->initialize(shift);
     my $handler = pop;
 
     for my $name (@_) {
-        my $method_name = "message_$name";
+        my $method_name = "subscription_$name";
         my $super_method = $meta->find_method_by_name($method_name);
         my $method;
 
@@ -48,7 +48,7 @@ sub message {
             $method = $handler;
         }
 
-        $meta->add_method("message_$name" => $method);
+        $meta->add_method($method_name => $method);
     }
 }
 
