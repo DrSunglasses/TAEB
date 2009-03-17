@@ -9,19 +9,20 @@ has '+direction' => (
     required => 1,
 );
 
-sub msg_door {
-    my $self = shift;
-    my $type = shift;
+subscribe door => sub {
+    my $self  = shift;
+    my $event = shift;
 
-    my $tile = $self->target_tile('closeddoor');
+    my $status = $event->status;
+    my $tile   = $event->door;
 
-    if ($type eq 'locked') {
+    if ($status eq 'locked') {
         $tile->state('locked');
     }
-    elsif ($type eq 'resists') {
+    elsif ($status eq 'resists') {
         $tile->state('unlocked');
     }
-}
+};
 
 __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
