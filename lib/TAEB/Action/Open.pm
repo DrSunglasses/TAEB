@@ -14,7 +14,7 @@ subscribe door => sub {
     my $event = shift;
 
     my $status = $event->status;
-    my $tile   = $event->door;
+    my $tile   = $event->tile;
 
     if ($status eq 'locked') {
         $tile->state('locked');

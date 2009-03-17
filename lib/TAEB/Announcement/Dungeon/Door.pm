@@ -38,7 +38,7 @@ has state => (
     required => 1,
 );
 
-has door => (
+has tile => (
     is       => 'ro',
     isa      => 'TAEB::World::Tile::Door',
     default  => sub {
