@@ -45,8 +45,20 @@ do {
         my $self = shift;
         my $name = shift;
 
+        if (keys %name_to_class == 0) {
+            $self->_build_name_to_class_mapping;
+        }
+
         return $name_to_class{$name} if exists $name_to_class{$name};
         confess "No announcement class with the name '$name' exists.";
+    }
+
+    sub _build_name_to_class_mapping {
+        my $self = shift;
+        for my $class ($self->announcement_classes) {
+            next unless $class->isa(__PACKAGE__); # roles
+            $self->set_name_to_class($class->name => $class);
+        }
     }
 };
 
