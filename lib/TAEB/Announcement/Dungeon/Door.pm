@@ -41,7 +41,6 @@ has state => (
 has door => (
     is       => 'ro',
     isa      => 'TAEB::World::Tile::Door',
-    init_arg => undef,
     default  => sub {
         my $action = TAEB->action;
         confess "Unable to figure out the door tile from action $action"
