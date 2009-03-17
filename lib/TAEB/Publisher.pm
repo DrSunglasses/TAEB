@@ -84,7 +84,7 @@ sub send_message {
 
     my $method = "msg_$name";
 
-    if (@args == 1 && blessed($args[0]) && $args[0]->isa('TAEB::Message')) {
+    if (@args == 1 && blessed($args[0]) && $args[0]->isa('TAEB::Announcement')) {
         $method = "subscription_" . $args[0]->name;
     }
 

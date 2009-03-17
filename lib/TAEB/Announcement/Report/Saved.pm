@@ -1,6 +1,6 @@
-package TAEB::Message::Report::Saved;
+package TAEB::Announcement::Report::Saved;
 use TAEB::OO;
-extends 'TAEB::Message::Report';
+extends 'TAEB::Announcement::Report';
 
 sub as_string { "Saved.\n" }
 

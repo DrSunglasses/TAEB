@@ -1,6 +1,6 @@
-package TAEB::Message::Report::Death;
+package TAEB::Announcement::Report::Death;
 use TAEB::OO;
-extends 'TAEB::Message::Report';
+extends 'TAEB::Announcement::Report';
 
 has conducts => (
     metaclass  => 'Collection::Array',

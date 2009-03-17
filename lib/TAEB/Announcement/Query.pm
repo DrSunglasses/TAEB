@@ -1,6 +1,6 @@
-package TAEB::Message::Query;
+package TAEB::Announcement::Query;
 use TAEB::OO;
-extends 'TAEB::Message';
+extends 'TAEB::Announcement';
 
 
 __PACKAGE__->meta->make_immutable;

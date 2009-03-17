@@ -224,9 +224,9 @@ has death_state => (
 has death_report => (
     traits  => [qw/TAEB::Meta::Trait::DontInitialize/],
     is      => 'ro',
-    isa     => 'TAEB::Message::Report::Death',
+    isa     => 'TAEB::Announcement::Report::Death',
     lazy    => 1,
-    default => sub { TAEB::Message::Report::Death->new },
+    default => sub { TAEB::Announcement::Report::Death->new },
 );
 
 sub parse_botl {

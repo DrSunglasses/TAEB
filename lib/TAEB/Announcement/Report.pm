@@ -1,6 +1,6 @@
-package TAEB::Message::Report;
+package TAEB::Announcement::Report;
 use TAEB::OO;
-extends 'TAEB::Message';
+extends 'TAEB::Announcement';
 
 use overload (
     q{""}    => 'as_string',

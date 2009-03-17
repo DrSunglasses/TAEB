@@ -300,10 +300,10 @@ sub iterate {
                              |The\ game\ could\ not\ start\./x;
 
         return TAEB->state eq 'unable_to_login'
-             ? TAEB::Message::Report::CouldNotStart->new
+             ? TAEB::Announcement::Report::CouldNotStart->new
              : TAEB->state eq 'dying'
              ? TAEB->death_report
-             : TAEB::Message::Report::Saved->new;
+             : TAEB::Announcement::Report::Saved->new;
     }
 
     return;

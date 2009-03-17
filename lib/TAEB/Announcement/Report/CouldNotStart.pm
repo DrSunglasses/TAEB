@@ -1,6 +1,6 @@
-package TAEB::Message::Report::CouldNotStart;
+package TAEB::Announcement::Report::CouldNotStart;
 use TAEB::OO;
-extends 'TAEB::Message::Report';
+extends 'TAEB::Announcement::Report';
 
 sub as_string { "Cannot start game; please check NetHack is working properly.\n" }
 
