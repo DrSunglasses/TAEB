@@ -23,24 +23,20 @@ sub respond_lock {
 
 sub respond_unlock { 'y' }
 
-sub msg_just_unlocked_door {
-    shift->target_tile('closeddoor')->state('unlocked');
-}
+subscribe door => sub {
+    my $self  = shift;
+    my $event = shift;
 
-sub msg_interrupted_unlocking {
-    shift->target_tile('closeddoor')->state('locked');
-}
+    my $tile  = $event->door;
+    my $state = $event->status;
 
-sub msg_door {
-    my $self = shift;
-    my $type = shift;
-
-    my $tile = $self->target_tile('closeddoor');
-
-    if ($type eq 'just_unlocked' && $tile->type eq 'closeddoor') {
+    if ($state eq 'just_unlocked') {
         $tile->state('unlocked');
     }
-}
+    elsif ($state eq 'interrupted_locking') {
+        $tile->state('locked');
+    }
+};
 
 __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
