@@ -1489,10 +1489,25 @@ sub send_messages {
             }
         }
 
+        push @messages, TAEB::Announcement->announcements_for_message($line);
+
         if (@messages) {
-            my $msg_names = join ', ', map { $_->[0] } @messages;
+            my $msg_names = join ', ',
+                            map {
+                                blessed($_) && $_->isa('TAEB::Announcement')
+                                ? $_->name : $_->[0]
+                            } @messages;
+
             TAEB->log->scraper("Sending '$msg_names' in response to '$line'");
-            TAEB->send_message(@$_) for @messages;
+
+            for (@messages) {
+                if (blessed($_) && $_->isa('TAEB::Announcement')) {
+                    TAEB->announce($_);
+                }
+                else {
+                    TAEB->send_message(@$_);
+                }
+            }
         }
         else {
             TAEB->log->scraper("I don't understand this message: $line");
