@@ -54,7 +54,11 @@ sub _build_pty {
     local $ENV{COLUMNS} = 80;
 
     # this has to be done in BUILD because it needs name
-    my $pty = IO::Pty::Easy->new;
+
+    # set Pty to ignore SIGWINCH so that we don't confuse nethack if
+    # controlling terminal is not set to 80x24
+    my $pty = IO::Pty::Easy->new(handle_pty_size => 0);
+
     $pty->spawn($self->name, $self->args);
     return $pty;
 }
