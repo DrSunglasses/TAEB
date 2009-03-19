@@ -2,9 +2,12 @@
 use strict;
 use warnings;
 use lib 'lib';
+use Getopt::Long;
 use TAEB;
 
-if (grep { $_ eq '--help' } @ARGV) {
+sub print_usage {
+    my ($exit_val) = shift;
+
     print STDERR <<"USAGE";
 TAEB $TAEB::VERSION - the Tactical Amulet Extraction Bot
 Options:
@@ -12,13 +15,25 @@ Options:
     --loop       Run TAEB repeatedly
     --help       Print this message
 USAGE
-    exit 0;
+    exit $exit_val;
 }
-if (grep { $_ eq '--rc' } @ARGV) {
+
+my $loop = 0;
+my %cmdline_options = ('loop' => \$loop);
+my @getopt_specifiers = qw/rc help|h/;
+my $getopts_parser = new Getopt::Long::Parser;
+
+$getopts_parser->getoptions(\%cmdline_options, @getopt_specifiers)
+  or print_usage(1);
+
+if (exists($cmdline_options{help})) {
+	print_usage(0);
+}
+
+if (exists($cmdline_options{rc})) {
     print TAEB->config->nethackrc_contents;
     exit 0;
 }
-my $loop = grep { $_ eq '--loop' } @ARGV;
 
 my $tstp = $SIG{TSTP} = sub {
     # if we don't invoke TSTP then we won't be suspended
