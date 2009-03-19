@@ -4,6 +4,7 @@ use List::Util 'sum';
 
 sub import {
     my $self = shift;
+    return if @_ == 0;
 
     main->import('Test::More');
 
