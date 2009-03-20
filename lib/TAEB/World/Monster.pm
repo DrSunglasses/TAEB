@@ -235,15 +235,15 @@ sub is_meleeable {
 
     return 0 unless $self->is_enemy;
 
-    return 0 if any { $_->name eq 'floating eye'    } $self->possibilities
+    return 0 if (any { $_->name eq 'floating eye'    } $self->possibilities)
              && !TAEB->is_blind;
 
-    return 0 if any { $_->name eq 'blue jelly'      } $self->possibilities
+    return 0 if (any { $_->name eq 'blue jelly'      } $self->possibilities)
              && !TAEB->cold_resistant;
 
-    return 0 if any { $_->name eq 'spotted jelly'   } $self->possibilities;
+    return 0 if (any { $_->name eq 'spotted jelly'   } $self->possibilities);
 
-    return 0 if any { $_->name eq 'gelatinous cube' } $self->possibilities
+    return 0 if (any { $_->name eq 'gelatinous cube' } $self->possibilities)
              && $self->level->has_enemies > 1;
 
     return 1;
