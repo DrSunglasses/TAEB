@@ -109,9 +109,9 @@ around is_safely_edible => sub {
 
     my $rotted = $self->would_be_rotted($distance);
     # Don't bother eating food that is clearly rotten
-    return 0 if defined($rotted) && !$rotted;
+    return 0 if $rotted;
     # and don't risk it without a known-uncursed unihorn
-    return 0 if !$unihorn && !$rotted;
+    return 0 if !$unihorn && !defined($rotted);
 
     # Instant death? No thanks.
     for my $killer (qw/die lycanthropy petrify polymorph slime/) {
