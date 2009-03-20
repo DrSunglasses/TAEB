@@ -711,6 +711,8 @@ sub remove_handlers {
     $SIG{__DIE__}  = 'DEFAULT';
 }
 
+# need to localize $SIG{__DIE__} in places where people call it inside of evals
+# without protection... this is ugly, but the cleanest way i can think of
 sub monkey_patch {
     my $yaml_any_meta = Class::MOP::Class->initialize('YAML::Any');
     $yaml_any_meta->add_around_method_modifier(implementation => sub {
