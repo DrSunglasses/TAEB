@@ -3,13 +3,12 @@ use strict;
 use warnings;
 use lib 'lib';
 use Getopt::Long;
-use TAEB;
 
 sub print_usage {
     my ($exit_val) = shift;
 
     print STDERR <<"USAGE";
-TAEB $TAEB::VERSION - the Tactical Amulet Extraction Bot
+TAEB - the Tactical Amulet Extraction Bot
 Options:
     --rc         Print TAEB's required nethackrc to stdout
     --loop       Run TAEB repeatedly
@@ -31,9 +30,12 @@ if (exists($cmdline_options{help})) {
 }
 
 if (exists($cmdline_options{rc})) {
-    print TAEB->config->nethackrc_contents;
+    require TAEB::Config;
+    print TAEB::Config->nethackrc_contents;
     exit 0;
 }
+
+require TAEB;
 
 my $tstp = $SIG{TSTP} = sub {
     # if we don't invoke TSTP then we won't be suspended
