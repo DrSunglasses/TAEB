@@ -703,11 +703,21 @@ sub setup_handlers {
 
         die $message;
     };
+    TAEB->monkey_patch;
 }
 
 sub remove_handlers {
     $SIG{__WARN__} = 'DEFAULT';
     $SIG{__DIE__}  = 'DEFAULT';
+}
+
+sub monkey_patch {
+    my $yaml_any_meta = Class::MOP::Class->initialize('YAML::Any');
+    $yaml_any_meta->add_around_method_modifier(implementation => sub {
+        my $orig = shift;
+        local $SIG{__DIE__};
+        $orig->(@_);
+    });
 }
 
 __PACKAGE__->meta->make_immutable;
