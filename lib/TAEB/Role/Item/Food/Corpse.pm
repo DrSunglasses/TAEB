@@ -44,7 +44,7 @@ sub maybe_rotted {
 
     $rotted_high = 10 if $self->is_forced_verboten;
 
-    return 0 if $self->monster =~ /^(?:lizard|lichen|acid blob)$/;
+    return 0 if $self->permanent || $self->monster->name eq 'acid blob)';
     TAEB->log->item("in maybe_rotted; " . $rotted_low . "-" . $rotted_high .
         " for " . $self->raw . "(" . $self->estimate_age . ")" .
         $self->is_forced_verboten);
@@ -69,7 +69,7 @@ sub same_race {
 sub should_sac {
     my ($self) = @_;
 
-    return 0 if $self->monster =~ /c(?:o|hi)ckatrice/ &&
+    return 0 if $self->monster->touch_petrifies &&
         !TAEB->equipment->gloves;
 
     return 0 if $self->monster ne 'acid blob' && $self->estimate_age > 50;
@@ -88,13 +88,13 @@ sub should_sac {
 sub unicorn {
     my $self = shift;
 
-    return unless $self->monster =~ /(.*) unicorn/;
+    return unless $self->monster->name =~ /(.*) unicorn/;
 
     return 'Law' if $1 eq 'white';
     return 'Neu' if $1 eq 'gray';
     return 'Cha' if $1 eq 'black';
 
-    TAEB->log->item("Bizarrely colored unicorn corpse: " . $self->monster,
+    TAEB->log->item("Bizarrely colored unicorn corpse: " . $self->monster->name,
                     level => 'error');
     return;
 }
