@@ -22,7 +22,7 @@ my %cmdline_options = ('loop' => \$loop);
 my @getopt_specifiers = qw/rc help|h/;
 my $getopts_parser = new Getopt::Long::Parser;
 
-$getopts_parser->getoptions(\%cmdline_options, @getopt_specifiers)
+$getopts_parser->getoptions(%cmdline_options, @getopt_specifiers)
   or print_usage(1);
 
 if (exists($cmdline_options{help})) {
