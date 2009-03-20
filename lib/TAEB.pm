@@ -128,7 +128,7 @@ class_has log => (
             callbacks => sub {
                 my %args = @_;
                 if (!TAEB->display->to_screen) {
-                    local $SIG{__WARN_};
+                    local $SIG{__WARN__};
                     confess $args{message};
                 }
                 else {
