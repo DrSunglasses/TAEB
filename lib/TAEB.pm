@@ -717,7 +717,7 @@ sub monkey_patch {
         my $orig = shift;
         local $SIG{__DIE__};
         $orig->(@_);
-    });
+    }) unless $yaml_any_meta->get_method('implementation')->isa('Class::MOP::Method::Wrapped');
 }
 
 __PACKAGE__->meta->make_immutable;
