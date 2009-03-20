@@ -684,13 +684,11 @@ after add_item => sub {
         for my $kill (@kl) {
             my ($name, $age, $bad) = @$kill;
 
-            if (my $body = TAEB::Spoilers::Monster->monster($name)->
-                    {corpse}->{undead}) {
-                $name = $body;
-                $age -= 100;
-            }
+            my $monster = NetHack::Monster::Spoiler->lookup($name);
+            $age -= 100 if $monster->is_undead;
+            $name = $monster->corpse_type->name;
 
-            next unless $name eq $item->monster;
+            next unless $name eq $item->monster->name;
 
             if (!defined($date) || $date > $age) {
                 $date = $age;
@@ -701,7 +699,7 @@ after add_item => sub {
 
         if (!defined($date)) {
             # This corpse has no kill record!  It must have died out of sight.
-            push @kl, [ $item->monster, TAEB->turn, 1 ];
+            push @kl, [ $item->monster->name, TAEB->turn, 1 ];
             $date = TAEB->turn;
             $v = 1;
         }
