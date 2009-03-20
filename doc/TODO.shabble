@@ -1,0 +1,52 @@
+List of random things I plan to work on (unless someone else wants to
+help. Prod me on irc://freenode/#interhack.
+
+* ExtendedCurses UI
+ * allow use of screen area in terminals > 80x24 for other info.
+
+* ttyrec recording of bot games (only the raw nethack feed, so it's interchangeable with
+  other recorded games)
+
+* ttyrec playback using ScreenScraper and other nifty features of TAEB to allow interactive
+  menuing, pause, skip to [turn, interesting event], etc.
+  * should also be possible to use when observing players via termcast/NAO view mode...
+
+* Enhanced 'Human' AI module, to implement some of the features of interhack.
+  * Macros
+    * keystroke expansion (dumb)
+    * 'AI Snippets' -- 'explore this dlvl', ...
+  * Preventions (should be toggleable/overrideable during play)
+    * Conduct ensuring (foodless, weaponless, wishless...)
+    * /oC or Bo[HT] in BoH 
+    * walking on water/lava without protection
+    * rotten food eating
+
+  * Viewable monster/item spoilers via NMS/NIS.
+  * External game database for items, automagical renaming of all items following mindflaying, amnesia, etc.
+  * Superposition of fixed map levels (minetown, minesend, oracle, castle...)
+  * PasteDetection (straight interhack port)
+  * Configurable perlish regex/logic plugins for colouring things
+  * Intelligent autopickup (for retrieving thrown/fired items)
+  * Automatic last-zap wresting
+  
+  * <ADD MORE HERE>
+
+== ExtendedCurses Interface ==
+
+An alternative UI for TAEB, designed primarily for Human play.  It separates the
+display into the following areas:
+
+* Map -- Representation of the current dlvl. Subject to a variety of command modifiers
+         similar to how change_draw_mode() works at the moment.
+
+* Message Area -- similar to current NH topl, but potentially larger and with history. Supports
+                  scrolling, and switch to full-screen view.
+
+* Status Area  -- configurable status display, replacement for NH botl.  Supports configurable
+                  colouring based on regex or numeric comparisons (similar to healthmon colouring)
+
+
+* Inventory Area -- Permanent inventory area.
+
+* Log Area       -- feeds from a new TAEB logging channel 'ui'.
+
