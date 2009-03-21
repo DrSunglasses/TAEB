@@ -548,7 +548,7 @@ around notify => sub {
     my $self = shift;
     my $msg  = shift;
 
-    unshift @_, TAEB::Util::COLOR_CYAN if !@_;
+    unshift @_, COLOR_CYAN if !@_;
 
     $orig->($self, $msg, @_);
 };
@@ -557,7 +557,7 @@ sub complain {
     my $self = shift;
     my $msg  = shift;
 
-    $self->notify($msg, TAEB::Util::COLOR_RED, @_);
+    $self->notify($msg, COLOR_RED, @_);
 }
 
 around write => sub {
