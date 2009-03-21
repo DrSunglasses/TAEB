@@ -1,6 +1,6 @@
 package TAEB::Spoilers::Engravings;
 use TAEB::OO;
-use List::MoreUtils 'any';
+use TAEB::Util 'any';
 
 class_has rubouts => (
     is => 'ro',

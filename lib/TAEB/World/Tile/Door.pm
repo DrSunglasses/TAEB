@@ -1,6 +1,6 @@
 package TAEB::World::Tile::Door;
 use TAEB::OO;
-use List::Util qw/min/;
+use TAEB::Util qw/min/;
 extends 'TAEB::World::Tile';
 
 has state => (

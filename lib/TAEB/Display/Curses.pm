@@ -1,9 +1,8 @@
 package TAEB::Display::Curses;
 use TAEB::OO;
 use Curses ();
-use TAEB::Util ':colors';
+use TAEB::Util qw/:colors max/;
 use Time::HiRes 'gettimeofday';
-use List::Util 'max';
 
 extends 'TAEB::Display';
 

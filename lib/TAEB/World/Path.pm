@@ -1,8 +1,7 @@
 package TAEB::World::Path;
 use TAEB::OO;
 use Heap::Simple;
-use TAEB::Util 'delta2vi', 'deltas';
-use List::Util 'sum', 'max';
+use TAEB::Util qw/delta2vi deltas sum max/;
 use Scalar::Util 'refaddr';
 use Time::HiRes 'time';
 

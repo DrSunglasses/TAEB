@@ -1,7 +1,6 @@
 package TAEB::World::Tile;
 use TAEB::OO;
-use TAEB::Util qw/delta2vi vi2delta display :colors/;
-use List::MoreUtils qw/any all apply/;
+use TAEB::Util qw/delta2vi vi2delta display :colors any all apply/;
 
 with 'TAEB::Role::Reblessing';
 

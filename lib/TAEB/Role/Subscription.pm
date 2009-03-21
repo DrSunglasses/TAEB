@@ -1,6 +1,6 @@
 package TAEB::Role::Subscription;
 use Moose::Role;
-use List::MoreUtils qw/any/;
+use TAEB::Util qw/any/;
 
 requires 'initialize';
 before initialize => sub {

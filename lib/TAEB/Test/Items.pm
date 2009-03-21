@@ -1,6 +1,6 @@
 package TAEB::Test::Items;
 use TAEB::Test;
-use List::Util 'sum';
+use TAEB::Util 'sum';
 
 sub import {
     my $self = shift;

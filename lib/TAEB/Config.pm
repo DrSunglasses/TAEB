@@ -1,7 +1,7 @@
 package TAEB::Config;
 use Moose;
 use YAML;
-use List::Util qw/first/;
+use TAEB::Util qw/first/;
 use Hash::Merge 'merge';
 Hash::Merge::set_behavior('RIGHT_PRECEDENT');
 

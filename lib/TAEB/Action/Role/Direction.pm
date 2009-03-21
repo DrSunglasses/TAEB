@@ -1,6 +1,6 @@
 package TAEB::Action::Role::Direction;
 use Moose::Role;
-use List::MoreUtils 'none';
+use TAEB::Util 'none';
 
 has direction => (
     is       => 'ro',

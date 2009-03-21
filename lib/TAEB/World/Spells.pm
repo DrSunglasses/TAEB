@@ -1,6 +1,6 @@
 package TAEB::World::Spells;
 use TAEB::OO;
-use List::Util 'first';
+use TAEB::Util 'first';
 
 use overload %TAEB::Meta::Overload::default;
 

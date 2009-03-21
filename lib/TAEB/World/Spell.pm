@@ -1,6 +1,6 @@
 package TAEB::World::Spell;
 use TAEB::OO;
-use List::Util qw/max min/;
+use TAEB::Util qw/max min/;
 
 use overload %TAEB::Meta::Overload::default;
 

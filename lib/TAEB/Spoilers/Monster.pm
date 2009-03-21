@@ -1,6 +1,6 @@
 package TAEB::Spoilers::Monster;
 use TAEB::OO;
-use List::Util qw/min max/;
+use TAEB::Util qw/min max/;
 extends 'NetHack::Monster::Spoiler';
 
 sub _hitchance {

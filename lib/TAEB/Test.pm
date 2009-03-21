@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use TAEB;
 use parent 'Test::More';
-use List::Util 'sum';
+use TAEB::Util 'sum';
 
 our @EXPORT = qw/test_items test_monsters degrade_ok degrade_nok degrade_progression plan_tests/;
 

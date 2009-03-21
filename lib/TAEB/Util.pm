@@ -2,9 +2,9 @@ package TAEB::Util;
 use strict;
 use warnings;
 
-use List::Util qw/min max/;
 use Scalar::Util 'blessed';
-use List::MoreUtils 'uniq';
+use List::Util qw(first min max minstr maxstr reduce sum shuffle);
+use List::MoreUtils ':all';
 
 our %colors;
 
@@ -32,12 +32,16 @@ BEGIN {
 use constant \%colors;
 
 use Sub::Exporter -setup => {
-    exports => [qw(tile_types trap_types delta2vi vi2delta deltas dice colors),
-                qw(crow_flies angle align2str display assert assert_is),
-                qw(item_menu hashref_menu object_menu list_menu),
-                keys %colors],
+    exports => [
+        qw(tile_types trap_types delta2vi vi2delta deltas dice colors),
+        qw(crow_flies angle align2str display assert assert_is item_menu),
+        qw(hashref_menu object_menu list_menu),
+        keys %colors,
+        @List::Util::EXPORT_OK,
+        @List::MoreUtils::EXPORT_OK,
+    ],
     groups => {
-        colors => [keys %colors],
+        colors => [ keys %colors ],
     },
 };
 

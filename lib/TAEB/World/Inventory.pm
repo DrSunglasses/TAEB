@@ -2,8 +2,7 @@ package TAEB::World::Inventory;
 use TAEB::OO;
 extends 'NetHack::Inventory';
 
-use List::Util 'first';
-use TAEB::Util 'assert';
+use TAEB::Util qw/first assert/;
 
 use overload %TAEB::Meta::Overload::default;
 
