@@ -270,7 +270,10 @@ sub _dijkstra {
     my $include_endpoints = $args{include_endpoints};
     my $sokoban           = $from->known_branch
                          && $from->branch eq 'sokoban';
-    my $cant_squeeze       = TAEB->inventory->weight > 500 || $sokoban;
+
+    # XXX: this should be 600, but we aren't going to be able to get
+    # the weight exact
+    my $cant_squeeze = TAEB->inventory->weight > 500 || $sokoban;
 
     my $max_score;
     my $max_tile;
@@ -311,8 +314,6 @@ sub _dijkstra {
             next if $closed[$xdx][$ydy];
 
             # can't move diagonally if we have lots in our inventory
-            # XXX: this should be 600, but we aren't going to be able to get
-            # the weight exact
             if ($cant_squeeze && $dx && $dy) {
                 next unless $tile->level->at($xdx, $y)->is_walkable
                          || $tile->level->at($x, $ydy)->is_walkable;
