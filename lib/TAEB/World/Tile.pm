@@ -678,7 +678,11 @@ after add_item => sub {
         for my $kill (@kl) {
             my ($name, $age, $bad) = @$kill;
 
-            my $monster = NetHack::Monster::Spoiler->lookup($name);
+            my $monster = NetHack::Monster::Spoiler->lookup(
+                $name,
+                # werefoo always leave human corpses
+                $name =~ /^were/ ? (glyph => '@') : (),
+            );
             $age -= 100 if $monster->is_undead;
             $name = $monster->corpse_type->name;
 
