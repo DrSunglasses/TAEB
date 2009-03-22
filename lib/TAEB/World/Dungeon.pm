@@ -1,6 +1,6 @@
 package TAEB::World::Dungeon;
 use TAEB::OO;
-use Scalar::Util 'refaddr';
+use TAEB::Util 'refaddr';
 
 has levels => (
     is      => 'ro',

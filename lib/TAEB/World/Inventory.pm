@@ -2,7 +2,7 @@ package TAEB::World::Inventory;
 use TAEB::OO;
 extends 'NetHack::Inventory';
 
-use TAEB::Util qw/first assert/;
+use TAEB::Util qw/first assert refaddr/;
 
 use overload %TAEB::Meta::Overload::default;
 
@@ -114,8 +114,6 @@ sub msg_sanity {
     my $self = shift;
 
     {
-        use Scalar::Util 'refaddr';
-
         my %invent_worn;
 
         for my $item ($self->items) {

@@ -1,7 +1,7 @@
 package TAEB::Meta::Overload;
 use strict;
 use warnings;
-use Scalar::Util 'refaddr';
+use TAEB::Util 'refaddr';
 
 our %comparison = (
     q{==} => sub {

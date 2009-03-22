@@ -2,7 +2,7 @@ package TAEB::Logger;
 use TAEB::OO;
 use Log::Dispatch::File;
 use Carp;
-use Scalar::Util qw/weaken/;
+use TAEB::Util qw/weaken/;
 extends 'Log::Dispatch::Channels';
 with 'TAEB::Role::Config';
 

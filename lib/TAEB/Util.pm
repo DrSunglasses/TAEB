@@ -2,7 +2,7 @@ package TAEB::Util;
 use strict;
 use warnings;
 
-use Scalar::Util 'blessed';
+use Scalar::Util qw(blessed isweak refaddr weaken);
 use List::Util qw(first min max minstr maxstr reduce sum shuffle);
 use List::MoreUtils ':all';
 
@@ -37,6 +37,7 @@ use Sub::Exporter -setup => {
         qw(crow_flies angle align2str display assert assert_is item_menu),
         qw(hashref_menu object_menu list_menu),
         keys %colors,
+        qw(blessed isweak refaddr weaken),
         @List::Util::EXPORT_OK,
         @List::MoreUtils::EXPORT_OK,
     ],
