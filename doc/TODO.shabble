@@ -50,3 +50,90 @@ display into the following areas:
 
 * Log Area       -- feeds from a new TAEB logging channel 'ui'.
 
+* Floating (dialog) menus.  Used for configuration and other things that should be modal.
+
+=== Object Model: ===
+
+Curses::Widgets::TAEB <- base class for widgets
+C::W::T::Map
+C::W::T::MessagePanel
+C::W::T::StatusPanel
+C::W::T::MenuPanel (extends c:w:list?)
+C::W::T::LogPanel (probably some base class with messagepanel)
+
+Curses::Forms::TAEB <- form which assembles all these widgets together following a configurable
+                       layout.
+
+=== TAEB Mainloop ===
+
+* bin/taeb: loop:
+ * TAEB::play - infinite loop until iterate reports a failure.
+  * TAEB::iterate - run a single step of TAEB
+    * TAEB::full_input(1)
+     * process NH inputs
+     * Scraper::clear() - clear out the NH messages parsed by the screenscraper.
+     * update dungeon, senses and publisher states.
+!    * UI::redraw
+!    * UI::display_topline
+    * TAEB::human_input (unless AI::Human)
+!    * UI::try_key - Nonblocking
+     * TAEB::keypress (if key) - various things which manipulate UI state.
+!     * may call UI::redraw
+!     * may call UI::display_menu
+      * TAEB::enqueue_message(key) if not handled.
+    * TAEB::handle_$state (playing|logging_in)
+     * TAEB::handle_playing
+      * AI::next_action
+       * human AI; 
+!       * UI::keypress(UI::get_key) - Blocking.
+
+=== UI Public Interface ===
+
+notify()
+ write TAEB messages to topline
+ place cursor
+ sleep for a bit (why?)
+ redraw()
+
+redraw()
+ maybe clear screen
+ draw map
+ draw status line(s)
+ place cursor (at player position?)
+
+display_topline() 
+ clear line
+ if arguments
+  print and return
+ else
+  get parsed messages from TAEB
+  clear line and return if none
+  loop over all messages:
+   process up to 20 messages
+   draw them, colouring green if they're successfully parsed.
+   redraw() if any messages left?
+ place cursor
+
+get_key() - blocking readkey (getch)
+try_key() - nonblocking readkey.  returns undef on error (-1 from getch)
+
+display_menu()
+
+
+
+institute() - create the initial display and do all the setup, but no actual drawing.
+reinitialize() - should call reset on all the widgets in teh form.
+deinitialize() - clean up and restore normal terminal modes.
+
+=== UI Private Interface ===
+draw_botl()
+place_cursor()
+
+
+Temp TODO:
+
+* figure out the bare minimum UI hooks (notify, topl, botl...)
+* continue using forms?!
+  * could just use widgets. We need to decide if things need to be redrawn or not.
+  * have an option to each widget which indicates if it's modified?
+
