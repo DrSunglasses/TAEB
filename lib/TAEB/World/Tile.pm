@@ -14,11 +14,6 @@ has level => (
     handles  => [qw/z known_branch branch glyph_to_type/],
 );
 
-#has room => (
-#    isa      => 'TAEB::World::Room',
-#    weak_ref => 1,
-#);
-
 has type => (
     is      => 'rw',
     isa     => 'TAEB::Type::Tile',
