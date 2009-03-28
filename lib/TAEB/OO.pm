@@ -56,9 +56,16 @@ sub init_meta {
     shift;
     my %options = @_;
     Moose->init_meta(%options);
+    my @base_class_roles = (
+        'TAEB::Role::Initialize',
+        'TAEB::Role::Subscription',
+    );
+    # the memory leak doesn't exist in 5.8, and will (hopefully) be fixed by
+    # the 5.10.1 release
+    push @base_class_roles, 'TAEB::Role::WeakenFix' if $] == 5.010;
     Moose::Util::MetaRole::apply_base_class_roles(
         for_class => $options{for_class},
-        roles     => ['TAEB::Role::Initialize', 'TAEB::Role::Subscription'],
+        roles     => \@base_class_roles,
     );
     Moose::Util::MetaRole::apply_metaclass_roles(
         for_class                 => $options{for_class},
