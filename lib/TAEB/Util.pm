@@ -35,7 +35,7 @@ use Sub::Exporter -setup => {
     exports => [
         qw(tile_types trap_types delta2vi vi2delta deltas dice colors),
         qw(crow_flies angle align2str display assert assert_is item_menu),
-        qw(hashref_menu object_menu list_menu),
+        qw(hashref_menu object_menu list_menu numeric_color string_color),
         keys %colors,
         qw(blessed isweak refaddr weaken),
         @List::Util::EXPORT_OK,
