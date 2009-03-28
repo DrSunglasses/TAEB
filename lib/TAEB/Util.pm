@@ -62,7 +62,7 @@ sub string_color {
     return $color unless $color =~ /\d/;
     my %colors = colors;
     my ($string_color) = grep { $colors{$_} == $color } (keys %colors);
-    $string_color = uc $string_color;
+    $string_color = lc $string_color;
     $string_color =~ s/^color_//;
     return $string_color;
 }
