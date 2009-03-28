@@ -12,7 +12,7 @@ has glyph => (
 
 has color => (
     is       => 'ro',
-    isa      => 'Str',
+    isa      => 'Int',
     required => 1,
 );
 
