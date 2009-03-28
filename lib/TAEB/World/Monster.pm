@@ -1,6 +1,6 @@
 package TAEB::World::Monster;
 use TAEB::OO;
-use TAEB::Util qw/:colors align2str max min any all/;
+use TAEB::Util qw/:colors align2str max min any all string_color/;
 
 use overload %TAEB::Meta::Overload::default;
 
@@ -325,7 +325,7 @@ sub debug_line {
     my ($name) = map { $_->name } $self->possibilities;
     push @bits, $name if $self->definitely_known;
     push @bits, 'g<' . $self->glyph . '>';
-    push @bits, 'c<' . $self->color . '>';
+    push @bits, 'c<' . string_color($self->color) . '>';
 
     return join ' ', @bits;
 }
