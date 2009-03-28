@@ -1,6 +1,6 @@
 package TAEB::Spoilers::Monster;
 use TAEB::OO;
-use TAEB::Util qw/colors min max firstidx/;
+use TAEB::Util qw/colors min max firstidx string_color/;
 extends 'NetHack::Monster::Spoiler';
 
 around lookup => sub {
