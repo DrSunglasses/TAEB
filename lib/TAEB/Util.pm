@@ -48,6 +48,25 @@ use Sub::Exporter -setup => {
 
 sub colors { %colors }
 
+sub numeric_color {
+    my ($color) = @_;
+    return $color if $color =~ /\d/;
+    $color = uc $color;
+    $color = "COLOR_$color";
+    my %colors = colors;
+    return $colors{$color};
+}
+
+sub string_color {
+    my ($color) = @_;
+    return $color unless $color =~ /\d/;
+    my %colors = colors;
+    my ($string_color) = grep { $colors{$_} == $color } (keys %colors);
+    $string_color = uc $string_color;
+    $string_color =~ s/^color_//;
+    return $string_color;
+}
+
 our %glyphs = (
     ' '  => [qw/rock unexplored/],
     ']'  => 'closeddoor',

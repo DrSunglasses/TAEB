@@ -13,16 +13,6 @@ around lookup => sub {
     return $self->$orig(@_);
 };
 
-sub string_color {
-    my ($color) = @_;
-    return $color unless $color =~ /\d/;
-    my %colors = colors;
-    my ($string_color) = grep { $colors{$_} == $color } (keys %colors);
-    $string_color = uc $string_color;
-    $string_color =~ s/^color_//;
-    return $string_color;
-}
-
 sub _hitchance {
     # need to be above a 1dN
     my ($min_to_hit, $max_to_hit, $die_size) = @_;
