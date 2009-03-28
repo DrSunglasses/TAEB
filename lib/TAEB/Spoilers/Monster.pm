@@ -1,7 +1,27 @@
 package TAEB::Spoilers::Monster;
 use TAEB::OO;
-use TAEB::Util qw/min max/;
+use TAEB::Util qw/colors min max firstidx/;
 extends 'NetHack::Monster::Spoiler';
+
+around lookup => sub {
+    my $orig = shift;
+    my $self = shift;
+    # the arg list doesn't have to be a hash, because of default args
+    my $coloridx = firstidx { $_ eq 'color' } @_;
+    splice @_, $coloridx + 1, 1, string_color($_[$coloridx + 1])
+        if $coloridx != -1;
+    return $self->$orig(@_);
+};
+
+sub string_color {
+    my ($color) = @_;
+    return $color unless $color =~ /\d/;
+    my %colors = colors;
+    my ($string_color) = grep { $colors{$_} == $color } (keys %colors);
+    $string_color = uc $string_color;
+    $string_color =~ s/^color_//;
+    return $string_color;
+}
 
 sub _hitchance {
     # need to be above a 1dN
