@@ -72,6 +72,7 @@ has error => (
 );
 
 has twitter => (
+    traits  => [qw/TAEB::DontInitialize/],
     is      => 'ro',
     isa     => 'Maybe[Log::Dispatch::Twitter]',
     lazy    => 1,
