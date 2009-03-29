@@ -262,6 +262,7 @@ sub logfile_for {
 sub _creation_time {
     open my $everything, "<", logfile_for("everything") or return;
     my $start_line = <$everything>;
+    return unless $start_line;
     $start_line =~ s/^<T-> (\S+ \S+).*/$1/;
     $start_line =~ /(\d\d\d\d)-(\d\d)-(\d\d) (\d\d):(\d\d):(\d\d)/;
     return ($1, $2, $3, $4, $5, $6);
