@@ -415,7 +415,7 @@ sub object_menu {
     my @object_data = (
         sort map {
             my $name = $_->name;
-            _canonicalize_name_value($name, $object->$name);
+            _canonicalize_name_value($name, scalar $object->$name);
         }
         $object->meta->get_all_attributes
     );
