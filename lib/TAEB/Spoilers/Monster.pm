@@ -10,7 +10,9 @@ around lookup => sub {
     my $coloridx = firstidx { $_ eq 'color' } @_;
     splice @_, $coloridx + 1, 1, string_color($_[$coloridx + 1])
         if $coloridx != -1;
-    return $self->$orig(@_);
+    my @monsters = $self->$orig(@_);
+    __PACKAGE__->meta->rebless_instance($_) for @monsters;
+    return @monsters;
 };
 
 sub _hitchance {
