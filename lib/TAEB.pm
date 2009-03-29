@@ -487,6 +487,23 @@ sub keypress {
         return;
     }
 
+    if ($c eq 'M') {
+        my $menu = TAEB::Display::Menu->new(
+            description => "Monster spoiler data",
+            items       => [ map { $_->name }
+                             NetHack::Monster::Spoiler->list ],
+            select_type => 'single',
+        );
+        my $monster = $self->display_menu($menu)
+            or return;
+
+        my @spoilers = NetHack::Monster::Spoiler->lookup($monster);
+        item_menu("Spoiler data for $monster",
+                  @spoilers > 1 ? \@spoilers : $spoilers[0]);
+
+        return;
+    }
+
     if ($c eq 't') {
         my @types = (
             grep { !TAEB->current_level->is_unregisterable($_) }
