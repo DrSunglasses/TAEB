@@ -8,8 +8,14 @@ around lookup => sub {
     my $self = shift;
     # the arg list doesn't have to be a hash, because of default args
     my $coloridx = firstidx { $_ eq 'color' } @_;
+    my $glyphidx = firstidx { $_ eq 'glyph' } @_;
+    # convert numeric color values to strings
     splice @_, $coloridx + 1, 1, string_color($_[$coloridx + 1])
         if $coloridx != -1;
+    # if a mimic is blue, that just means that we don't know its color
+    splice @_, $coloridx, 2
+        if $_[$coloridx + 1] eq 'blue'
+        && $_[$glyphidx + 1] eq 'm';
 
     if (wantarray) {
         my @monsters = $self->$orig(@_);
