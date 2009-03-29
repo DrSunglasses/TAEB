@@ -12,14 +12,14 @@ around lookup => sub {
         if $coloridx != -1;
 
     if (wantarray) {
-        my $monster = $self->$orig(@_);
-        __PACKAGE__->meta->rebless_instance($monster) if $monster;
-        return $monster;
-    }
-    else {
         my @monsters = $self->$orig(@_);
         __PACKAGE__->meta->rebless_instance($_) for @monsters;
         return @monsters;
+    }
+    else {
+        my $monster = $self->$orig(@_);
+        __PACKAGE__->meta->rebless_instance($monster) if $monster;
+        return $monster;
     }
 };
 
