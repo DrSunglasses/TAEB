@@ -13,7 +13,7 @@ around lookup => sub {
 
     if (wantarray) {
         my $monster = $self->$orig(@_);
-        __PACKAGE__->meta->rebless_instance($monster);
+        __PACKAGE__->meta->rebless_instance($monster) if $monster;
         return $monster;
     }
     else {
