@@ -3,6 +3,7 @@ use TAEB::OO;
 with 'TAEB::Role::Config';
 
 has bot => (
+    traits => [qw/TAEB::DontInitialize/],
     isa => 'Maybe[TAEB::Debug::IRC::Bot]',
     is  => 'rw',
     lazy => 1,
