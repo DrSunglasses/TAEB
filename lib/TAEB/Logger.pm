@@ -275,13 +275,13 @@ sub _backup_logs {
 
     return unless _maybe_create_dir(TAEB->config->taebdir_file($config->{dir}),
                                     "log rotate");
-    TAEB->display_topline("Backing up logfiles...");
 
     my ($year, $mon, $mday, $hour, $min, $sec) = $self->_creation_time;
     return unless defined $year;
     my $timestamp = sprintf "%04d%02d%02d%02d%02d%02d", $year, $mon, $mday,
                                                         $hour, $min, $sec;
 
+    TAEB->display_topline("Backing up logfiles...");
     my $compress = $config->{compress};
     require File::Copy;
     require IO::Compress::Gzip if $compress;
