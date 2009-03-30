@@ -247,7 +247,7 @@ sub display_topline {
         # overwrite them
         Curses::move 0, 0;
         Curses::clrtoeol;
-        $self->place_cursor;
+        $self->place_cursor if TAEB->loaded_persistent_data;
         return;
     }
 
