@@ -83,7 +83,7 @@ sub farlook {
     my @description = TAEB->farlook($tile);
     # Return if we can't see the monster. This might happen if, for instance,
     # it's an I glyph rather than a monster we can see.
-    return if @description > 2;
+    return if @description <= 2;
     my $species = $description[2];
     my $disposition = 'hostile';
     $species =~ s/^tame // and $disposition = 'tame';
