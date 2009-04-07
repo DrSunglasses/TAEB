@@ -37,6 +37,14 @@ has possibilities => (
     },
 );
 
+has disposition => (
+    is       => 'rw',
+    isa      => 'Maybe[TAEB::Type::Disposition]',
+    required => 0,
+    lazy     => 1,
+    default  => sub { undef; }
+);
+
 sub maybe {
     my $self = shift;
     my $property = shift;
@@ -67,6 +75,24 @@ sub set_possibilities {
         color => $self->color,
         @_,
     )]);
+}
+
+sub farlook {
+    my $self = shift;
+    my $tile = $self->tile;
+    my @description = TAEB->farlook($tile);
+    # Return if we can't see the monster. This might happen if, for instance,
+    # it's an I glyph rather than a monster we can see.
+    return if @description > 2;
+    my $species = $description[2];
+    my $disposition = 'hostile';
+    $species =~ s/^tame // and $disposition = 'tame';
+    $species =~ s/^peaceful // and $disposition = 'peaceful';
+    $self->disposition($disposition);
+    # Coyotes have their farlook data in a different format. Yes, seriously.
+    # NetHack has far too many special cases...
+    $species =~ /^coyote / and $species = 'coyote';
+    $self->set_possibilities(name => $species);
 }
 
 sub is_shk {

@@ -28,11 +28,11 @@ enum 'TAEB::Type::Branch' => qw(dungeons mines sokoban quest ludios gehennom vla
 
 enum 'TAEB::Type::Trap' => trap_types;
 
+enum 'TAEB::Type::Disposition' => qw(hostile peaceful tame);
+
 enum 'TAEB::Type::Menu' => qw(none single multi);
 
 enum 'TAEB::Type::DeathState' => qw(inventory attributes kills conducts summary scores);
-
-duck_type 'TAEB::Type::Pty' => qw(spawn read write is_active);
 
 1;
 
