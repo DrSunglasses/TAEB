@@ -32,6 +32,7 @@ has pty_type => (
 );
 
 has pty => (
+    traits  => [qw/TAEB::Meta::Trait::DontInitialize/],
     is      => 'ro',
     isa     => 'TAEB::Type::Pty',
     lazy    => 1,
