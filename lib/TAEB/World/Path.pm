@@ -446,7 +446,7 @@ sub contains_tile {
     return $self->tiles->{refaddr $tile};
 }
 
-__PACKAGE__->meta->make_immutable;
+__PACKAGE__->meta->make_immutable(inline_constructor => 0);
 no TAEB::OO;
 
 1;
