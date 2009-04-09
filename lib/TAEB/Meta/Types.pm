@@ -26,8 +26,6 @@ enum 'TAEB::Type::Burden' => qw(Unencumbered Burdened Stressed Strained Overtaxe
 
 enum 'TAEB::Type::Branch' => qw(dungeons mines sokoban quest ludios gehennom vlad planes);
 
-enum 'TAEB::Type::Urgency' => qw(critical important normal unimportant fallback none);
-
 enum 'TAEB::Type::Trap' => trap_types;
 
 enum 'TAEB::Type::Menu' => qw(none single multi);
