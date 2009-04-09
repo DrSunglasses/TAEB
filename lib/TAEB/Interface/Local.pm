@@ -39,10 +39,17 @@ has pty => (
     builder => '_build_pty',
 );
 
+sub pty_class {
+    my $self = shift;
+    my $class = $self->pty_type;
+    return $class if $class =~ s/^\+//;
+    return "IO::Pty::$class";
+}
+
 sub _build_pty {
     my $self = shift;
 
-    require "IO/Pty/".$self->pty_type.".pm";
+    Class::MOP::load_class($self->pty_class);
 
     chomp(my $pwd = `pwd`);
 
@@ -64,7 +71,7 @@ sub _build_pty {
 
     # set Pty to ignore SIGWINCH so that we don't confuse nethack if
     # controlling terminal is not set to 80x24
-    my $pty = ("IO::Pty::".$self->pty_type)->new(handle_pty_size => 0);
+    my $pty = $self->pty_class->new(handle_pty_size => 0);
 
     $pty->spawn($self->name, $self->args);
     return $pty;
