@@ -33,8 +33,7 @@ has pty_type => (
 
 has pty => (
     is      => 'ro',
-# Until we have duck-typing, no type constraint...
-#    isa     => 'IO::Pty::Easy',
+    isa     => 'TAEB::Type::Pty',
     lazy    => 1,
     handles => ['is_active'],
     builder => '_build_pty',
