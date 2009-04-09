@@ -1,6 +1,5 @@
 package TAEB::Interface::Local;
 use TAEB::OO;
-use IO::Pty::Easy;
 use Time::HiRes 'sleep';
 
 use constant ping_wait => 0.2;
@@ -26,9 +25,16 @@ has args => (
     default    => sub { [] },
 );
 
+has pty_type => (
+    is      => 'ro',
+    isa     => 'Str',
+    default => 'Easy',
+);
+
 has pty => (
     is      => 'ro',
-    isa     => 'IO::Pty::Easy',
+# Until we have duck-typing, no type constraint...
+#    isa     => 'IO::Pty::Easy',
     lazy    => 1,
     handles => ['is_active'],
     builder => '_build_pty',
@@ -36,6 +42,8 @@ has pty => (
 
 sub _build_pty {
     my $self = shift;
+
+    require "IO/Pty/".$self->pty_type.".pm";
 
     chomp(my $pwd = `pwd`);
 
@@ -57,7 +65,7 @@ sub _build_pty {
 
     # set Pty to ignore SIGWINCH so that we don't confuse nethack if
     # controlling terminal is not set to 80x24
-    my $pty = IO::Pty::Easy->new(handle_pty_size => 0);
+    my $pty = ("IO::Pty::".$self->pty_type)->new(handle_pty_size => 0);
 
     $pty->spawn($self->name, $self->args);
     return $pty;
@@ -74,20 +82,21 @@ It will return the input read from the pty.
 augment read => sub {
     my $self = shift;
 
-    # this is about the best we can do for consistency
+    # this is about the best we can do for consistency using Easy
     # in Telnet we have a complicated ping/pong that scales with network latency
-    sleep($self->ping_wait);
+    # alternatively you can use HalfDuplex to use a job-control-based ping wait
+    # which scales with NetHack's drawing time
+    sleep($self->ping_wait) if $self->pty_type eq 'Easy';
 
     die "Pty inactive." unless $self->is_active;
     # We already waited for output to arrive; don't wait even longer if there
-    # isn't any.
+    # isn't any. HalfDuplex ignores the arguments, but Easy needs them.
     my $out = $self->pty->read(0,1024);
     return '' if !defined($out);
-    die "Pty closed." if $out eq '';
 
     # We specified blocks of 1024 characters above. If we got exactly 1024,
     # read more.
-    if (length($out) == 1024) {
+    if (length($out) == 1024 && $self->pty_type eq 'Easy') {
         $out .= $self->read(@_);
     }
 
