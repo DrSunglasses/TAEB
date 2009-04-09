@@ -92,7 +92,7 @@ augment read => sub {
     # in Telnet we have a complicated ping/pong that scales with network latency
     # alternatively you can use HalfDuplex to use a job-control-based ping wait
     # which scales with NetHack's drawing time
-    sleep($self->ping_wait) if $self->pty_type eq 'Easy';
+    sleep($self->ping_wait) if $self->pty_class eq 'IO::Pty::Easy';
 
     die "Pty inactive." unless $self->is_active;
     # We already waited for output to arrive; don't wait even longer if there
@@ -102,7 +102,7 @@ augment read => sub {
 
     # We specified blocks of 1024 characters above. If we got exactly 1024,
     # read more.
-    if (length($out) == 1024 && $self->pty_type eq 'Easy') {
+    if (length($out) == 1024 && $self->pty_class eq 'IO::Pty::Easy') {
         $out .= $self->read(@_);
     }
 
