@@ -83,12 +83,12 @@ sub farlook {
     return if @description <= 2;
     my $species = $description[2];
     my $disposition = 'hostile';
-    $species =~ s/^tame // and $disposition = 'tame';
-    $species =~ s/^peaceful // and $disposition = 'peaceful';
+    $disposition    = 'tame'     if $species =~ s/^tame //;
+    $disposition    = 'peaceful' if $species =~ s/^peaceful //;
     $self->disposition($disposition);
     # Coyotes have their farlook data in a different format. Yes, seriously.
     # NetHack has far too many special cases...
-    $species =~ /^coyote / and $species = 'coyote';
+    $species =~ s/^(coyote).*/$1/;
     $self->set_possibilities(name => $species);
 }
 
