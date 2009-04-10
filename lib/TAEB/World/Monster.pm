@@ -38,11 +38,8 @@ has possibilities => (
 );
 
 has disposition => (
-    is       => 'rw',
-    isa      => 'Maybe[TAEB::Type::Disposition]',
-    required => 0,
-    lazy     => 1,
-    default  => sub { undef; }
+    is  => 'rw',
+    isa => 'Maybe[TAEB::Type::Disposition]',
 );
 
 sub maybe {
