@@ -663,7 +663,7 @@ sub quit {
 
 sub save {
     my $self = shift;
-    $self->write("   \e   \e     S");
+    $self->write("   \e   \e     Sy");
     $self->send_message('save');
 }
 
