@@ -34,5 +34,7 @@ enum 'TAEB::Type::Menu' => qw(none single multi);
 
 enum 'TAEB::Type::DeathState' => qw(inventory attributes kills conducts summary scores);
 
+duck_type 'TAEB::Type::Pty' => qw(spawn read write is_active);
+
 1;
 
