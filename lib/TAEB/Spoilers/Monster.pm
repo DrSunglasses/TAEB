@@ -73,34 +73,40 @@ sub _read_attack_string {
 
     my $atk_index = 0;
 
-    for my $token (split / /, $self->attacks) {
+    for my $attack (@{$self->attacks}) {
         $atk_index++;
 
         # Active attacks only
-        next unless $token =~ /^(.??)([0-9]+)d([0-9]+)(.??)$/;
+        next if $attack->{'mode'} eq 'passive';
 
         # Ignore the attacks of yellow and black lights, since they do
         # _large_ amounts of damage that's actually a duration (10d20
         # and 10d12 respectively).
-        next if $4 eq "b" || $4 eq "h";
+	next if $attack->{'type'} eq 'blind';
+	next if $attack->{'type'} eq 'hallucination';
 
         # Ignore non-melee
-        next if $1 eq "M" || $1 eq "B" || $1 eq "G" || $1 eq "S";
+	next if $attack->{'mode'} eq 'magic';
+	next if $attack->{'mode'} eq 'breathe';
+	next if $attack->{'mode'} eq 'spit';
+	next if $attack->{'mode'} eq 'gaze';
 
         # Ignore attacks that the player has res to
-        next if $4 eq "C" && TAEB->cold_resistant;
-        next if $4 eq "F" && TAEB->fire_resistant;
-        next if $4 eq "E" && TAEB->shock_resistant;
+        next if $attack->{'type'} eq 'cold' && TAEB->cold_resistant;
+        next if $attack->{'type'} eq 'fire' && TAEB->fire_resistant;
+        next if $attack->{'type'} eq 'electricity' && TAEB->shock_resistant;
 
         my $hitch = _hitchance($min_to_hit, $max_to_hit, 20 + $atk_index - 1);
 
-        $hitch = 1 if $1 eq "E";
+        $hitch = 1 if $attack->{'mode'} eq 'engulf';
 
-        $total_max += $2 * $3;
+	$attack->{'damage'} =~ /([0-9]+)d([0-9]+)/;
+
+        $total_max += $1 * $2;
 
         # Ballpark the AC reduction, getting it right seems not worth it
 
-        my $damage = $2 * ($3 + 1) / 2;
+        my $damage = $1 * ($2 + 1) / 2;
 
         if (TAEB->ac < 0) {
             my $acreduce = - TAEB->ac / 2;
