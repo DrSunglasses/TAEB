@@ -7,7 +7,7 @@ has level_maps => (
     isa => 'HashRef',
     default => sub {
         my %sokolevels = (
-"soko4-1" => q(
+"soko4-1" => {map_text => q(
 ------  ----- 
 |....|  |...| 
 |.Ah.----.C.| 
@@ -20,18 +20,18 @@ has level_maps => (
  |4|---|dH...|
  |f.3210IeJ..|
  |..|---------
- ----         
-
-Da ab Ec Hd I0
-J1
-Ge e2
-dI I3
-cJ Jf f4
-FI If f5
-CJ Jf fg g6
-Ah BA ba aJ Jf fg g7
-hb ba aJ Jf fg g8),
-"soko4-2" => q(
+ ----         ),
+    solution => [
+	qw(Da ab Ec Hd I0),
+	qw(J1),
+	qw(Ge e2),
+	qw(dI I3),
+	qw(cJ Jf f4),
+	qw(FI If f5),
+	qw(CJ Jf fg g6),
+	qw(Ah BA ba aJ Jf fg g7),
+	qw(hb ba aJ Jf fg g8)]},
+"soko4-2" => {map_text => q(
 -------- ------
 |<|>...|-|....|
 |9|-.ABm.nbG..|
@@ -42,19 +42,19 @@ hb ba aJ Jf fg g8),
 |4-----|dce...|
 |f.3210IJKL...|
 |..|---|......|
-----   --------
-
-Aa Bb Ec Jd I0
-Le K1
-dJ J2
-eL L3
-cK Kf f4
-Gg bG Fh hi iK Kf f5
-Hj ji iK Kf f6
-gk kK Kf f7
-Gl li iK Kf f8
-Dm mb bh hi iK Kf f9),
-"soko3-1" => q(
+----   --------),
+    solution => [
+	qw(Aa Bb Ec Jd I0),
+	qw(Le K1),
+	qw(dJ J2),
+	qw(eL L3),
+	qw(cK Kf f4),
+	qw(Gg bG Fh hi iK Kf f5),
+	qw(Hj ji iK Kf f6),
+	qw(gk kK Kf f7),
+	qw(Gl li iK Kf f8),
+	qw(Dm mb bh hi iK Kf f9)]},
+"soko3-1" => {map_text => q(
 -----------       -----------
 |....|....|--     |.........|
 |.bAB|CE...>|     |.........|
@@ -66,52 +66,24 @@ Dm mb bh hi iK Kf f9),
 |.gIh...cQ.|      |.........|
 |.JKL|N..Rd|---------------+|
 |....|..PfT.0123456789!"#$%.|
------------------------------
-
-Dk kl Gb Ic Rd T0
-P1
-Qe dT T2
-ST T3
-ef f4
-OS ST T5
-cP P6
-Jg gc cP P7
-KI Ic cP P8
-Lh hc cP P9
-HG Gg gc cP P!
-bg gc cP P"
-Fi ij jg gc cP P#
-Ak kj jg gc cP P$
-lj jg gc cP P%),
-# "soko3-2" => q(
-#  ----          -----------
-# -|.>|-------   |.........|
-# |..........|   |.........|
-# |.A-----B-.|   |.........|
-# |..|..l|hC.|   |....<....|
-# |.DmE.i.gF-|   |.........|
-# |.G..H.n|..|   |.........|
-# |.----Ic--.|   |.........|
-# |..J..aK.|.--  |.........|
-# |.---L-j.eM.------------+|
-# |...|..N-.O.0123456789!".|
-# |.dP.b.f.k----------------
-# ----|..|..|               
-#     -------               
-
-# Bg Ch Ja Lb O0
-# Kc aJ bL Pd Nf Me FC gi cj eM MO O1
-# Lb fk ke eM MO O2
-# jf fk ke eM MO O3
-# Ia aK Kf fk ke eM MO O4
-# bL dk ke eM MO O5
-# JK Kf fk ke eM MO O6
-# Lb bk ke eM MO O7
-# il Em Hn nf fk ke eM MO O8
-# Gn nf fk ke eM MO O9
-# DG Gn nf fk ke eM MO O!
-# AG Gn nf fk ke eM MO O"),
-"soko3-2" => q(
+-----------------------------),
+    solution => [
+	qw(Dk kl Gb Ic Rd T0),
+	qw(P1),
+	qw(Qe dT T2),
+	qw(ST T3),
+	qw(ef f4),
+	qw(OS ST T5),
+	qw(cP P6),
+	qw(Jg gc cP P7),
+	qw(KI Ic cP P8),
+	qw(Lh hc cP P9),
+	qw(HG Gg gc cP P!),
+	qw(bg gc cP P"),
+	qw(Fi ij jg gc cP P#),
+	qw(Ak kj jg gc cP P$),
+	qw(lj jg gc cP P%)]},
+"soko3-2" => {map_text => q(
  ----          -----------
 -|.>|-------   |.........|
 |.m........|   |.........|
@@ -125,22 +97,21 @@ lj jg gc cP P%),
 |...|..N-.O.0123456789!".|
 |.dP.b.f.k----------------
 ----|..|..|
-    -------
-
-Bg Ch Ja Lb O0
-Kc aJ bL Pd Nf Me FC gi cj eM MO O1
-Lb fk ke eM MO O2
-jf fk ke eM MO O3
-Ia aK Kf fk ke eM MO O4
-bL dk ke eM MO O5
-JK Kf fk ke eM MO O6
-Lb bk ke eM MO O7
-Gl hg Ch Am Dn Eo ia aK Kf fk ke gi eM MO O8
-ia aK Kf fk ke eM MO O9
-oi ia aK Kf fk ke eM MO O!
-Hp pf fk ke eM MO O"
-),
-"soko2-1" => q(
+    -------               ),
+    solution => [
+	qw(Bg Ch Ja Lb O0),
+	qw(Kc aJ bL Pd Nf Me FC gi cj eM MO O1),
+	qw(Lb fk ke eM MO O2),
+	qw(jf fk ke eM MO O3),
+	qw(Ia aK Kf fk ke eM MO O4),
+	qw(bL dk ke eM MO O5),
+	qw(JK Kf fk ke eM MO O6),
+	qw(Lb bk ke eM MO O7),
+	qw(Gl hg Ch Am Dn Eo ia aK Kf fk ke gi eM MO O8),
+	qw(ia aK Kf fk ke eM MO O9),
+	qw(oi ia aK Kf fk ke eM MO O!),
+	qw(Hp pf fk ke eM MO O")]},
+"soko2-1" => {map_text => q(
 --------------------
 |........|...|.....|
 |.ABfc-EF|.-.|.....|
@@ -152,19 +123,19 @@ Hp pf fk ke eM MO O"
 |-J.|..|----------+|
 |.aK.gh.0123456789.|
 |...|.>|------------
---------            
-
-Ka a0
-Ib Ja a1
-bK K2
-Aa a3
-BA Aa a4
-Cc Fd De ef cC fA Aa a5
-Ce ef fA Aa a6
-ED De ef fA Aa a7
-Mh h8
-Lg g9),
-"soko2-2" => q(
+--------            ),
+    solution => [
+	qw(Ka a0),
+	qw(Ib Ja a1),
+	qw(bK K2),
+	qw(Aa a3),
+	qw(BA Aa a4),
+	qw(Cc Fd De ef cC fA Aa a5),
+	qw(Ce ef fA Aa a6),
+	qw(ED De ef fA Aa a7),
+	qw(Mh h8),
+	qw(Lg g9)]},
+"soko2-2" => {map_text => q(
   --------          
 --|.|....|          
 |...Ajf..|----------
@@ -177,56 +148,20 @@ Lg g9),
 |..ce-N|---|.......|
 --|abO.|----------+|
   |.dP>0123456789!.|
-  ------------------
-
-Oa P0
-N> >1
-Lb ac bd d2
-ce ed d3
-KL Ld d4
-GK KL Ld d5
-FG GK KL Ld d6
-Af Eg Hh hK KL Ld d7
-CH Hh hK KL Ld d8
-Bi iK KL Ld d9
-fj jH Hh hK KL Ld d!),
-# "soko1-1" => q(
-# --------------------------
-# |>.....i0123456789!"#$%&.|
-# |.......|---------------.|
-# -------.------         |.|
-#  |.....hg....|         |.|
-#  |aAbBcCuDdEe|         |.|
-# --------.-----         |.|
-# |...FlH.fI.J.|         |.|
-# |.j.Gs..v....|         |.|
-# -----.--------   ------|.|
-#  |..LkNnP...|  --|.....|.|
-#  |...t.O..m.|  |.+.....|.|
-#  |.K.M.p.Q.|-  |-|.....|.|
-# -------.----   |.+.....+.|
-# |..R...o.|     |-|.....|--
-# |..r...q.|     |.+.....|  
-# |...|-----     --|.....|  
-# -----            -------  
-
-# Aa Bb Cc Dd Ee Hf fg gh hi i0
-# If fg gh hi i1
-# Jf fg gh hi i2
-# Gj Ff fg gh hi i3
-# Lk kl lf fg gh hi i4
-# Om Nk kl lf fg gh hi i5
-# Pk kl lf fg gh hi i6
-# mO On nk kl lf fg gh hi i7
-# Ro on nk kl lf fg gh hi i8
-# Mp pq qr rR Ro on nk kl lf fg gh hi i9
-# Qp pq qr rR Ro on nk kl lf fg gh hi i!
-# Kp pq qr rR Ro on nk kl lf fg gh hi i"
-# js st tl lf fg gh hi i#
-# cu uv vs st tl lf fg gh hi i$
-# bu uv vs st tl lf fg gh hi i%
-# du uv vs st tl lf fg gh hi i&),
-"soko1-1" => q(
+  ------------------),
+    solution => [
+	qw(Oa P0),
+        qw(N> >1),
+	qw(Lb ac bd d2),
+	qw(ce ed d3),
+	qw(KL Ld d4),
+	qw(GK KL Ld d5),
+	qw(FG GK KL Ld d6),
+	qw(Af Eg Hh hK KL Ld d7),
+	qw(CH Hh hK KL Ld d8),
+	qw(Bi iK KL Ld d9),
+	qw(fj jH Hh hK KL Ld d!)]},
+"soko1-1" => {map_text => q(
 --------------------------
 |>.....q0123456789!"#$%&.|
 |.......|---------------.|
@@ -244,25 +179,26 @@ fj jH Hh hK KL Ld d!),
 |.gRh.ft.|     |-|.....|--
 |.e....d.|     |.+.....|  
 |...|-----     --|.....|  
------            -------  
-
-Oa ab Qc cd de Rf eg gh Mc cd de eg Fi Gj jM MQ HF Ik Cl lm mj jM Mc Dl lm mj kn no op pq q0
-jM Fn no op pq q1
-in no op pq q2
-Jn no op pq q3
-Lr rs sn no op pq q4
-Nr rs sn no op pq q5
-ba Pr rs sn no op pq q6
-cd de ft tu ur rs sn no op pq q7
-ht tu ur rs sn no op pq q8
-gt tu ur rs sn no op pq q9
-eg gt tu ur rs sn no op pq q!
-aO Ou ur rs sn no op pq q"
-Mc cd de eg gt tu ur rs sn no op pq q#
-Qc cd de eg gt tu ur rs sn no op pq q$
-Kc cd de eg gt tu ur rs sn no op pq q%
-Bl lm mj jv vs sn no op pq q&),
-"soko1-2" => q(
+-----            -------  ),
+    solution => [
+	qw(Oa ab Qc cd de Rf eg gh Mc cd de eg Fi Gj jM MQ HF Ik Cl lm mj jM Mc
+           Dl lm mj kn no op pq q0),
+	qw(jM Fn no op pq q1),
+	qw(in no op pq q2),
+	qw(Jn no op pq q3),
+	qw(Lr rs sn no op pq q4),
+	qw(Nr rs sn no op pq q5),
+	qw(ba Pr rs sn no op pq q6),
+	qw(cd de ft tu ur rs sn no op pq q7),
+	qw(ht tu ur rs sn no op pq q8),
+	qw(gt tu ur rs sn no op pq q9),
+	qw(eg gt tu ur rs sn no op pq q!),
+	qw(aO Ou ur rs sn no op pq q"),
+	qw(Mc cd de eg gt tu ur rs sn no op pq q#),
+	qw(Qc cd de eg gt tu ur rs sn no op pq q$),
+	qw(Kc cd de eg gt tu ur rs sn no op pq q%),
+	qw(Bl lm mj jv vs sn no op pq q&)]},
+"soko1-2" => {map_text => q(
   ------------------------
   |.j0123456789!"#$%&'~..|
   |..-------------------.|
@@ -279,52 +215,53 @@ Bl lm mj jv vs sn no op pq q&),
     ---.--.|   |-|.....|--
      |.M..a|   |.+.....|  
      |>.|..|   --|.....|  
-     -------     -------  
-
-Ma ab Tc Sd Qe Pf Gg Dh Bi iB Aj j0
-EG hj j1
-Bi ik kj j2
-Ch hj j3
-Il GE lj j4
-Jl lj j5
-HI Ij j6
-Fi ik kj j7
-gm mj j8
-EG Gm mj j9
-KG Gm mj j!
-fn nm mj j"
-Lo op pq qG Gm mj j#
-cT RP Pf fn nm mj j$
-bP Pf fn nm mj j%
-Tb bP Pf fn nm mj j&
-Nr ec cs sP Pf fn nm mj j'
-rN Nc cs sP Pf fn nm mj j~),
+     -------     -------  ),
+    solution => [
+	qw(Ma ab Tc Sd Qe Pf Gg Dh Bi iB Aj j0),
+	qw(EG hj j1),
+	qw(Bi ik kj j2),
+	qw(Ch hj j3),
+	qw(Il GE lj j4),
+	qw(Jl lj j5),
+	qw(HI Ij j6),
+	qw(Fi ik kj j7),
+	qw(gm mj j8),
+	qw(EG Gm mj j9),
+	qw(KG Gm mj j!),
+	qw(fn nm mj j"),
+	qw(Lo op pq qG Gm mj j#),
+	qw(cT RP Pf fn nm mj j$),
+	qw(bP Pf fn nm mj j%),
+	qw(Tb bP Pf fn nm mj j&),
+	qw(Nr ec cs sP Pf fn nm mj j'),
+	qw(rN Nc cs sP Pf fn nm mj j~)]},
             );
+	# Unpack the map from the human-readable representation above
+	# into a true in-memory representation.
+	for my $levelname (keys %sokolevels) {
+	    my $level = $sokolevels{$levelname};
+	    my $map_text = $level->{'map_text'};
+	    my %map = ();
+	    my %locations = ();
+	    my $x = 0;
+	    my $y = -1; # there's an initial newline
+	    while ($map_text ne '') {
+		my $char = substr $map_text,0,1,"";
+		if ($char eq "\n") {
+		    $y++;
+		    $x = 0;
+		    next;
+		}
+		$map{$x,$y} = $char;
+		$locations($char) = [$x,$y];
+		$x++;
+	    }
+	    $level->{'map'} = \%map;
+	    $level->{'locations'} = \%locations;
+	}
         return \%sokolevels;
     },
 );
-
-sub _location_from_map_and_letter {
-    my $self = shift;
-    my $map = shift;
-    my $letter = shift;
-    my $x=0;
-    my $y=0;
-    $y++ while $map =~ s/^[^\n\Q$letter\E]*\n//;
-    $x++ while $map =~ s/^[^\n\Q$letter\E]//;
-    return ($x, $y-1);
-}
-
-sub _letter_from_map_and_location {
-    my $self = shift;
-    my $map = shift;
-    my ($x, $y) = @_;
-    $y++;
-    $map =~ s/^.*\n// while $y--;
-    $map =~ s/^.// while $x--;
-    $map =~ /^(.)/;
-    return $1;
-}
 
 =head2 next_sokoban_step Level [Pathable] -> Maybe Tile
 
