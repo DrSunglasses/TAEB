@@ -1,6 +1,6 @@
 package TAEB::Spoilers::Monster;
 use TAEB::OO;
-use TAEB::Util qw/colors min max firstidx string_color/;
+use TAEB::Util qw/colors min max firstidx string_color dice/;
 extends 'NetHack::Monster::Spoiler';
 
 around lookup => sub {
@@ -100,13 +100,12 @@ sub _read_attack_string {
 
         $hitch = 1 if $attack->{'mode'} eq 'engulf';
 
-	$attack->{'damage'} =~ /([0-9]+)d([0-9]+)/;
-
-        $total_max += $1 * $2;
+        my ($dam_min, $dam_avg, $dam_max) = dice($attack->{'damage'});
+        $total_max += $dam_max;
 
         # Ballpark the AC reduction, getting it right seems not worth it
 
-        my $damage = $1 * ($2 + 1) / 2;
+        my $damage = $dam_avg;
 
         if (TAEB->ac < 0) {
             my $acreduce = - TAEB->ac / 2;
