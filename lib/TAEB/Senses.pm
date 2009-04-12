@@ -581,6 +581,9 @@ sub msg_polyself {
     my $newform = shift;
 
     $self->polyself($newform);
+
+    # Polyselfing can make us drop things; recheck our inventory
+    TAEB->enqueue_message(check => 'inventory');
 }
 
 # this is nethack's internal representation of strength, to make other
