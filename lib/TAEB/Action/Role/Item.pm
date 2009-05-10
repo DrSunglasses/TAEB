@@ -6,9 +6,22 @@ parameter items => (
     default    => sub { ['item'] },
 );
 
+sub exception_missing_item {
+    my $self = shift;
+    return unless blessed $self->current_item;
+
+    TAEB->log->action("We don't have item " . $self->current_item
+                    . ", escaping.", level => 'warning');
+    TAEB->inventory->remove($self->current_item->slot);
+    TAEB->enqueue_message(check => 'inventory');
+    $self->aborted(1);
+    return "\e\e\e";
+}
+
 role {
     my $p = shift;
     my $items = $p->items;
+    my $default_current_item = $items->[0];
 
     has $items => (
         is       => 'ro',
@@ -22,8 +35,7 @@ role {
         lazy     => 1,
         default  => sub {
             my $self = shift;
-            my $item_attr = $items->[0];
-            return $self->$item_attr;
+            return $self->$default_current_item;
         },
     );
 
@@ -34,7 +46,7 @@ role {
         TAEB->log->action("We don't have item " . $self->current_item
                         . ", escaping.", level => 'warning');
         TAEB->inventory->remove($self->current_item->slot);
-        TAEB->send_message(check => 'inventory');
+        TAEB->enqueue_message(check => 'inventory');
         $self->aborted(1);
         return "\e\e\e";
     };
