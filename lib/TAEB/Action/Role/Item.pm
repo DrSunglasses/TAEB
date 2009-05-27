@@ -38,18 +38,6 @@ role {
             return $self->$default_current_item;
         },
     );
-
-    method exception_missing_item => sub {
-        my $self = shift;
-        return unless blessed $self->current_item;
-
-        TAEB->log->action("We don't have item " . $self->current_item
-                        . ", escaping.", level => 'warning');
-        TAEB->inventory->remove($self->current_item->slot);
-        TAEB->enqueue_message(check => 'inventory');
-        $self->aborted(1);
-        return "\e\e\e";
-    };
 };
 
 no MooseX::Role::Parameterized;
