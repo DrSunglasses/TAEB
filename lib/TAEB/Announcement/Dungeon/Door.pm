@@ -15,6 +15,9 @@ __PACKAGE__->parse_messages(
     "WHAMMM!!!" => {
         state => 'resists',
     },
+    "The door opens." => {
+        state => 'just_opened',
+    },
     "You succeed in unlocking the door." => {
         state => 'just_unlocked',
     },
