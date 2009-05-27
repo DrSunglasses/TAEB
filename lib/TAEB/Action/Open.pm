@@ -13,13 +13,13 @@ subscribe door => sub {
     my $self  = shift;
     my $event = shift;
 
-    my $status = $event->status;
-    my $tile   = $event->tile;
+    my $state = $event->state;
+    my $tile  = $event->tile;
 
-    if ($status eq 'locked') {
+    if ($state eq 'locked') {
         $tile->state('locked');
     }
-    elsif ($status eq 'resists') {
+    elsif ($state eq 'resists') {
         $tile->state('unlocked');
     }
 };

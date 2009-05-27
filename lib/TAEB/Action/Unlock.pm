@@ -28,7 +28,7 @@ subscribe door => sub {
     my $event = shift;
 
     my $tile  = $event->door;
-    my $state = $event->status;
+    my $state = $event->state;
 
     if ($state eq 'just_unlocked') {
         $tile->state('unlocked');
