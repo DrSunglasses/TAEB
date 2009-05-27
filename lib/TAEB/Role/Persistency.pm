@@ -1,13 +1,14 @@
 package TAEB::Role::Persistency;
 use Moose::Role;
 use Storable;
+use Devel::GlobalDestruction;
 
 requires 'persistent_file';
 
 sub save_state {
     my $self = shift;
 
-    return if Class::MOP::in_global_destruction;
+    return if in_global_destruction;
 
     my $file = $self->persistent_file;
     return unless defined $file;

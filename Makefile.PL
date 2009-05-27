@@ -39,6 +39,7 @@ requires 'Heap::Simple::XS'; # why doesn't Heap::Simple do this for us...
 requires 'Time::HiRes';
 requires 'Data::Page';
 requires 'Getopt::Long';
+requires 'Devel::GlobalDestruction';
 
 # NetHack-specific things
 requires 'NetHack::Menu' => 0.06;
