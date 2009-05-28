@@ -10,7 +10,7 @@ role {
     my $p = shift;
     my $tile_type = $p->tile_type;
 
-    sub tile_type { $tile_type }
+    method tile_type => sub { $tile_type };
 };
 
 no MooseX::Role::Parameterized;
