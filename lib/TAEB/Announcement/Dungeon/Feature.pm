@@ -18,11 +18,19 @@ role {
 
     method tile_type => sub { $tile_type };
 
-    if ($p->affect_type eq 'local') {
-        method target_tile => sub { TAEB->current_tile };
-    }
-    elsif ($p->affect_type eq 'direction') {
-        method target_tile => sub { TAEB->action->target_tile };
+    if ($p->affect_type) {
+        has target_tile => (
+            is      => 'ro',
+            isa     => 'TAEB::World::Tile',
+            builder => '_build_target_tile',
+        );
+
+        if ($p->affect_type eq 'local') {
+            method _build_target_tile => sub { TAEB->current_tile };
+        }
+        elsif ($p->affect_type eq 'direction') {
+            method _build_target_tile => sub { TAEB->action->target_tile };
+        }
     }
 };
 
