@@ -112,7 +112,10 @@ sub send_message {
         }
 
         if ($recipient->can($method)) {
-            $recipient->$method(@args)
+            $recipient->$method(@args);
+        }
+        elsif ($recipient->can('msg_any')) {
+            $recipient->msg_any(@args);
         }
     }
 }
