@@ -8,6 +8,11 @@ parameter tile_type => (
     required => 1,
 );
 
+parameter tile_subtype => (
+    is  => 'ro',
+    isa => 'Str',
+);
+
 parameter target_type => (
     is       => 'ro',
     isa      => (enum ['local', 'direction']),
@@ -16,7 +21,11 @@ parameter target_type => (
 
 role {
     my $p = shift;
-    my $tile_type = $p->tile_type;
+    my $tile_type    = $p->tile_type;
+    my $tile_subtype = $p->tile_subtype;
+
+    method tile_type    => sub { $tile_type };
+    method tile_subtype => sub { $tile_subtype };
 
     method tile_type => sub { $tile_type };
 
