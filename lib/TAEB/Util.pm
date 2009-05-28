@@ -33,9 +33,10 @@ use constant \%colors;
 
 use Sub::Exporter -setup => {
     exports => [
-        qw(tile_types trap_types delta2vi vi2delta deltas dice colors),
-        qw(crow_flies angle align2str display assert assert_is item_menu),
-        qw(hashref_menu object_menu list_menu numeric_color string_color),
+        qw(tile_types tile_type_to_glyph trap_types delta2vi vi2delta deltas),
+        qw(dice colors crow_flies angle align2str display assert assert_is),
+        qw(item_menu hashref_menu object_menu list_menu numeric_color),
+        qw(string_color),
         keys %colors,
         qw(blessed isweak refaddr weaken),
         @List::Util::EXPORT_OK,
@@ -130,6 +131,27 @@ Returns the list of all the tile types TAEB uses.
 sub tile_types {
     return @types;
 }
+
+=head2 tile_type_to_glyph str -> str
+
+Returns the glyph for a given tile type
+
+=cut
+
+do {
+    my %type_to_glyph;
+    for my $glyph (keys %glyph) {
+        my $type  = $glyph{$glyph};
+        my @types = @{ ref($type) eq 'ARRAY' ? $type : [$type] };
+
+        $type_to_glyph{$_} = $glyph for @types;
+    }
+
+    sub tile_type_to_glyph {
+        my $type = shift;
+        return $type_to_glyph{$type};
+    }
+};
 
 =head2 trap_types -> [str]
 
