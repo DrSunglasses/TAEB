@@ -2,6 +2,25 @@ package TAEB::Announcement::Dungeon::Door;
 use TAEB::OO;
 extends 'TAEB::Announcement::Dungeon';
 
+use constant name => 'door';
+
+has state => (
+    is       => 'ro',
+    isa      => 'Str', # more general than DoorState
+    required => 1,
+);
+
+has tile => (
+    is       => 'ro',
+    isa      => 'TAEB::World::Tile::Door',
+    default  => sub {
+        my $action = TAEB->action;
+        confess "Unable to figure out the door tile from action $action"
+            unless $action->does('TAEB::Action::Role::Direction');
+        return $action->target_tile;
+    },
+);
+
 __PACKAGE__->parse_messages(
     "This door is locked." => {
         state => 'locked',
@@ -34,25 +53,6 @@ __PACKAGE__->parse_messages(
         state => 'interrupted_unlocking',
     },
 );
-
-has state => (
-    is       => 'ro',
-    isa      => 'Str', # more general than DoorState
-    required => 1,
-);
-
-has tile => (
-    is       => 'ro',
-    isa      => 'TAEB::World::Tile::Door',
-    default  => sub {
-        my $action = TAEB->action;
-        confess "Unable to figure out the door tile from action $action"
-            unless $action->does('TAEB::Action::Role::Direction');
-        return $action->target_tile;
-    },
-);
-
-use constant name => 'door';
 
 __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
