@@ -109,10 +109,6 @@ our %msg_string = (
         [floor_item => sub { TAEB->new_item("1 gold piece") }],
     "You wrest one last charge from the worn-out wand." =>
         ['wrest_wand'],
-    "You are caught in a bear trap." =>
-        ['beartrap'],
-    "You can't move your leg!" =>
-        ['beartrap'],
     "You are stuck to the web." =>
         ['web' => 1],
     "You can't write on the water!" =>
@@ -482,10 +478,6 @@ our @msg_regex = (
             ['throw_count', sub { $1 }],
     ],
     [
-        qr/^(?:A|Your) bear trap closes on your/,
-            ['beartrap'],
-    ],
-    [
         qr/^You fall into (?:a|your) pit!/,
             ['pit' => 1]
     ],
@@ -776,10 +768,6 @@ our @msg_regex = (
     [
         qr/You tear through \w+ web!/ =>
             [dungeon_feature => trap => 0],
-    ],
-    [
-        qr/\w+ bear trap closes harmlessly (?:through|over) you\./ =>
-            [dungeon_feature => trap => "bear trap"],
     ],
     [
         # polymorph issues
