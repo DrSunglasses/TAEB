@@ -7,7 +7,7 @@ parameter tile_type => (
     isa => 'TAEB::Type::Tile',
 );
 
-parameter affect_type => (
+parameter target_type => (
     is  => 'ro',
     isa => (enum ['local', 'direction']),
 );
@@ -18,17 +18,17 @@ role {
 
     method tile_type => sub { $tile_type };
 
-    if ($p->affect_type) {
+    if ($p->target_type) {
         has target_tile => (
             is      => 'ro',
             isa     => 'TAEB::World::Tile',
             builder => '_build_target_tile',
         );
 
-        if ($p->affect_type eq 'local') {
+        if ($p->target_type eq 'local') {
             method _build_target_tile => sub { TAEB->current_tile };
         }
-        elsif ($p->affect_type eq 'direction') {
+        elsif ($p->target_type eq 'direction') {
             method _build_target_tile => sub { TAEB->action->target_tile };
         }
     }
