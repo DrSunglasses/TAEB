@@ -3,13 +3,15 @@ use MooseX::Role::Parameterized;
 use Moose::Util::TypeConstraints 'enum';
 
 parameter tile_type => (
-    is  => 'ro',
-    isa => 'TAEB::Type::Tile',
+    is       => 'ro',
+    isa      => 'TAEB::Type::Tile',
+    required => 1,
 );
 
 parameter target_type => (
-    is  => 'ro',
-    isa => (enum ['local', 'direction']),
+    is       => 'ro',
+    isa      => (enum ['local', 'direction']),
+    required => 1,
 );
 
 role {
