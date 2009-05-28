@@ -27,14 +27,10 @@ role {
     method tile_type    => sub { $tile_type };
     method tile_subtype => sub { $tile_subtype };
 
-    method tile_type => sub { $tile_type };
+    my %extra;
 
     if ($p->target_type) {
-        has target_tile => (
-            is      => 'ro',
-            isa     => 'TAEB::World::Tile',
-            builder => '_build_target_tile',
-        );
+        $extra{builder} = '_build_target_tile';
 
         if ($p->target_type eq 'local') {
             method _build_target_tile => sub { TAEB->current_tile };
@@ -43,6 +39,14 @@ role {
             method _build_target_tile => sub { TAEB->action->target_tile };
         }
     }
+
+    has target_tile => (
+        is        => 'ro',
+        isa       => 'TAEB::World::Tile',
+        predicate => 'has_target_tile',
+        %extra,
+    );
+
 };
 
 no MooseX::Role::Parameterized;
