@@ -5,7 +5,8 @@ extends 'TAEB::Announcement::Dungeon';
 use constant name => 'door';
 
 with 'TAEB::Announcement::Dungeon::Feature' => (
-    tile_type => 'door',
+    tile_type   => 'door',
+    affect_type => 'direction',
 );
 
 has state => (

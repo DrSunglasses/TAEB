@@ -3,7 +3,8 @@ use TAEB::OO;
 extends 'TAEB::Announcement::Dungeon';
 
 with 'TAEB::Announcement::Dungeon::Feature' => (
-    tile_type => 'trap',
+    tile_type   => 'trap',
+    affect_type => 'local',
 );
 
 has type => (
