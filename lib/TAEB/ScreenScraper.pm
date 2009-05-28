@@ -1499,7 +1499,7 @@ sub send_messages {
                                 ? $_->name : $_->[0]
                             } @messages;
 
-            TAEB->log->scraper("Sending $msg_names in response to '$line'");
+            TAEB->log->scraper("Announcing $msg_names in response to '$line'");
 
             for (@messages) {
                 if (blessed($_) && $_->isa('TAEB::Announcement')) {
