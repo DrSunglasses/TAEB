@@ -92,10 +92,10 @@ sub send_message {
     my @args = @_;
 
     if (@args) {
-        TAEB->log->publisher("Sending message $name with arguments @args.");
+        TAEB->log->publisher("Announcing $name with arguments @args.");
     }
     else {
-        TAEB->log->publisher("Sending message $name with no arguments.");
+        TAEB->log->publisher("Announcing $name with no arguments.");
     }
 
     my $method = "msg_$name";
