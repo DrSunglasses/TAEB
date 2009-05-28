@@ -100,7 +100,9 @@ sub send_message {
 
     my $method = "msg_$name";
 
+    my $announcement = 0;
     if (@args == 1 && blessed($args[0]) && $args[0]->isa('TAEB::Announcement')) {
+        $announcement = 1;
         $method = "subscription_" . $args[0]->name;
     }
 
@@ -111,11 +113,11 @@ sub send_message {
             $recipient->forward_message($name, @args);
         }
 
-        if ($recipient->can($method)) {
-            $recipient->$method(@args);
-        }
-        elsif ($recipient->can('msg_any')) {
-            $recipient->msg_any(@args);
+        for ($method, ($announcement ? 'subscription_any' : 'subscription_any')) {
+            if ($recipient->can($_)) {
+                $recipient->$_(@args);
+                last;
+            }
         }
     }
 }
