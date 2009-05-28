@@ -3,6 +3,7 @@ use TAEB::OO;
 extends 'TAEB::Announcement::Dungeon::Trap';
 
 use constant name => 'beartrap';
+use constant tile_subtype => 'beartrap';
 
 has '+type' => (
     default => 'beartrap',
