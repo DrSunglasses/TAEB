@@ -1,16 +1,16 @@
 package TAEB::Announcement::Dungeon::Feature;
 use MooseX::Role::Parameterized;
 
-parameter type => (
+parameter tile_type => (
     is  => 'ro',
     isa => 'TAEB::Type::Tile',
 );
 
 role {
     my $p = shift;
-    my $type = $p->type;
+    my $tile_type = $p->tile_type;
 
-    sub type { $type }
+    sub tile_type { $tile_type }
 };
 
 no MooseX::Role::Parameterized;
