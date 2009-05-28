@@ -1,6 +1,6 @@
 package TAEB::Announcement::Dungeon::Trap::Beartrap;
 use TAEB::OO;
-extends 'TAEB::Announcement::Dungeon::Beartrap';
+extends 'TAEB::Announcement::Dungeon::Trap';
 
 use constant name => 'beartrap';
 
