@@ -292,6 +292,21 @@ sub msg_dungeon_feature {
     $tile->change_type($type => $floor, $subtype);
 }
 
+subscribe any => sub {
+    my $self  = shift;
+    my $event = shift;
+
+    return unless $event->does('TAEB::Announcement::Dungeon::Feature')
+               && $event->has_target_tile;
+
+    my $tile    = $event->target_tile;
+    my $type    = $event->tile_type;
+    my $subtype = $event->tile_subtype;
+    my $glyph   = tile_type_to_glyph($event->tile_type);
+
+    $tile->change_type($type => $glyph, $subtype);
+};
+
 sub msg_excalibur {
     my $self = shift;
 
