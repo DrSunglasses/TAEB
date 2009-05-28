@@ -81,24 +81,6 @@ our %msg_string = (
         ['protection_dec'],
     "The golden haze around you disappears." =>
         ['protection_gone'],
-    "This door is locked." =>
-        ['door', 'locked'],
-    "This door resists!" =>
-        ['door', 'resists'],
-    "The door resists!" =>
-        ['door', 'resists'],
-    "WHAMMM!!!" =>
-        ['door', 'resists'],
-    "You succeed in unlocking the door." =>
-        ['door', 'just_unlocked'],
-    "You succeed in picking the lock." =>
-        ['door', 'just_unlocked'],
-    "You stop locking the door." =>
-        ['door', 'interrupted_locking'],
-    "You stop picking the lock." =>
-        ['door', 'interrupted_unlocking'],
-    "You stop unlocking the door." =>
-        ['door', 'interrupted_unlocking'],
     "You try to move the boulder, but in vain." =>
         ['immobile_boulder'],
     "There is nothing here to pick up." =>
