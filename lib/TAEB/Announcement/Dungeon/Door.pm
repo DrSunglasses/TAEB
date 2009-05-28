@@ -6,7 +6,7 @@ use constant name => 'door';
 
 with 'TAEB::Announcement::Dungeon::Feature' => (
     tile_type   => 'door',
-    affect_type => 'direction',
+    target_type => 'direction',
 );
 
 has state => (

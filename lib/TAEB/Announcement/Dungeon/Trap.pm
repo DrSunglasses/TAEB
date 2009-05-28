@@ -4,7 +4,7 @@ extends 'TAEB::Announcement::Dungeon';
 
 with 'TAEB::Announcement::Dungeon::Feature' => (
     tile_type   => 'trap',
-    affect_type => 'local',
+    target_type => 'local',
 );
 
 has type => (
