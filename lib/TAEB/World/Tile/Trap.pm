@@ -22,7 +22,8 @@ sub reblessed {
 
     $trap_type = $TAEB::Util::trap_colors{$self->color};
     if (ref $trap_type) {
-        if ($self->level->branch eq 'sokoban') {
+        if (defined $self->level->branch &&
+            $self->level->branch eq 'sokoban') {
             $self->trap_type(grep { /^(?:pit|hole)$/ } @$trap_type);
             return;
         }
