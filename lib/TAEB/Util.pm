@@ -477,7 +477,14 @@ sub assert {
 
     return if $condition;
 
-    TAEB->debugger->console->repl(_add_file_line("Assertion failed: $explanation"));
+    my $message = _add_file_line("Assertion failed: $explanation");
+
+    if (TAEB->config->kiosk_mode) {
+        warn $message;
+    }
+    else {
+        TAEB->debugger->console->repl($message);
+    }
 }
 
 sub assert_is {
@@ -489,7 +496,14 @@ sub assert_is {
     $explanation = "Assertion failed: " . _add_file_line($explanation) . "\n";
     $explanation .= "'$got' does not equal '$expected'";
 
-    TAEB->debugger->console->repl(_add_file_line($explanation));
+    my $message = _add_file_line("Assertion failed: $explanation");
+
+    if (TAEB->config->kiosk_mode) {
+        warn $message;
+    }
+    else {
+        TAEB->debugger->console->repl($message);
+    }
 }
 
 do {
