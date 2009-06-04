@@ -1,7 +1,7 @@
 package TAEB::World::Cartographer;
 use TAEB::OO;
 use NetHack::FOV 'calculate_fov';
-use TAEB::Util 'assert';
+use TAEB::Util qw/assert tile_type_to_glyph/;
 
 has dungeon => (
     is       => 'ro',
