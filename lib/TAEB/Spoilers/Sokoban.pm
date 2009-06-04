@@ -65,7 +65,7 @@ has level_maps => (
 |.GH.|M.OeS|      |.........|
 |.gIh...cQ.|      |.........|
 |.JKL|N..Rd|---------------+|
-|....|..PfT.0123456789!"#$%.|
+|....|..PfT.0123456789!":$%.|
 -----------------------------),
     solution_text => [
 	qw(Dk kl Gb Ic Rd T0),
@@ -80,7 +80,7 @@ has level_maps => (
 	qw(Lh hc cP P9),
 	qw(HG Gg gc cP P!),
 	qw(bg gc cP P"),
-	qw(Fi ij jg gc cP P#),
+	qw(Fi ij jg gc cP P:),
 	qw(Ak kj jg gc cP P$),
 	qw(lj jg gc cP P%)]},
 "soko3-2" => {map_text => q(
@@ -163,7 +163,7 @@ has level_maps => (
 	qw(fj jH Hh hK KL Ld d!)]},
 "soko1-1" => {map_text => q(
 --------------------------
-|>.....q0123456789!"#$%&.|
+|>.....q0123456789!":$%&.|
 |.......|---------------.|
 -------.------         |.|
  |.....po....|         |.|
@@ -194,13 +194,13 @@ has level_maps => (
 	qw(gt tu ur rs sn no op pq q9),
 	qw(eg gt tu ur rs sn no op pq q!),
 	qw(aO Ou ur rs sn no op pq q"),
-	qw(Mc cd de eg gt tu ur rs sn no op pq q#),
+	qw(Mc cd de eg gt tu ur rs sn no op pq q:),
 	qw(Qc cd de eg gt tu ur rs sn no op pq q$),
 	qw(Kc cd de eg gt tu ur rs sn no op pq q%),
 	qw(Bl lm mj jv vs sn no op pq q&)]},
 "soko1-2" => {map_text => q(
   ------------------------
-  |.j0123456789!"#$%&'~..|
+  |.j0123456789!":$%&'~..|
   |..-------------------.|
 ----.|    -----        |.|
 |..|A--  --...|        |.|
@@ -229,7 +229,7 @@ has level_maps => (
 	qw(EG Gm mj j9),
 	qw(KG Gm mj j!),
 	qw(fn nm mj j"),
-	qw(Lo op pq qG Gm mj j#),
+	qw(Lo op pq qG Gm mj j:),
 	qw(cT RP Pf fn nm mj j$),
 	qw(bP Pf fn nm mj j%),
 	qw(Tb bP Pf fn nm mj j&),
@@ -371,7 +371,7 @@ sub next_sokoban_step {
     for my $step (@sofar) {
         map {tr/$step[0]/$step[1]/} @boulderlocations;
     }
-    map {s/[0-9!"#\$\%\&'~]//;} @boulderlocations;
+    map {s/[0-9!"\$\%\&'~:]//;} @boulderlocations;
 
     # Find out where the boulders actually are.
     my @currentboulderlocations = '';
