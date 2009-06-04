@@ -1114,6 +1114,13 @@ sub handle_more_menus {
             return 0;
         };
     }
+    elsif (TAEB->topline =~ /Fine goods for sale:/) {
+        $each = sub {
+            /^\s*(.*), (\d+) zorkmids?/ and
+                TAEB->enqueue_message('item_price' => TAEB->new_item($1), $2);
+            return 0;
+        }
+    }
     elsif (TAEB->state eq 'dying' && TAEB->topline =~ /Voluntary challenges:\s*$/) {
         my $skip = 2;
         $each = sub {
