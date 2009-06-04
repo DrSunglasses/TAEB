@@ -329,6 +329,23 @@ sub msg_floor_item {
     TAEB->current_tile->add_item($item) if $item;
 }
 
+sub msg_item_price {
+    my $self = shift;
+    my $item = shift;
+    my $cost_each = shift;
+    my $tile = TAEB->current_tile;
+
+    for my $i (0 .. $tile->item_count - 1) {
+        my $tile_item = $tile->items->[$i];
+
+        if ($item->maybe_is($tile_item)) {
+            $tile_item->cost_each($cost_each);
+            return;
+        }
+    }
+    assert(0, "Couldn't find the $item that's meant to be on this tile");
+}
+
 sub msg_remove_floor_item {
     my $self = shift;
     my $item = shift;

@@ -6,7 +6,8 @@ with 'TAEB::Action::Role::Direction';
 use constant command => "#chat\n";
 
 has '+direction' => (
-    required => 1,
+    required => 0,       # undirectional in a shop
+    default  => '.',
 );
 
 has amount => (
