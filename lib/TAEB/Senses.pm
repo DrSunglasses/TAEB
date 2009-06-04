@@ -373,7 +373,7 @@ sub update {
     if ($self->prev_turn) {
         if ($self->turn != $self->prev_turn) {
             for ($self->prev_turn + 1 .. $self->turn) {
-                TAEB->send_message(turn => $_);
+                TAEB->send_message(turn => TAEB::Announcement::Turn->new);
             }
         }
     }
@@ -477,10 +477,10 @@ sub msg_walked {
     }
 }
 
-sub msg_turn {
+subscribe turn => sub {
     my $self = shift;
     $self->nutrition($self->nutrition - 1);
-}
+};
 
 my %method_of = (
     lycanthropy   => 'is_lycanthropic',

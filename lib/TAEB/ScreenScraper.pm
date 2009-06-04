@@ -986,11 +986,11 @@ sub check_cycling {
     }
 }
 
-sub msg_turn {
+subscribe turn => sub {
     my $self = shift;
 
     $self->reset_calls_this_turn;
-}
+};
 
 subscribe step => sub {
     my $self = shift;

@@ -727,10 +727,10 @@ sub msg_level_message {
                           && $self->branch eq 'mines';
 }
 
-sub msg_turn {
+subscribe turn => sub {
     my $self = shift;
     $self->inc_turns_spent_on;
-}
+};
 
 =head2 glyph_to_type str[, str] -> str
 
