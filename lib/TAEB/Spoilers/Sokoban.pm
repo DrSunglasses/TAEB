@@ -403,11 +403,11 @@ sub next_sokoban_step {
     my @plan = @{$steps[0]};
     my ($working_x, $working_y);
     for my $movement (@plan) {
-        my $nextmovef = ${$movement[0]};
-        my $nextmovet = ${$movement[1]};
+        my $nextmovef = ${$movement->[0]};
+        my $nextmovet = ${$movement->[1]};
         # Bare block that iterates once for each boulder step movement
         {
-            my ($xf, $yf) = $nextmoved eq '.' ?
+            my ($xf, $yf) = $nextmovef eq '.' ?
               ($working_x, $working_y) :
                 @{$locations->{$nextmovef}};
             my ($xt, $yt) = @{$locations->{$nextmovet}};
@@ -431,7 +431,7 @@ sub next_sokoban_step {
                 }
                 if($tilefrom->x - $left == $x && $tilefrom->y - $top  == $y) {
                     # We're in the right location, push the boulder.
-                    return ($level->at($xf + $left, $yf + $top), $plan);
+                    return ($level->at($xf + $left, $yf + $top));
                 }
                 my $temptile = $level->at($x + $left, $y + $top);
                 if ($pathable) {
