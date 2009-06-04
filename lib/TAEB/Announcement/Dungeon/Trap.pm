@@ -2,10 +2,10 @@ package TAEB::Announcement::Dungeon::Trap;
 use TAEB::OO;
 extends 'TAEB::Announcement::Dungeon';
 
-with 'TAEB::Announcement::Dungeon::Feature' => (
+with 'TAEB::Announcement::Dungeon::Feature' => {
     tile_type   => 'trap',
     target_type => 'local',
-);
+};
 
 has type => (
     is       => 'ro',

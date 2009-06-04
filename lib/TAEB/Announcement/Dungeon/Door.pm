@@ -4,10 +4,10 @@ extends 'TAEB::Announcement::Dungeon';
 
 use constant name => 'door';
 
-with 'TAEB::Announcement::Dungeon::Feature' => (
+with 'TAEB::Announcement::Dungeon::Feature' => {
     tile_type   => 'door',
     target_type => 'direction',
-);
+};
 
 has state => (
     is       => 'ro',
