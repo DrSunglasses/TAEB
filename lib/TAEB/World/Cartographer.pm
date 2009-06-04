@@ -395,9 +395,9 @@ sub msg_debt {
     shift->floodfill_room('shop');
 }
 
-sub msg_step {
+subscribe step => sub {
     shift->_last_location(TAEB->current_tile);
-}
+};
 
 sub msg_enter_room {
     my $self     = shift;

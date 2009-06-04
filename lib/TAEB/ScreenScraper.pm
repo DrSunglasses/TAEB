@@ -992,11 +992,11 @@ sub msg_turn {
     $self->reset_calls_this_turn;
 }
 
-sub msg_step {
+subscribe step => sub {
     my $self = shift;
 
     $self->saw_floor_list_this_step(0);
-}
+};
 
 sub clear {
     my $self = shift;

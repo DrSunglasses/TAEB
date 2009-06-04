@@ -13,11 +13,11 @@ has enabled => (
     lazy    => 1,
 );
 
-sub msg_step {
+subscribe step => sub {
     my $self = shift;
 
     TAEB->send_message('sanity') if $self->enabled;
-}
+};
 
 sub msg_key {
     my $self = shift;

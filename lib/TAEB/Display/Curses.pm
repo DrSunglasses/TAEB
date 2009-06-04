@@ -480,14 +480,14 @@ sub change_draw_mode {
     $modes{$key}{immediate}($self) if $modes{$key}{immediate};
 }
 
-sub msg_step {
+subscribe step => sub {
     my $self = shift;
     my $time = gettimeofday;
     my $list = $self->time_buffer;
 
     unshift @$list, $time;
     splice @$list, 2 if @$list > 2;
-}
+};
 
 sub get_key { Curses::getch }
 

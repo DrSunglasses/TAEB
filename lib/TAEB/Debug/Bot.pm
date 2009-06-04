@@ -126,7 +126,7 @@ sub response_to {
     }
 }
 
-sub msg_step {
+subscribe step => sub {
     my $self = shift;
 
     do {
@@ -134,7 +134,7 @@ sub msg_step {
     } while ($self->paused && $self->step == 0);
 
     $self->dec_step;
-}
+};
 
 no Moose::Role;
 

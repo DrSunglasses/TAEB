@@ -364,7 +364,7 @@ sub update {
 
     if ($main) {
         $self->inc_step;
-        TAEB->send_message(step => $self->step);
+        TAEB->send_message(step => TAEB::Announcement::Step->new);
     }
 
     $self->parse_botl;
