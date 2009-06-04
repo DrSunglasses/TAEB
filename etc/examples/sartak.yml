@@ -3,6 +3,8 @@ ai: Behavioral::Personality::Explorer
 
 display: Curses
 
+kiosk_mode: 1
+
 interface: Telnet
 interface_options:
     Telnet:
