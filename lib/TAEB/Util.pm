@@ -140,8 +140,8 @@ Returns the glyph for a given tile type
 
 do {
     my %type_to_glyph;
-    for my $glyph (keys %glyph) {
-        my $type  = $glyph{$glyph};
+    for my $glyph (keys %glyphs) {
+        my $type  = $glyphs{$glyph};
         my @types = @{ ref($type) eq 'ARRAY' ? $type : [$type] };
 
         $type_to_glyph{$_} = $glyph for @types;
