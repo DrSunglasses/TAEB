@@ -2,6 +2,8 @@ package TAEB::Util;
 use strict;
 use warnings;
 
+use Carp 'confess';
+
 use Scalar::Util qw(blessed isweak refaddr weaken);
 use List::Util qw(first min max minstr maxstr reduce sum shuffle);
 use List::MoreUtils ':all';
@@ -149,7 +151,7 @@ do {
 
     sub tile_type_to_glyph {
         my $type = shift;
-        return $type_to_glyph{$type};
+        return $type_to_glyph{$type} || confess "Unknown tile type '$type'";
     }
 };
 
