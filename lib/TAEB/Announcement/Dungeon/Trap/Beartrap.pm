@@ -2,7 +2,7 @@ package TAEB::Announcement::Dungeon::Trap::Beartrap;
 use TAEB::OO;
 extends 'TAEB::Announcement::Dungeon::Trap';
 
-use constant name => 'bear trap';
+use constant name => 'beartrap';
 use constant tile_subtype => 'bear trap';
 
 has '+type' => (
