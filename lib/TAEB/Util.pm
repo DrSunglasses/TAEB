@@ -269,6 +269,8 @@ sub dice {
         $dice =~ /(\d+)?d(\d+)(?:\+(\d+)?d(\d+))?([+-]\d+)?/;
     $num ||= 1;
     $num2 ||= 1;
+    $bonus ||= 0;
+    $sides2 ||= 0;
     $bonus =~ s/\+//;
 
     my $average = $num * $sides / 2 + $num2 * $sides2 / 2 + $bonus;
