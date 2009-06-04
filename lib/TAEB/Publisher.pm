@@ -113,7 +113,7 @@ sub send_message {
             $recipient->forward_message($name, @args);
         }
 
-        for ($method, ($announcement ? 'subscription_any' : 'subscription_any')) {
+        for ($method, ($announcement ? 'subscription_any' : 'msg_any')) {
             if ($recipient->can($_)) {
                 $recipient->$_(@args);
                 last;
