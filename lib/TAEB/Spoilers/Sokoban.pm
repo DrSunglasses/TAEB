@@ -22,15 +22,15 @@ has level_maps => (
  |..|---------
  ----         ),
     solution_text => [
-	qw(Da ab Ec Hd I0),
-	qw(J1),
-	qw(Ge e2),
-	qw(dI I3),
-	qw(cJ Jf f4),
-	qw(FI If f5),
-	qw(CJ Jf fg g6),
-	qw(Ah BA ba aJ Jf fg g7),
-	qw(hb ba aJ Jf fg g8)]},
+	[qw(Da ab Ec Hd I0)],
+	[qw(J1)],
+	[qw(Ge e2)],
+	[qw(dI I3)],
+	[qw(cJ Jf f4)],
+	[qw(FI If f5)],
+	[qw(CJ Jf fg g6)],
+	[qw(Ah BA ba aJ Jf fg g7)],
+	[qw(hb ba aJ Jf fg g8)]]},
 "soko4-2" => {map_text => q(
 -------- ------
 |<|>...|-|....|
@@ -44,16 +44,16 @@ has level_maps => (
 |..|---|......|
 ----   --------),
     solution_text => [
-	qw(Aa Bb Ec Jd I0),
-	qw(Le K1),
-	qw(dJ J2),
-	qw(eL L3),
-	qw(cK Kf f4),
-	qw(Gg bG Fh hi iK Kf f5),
-	qw(Hj ji iK Kf f6),
-	qw(gk kK Kf f7),
-	qw(Gl li iK Kf f8),
-	qw(Dm mb bh hi iK Kf f9)]},
+	[qw(Aa Bb Ec Jd I0)],
+	[qw(Le K1)],
+	[qw(dJ J2)],
+	[qw(eL L3)],
+	[qw(cK Kf f4)],
+	[qw(Gg bG Fh hi iK Kf f5)],
+	[qw(Hj ji iK Kf f6)],
+	[qw(gk kK Kf f7)],
+	[qw(Gl li iK Kf f8)],
+	[qw(Dm mb bh hi iK Kf f9)]]},
 "soko3-1" => {map_text => q(
 -----------       -----------
 |....|....|--     |.........|
@@ -68,21 +68,21 @@ has level_maps => (
 |....|..PfT.0123456789!":$%.|
 -----------------------------),
     solution_text => [
-	qw(Dk kl Gb Ic Rd T0),
-	qw(P1),
-	qw(Qe dT T2),
-	qw(ST T3),
-	qw(ef f4),
-	qw(OS ST T5),
-	qw(cP P6),
-	qw(Jg gc cP P7),
-	qw(KI Ic cP P8),
-	qw(Lh hc cP P9),
-	qw(HG Gg gc cP P!),
-	qw(bg gc cP P"),
-	qw(Fi ij jg gc cP P:),
-	qw(Ak kj jg gc cP P$),
-	qw(lj jg gc cP P%)]},
+	[qw(Dk kl Gb Ic Rd T0)],
+	[qw(P1)],
+	[qw(Qe dT T2)],
+	[qw(ST T3)],
+	[qw(ef f4)],
+	[qw(OS ST T5)],
+	[qw(cP P6)],
+	[qw(Jg gc cP P7)],
+	[qw(KI Ic cP P8)],
+	[qw(Lh hc cP P9)],
+	[qw(HG Gg gc cP P!)],
+	[qw(bg gc cP P")],
+	[qw(Fi ij jg gc cP P:)],
+	[qw(Ak kj jg gc cP P$)],
+	[qw(lj jg gc cP P%)]]},
 "soko3-2" => {map_text => q(
  ----          -----------
 -|.>|-------   |.........|
@@ -99,18 +99,18 @@ has level_maps => (
 ----|..|..|
     -------               ),
     solution_text => [
-	qw(Bg Ch Ja Lb O0),
-	qw(Kc aJ bL Pd Nf Me FC gi cj eM MO O1),
-	qw(Lb fk ke eM MO O2),
-	qw(jf fk ke eM MO O3),
-	qw(Ia aK Kf fk ke eM MO O4),
-	qw(bL dk ke eM MO O5),
-	qw(JK Kf fk ke eM MO O6),
-	qw(Lb bk ke eM MO O7),
-	qw(Gl hg Ch Am Dn Eo ia aK Kf fk ke gi eM MO O8),
-	qw(ia aK Kf fk ke eM MO O9),
-	qw(oi ia aK Kf fk ke eM MO O!),
-	qw(Hp pf fk ke eM MO O")]},
+	[qw(Bg Ch Ja Lb O0)],
+	[qw(Kc aJ bL Pd Nf Me FC gi cj eM MO O1)],
+	[qw(Lb fk ke eM MO O2)],
+	[qw(jf fk ke eM MO O3)],
+	[qw(Ia aK Kf fk ke eM MO O4)],
+	[qw(bL dk ke eM MO O5)],
+	[qw(JK Kf fk ke eM MO O6)],
+	[qw(Lb bk ke eM MO O7)],
+	[qw(Gl hg Ch Am Dn Eo ia aK Kf fk ke gi eM MO O8)],
+	[qw(ia aK Kf fk ke eM MO O9)],
+	[qw(oi ia aK Kf fk ke eM MO O!)],
+	[qw(Hp pf fk ke eM MO O")]]},
 "soko2-1" => {map_text => q(
 --------------------
 |........|...|.....|
@@ -125,16 +125,16 @@ has level_maps => (
 |...|.>|------------
 --------            ),
     solution_text => [
-	qw(Ka a0),
-	qw(Ib Ja a1),
-	qw(bK K2),
-	qw(Aa a3),
-	qw(BA Aa a4),
-	qw(Cc Fd De ef cC fA Aa a5),
-	qw(Ce ef fA Aa a6),
-	qw(ED De ef fA Aa a7),
-	qw(Mh h8),
-	qw(Lg g9)]},
+	[qw(Ka a0)],
+	[qw(Ib Ja a1)],
+	[qw(bK K2)],
+	[qw(Aa a3)],
+	[qw(BA Aa a4)],
+	[qw(Cc Fd De ef cC fA Aa a5)],
+	[qw(Ce ef fA Aa a6)],
+	[qw(ED De ef fA Aa a7)],
+	[qw(Mh h8)],
+	[qw(Lg g9)]]},
 "soko2-2" => {map_text => q(
   --------          
 --|.|....|          
@@ -150,17 +150,17 @@ has level_maps => (
   |.dP>0123456789!.|
   ------------------),
     solution_text => [
-	qw(Oa P0),
-        qw(N> >1),
-	qw(Lb ac bd d2),
-	qw(ce ed d3),
-	qw(KL Ld d4),
-	qw(GK KL Ld d5),
-	qw(FG GK KL Ld d6),
-	qw(Af Eg Hh hK KL Ld d7),
-	qw(CH Hh hK KL Ld d8),
-	qw(Bi iK KL Ld d9),
-	qw(fj jH Hh hK KL Ld d!)]},
+	[qw(Oa P0)],
+        [qw(N> >1)],
+	[qw(Lb ac bd d2)],
+	[qw(ce ed d3)],
+	[qw(KL Ld d4)],
+	[qw(GK KL Ld d5)],
+	[qw(FG GK KL Ld d6)],
+	[qw(Af Eg Hh hK KL Ld d7)],
+	[qw(CH Hh hK KL Ld d8)],
+	[qw(Bi iK KL Ld d9)],
+	[qw(fj jH Hh hK KL Ld d!)]]},
 "soko1-1" => {map_text => q(
 --------------------------
 |>.....q0123456789!":$%&.|
@@ -181,23 +181,23 @@ has level_maps => (
 |...|-----     --|.....|  
 -----            -------  ),
     solution_text => [
-	qw(Oa ab Qc cd de Rf eg gh Mc cd de eg Fi Gj jM MQ HF Ik Cl lm mj jM Mc
-           Dl lm mj kn no op pq q0),
-	qw(jM Fn no op pq q1),
-	qw(in no op pq q2),
-	qw(Jn no op pq q3),
-	qw(Lr rs sn no op pq q4),
-	qw(Nr rs sn no op pq q5),
-	qw(ba Pr rs sn no op pq q6),
-	qw(cd de ft tu ur rs sn no op pq q7),
-	qw(ht tu ur rs sn no op pq q8),
-	qw(gt tu ur rs sn no op pq q9),
-	qw(eg gt tu ur rs sn no op pq q!),
-	qw(aO Ou ur rs sn no op pq q"),
-	qw(Mc cd de eg gt tu ur rs sn no op pq q:),
-	qw(Qc cd de eg gt tu ur rs sn no op pq q$),
-	qw(Kc cd de eg gt tu ur rs sn no op pq q%),
-	qw(Bl lm mj jv vs sn no op pq q&)]},
+	[qw(Oa ab Qc cd de Rf eg gh Mc cd de eg Fi Gj jM MQ HF Ik Cl lm mj jM
+            Mc Dl lm mj kn no op pq q0)],
+	[qw(jM Fn no op pq q1)],
+	[qw(in no op pq q2)],
+	[qw(Jn no op pq q3)],
+	[qw(Lr rs sn no op pq q4)],
+	[qw(Nr rs sn no op pq q5)],
+	[qw(ba Pr rs sn no op pq q6)],
+	[qw(cd de ft tu ur rs sn no op pq q7)],
+	[qw(ht tu ur rs sn no op pq q8)],
+	[qw(gt tu ur rs sn no op pq q9)],
+	[qw(eg gt tu ur rs sn no op pq q!)],
+	[qw(aO Ou ur rs sn no op pq q")],
+	[qw(Mc cd de eg gt tu ur rs sn no op pq q:)],
+	[qw(Qc cd de eg gt tu ur rs sn no op pq q$)],
+	[qw(Kc cd de eg gt tu ur rs sn no op pq q%)],
+	[qw(Bl lm mj jv vs sn no op pq q&)]]},
 "soko1-2" => {map_text => q(
   ------------------------
   |.j0123456789!":$%&'~..|
@@ -217,24 +217,24 @@ has level_maps => (
      |>.|..|   --|.....|  
      -------     -------  ),
     solution_text => [
-	qw(Ma ab Tc Sd Qe Pf Gg Dh Bi iB Aj j0),
-	qw(EG hj j1),
-	qw(Bi ik kj j2),
-	qw(Ch hj j3),
-	qw(Il GE lj j4),
-	qw(Jl lj j5),
-	qw(HI Ij j6),
-	qw(Fi ik kj j7),
-	qw(gm mj j8),
-	qw(EG Gm mj j9),
-	qw(KG Gm mj j!),
-	qw(fn nm mj j"),
-	qw(Lo op pq qG Gm mj j:),
-	qw(cT RP Pf fn nm mj j$),
-	qw(bP Pf fn nm mj j%),
-	qw(Tb bP Pf fn nm mj j&),
-	qw(Nr ec cs sP Pf fn nm mj j'),
-	qw(rN Nc cs sP Pf fn nm mj j~)]},
+	[qw(Ma ab Tc Sd Qe Pf Gg Dh Bi iB Aj j0)],
+	[qw(EG hj j1)],
+	[qw(Bi ik kj j2)],
+	[qw(Ch hj j3)],
+	[qw(Il GE lj j4)],
+	[qw(Jl lj j5)],
+	[qw(HI Ij j6)],
+	[qw(Fi ik kj j7)],
+	[qw(gm mj j8)],
+	[qw(EG Gm mj j9)],
+	[qw(KG Gm mj j!)],
+	[qw(fn nm mj j")],
+	[qw(Lo op pq qG Gm mj j:)],
+	[qw(cT RP Pf fn nm mj j$)],
+	[qw(bP Pf fn nm mj j%)],
+	[qw(Tb bP Pf fn nm mj j&)],
+	[qw(Nr ec cs sP Pf fn nm mj j')],
+	[qw(rN Nc cs sP Pf fn nm mj j~)]]},
             );
 	for my $levelname (keys %sokolevels) {
 	    my $level = $sokolevels{$levelname};
@@ -260,10 +260,10 @@ has level_maps => (
 	    $level->{'map'} = $map;
 	    $level->{'locations'} = \%locations;
             # Likewise for the solution.
-            $level->{'solution'} = map
+            $level->{'solution'} = [map
                 {
-                    map {/(.)(.)/ and [$1, $2]} @$_;
-                } $level->{'solution_text'}
+                    [map {/(.)(.)/ and [$1, $2]} @$_];
+                } @{$level->{'solution_text'}}];
 	}
         return \%sokolevels;
     },
@@ -273,7 +273,7 @@ sub _lists_sort_equal {
     my @list1 = sort @{(shift)};
     my @list2 = sort @{(shift)};
     return 0 if scalar @list1 != scalar @list2;
-    $_ eq shift @list2 or return 0 for @list1;
+    (shift @list1) eq (shift @list2) or return 0 while scalar @list1;
     return 1;
 }
 
@@ -368,13 +368,18 @@ sub next_sokoban_step {
     my @sofar = splice @steps, 0, -$remainingpits;
     my @boulderlocations = ();
     do { /[A-Z]/ and push @boulderlocations, $_ for @$_} for @$map;
-    for my $step (@sofar) {
-        map {tr/$step[0]/$step[1]/} @boulderlocations;
+    for my $steplist (@sofar) {
+        for my $step (@$steplist) {
+            @boulderlocations = map {$_ eq $step->[0] ?
+                                           $step->[1] : $_} @boulderlocations;
+        }
     }
-    map {s/[0-9!"\$\%\&'~:]//;} @boulderlocations;
+    @boulderlocations = map {/[0-9!"\$\%\&'~:]/ ? () : ($_);} @boulderlocations;
+
+    my $origboulderlocations = join '', @boulderlocations;
 
     # Find out where the boulders actually are.
-    my @currentboulderlocations = '';
+    my @currentboulderlocations = ();
     my $misplaced_x = undef;
     my $misplaced_y = undef;
     $level->each_tile(sub {
@@ -403,13 +408,13 @@ sub next_sokoban_step {
     my @plan = @{$steps[0]};
     my ($working_x, $working_y);
     for my $movement (@plan) {
-        my $nextmovef = ${$movement->[0]};
-        my $nextmovet = ${$movement->[1]};
+        my $nextmovef = $movement->[0];
+        my $nextmovet = $movement->[1];
         # Bare block that iterates once for each boulder step movement
         {
-            my ($xf, $yf) = $nextmovef eq '.' ?
-              ($working_x, $working_y) :
-                @{$locations->{$nextmovef}};
+            my ($xf, $yf) = ($nextmovef eq '.' ?
+                             ($working_x, $working_y) :
+                             @{$locations->{$nextmovef}});
             my ($xt, $yt) = @{$locations->{$nextmovet}};
             if(_lists_sort_equal(\@boulderlocations, \@currentboulderlocations) &&
                (!defined($misplaced_x) ||
@@ -452,12 +457,15 @@ sub next_sokoban_step {
             $yf != $yt and $yf += ($yt <=> $yf);
             my $letterto = $map->[$yf]->[$xf];
             ($working_x, $working_y) = ($xf, $yf);
-            map { tr/$nextmovef/$letterto/; } @boulderlocations;
+            @boulderlocations = map { $_ eq $nextmovef ? $letterto : $_ } @boulderlocations;
             $nextmovef = $letterto;
             $nextmovef ne $nextmovet and redo;
         }
     }
-    TAEB->log->spoiler("This Sokoban puzzle has deviated from spoilers.",
+    TAEB->log->spoiler("This Sokoban puzzle has deviated from spoilers. " .
+                       "(expected $origboulderlocations, got " .
+                       (join '',@currentboulderlocations) . "), misplaced " .
+                       ($misplaced_x // "undef"),
                        level => 'warning');
     return;
 }
