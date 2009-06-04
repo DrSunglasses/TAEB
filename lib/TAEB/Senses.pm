@@ -457,11 +457,12 @@ sub in_pray_heal_range {
     return $self->hp * 7 < $self->maxhp || $self->hp < 6;
 }
 
-sub msg_beartrap {
-    my $self = shift;
-    $self->in_beartrap(1);
-    TAEB->send_message('dungeon_feature' => 'trap' => 'bear trap');
-}
+subscribe beartrap => sub {
+    my $self  = shift;
+    my $event = shift;
+
+    $self->in_beartrap($event->now_stuck);
+};
 
 sub msg_walked {
     my $self = shift;
