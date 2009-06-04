@@ -254,7 +254,7 @@ has level_maps => (
 		}
                 defined $map->[$y] or $map->[$y] = [];
 		$map->[$y]->[$x] = $char;
-		$locations($char) = [$x,$y];
+		$locations{$char} = [$x,$y];
 		$x++;
 	    }
 	    $level->{'map'} = $map;
@@ -263,7 +263,7 @@ has level_maps => (
             $level->{'solution'} = map
                 {
                     map {/(.)(.)/ and [$1, $2]} @$_;
-                }, $level->{'solution_text'}
+                } $level->{'solution_text'}
 	}
         return \%sokolevels;
     },
@@ -367,11 +367,11 @@ sub next_sokoban_step {
     # seen missing have been eliminated.
     my @sofar = splice @steps, 0, -$remainingpits;
     my @boulderlocations = ();
-    do { /[A-Z]/ and push @boulderlocations for @$_} for @$map;
+    do { /[A-Z]/ and push @boulderlocations, $_ for @$_} for @$map;
     for my $step (@sofar) {
-        map {tr/$step[0]/$step[1]/}, @boulderlocations;
+        map {tr/$step[0]/$step[1]/} @boulderlocations;
     }
-    map {s/[0-9!"#\$\%\&'~]//;}, @boulderlocations;
+    map {s/[0-9!"#\$\%\&'~]//;} @boulderlocations;
 
     # Find out where the boulders actually are.
     my @currentboulderlocations = '';
@@ -389,7 +389,7 @@ sub next_sokoban_step {
         }
     });
     @currentboulderlocations = sort @currentboulderlocations;
-    if(scalar (grep /\./ @currentboulderlocations) > 1) {
+    if(scalar (grep /\./, @currentboulderlocations) > 1) {
         TAEB->log->spoiler("This Sokoban puzzle has deviated from spoilers.",
                            level => 'warning');
         return;
@@ -402,7 +402,7 @@ sub next_sokoban_step {
     # if this is the wrong possibility).
     my @plan = @{$steps[0]};
     my ($working_x, $working_y);
-    for my $movement (@plan =~ /[^ ]/) {
+    for my $movement (@plan) {
         my $nextmovef = ${$movement[0]};
         my $nextmovet = ${$movement[1]};
         # Bare block that iterates once for each boulder step movement
