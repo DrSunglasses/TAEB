@@ -9,6 +9,7 @@ use overload (
 
 sub profile {
     my @profile = TAEB->debug->profiler->analyze;
+    return if !@profile;
     return "Profile:\n"
          . join '', map { sprintf('%20s %.2g', $_->[0], $_->[2]) } @profile;
 }
