@@ -13,7 +13,7 @@ sub as_string {
 
     my @profile = TAEB->debugger->profiler->analyze;
     if (@profile) {
-        my $length = -1 * (max map { length($_->[0]) } @profile);
+        my $length = -1 * (1 + max map { length($_->[0]) } @profile);
 
         $report .= "Profile:\n"
                 . join '',
