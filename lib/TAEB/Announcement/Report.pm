@@ -1,5 +1,6 @@
 package TAEB::Announcement::Report;
 use TAEB::OO;
+use TAEB::Util 'max';
 extends 'TAEB::Announcement';
 
 use overload (
@@ -12,9 +13,11 @@ sub as_string {
 
     my @profile = TAEB->debugger->profiler->analyze;
     if (@profile) {
+        my $length = -1 * (max map { length($_->[0]) } @profile);
+
         $report .= "Profile:\n"
                 . join '',
-                  map { sprintf("%-20s %.2g%%\n", $_->[0], 100*$_->[2]) }
+                  map { sprintf("%*s %.2g%%\n", $length, $_->[0], 100*$_->[2]) }
                   @profile;
     }
     return $report;
