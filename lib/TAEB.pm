@@ -229,6 +229,7 @@ class_has debugger => (
     is      => 'ro',
     isa     => 'TAEB::Debug',
     default => sub { TAEB::Debug->new },
+    handles => ['add_category_time'],
 );
 
 class_has display => (
@@ -761,6 +762,25 @@ sub monkey_patch {
             $nhi_meta->make_immutable;
         }
     }
+}
+
+use Time::HiRes 'time';
+for (
+    [read  => 'Reading from NetHack'],
+    [write => 'Writing to NetHack'],
+) {
+    my ($method, $description) = @$_;
+    around $method => sub {
+        my $orig  = shift;
+        my $start = time;
+
+        # XXX: Should preserve context
+        my $result = $orig->(@_);
+
+        $_[0]->add_category_time($description => (time - $start));
+
+        return $result;
+    };
 }
 
 __PACKAGE__->meta->make_immutable;
