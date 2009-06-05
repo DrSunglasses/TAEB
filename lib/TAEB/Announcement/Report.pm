@@ -14,7 +14,7 @@ sub as_string {
     if (@profile) {
         $report .= "Profile:\n"
                 . join '',
-                  map { sprintf('%20s %.2g', $_->[0], $_->[2]) }
+                  map { sprintf('%-20s %.2g', $_->[0], $_->[2]) }
                   @profile;
     }
     return $report;
