@@ -19,7 +19,7 @@ has ['score', 'turns'] => (
     isa => 'Int',
 );
 
-sub as_string {
+augment as_string => sub {
     my $self = shift;
     my $conducts = join ', ', $self->conducts;
     my $score = $self->score;
@@ -30,7 +30,7 @@ Conducts: $conducts
 Score:    $score
 Turns:    $turns
 REPORT
-}
+};
 
 __PACKAGE__->meta->make_immutable;
 no TAEB::OO;

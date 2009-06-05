@@ -2,7 +2,7 @@ package TAEB::Announcement::Report::Saved;
 use TAEB::OO;
 extends 'TAEB::Announcement::Report';
 
-sub as_string { "Saved.\n" }
+augment as_string => sub { "Saved.\n" };
 
 __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
