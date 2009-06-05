@@ -764,24 +764,11 @@ sub monkey_patch {
     }
 }
 
-use Time::HiRes 'time';
-for (
-    [read  => 'Reading from NetHack'],
-    [write => 'Writing to NetHack'],
-) {
-    my ($method, $description) = @$_;
-    around $method => sub {
-        my $orig  = shift;
-        my $start = time;
-
-        # XXX: Should preserve context
-        my $result = $orig->(@_);
-
-        $_[0]->add_category_time($description => (time - $start));
-
-        return $result;
-    };
-}
+profile_method(@$_) for (
+    [read        => 'Reading from NetHack'],
+    [write       => 'Writing to NetHack'],
+    [next_action => 'AI next_action'],
+);
 
 __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
