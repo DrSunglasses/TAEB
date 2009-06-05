@@ -26,7 +26,7 @@ sub add_category_time {
     my $time     = shift;
 
     my $existing = $self->_get_category_profile($category) || 0;
-    $self->_set_category_profile($existing + $time);
+    $self->_set_category_profile($category => $existing + $time);
 }
 
 sub analyze {
