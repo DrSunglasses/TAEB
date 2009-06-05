@@ -77,7 +77,7 @@ sub profile_method {
 
         TAEB->add_category_time($description => (time - $start));
 
-        return wantarray ? @result : $result;
+        return wantarray ? @result : $result[0];
     });
 }
 
