@@ -104,6 +104,8 @@ sub update {
     }
 }
 
+profile_method update => 'Cartographer update';
+
 =head2 map_like Regex -> Bool
 
 Returns whether any part of the map (not the entire screen) matches Regex.
