@@ -10,7 +10,7 @@ use overload (
 sub as_string {
     my $report = inner;
 
-    my @profile = TAEB->debug->profiler->analyze;
+    my @profile = TAEB->debugger->profiler->analyze;
     if (@profile) {
         $report .= "Profile:\n"
                 . join '',
