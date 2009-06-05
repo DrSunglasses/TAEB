@@ -9,10 +9,15 @@ has profile => (
     default => sub { {} },
     provides => {
         keys   => 'profile_categories',
-        values => '_profile_times',
         get    => '_get_category_profile',
         set    => '_set_category_profile',
     },
+);
+
+has start => (
+    is      => 'ro',
+    isa     => 'Int',
+    default => sub { time },
 );
 
 sub add_category_time {
@@ -27,7 +32,7 @@ sub add_category_time {
 sub analyze {
     my $self = shift;
     my $profile = $self->profile;
-    my $total_time = sum $self->_profile_times;
+    my $total_time = time - $self->start;
 
     my @results;
     for my $category (sort { $profile->{$b} <=> $profile->{$a} } keys %$profile) {
