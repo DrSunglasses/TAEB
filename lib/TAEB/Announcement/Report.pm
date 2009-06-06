@@ -15,7 +15,7 @@ sub as_string {
     if (@profile) {
         my $length = -1 * (1 + max map { length($_->[0]) } @profile);
 
-        $report .= "Profile:\n"
+        $report .= "\nProfile:\n"
                 . join '',
                   map { sprintf("%*s %.2g%%\n", $length, $_->[0], 100*$_->[2]) }
                   @profile;
