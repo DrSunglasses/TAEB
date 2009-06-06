@@ -521,9 +521,13 @@ sub _detect_dungeons {
     return 1 if any { $_->known_branch && $_->branch eq 'mines' }
                 $self->dungeon->get_levels($self->z);
 
-    # dungeon features (fountain, sink, altar, door, etc)
-    # the z constraint means we won't misidentify minetown as dungeons
-    return 1 if ($self->z != 5 && $self->z != 6)
+    # dungeon features (fountain, sink, altar, door, etc) the z
+    # constraint means we won't misidentify minetown as dungeons
+    # also, this can't be minetown if there's a dungeons level
+    # immediately next to us
+    return 1 if (($self->z != 5 && $self->z != 6) ||
+                 any {$_->known_branch && $_->branch eq 'dungeons'}
+                 $self->adjacent_levels)
              && ($self->has_type('closeddoor')
              ||  $self->has_type('opendoor')
              ||  $self->has_type('altar')
