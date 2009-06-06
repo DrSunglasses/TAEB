@@ -24,15 +24,15 @@ my @config_overrides = ();
 my %cmdline_options = ('loop' => \$loop, 'config=s' => \@config_overrides);
 my @getopt_specifiers = qw/rc help|h quit/;
 my $getopts_parser = new Getopt::Long::Parser;
-
-$getopts_parser->getoptions(%cmdline_options, @getopt_specifiers)
+$cmdline_options{"$_"} = \(my $temp = 0) for @getopt_specifiers;
+$getopts_parser->getoptions(%cmdline_options)
   or print_usage(1);
 
-if (exists($cmdline_options{help})) {
+if (${$cmdline_options{'help|h'}}) {
     print_usage(0);
 }
 
-if (exists($cmdline_options{rc})) {
+if (${$cmdline_options{rc}}) {
     require TAEB::Config;
     print TAEB::Config->nethackrc_contents;
     exit 0;
@@ -42,7 +42,7 @@ require TAEB;
 
 TAEB->config->override_config($_) for @config_overrides;
 
-if (exists($cmdline_options{quit})) {
+if (${$cmdline_options{quit}}) {
     TAEB->config->override_config('{"ai":"Quit"}');
 }
 
