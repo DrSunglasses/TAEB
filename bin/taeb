@@ -10,23 +10,26 @@ sub print_usage {
     print STDERR <<"USAGE";
 TAEB - the Tactical Amulet Extraction Bot
 Options:
-    --rc         Print TAEB's required nethackrc to stdout
-    --loop       Run TAEB repeatedly
-    --help       Print this message
+    --rc          Print TAEB's required nethackrc to stdout
+    --loop        Run TAEB repeatedly
+    --config=JSON Use the JSON in the given string to override config.yml
+    --quit        Abbreviation for --config='{"ai":"Quit"}'
+    --help        Print this message
 USAGE
     exit $exit_val;
 }
 
 my $loop = 0;
-my %cmdline_options = ('loop' => \$loop);
-my @getopt_specifiers = qw/rc help|h/;
+my @config_overrides = ();
+my %cmdline_options = ('loop' => \$loop, 'config=s' => \@config_overrides);
+my @getopt_specifiers = qw/rc help|h quit/;
 my $getopts_parser = new Getopt::Long::Parser;
 
 $getopts_parser->getoptions(%cmdline_options, @getopt_specifiers)
   or print_usage(1);
 
 if (exists($cmdline_options{help})) {
-	print_usage(0);
+    print_usage(0);
 }
 
 if (exists($cmdline_options{rc})) {
@@ -36,6 +39,12 @@ if (exists($cmdline_options{rc})) {
 }
 
 require TAEB;
+
+TAEB->config->override_config($_) for @config_overrides;
+
+if (exists($cmdline_options{quit})) {
+    TAEB->config->override_config('{"ai":"Quit"}');
+}
 
 my $tstp = $SIG{TSTP} = sub {
     # if we don't invoke TSTP then we won't be suspended

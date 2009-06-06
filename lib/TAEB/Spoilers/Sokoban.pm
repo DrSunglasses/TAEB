@@ -376,7 +376,7 @@ sub next_sokoban_step {
     }
     @boulderlocations = map {/[0-9!"\$\%\&'~:]/ ? () : ($_);} @boulderlocations;
 
-    my $origboulderlocations = join '', @boulderlocations;
+    my $origboulderlocations = join '-', @boulderlocations;
 
     # Find out where the boulders actually are.
     my @currentboulderlocations = ();
@@ -464,7 +464,7 @@ sub next_sokoban_step {
     }
     TAEB->log->spoiler("This Sokoban puzzle has deviated from spoilers. " .
                        "(expected $origboulderlocations, got " .
-                       (join '',@currentboulderlocations) . "), misplaced " .
+                       (join '-',@currentboulderlocations) . "), misplaced " .
                        ($misplaced_x // "undef"),
                        level => 'warning');
     return;
