@@ -6,12 +6,13 @@ has level_maps => (
     isa => 'HashRef',
     default => sub {
         my %sokolevels = (
-"soko4-1" => {map_text => q(
-------  ----- 
-|....|  |...| 
-|.Ah.----.C.| 
-|.Bb.....Da.| 
-|..|-|>|-|E.| 
+            "soko4-1" => {
+                map_text => q(
+------  -----
+|....|  |...|
+|.Ah.----.C.|
+|.Bb.....Da.|
+|..|-|>|-|E.|
 ---------|.---
 |.g678<|.....|
 |..----|F.c..|
@@ -19,18 +20,22 @@ has level_maps => (
  |4|---|dH...|
  |f.3210IeJ..|
  |..|---------
- ----         ),
-    solution_text => [
-	[qw(Da ab Ec Hd I0)],
-	[qw(J1)],
-	[qw(Ge e2)],
-	[qw(dI I3)],
-	[qw(cJ Jf f4)],
-	[qw(FI If f5)],
-	[qw(CJ Jf fg g6)],
-	[qw(Ah BA ba aJ Jf fg g7)],
-	[qw(hb ba aJ Jf fg g8)]]},
-"soko4-2" => {map_text => q(
+ ----
+                ),
+                solution_text => [
+                    [qw(Da ab Ec Hd I0)],
+                    [qw(J1)],
+                    [qw(Ge e2)],
+                    [qw(dI I3)],
+                    [qw(cJ Jf f4)],
+                    [qw(FI If f5)],
+                    [qw(CJ Jf fg g6)],
+                    [qw(Ah BA ba aJ Jf fg g7)],
+                    [qw(hb ba aJ Jf fg g8)],
+                ],
+            },
+            "soko4-2" => {
+                map_text => q(
 -------- ------
 |<|>...|-|....|
 |9|-.ABm.nbG..|
@@ -41,19 +46,23 @@ has level_maps => (
 |4-----|dce...|
 |f.3210IJKL...|
 |..|---|......|
-----   --------),
-    solution_text => [
-	[qw(Aa Bb Ec Jd I0)],
-	[qw(Le K1)],
-	[qw(dJ J2)],
-	[qw(eL L3)],
-	[qw(cK Kf f4)],
-	[qw(Gg bG Fh hi iK Kf f5)],
-	[qw(Hj ji iK Kf f6)],
-	[qw(gk kK Kf f7)],
-	[qw(Gl li iK Kf f8)],
-	[qw(Dm mb bh hi iK Kf f9)]]},
-"soko3-1" => {map_text => q(
+----   --------
+                ),
+                solution_text => [
+                    [qw(Aa Bb Ec Jd I0)],
+                    [qw(Le K1)],
+                    [qw(dJ J2)],
+                    [qw(eL L3)],
+                    [qw(cK Kf f4)],
+                    [qw(Gg bG Fh hi iK Kf f5)],
+                    [qw(Hj ji iK Kf f6)],
+                    [qw(gk kK Kf f7)],
+                    [qw(Gl li iK Kf f8)],
+                    [qw(Dm mb bh hi iK Kf f9)],
+                ],
+            },
+            "soko3-1" => {
+                map_text => q(
 -----------       -----------
 |....|....|--     |.........|
 |.bAB|CE...>|     |.........|
@@ -65,24 +74,28 @@ has level_maps => (
 |.gIh...cQ.|      |.........|
 |.JKL|N..Rd|---------------+|
 |....|..PfT.0123456789!":$%.|
------------------------------),
-    solution_text => [
-	[qw(Dk kl Gb Ic Rd T0)],
-	[qw(P1)],
-	[qw(Qe dT T2)],
-	[qw(ST T3)],
-	[qw(ef f4)],
-	[qw(OS ST T5)],
-	[qw(cP P6)],
-	[qw(Jg gc cP P7)],
-	[qw(KI Ic cP P8)],
-	[qw(Lh hc cP P9)],
-	[qw(HG Gg gc cP P!)],
-	[qw(bg gc cP P")],
-	[qw(Fi ij jg gc cP P:)],
-	[qw(Ak kj jg gc cP P$)],
-	[qw(lj jg gc cP P%)]]},
-"soko3-2" => {map_text => q(
+-----------------------------
+                ),
+                solution_text => [
+                    [qw(Dk kl Gb Ic Rd T0)],
+                    [qw(P1)],
+                    [qw(Qe dT T2)],
+                    [qw(ST T3)],
+                    [qw(ef f4)],
+                    [qw(OS ST T5)],
+                    [qw(cP P6)],
+                    [qw(Jg gc cP P7)],
+                    [qw(KI Ic cP P8)],
+                    [qw(Lh hc cP P9)],
+                    [qw(HG Gg gc cP P!)],
+                    [qw(bg gc cP P")],
+                    [qw(Fi ij jg gc cP P:)],
+                    [qw(Ak kj jg gc cP P$)],
+                    [qw(lj jg gc cP P%)],
+                ],
+            },
+            "soko3-2" => {
+                map_text => q(
  ----          -----------
 -|.>|-------   |.........|
 |.m........|   |.........|
@@ -96,21 +109,25 @@ has level_maps => (
 |...|..N-.O.0123456789!".|
 |.dP.b.f.k----------------
 ----|..|..|
-    -------               ),
-    solution_text => [
-	[qw(Bg Ch Ja Lb O0)],
-	[qw(Kc aJ bL Pd Nf Me FC gi cj eM MO O1)],
-	[qw(Lb fk ke eM MO O2)],
-	[qw(jf fk ke eM MO O3)],
-	[qw(Ia aK Kf fk ke eM MO O4)],
-	[qw(bL dk ke eM MO O5)],
-	[qw(JK Kf fk ke eM MO O6)],
-	[qw(Lb bk ke eM MO O7)],
-	[qw(Gl hg Ch Am Dn Eo ia aK Kf fk ke gi eM MO O8)],
-	[qw(ia aK Kf fk ke eM MO O9)],
-	[qw(oi ia aK Kf fk ke eM MO O!)],
-	[qw(Hp pf fk ke eM MO O")]]},
-"soko2-1" => {map_text => q(
+    -------
+                ),
+                solution_text => [
+                    [qw(Bg Ch Ja Lb O0)],
+                    [qw(Kc aJ bL Pd Nf Me FC gi cj eM MO O1)],
+                    [qw(Lb fk ke eM MO O2)],
+                    [qw(jf fk ke eM MO O3)],
+                    [qw(Ia aK Kf fk ke eM MO O4)],
+                    [qw(bL dk ke eM MO O5)],
+                    [qw(JK Kf fk ke eM MO O6)],
+                    [qw(Lb bk ke eM MO O7)],
+                    [qw(Gl hg Ch Am Dn Eo ia aK Kf fk ke gi eM MO O8)],
+                    [qw(ia aK Kf fk ke eM MO O9)],
+                    [qw(oi ia aK Kf fk ke eM MO O!)],
+                    [qw(Hp pf fk ke eM MO O")],
+                ],
+            },
+            "soko2-1" => {
+                map_text => q(
 --------------------
 |........|...|.....|
 |.ABfc-EF|.-.|.....|
@@ -122,21 +139,25 @@ has level_maps => (
 |-J.|..|----------+|
 |.aK.gh.0123456789.|
 |...|.>|------------
---------            ),
-    solution_text => [
-	[qw(Ka a0)],
-	[qw(Ib Ja a1)],
-	[qw(bK K2)],
-	[qw(Aa a3)],
-	[qw(BA Aa a4)],
-	[qw(Cc Fd De ef cC fA Aa a5)],
-	[qw(Ce ef fA Aa a6)],
-	[qw(ED De ef fA Aa a7)],
-	[qw(Mh h8)],
-	[qw(Lg g9)]]},
-"soko2-2" => {map_text => q(
-  --------          
---|.|....|          
+--------
+                ),
+                solution_text => [
+                    [qw(Ka a0)],
+                    [qw(Ib Ja a1)],
+                    [qw(bK K2)],
+                    [qw(Aa a3)],
+                    [qw(BA Aa a4)],
+                    [qw(Cc Fd De ef cC fA Aa a5)],
+                    [qw(Ce ef fA Aa a6)],
+                    [qw(ED De ef fA Aa a7)],
+                    [qw(Mh h8)],
+                    [qw(Lg g9)],
+                ],
+            },
+            "soko2-2" => {
+                map_text => q(
+  --------
+--|.|....|
 |...Ajf..|----------
 |.-iBC-DE|.|.......|
 |.FG-......|.......|
@@ -147,20 +168,24 @@ has level_maps => (
 |..ce-N|---|.......|
 --|abO.|----------+|
   |.dP>0123456789!.|
-  ------------------),
-    solution_text => [
-	[qw(Oa P0)],
-        [qw(N> >1)],
-	[qw(Lb ac bd d2)],
-	[qw(ce ed d3)],
-	[qw(KL Ld d4)],
-	[qw(GK KL Ld d5)],
-	[qw(FG GK KL Ld d6)],
-	[qw(Af Eg Hh hK KL Ld d7)],
-	[qw(CH Hh hK KL Ld d8)],
-	[qw(Bi iK KL Ld d9)],
-	[qw(fj jH Hh hK KL Ld d!)]]},
-"soko1-1" => {map_text => q(
+  ------------------
+                ),
+                solution_text => [
+                    [qw(Oa P0)],
+                    [qw(N> >1)],
+                    [qw(Lb ac bd d2)],
+                    [qw(ce ed d3)],
+                    [qw(KL Ld d4)],
+                    [qw(GK KL Ld d5)],
+                    [qw(FG GK KL Ld d6)],
+                    [qw(Af Eg Hh hK KL Ld d7)],
+                    [qw(CH Hh hK KL Ld d8)],
+                    [qw(Bi iK KL Ld d9)],
+                    [qw(fj jH Hh hK KL Ld d!)],
+                ],
+            },
+            "soko1-1" => {
+                map_text => q(
 --------------------------
 |>.....q0123456789!":$%&.|
 |.......|---------------.|
@@ -176,28 +201,32 @@ has level_maps => (
  |.K.M.c.Q.|-  |-|.....|.|
 -------.----   |.+.....+.|
 |.gRh.ft.|     |-|.....|--
-|.e....d.|     |.+.....|  
-|...|-----     --|.....|  
------            -------  ),
-    solution_text => [
-	[qw(Oa ab Qc cd de Rf eg gh Mc cd de eg Fi Gj jM MQ HF Ik Cl lm mj jM
-            Mc Dl lm mj kn no op pq q0)],
-	[qw(jM Fn no op pq q1)],
-	[qw(in no op pq q2)],
-	[qw(Jn no op pq q3)],
-	[qw(Lr rs sn no op pq q4)],
-	[qw(Nr rs sn no op pq q5)],
-	[qw(ba Pr rs sn no op pq q6)],
-	[qw(cd de ft tu ur rs sn no op pq q7)],
-	[qw(ht tu ur rs sn no op pq q8)],
-	[qw(gt tu ur rs sn no op pq q9)],
-	[qw(eg gt tu ur rs sn no op pq q!)],
-	[qw(aO Ou ur rs sn no op pq q")],
-	[qw(Mc cd de eg gt tu ur rs sn no op pq q:)],
-	[qw(Qc cd de eg gt tu ur rs sn no op pq q$)],
-	[qw(Kc cd de eg gt tu ur rs sn no op pq q%)],
-	[qw(Bl lm mj jv vs sn no op pq q&)]]},
-"soko1-2" => {map_text => q(
+|.e....d.|     |.+.....|
+|...|-----     --|.....|
+-----            -------
+                ),
+                solution_text => [
+                    [qw(Oa ab Qc cd de Rf eg gh Mc cd de eg Fi Gj jM MQ HF Ik
+                        Cl lm mj jM Mc Dl lm mj kn no op pq q0)],
+                    [qw(jM Fn no op pq q1)],
+                    [qw(in no op pq q2)],
+                    [qw(Jn no op pq q3)],
+                    [qw(Lr rs sn no op pq q4)],
+                    [qw(Nr rs sn no op pq q5)],
+                    [qw(ba Pr rs sn no op pq q6)],
+                    [qw(cd de ft tu ur rs sn no op pq q7)],
+                    [qw(ht tu ur rs sn no op pq q8)],
+                    [qw(gt tu ur rs sn no op pq q9)],
+                    [qw(eg gt tu ur rs sn no op pq q!)],
+                    [qw(aO Ou ur rs sn no op pq q")],
+                    [qw(Mc cd de eg gt tu ur rs sn no op pq q:)],
+                    [qw(Qc cd de eg gt tu ur rs sn no op pq q$)],
+                    [qw(Kc cd de eg gt tu ur rs sn no op pq q%)],
+                    [qw(Bl lm mj jv vs sn no op pq q&)],
+                ],
+            },
+            "soko1-2" => {
+                map_text => q(
   ------------------------
   |.j0123456789!":$%&'~..|
   |..-------------------.|
@@ -212,58 +241,64 @@ has level_maps => (
  |...q.p.|..-- |-|.....|.|
  ----.Lo.|.--  |.+.....+.|
     ---.--.|   |-|.....|--
-     |.M..a|   |.+.....|  
-     |>.|..|   --|.....|  
-     -------     -------  ),
-    solution_text => [
-	[qw(Ma ab Tc Sd Qe Pf Gg Dh Bi iB Aj j0)],
-	[qw(EG hj j1)],
-	[qw(Bi ik kj j2)],
-	[qw(Ch hj j3)],
-	[qw(Il GE lj j4)],
-	[qw(Jl lj j5)],
-	[qw(HI Ij j6)],
-	[qw(Fi ik kj j7)],
-	[qw(gm mj j8)],
-	[qw(EG Gm mj j9)],
-	[qw(KG Gm mj j!)],
-	[qw(fn nm mj j")],
-	[qw(Lo op pq qG Gm mj j:)],
-	[qw(cT RP Pf fn nm mj j$)],
-	[qw(bP Pf fn nm mj j%)],
-	[qw(Tb bP Pf fn nm mj j&)],
-	[qw(Nr ec cs sP Pf fn nm mj j')],
-	[qw(rN Nc cs sP Pf fn nm mj j~)]]},
-            );
-	for my $levelname (keys %sokolevels) {
-	    my $level = $sokolevels{$levelname};
+     |.M..a|   |.+.....|
+     |>.|..|   --|.....|
+     -------     -------
+                ),
+                solution_text => [
+                    [qw(Ma ab Tc Sd Qe Pf Gg Dh Bi iB Aj j0)],
+                    [qw(EG hj j1)],
+                    [qw(Bi ik kj j2)],
+                    [qw(Ch hj j3)],
+                    [qw(Il GE lj j4)],
+                    [qw(Jl lj j5)],
+                    [qw(HI Ij j6)],
+                    [qw(Fi ik kj j7)],
+                    [qw(gm mj j8)],
+                    [qw(EG Gm mj j9)],
+                    [qw(KG Gm mj j!)],
+                    [qw(fn nm mj j")],
+                    [qw(Lo op pq qG Gm mj j:)],
+                    [qw(cT RP Pf fn nm mj j$)],
+                    [qw(bP Pf fn nm mj j%)],
+                    [qw(Tb bP Pf fn nm mj j&)],
+                    [qw(Nr ec cs sP Pf fn nm mj j')],
+                    [qw(rN Nc cs sP Pf fn nm mj j~)],
+                ],
+            },
+        );
+
+        for my $levelname (keys %sokolevels) {
+            my $level = $sokolevels{$levelname};
+
             # Unpack the map from the human-readable representation above
             # into a true in-memory representation.
-	    my $map_text = $level->{'map_text'};
-	    my $map = [];
-	    my %locations = ();
-	    my $x = 0;
-	    my $y = -1; # there's an initial newline
-	    while ($map_text ne '') {
-		my $char = substr $map_text,0,1,"";
-		if ($char eq "\n") {
-		    $y++;
-		    $x = 0;
-		    next;
-		}
+            my $map_text = $level->{'map_text'};
+            chomp $map_text;
+
+            my $map = [];
+            my %locations = ();
+            my $x = 0;
+            my $y = -1; # there's an initial newline
+            while ($map_text ne '') {
+                my $char = substr $map_text,0,1,"";
+                if ($char eq "\n") {
+                    $y++;
+                    $x = 0;
+                    next;
+                }
                 defined $map->[$y] or $map->[$y] = [];
-		$map->[$y]->[$x] = $char;
-		$locations{$char} = [$x,$y];
-		$x++;
-	    }
-	    $level->{'map'} = $map;
-	    $level->{'locations'} = \%locations;
+                $map->[$y]->[$x] = $char;
+                $locations{$char} = [$x,$y];
+                $x++;
+            }
+            $level->{'map'} = $map;
+            $level->{'locations'} = \%locations;
             # Likewise for the solution.
-            $level->{'solution'} = [map
-                {
-                    [map {/(.)(.)/ and [$1, $2]} @$_];
-                } @{$level->{'solution_text'}}];
-	}
+            $level->{'solution'} = [map {
+                [map {/(.)(.)/ and [$1, $2]} @$_];
+            } @{$level->{'solution_text'}}];
+        }
         return \%sokolevels;
     },
 );
