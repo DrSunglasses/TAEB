@@ -1,7 +1,6 @@
 package TAEB::Config;
 use Moose;
 use YAML;
-use JSON -support_by_pp;
 use TAEB::Util qw/first/;
 use Hash::Merge 'merge';
 Hash::Merge::set_behavior('RIGHT_PRECEDENT');
@@ -73,17 +72,10 @@ sub BUILD {
     }
 }
 
-# Even though YAML is used from the config file, the override uses JSON.
-# This is because JSON's a bit harder to read and worse formatted (and
-# therefore worse for config files), but much much better for oneliners
-# (which is what the command line overrides will be). JSON syntax is also
-# relaxed slightly, given that this input is being written by humans, to
-# accept various abbreviations which would otherwise be invalid.
 sub override_config {
     my $self = shift;
-    my $override = shift;
-    my $json = JSON->new->allow_singlequote->allow_barekey;
-    $self->contents(merge($self->contents,$json->decode($override)));
+    my $override = YAML::Load(shift);
+    $self->contents(merge($self->contents, $override));
 }
 
 sub _get_character_info {

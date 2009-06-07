@@ -12,7 +12,7 @@ TAEB - the Tactical Amulet Extraction Bot
 Options:
     --rc          Print TAEB's required nethackrc to stdout
     --loop        Run TAEB repeatedly
-    --config=JSON Use the JSON in the given string to override config.yml
+    --config=YAML Use the YAML in the given string to override config.yml
     --quit        Abbreviation for --config='{"ai":"Quit"}'
     --help        Print this message
 USAGE
