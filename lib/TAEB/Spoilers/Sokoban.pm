@@ -384,7 +384,7 @@ sub next_sokoban_step {
                 my $tile = $level->at($x, $y);
 
                 next FINDVARIANT
-                    if ($tile->type eq 'wall' && $mapchar !~ /[-|]/);
+                    if ($tile->type eq 'wall' && $mapchar !~ /[-|]/)
                     || ($tile->type ne 'wall' && $mapchar =~ /[-|]/);
 
                 $x++;
@@ -423,7 +423,7 @@ sub next_sokoban_step {
 
     # Work out where the boulders will be after the pits that we've
     # seen missing have been eliminated.
-    my @sofar = splice @steps, 0, -$remainingpits;
+    my @sofar = splice @steps, 0, -$remaining_pits;
 
     my @boulder_locations;
     for (@$map) {
