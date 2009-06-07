@@ -343,12 +343,15 @@ AI, and is stateless (it is based entirely on current information,
 rather than anything memorised).
 
 =cut
+
 sub next_sokoban_step {
     my $self = shift;
     my $level = shift;
     my $pathable = shift;
+
     my $left = 99;
     my $top = 99;
+
     # TAEB is where it is if it's on the level; otherwise, it'll
     # arrive at the nearest exit.
     my $tilefrom = TAEB->current_tile;
@@ -358,20 +361,22 @@ sub next_sokoban_step {
     }
 
     # Find out where the Sokoban map is on the screen.
-    $level->each_tile(
-        sub {
-            my $t = shift;
-            if ($t->type eq 'wall') {
-                $t->x < $left and $left = $t->x;
-                $t->y < $top  and $top  = $t->y;
-            }
-        });
+    $level->each_tile(sub {
+        my $t = shift;
+        if ($t->type eq 'wall') {
+            $t->x < $left and $left = $t->x;
+            $t->y < $top  and $top  = $t->y;
+        }
+    });
+
     my $variant = undef;
+
     # Find out which variant this is, by comparing wall locations.
     FINDVARIANT: for my $variantcheck (keys %{$self->level_maps}) {
         my $map = $self->level_maps->{$variantcheck}->{'map'};
         my $x = $left;
         my $y = $top;
+
         for my $mapline (@$map) {
             for my $mapchar (@$mapline) {
                 my $tile = $level->at($x,$y);
@@ -386,8 +391,15 @@ sub next_sokoban_step {
         $variant = $variantcheck;
         last;
     }
-    $variant or TAEB->log->spoiler("Could not determine Sokoban variant",
-                                   level => 'error') and return;
+
+    if (!$variant) {
+        TAEB->log->spoiler(
+            "Could not determine Sokoban variant",
+            level => 'error',
+        );
+        return;
+    }
+
     my $map = $self->level_maps->{$variant}->{'map'};
     my $locations = $self->level_maps->{$variant}->{'locations'};
     my $solution = $self->level_maps->{$variant}->{'solution'};
@@ -395,33 +407,38 @@ sub next_sokoban_step {
     # Find out how many pits have been filled already.
     my $remainingpits = 0;
     $level->each_tile(sub {
-        my $t=shift;
+        my $t = shift;
         $remainingpits++ if $t->type eq 'trap';
     });
+
     $remainingpits or return; # already solved
 
     my @steps = @$solution;
+
     # Work out where the boulders will be after the pits that we've
     # seen missing have been eliminated.
     my @sofar = splice @steps, 0, -$remainingpits;
-    my @boulderlocations = ();
+    my @boulderlocations;
     do { /[A-Z]/ and push @boulderlocations, $_ for @$_} for @$map;
+
     for my $steplist (@sofar) {
         for my $step (@$steplist) {
-            @boulderlocations = map {$_ eq $step->[0] ?
-                                           $step->[1] : $_} @boulderlocations;
+            @boulderlocations = map {
+                $_ eq $step->[0] ? $step->[1] : $_
+            } @boulderlocations;
         }
     }
-    @boulderlocations = map {/[0-9!"\$\%\&'~:]/ ? () : ($_);} @boulderlocations;
+    @boulderlocations = map { /[0-9!"\$\%\&'~:]/ ? () : ($_) } @boulderlocations;
 
     my $origboulderlocations = join '-', @boulderlocations;
 
     # Find out where the boulders actually are.
-    my @currentboulderlocations = ();
-    my $misplaced_x = undef;
-    my $misplaced_y = undef;
+    my @currentboulderlocations;
+    my $misplaced_x;
+    my $misplaced_y;
+
     $level->each_tile(sub {
-        my $t=shift;
+        my $t = shift;
         if ($t->has_boulder) {
             my $y = $t->y - $top;
             my $x = $t->x - $left;
@@ -431,10 +448,14 @@ sub next_sokoban_step {
             $char eq '.' and $misplaced_y = $y;
         }
     });
+
     @currentboulderlocations = sort @currentboulderlocations;
-    if(scalar (grep /\./, @currentboulderlocations) > 1) {
-        TAEB->log->spoiler("This Sokoban puzzle has deviated from spoilers.",
-                           level => 'warning');
+
+    if ((grep /\./, @currentboulderlocations) > 1) {
+        TAEB->log->spoiler(
+            "This Sokoban puzzle has deviated from spoilers.",
+            level => 'warning',
+        );
         return;
     }
 
@@ -448,13 +469,17 @@ sub next_sokoban_step {
     for my $movement (@plan) {
         my $nextmovef = $movement->[0];
         my $nextmovet = $movement->[1];
+
         # Bare block that iterates once for each boulder step movement
         {
-            my ($xf, $yf) = ($nextmovef eq '.' ?
-                             ($working_x, $working_y) :
-                             @{$locations->{$nextmovef}});
+            my ($xf, $yf) = (
+                $nextmovef eq '.' ? ($working_x, $working_y)
+                                  : @{$locations->{$nextmovef}},
+            );
+
             my ($xt, $yt) = @{$locations->{$nextmovet}};
-            if(_lists_sort_equal(\@boulderlocations, \@currentboulderlocations) &&
+
+            if (_lists_sort_equal(\@boulderlocations, \@currentboulderlocations) &&
                (!defined($misplaced_x) ||
                 ($misplaced_x == $working_x && $misplaced_y == $working_y))) {
                 # This is a potential match for the plan.
@@ -463,33 +488,43 @@ sub next_sokoban_step {
                     # Moving up or down
                     $x = $xf;
                     $y = ($yf > $yt ? $yf+1 : $yf-1);
-                } elsif ($yf == $yt) {
+                }
+                elsif ($yf == $yt) {
                     # Moving left or right
                     $y = $yf;
                     $x = ($xf > $xt ? $xf+1 : $xf-1);
-                } else {
-                    TAEB->log->spoiler("Sokoban spoilers move a boulder diagonally",
-                                       level => 'error');
+                }
+                else {
+                    TAEB->log->spoiler(
+                        "Sokoban spoilers move a boulder diagonally",
+                        level => 'error',
+                    );
                     return;
                 }
-                if($tilefrom->x - $left == $x && $tilefrom->y - $top  == $y) {
+
+                if ($tilefrom->x - $left == $x && $tilefrom->y - $top  == $y) {
                     # We're in the right location, push the boulder.
-                    return ($level->at($xf + $left, $yf + $top));
+                    return $level->at($xf + $left, $yf + $top);
                 }
+
                 my $temptile = $level->at($x + $left, $y + $top);
                 if ($pathable) {
-                    if (&$pathable($temptile)) {
+                    if ($pathable->($temptile)) {
                         return $temptile;
                     }
-                } else {
-                    my $path = TAEB::World::Path->calculate_path
-                      ($tilefrom, $temptile, through_unknown => 1);
-                    if($path->path ne '') {
+                }
+                else {
+                    my $path = TAEB::World::Path->calculate_path(
+                        $tilefrom => $temptile,
+                        through_unknown => 1,
+                    );
+                    if (length $path->path) {
                         # We can path to the right location, so do so.
                         return $temptile;
                     }
                 }
             }
+
             # Move one step through the plan.
             $xf != $xt and $xf += ($xt <=> $xf);
             $yf != $yt and $yf += ($yt <=> $yf);
@@ -500,6 +535,7 @@ sub next_sokoban_step {
             $nextmovef ne $nextmovet and redo;
         }
     }
+
     TAEB->log->spoiler("This Sokoban puzzle has deviated from spoilers. " .
                        "(expected $origboulderlocations, got " .
                        (join '-',@currentboulderlocations) . "), misplaced " .
