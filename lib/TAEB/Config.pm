@@ -82,7 +82,7 @@ sub BUILD {
 sub override_config {
     my $self = shift;
     my $override = shift;
-    my $json = (new JSON)->allow_singlequote->allow_barekey;
+    my $json = JSON->new->allow_singlequote->allow_barekey;
     $self->contents(merge($self->contents,$json->decode($override)));
 }
 
