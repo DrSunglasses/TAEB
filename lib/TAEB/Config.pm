@@ -302,12 +302,12 @@ TAEB::Config
     interface: Local
     # How TAEB should communicate with you!
     display: Curses
-    
+
     #### AI config ############
     # Configure AI-specific options here (none of the AIs that ship with TAEB
     # are configurable though...)
     #ai_options:
-    
+
     #### Interface config #####
     # Configure the interface if necessary (telnet and ssh)
     #interface_options:
@@ -317,7 +317,7 @@ TAEB::Config
     #    SSH:
     #        account: taeb
     #        password: pass
-    
+
     #### Display config #######
     # How TAEB should look when you're watching him
     # color_method controls how tiles are colored, and glyph_method controls
@@ -329,7 +329,7 @@ TAEB::Config
     #    Curses:
     #        color_method: normal
     #        glyph_method: normal
-    
+
     #### Character config #####
     # Specify what TAEB should choose when picking a character
     #character:
@@ -337,7 +337,7 @@ TAEB::Config
     #    race: '*'
     #    gender: '*'
     #    align: '*'
-    
+
     #### Debugging config #####
     # Configure various debugging plugins for TAEB here
     # name for the irc plugin defaults to the bot's name
@@ -351,7 +351,7 @@ TAEB::Config
     #        port:   6667
     #        channel: "#interhack"
     #        name: taeb
-    
+
     #### Logging config #######
     # note: log_rotate->compress requires IO::Compress::Gzip to be installed
     #logger:
@@ -367,13 +367,13 @@ TAEB::Config
     #        errors:
     #            username: taeb_errors
     #            password: pass
-    
+
     #### Misc config ##########
     # Set this to 1 if you want to run a buggy TAEB overnight; it causes TAEB
     # to quit instead of saving on errors; if your TAEB is not particularly
     # buggy, you might want to leave this this at 0 so the full state is kept.
     #unattended: 0
-    
+
     #### External config ######
     # Specify other config files to load here - for example, config files
     # containing passwords, or config files specific to a certain ai
