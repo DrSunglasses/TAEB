@@ -554,15 +554,7 @@ our @msg_regex = (
             [debt => undef],
     ],
     [
-        qr/^(.*),\ price\ (\d+)\ zorkmids?(?:\ each)?
-           (?:,\ gourmet\'s\ delight\!|
-              ,\ painstakingly\ developed\!|
-              ,\ superb\ craftsmanship\!|
-              ,\ finest\ quality\.|
-              ,\ an\ excellent\ choice\.|
-              ,\ a\ real\ bargain\.|
-              ,\ one\ of\ a\ kind\!|
-              \.)$/x,
+        qr/^(.*), price (\d+) zorkmids?(?: each)?/,
             [item_price => sub { TAEB->new_item($1), $2 } ],
     ],
     [
