@@ -16,7 +16,7 @@ sub respond_difficult_spell {
     return 'n';
 }
 
-sub post_responses {
+sub done {
     my $self = shift;
     my $item = $self->item;
 

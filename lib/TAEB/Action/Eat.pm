@@ -40,7 +40,7 @@ sub msg_stopped_eating {
     my $item = shift;
 
     #when we stop eating, check inventory or the floor for the "partly"
-    #eaten leftovers.  post_responses will take care of removing the original
+    #eaten leftovers. The done method will take care of removing the original
     #item from inventory
     my $what = (blessed $item && $item->slot) ? 'inventory' : 'floor';
     TAEB->log->action("Stopped eating $item from $what");
@@ -49,7 +49,7 @@ sub msg_stopped_eating {
     return;
 }
 
-sub post_responses {
+sub done {
     my $self = shift;
     my $item = $self->food;
 
