@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package TAEB::Spoilers::Sokoban;
 use MooseX::Singleton;
 
