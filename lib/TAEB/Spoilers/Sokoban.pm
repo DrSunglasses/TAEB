@@ -365,8 +365,8 @@ sub next_sokoban_step {
     $level->each_tile(sub {
         my $t = shift;
         if ($t->type eq 'wall') {
-            $t->x < $left and $left = $t->x;
-            $t->y < $top  and $top  = $t->y;
+            $left = $t->x if $t->x < $left;
+            $top  = $t->y if $t->y < $top;
         }
     });
 
@@ -382,14 +382,18 @@ sub next_sokoban_step {
         for my $mapline (@$map) {
             for my $mapchar (@$mapline) {
                 my $tile = $level->at($x, $y);
-                $tile->type eq 'wall' and $mapchar !~ /[-|]/
-                    and next FINDVARIANT;
-                $tile->type ne 'wall' and $mapchar =~ /[-|]/
-                    and next FINDVARIANT;
+
+                next FINDVARIANT
+                    if ($tile->type eq 'wall' && $mapchar !~ /[-|]/);
+                    || ($tile->type ne 'wall' && $mapchar =~ /[-|]/);
+
                 $x++;
             }
-            $x = $left; $y++;
+
+            $x = $left;
+            $y++;
         }
+
         $variant = $variant_check;
         last;
     }
@@ -413,7 +417,7 @@ sub next_sokoban_step {
         $remaining_pits++ if $t->type eq 'trap';
     });
 
-    $remaining_pits or return; # already solved
+    return if $remaining_pits == 0; # already solved
 
     my @steps = @$solution;
 
@@ -422,7 +426,12 @@ sub next_sokoban_step {
     my @sofar = splice @steps, 0, -$remainingpits;
 
     my @boulder_locations;
-    do { /[A-Z]/ and push @boulder_locations, $_ for @$_} for @$map;
+    for (@$map) {
+        for (@$_) {
+            push @boulder_locations, $_
+                if /[A-Z]/;
+        }
+    }
 
     for my $steplist (@sofar) {
         for my $step (@$steplist) {
@@ -446,9 +455,11 @@ sub next_sokoban_step {
             my $y = $t->y - $top;
             my $x = $t->x - $left;
             my $char = $map->[$y]->[$x];
+
             push @current_boulder_locations, $char;
-            $char eq '.' and $misplaced_x = $x;
-            $char eq '.' and $misplaced_y = $y;
+
+            $misplaced_x = $x if $char eq '.';
+            $misplaced_y = $y if $char eq '.';
         }
     });
 
@@ -529,13 +540,19 @@ sub next_sokoban_step {
             }
 
             # Move one step through the plan.
-            $xf != $xt and $xf += ($xt <=> $xf);
-            $yf != $yt and $yf += ($yt <=> $yf);
-            my $letterto = $map->[$yf]->[$xf];
+            $xf += ($xt <=> $xf) if $xf != $xt;
+            $yf += ($yt <=> $yf) if $yf != $yt;
             ($working_x, $working_y) = ($xf, $yf);
-            @boulder_locations = map { $_ eq $nextmovef ? $letterto : $_ } @boulder_locations;
+
+            my $letterto = $map->[$yf]->[$xf];
+
+            @boulder_locations = map {
+                $_ eq $nextmovef ? $letterto : $_
+            } @boulder_locations;
+
             $nextmovef = $letterto;
-            $nextmovef ne $nextmovet and redo;
+
+            redo if $nextmovef ne $nextmovet;
         }
     }
 
