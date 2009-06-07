@@ -5,8 +5,8 @@ has level_maps => (
     is => 'ro',
     isa => 'HashRef',
     default => sub {
-        my %sokolevels = (
-            "soko4-1" => {
+        my %levels = (
+            "4-1" => {
                 map_text => q(
 ------  -----
 |....|  |...|
@@ -34,7 +34,7 @@ has level_maps => (
                     [qw(hb ba aJ Jf fg g8)],
                 ],
             },
-            "soko4-2" => {
+            "4-2" => {
                 map_text => q(
 -------- ------
 |<|>...|-|....|
@@ -61,7 +61,7 @@ has level_maps => (
                     [qw(Dm mb bh hi iK Kf f9)],
                 ],
             },
-            "soko3-1" => {
+            "3-1" => {
                 map_text => q(
 -----------       -----------
 |....|....|--     |.........|
@@ -94,7 +94,7 @@ has level_maps => (
                     [qw(lj jg gc cP P%)],
                 ],
             },
-            "soko3-2" => {
+            "3-2" => {
                 map_text => q(
  ----          -----------
 -|.>|-------   |.........|
@@ -126,7 +126,7 @@ has level_maps => (
                     [qw(Hp pf fk ke eM MO O")],
                 ],
             },
-            "soko2-1" => {
+            "2-1" => {
                 map_text => q(
 --------------------
 |........|...|.....|
@@ -154,7 +154,7 @@ has level_maps => (
                     [qw(Lg g9)],
                 ],
             },
-            "soko2-2" => {
+            "2-2" => {
                 map_text => q(
   --------
 --|.|....|
@@ -184,7 +184,7 @@ has level_maps => (
                     [qw(fj jH Hh hK KL Ld d!)],
                 ],
             },
-            "soko1-1" => {
+            "1-1" => {
                 map_text => q(
 --------------------------
 |>.....q0123456789!":$%&.|
@@ -225,7 +225,7 @@ has level_maps => (
                     [qw(Bl lm mj jv vs sn no op pq q&)],
                 ],
             },
-            "soko1-2" => {
+            "1-2" => {
                 map_text => q(
   ------------------------
   |.j0123456789!":$%&'~..|
@@ -268,8 +268,8 @@ has level_maps => (
             },
         );
 
-        for my $levelname (keys %sokolevels) {
-            my $level = $sokolevels{$levelname};
+        for my $levelname (keys %levels) {
+            my $level = $levels{$levelname};
 
             # Unpack the map from the human-readable representation above
             # into a true in-memory representation.
@@ -303,7 +303,7 @@ has level_maps => (
                 [map {/(.)(.)/ and [$1, $2]} @$_];
             } @{$level->{'solution_text'}}];
         }
-        return \%sokolevels;
+        return \%levels;
     },
 );
 
