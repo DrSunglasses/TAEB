@@ -559,7 +559,7 @@ sub next_sokoban_step {
     TAEB->log->spoiler("This Sokoban puzzle has deviated from spoilers. " .
                        "(expected $origboulder_locations, got " .
                        (join '-',@current_boulder_locations) . "), misplaced " .
-                       ($misplaced_x // "undef"),
+                       (defined($misplaced_x) ? $misplaced_x : "undef"),
                        level => 'warning');
     return;
 }
