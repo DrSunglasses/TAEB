@@ -31,6 +31,14 @@ around target_tile => sub {
     return $tile;
 };
 
+sub msg_killed {
+    my ($self, $monster_name) = @_;
+
+    return unless defined $self->target_tile;
+
+    $self->target_tile->witness_kill($monster_name);
+}
+
 no Moose::Role;
 
 1;

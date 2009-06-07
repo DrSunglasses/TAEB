@@ -75,12 +75,10 @@ sub msg_throw_count {
     TAEB->inventory->decrease_quantity($self->projectile->slot, $count - 1);
 }
 
-sub msg_killed {
+after msg_killed => sub {
     my ($self, $monster_name) = @_;
-
     $self->killed(1);
-    $self->target_tile->witness_kill($monster_name);
-}
+};
 
 sub msg_throw_slip {
     my $self = shift;

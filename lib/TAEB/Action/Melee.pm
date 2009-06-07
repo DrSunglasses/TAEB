@@ -11,12 +11,6 @@ has '+direction' => (
 # sadly, Melee doesn't give an "In what direction?" message
 sub command { 'F' . shift->direction }
 
-sub msg_killed {
-    my ($self, $monster_name) = @_;
-
-    $self->target_tile->witness_kill($monster_name);
-}
-
 __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
 
