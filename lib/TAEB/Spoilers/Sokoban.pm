@@ -276,23 +276,27 @@ has level_maps => (
             my $map_text = $level->{'map_text'};
             chomp $map_text;
 
-            my $map = [];
-            my %locations = ();
+            my @map;
+            my %locations;
             my $x = 0;
             my $y = -1; # there's an initial newline
-            while ($map_text ne '') {
-                my $char = substr $map_text,0,1,"";
+
+            while (length($map_text)) {
+                # Remove first character destructively
+                my $char = substr($map_text, 0, 1, "");
+
                 if ($char eq "\n") {
                     $y++;
                     $x = 0;
                     next;
                 }
-                defined $map->[$y] or $map->[$y] = [];
-                $map->[$y]->[$x] = $char;
-                $locations{$char} = [$x,$y];
+
+                $map[$y][$x] = $char;
+                $locations{$char} = [$x, $y];
                 $x++;
             }
-            $level->{'map'} = $map;
+
+            $level->{'map'} = \@map;
             $level->{'locations'} = \%locations;
             # Likewise for the solution.
             $level->{'solution'} = [map {
