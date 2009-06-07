@@ -298,6 +298,7 @@ has level_maps => (
 
             $level->{'map'} = \@map;
             $level->{'locations'} = \%locations;
+
             # Likewise for the solution.
             $level->{'solution'} = [map {
                 [map {/(.)(.)/ and [$1, $2]} @$_];
@@ -354,10 +355,10 @@ sub next_sokoban_step {
 
     # TAEB is where it is if it's on the level; otherwise, it'll
     # arrive at the nearest exit.
-    my $tilefrom = TAEB->current_tile;
-    if ($tilefrom->level != $level) {
-        $tilefrom = $level->exit_towards(TAEB->current_level);
-        return undef unless $tilefrom; # can't path to Sokoban
+    my $tile_from = TAEB->current_tile;
+    if ($tile_from->level != $level) {
+        $tile_from = $level->exit_towards(TAEB->current_level);
+        return undef unless $tile_from; # can't path to Sokoban
     }
 
     # Find out where the Sokoban map is on the screen.
@@ -369,17 +370,18 @@ sub next_sokoban_step {
         }
     });
 
-    my $variant = undef;
+    my $variant;
 
     # Find out which variant this is, by comparing wall locations.
-    FINDVARIANT: for my $variantcheck (keys %{$self->level_maps}) {
-        my $map = $self->level_maps->{$variantcheck}->{'map'};
+    FINDVARIANT:
+    for my $variant_check (keys %{$self->level_maps}) {
+        my $map = $self->level_maps->{$variant_check}->{'map'};
         my $x = $left;
         my $y = $top;
 
         for my $mapline (@$map) {
             for my $mapchar (@$mapline) {
-                my $tile = $level->at($x,$y);
+                my $tile = $level->at($x, $y);
                 $tile->type eq 'wall' and $mapchar !~ /[-|]/
                     and next FINDVARIANT;
                 $tile->type ne 'wall' and $mapchar =~ /[-|]/
@@ -388,7 +390,7 @@ sub next_sokoban_step {
             }
             $x = $left; $y++;
         }
-        $variant = $variantcheck;
+        $variant = $variant_check;
         last;
     }
 
@@ -405,35 +407,36 @@ sub next_sokoban_step {
     my $solution = $self->level_maps->{$variant}->{'solution'};
 
     # Find out how many pits have been filled already.
-    my $remainingpits = 0;
+    my $remaining_pits = 0;
     $level->each_tile(sub {
         my $t = shift;
-        $remainingpits++ if $t->type eq 'trap';
+        $remaining_pits++ if $t->type eq 'trap';
     });
 
-    $remainingpits or return; # already solved
+    $remaining_pits or return; # already solved
 
     my @steps = @$solution;
 
     # Work out where the boulders will be after the pits that we've
     # seen missing have been eliminated.
     my @sofar = splice @steps, 0, -$remainingpits;
-    my @boulderlocations;
-    do { /[A-Z]/ and push @boulderlocations, $_ for @$_} for @$map;
+
+    my @boulder_locations;
+    do { /[A-Z]/ and push @boulder_locations, $_ for @$_} for @$map;
 
     for my $steplist (@sofar) {
         for my $step (@$steplist) {
-            @boulderlocations = map {
+            @boulder_locations = map {
                 $_ eq $step->[0] ? $step->[1] : $_
-            } @boulderlocations;
+            } @boulder_locations;
         }
     }
-    @boulderlocations = map { /[0-9!"\$\%\&'~:]/ ? () : ($_) } @boulderlocations;
+    @boulder_locations = map { /[0-9!"\$\%\&'~:]/ ? () : ($_) } @boulder_locations;
 
-    my $origboulderlocations = join '-', @boulderlocations;
+    my $origboulder_locations = join '-', @boulder_locations;
 
     # Find out where the boulders actually are.
-    my @currentboulderlocations;
+    my @current_boulder_locations;
     my $misplaced_x;
     my $misplaced_y;
 
@@ -443,15 +446,15 @@ sub next_sokoban_step {
             my $y = $t->y - $top;
             my $x = $t->x - $left;
             my $char = $map->[$y]->[$x];
-            push @currentboulderlocations, $char;
+            push @current_boulder_locations, $char;
             $char eq '.' and $misplaced_x = $x;
             $char eq '.' and $misplaced_y = $y;
         }
     });
 
-    @currentboulderlocations = sort @currentboulderlocations;
+    @current_boulder_locations = sort @current_boulder_locations;
 
-    if ((grep /\./, @currentboulderlocations) > 1) {
+    if ((grep /\./, @current_boulder_locations) > 1) {
         TAEB->log->spoiler(
             "This Sokoban puzzle has deviated from spoilers.",
             level => 'warning',
@@ -479,7 +482,7 @@ sub next_sokoban_step {
 
             my ($xt, $yt) = @{$locations->{$nextmovet}};
 
-            if (_lists_sort_equal(\@boulderlocations, \@currentboulderlocations) &&
+            if (_lists_sort_equal(\@boulder_locations, \@current_boulder_locations) &&
                (!defined($misplaced_x) ||
                 ($misplaced_x == $working_x && $misplaced_y == $working_y))) {
                 # This is a potential match for the plan.
@@ -502,7 +505,7 @@ sub next_sokoban_step {
                     return;
                 }
 
-                if ($tilefrom->x - $left == $x && $tilefrom->y - $top  == $y) {
+                if ($tile_from->x - $left == $x && $tile_from->y - $top  == $y) {
                     # We're in the right location, push the boulder.
                     return $level->at($xf + $left, $yf + $top);
                 }
@@ -515,7 +518,7 @@ sub next_sokoban_step {
                 }
                 else {
                     my $path = TAEB::World::Path->calculate_path(
-                        $tilefrom => $temptile,
+                        $tile_from => $temptile,
                         through_unknown => 1,
                     );
                     if (length $path->path) {
@@ -530,15 +533,15 @@ sub next_sokoban_step {
             $yf != $yt and $yf += ($yt <=> $yf);
             my $letterto = $map->[$yf]->[$xf];
             ($working_x, $working_y) = ($xf, $yf);
-            @boulderlocations = map { $_ eq $nextmovef ? $letterto : $_ } @boulderlocations;
+            @boulder_locations = map { $_ eq $nextmovef ? $letterto : $_ } @boulder_locations;
             $nextmovef = $letterto;
             $nextmovef ne $nextmovet and redo;
         }
     }
 
     TAEB->log->spoiler("This Sokoban puzzle has deviated from spoilers. " .
-                       "(expected $origboulderlocations, got " .
-                       (join '-',@currentboulderlocations) . "), misplaced " .
+                       "(expected $origboulder_locations, got " .
+                       (join '-',@current_boulder_locations) . "), misplaced " .
                        ($misplaced_x // "undef"),
                        level => 'warning');
     return;
