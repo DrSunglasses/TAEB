@@ -1,15 +1,15 @@
 -- GETTING TAEB
 
-The preferred method for obtaining the TAEB source is from the darcs repo:
-    darcs get --partial http://sartak.org/code/TAEB/
+The preferred method for obtaining the TAEB source is from the github repo:
+    git clone git://github.com/sartak/TAEB.git
 
-Alternatively, you can download "http://sartak.org/dist/TAEB.tar.gz" and
-extract to the directory of your choice.
+Alternatively, you can download "http://github.com/sartak/TAEB/tarball/master"
+and extract to the directory of your choice.
 
 You can also download TAEB from the CPAN: cpan -i TAEB
 
 Downloading the tarball or installing from CPAN means less work up front (no
-need to install darcs), but it'll be more work every time you want to update.
+need to install git), but it'll be more work every time you want to update.
 
 
 -- INSTALLING FROM TARBALL
@@ -35,11 +35,11 @@ about 60 modules.
 
 Though TAEB ships with a demo AI, you should still install a robust AI. The
 most actively developed AI is Behavioral. The preferred method to get it is
-still through darcs:
-    darcs get --partial http://sartak.org/code/TAEB-AI-Behavioral
+still through git:
+    git clone git://github.com/sartak/TAEB-AI-Behavioral.git
 
 Or you can get a tarball from
-"http://sartak.org/dist/TAEB-AI-Behavioral.tar.gz" or the CPAN.
+"http://github.com/sartak/TAEB-AI-Behavioral/tarball/master" or the CPAN.
 
 
 -- CONFIGURATION
