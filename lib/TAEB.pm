@@ -867,9 +867,9 @@ possibilities for each appearance, and so on.
 
 =head1 CODE
 
-TAEB is versioned using C<darcs>. You can get a checkout of the code with:
+TAEB is versioned using C<git>. You can get a checkout of the code with:
 
-    darcs get --partial http://sartak.org/code/TAEB
+    git clone git://github.com/sartak/TAEB.git
 
 =head1 BLOG
 
