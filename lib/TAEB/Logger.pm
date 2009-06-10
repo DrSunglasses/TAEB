@@ -228,7 +228,7 @@ sub _should_log {
     if (defined $log_config && exists $log_config->{suppress}) {
         my $suppression = $log_config->{suppress};
         if (ref($suppression) eq 'ARRAY') {
-            return if grep { !$self->_should_log($_) } @$suppression;
+            return if grep { $channel eq $_ } @$suppression;
         }
         elsif ($suppression =~ s{^/(.*)/$}{$1}) {
             return if $channel =~ /$suppression/;
