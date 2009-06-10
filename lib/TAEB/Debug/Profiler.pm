@@ -3,11 +3,11 @@ use TAEB::OO;
 use TAEB::Util 'sum';
 
 has profile => (
-    traits  => ['Collection::Hash'],
-    is      => 'ro',
-    isa     => 'HashRef[Num]',
-    default => sub { {} },
-    provides => {
+    metaclass => 'Collection::Hash',
+    is        => 'ro',
+    isa       => 'HashRef[Num]',
+    default   => sub { {} },
+    provides  => {
         keys   => 'profile_categories',
         get    => '_get_category_profile',
         set    => '_set_category_profile',
