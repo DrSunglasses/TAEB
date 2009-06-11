@@ -7,8 +7,7 @@ before initialize => sub {
     my $self = shift;
 
     TAEB->publisher->subscribe($self)
-        if $self->meta->has_method('forward_message')
-        || (any { /^(?:msg|exception|respond)_/ } $self->meta->get_method_list)
+        if (any { /^(?:msg|exception|respond)_/ } $self->meta->get_method_list)
         || (any { /^(?:subscription)_/ } $self->meta->get_method_list);
 };
 
