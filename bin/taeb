@@ -13,7 +13,7 @@ Options:
     --rc          Print TAEB's required nethackrc to stdout
     --loop        Run TAEB repeatedly
     --config=YAML Use the YAML in the given string to override config.yml
-    --quit        Abbreviation for --config='{"ai":"Quit"}'
+    --quit        Abbreviation for --config='{"ai": "Quit"}'
     --help        Print this message
 USAGE
     exit $exit_val;
@@ -43,7 +43,7 @@ require TAEB;
 TAEB->config->override_config($_) for @config_overrides;
 
 if (${$cmdline_options{quit}}) {
-    TAEB->config->override_config('{"ai":"Quit"}');
+    TAEB->config->override_config('{"ai": "Quit"}');
 }
 
 my $tstp = $SIG{TSTP} = sub {
