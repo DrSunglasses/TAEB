@@ -1,6 +1,8 @@
-package TAEB::Announcement::Tile::NoItems;
+package TAEB::Announcement::Dungeon::Tile::NoItems;
 use TAEB::OO;
-extends 'TAEB::Announcement::Tile';
+extends 'TAEB::Announcement::Dungeon::Tile';
+
+use constant name => 'tile_noitems';
 
 __PACKAGE__->parse_messages(
     "There is nothing here to pick up." => {},

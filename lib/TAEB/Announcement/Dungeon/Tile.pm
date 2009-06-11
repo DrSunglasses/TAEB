@@ -1,4 +1,4 @@
-package TAEB::Announcement::Tile;
+package TAEB::Announcement::Dungeon::Tile;
 use TAEB::OO;
 extends 'TAEB::Announcement';
 
