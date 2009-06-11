@@ -822,17 +822,20 @@ sub distance {
 }
 
 sub find_item {
-    my $self = shift;
-    my $raw  = shift;
-    my $item = TAEB->new_item($raw);
+    my $self       = shift;
+    my $predicate  = shift;
+
+    if (!ref($predicate)) {
+        my $item = TAEB->new_item($predicate);
+        $predicate = sub { $_->maybe_is($item) };
+    }
 
     for ($self->items) {
-        next unless $_->maybe_is($item);
+        next unless $predicate->();
         return $_;
     }
 
-    warn "I can't reconcile $raw with anything on the ground at this tile.";
-    return $item;
+    return;
 }
 
 sub unexplored {
