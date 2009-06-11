@@ -135,10 +135,6 @@ our %msg_string = (
         ['branch', 'vlad'],
     "You smell smoke..." =>
         ['branch', 'gehennom'],
-    "A trap door opens up under you!" =>
-        ['trapdoor'],
-    "There's a gaping hole under you!" =>
-        ['trapdoor'],
     "Several flies buzz around the sink." =>
         ['ring' => 'meat ring'],
     "The faucets flash brightly for a moment." =>
@@ -392,8 +388,6 @@ our %msg_string = (
         ['sacrifice_gone'],
     'The blood covers the altar!' =>
         ['sacrifice_gone'],
-    'You fall through...' =>
-        ['trapdoor'],
     'You have no secondary weapon readied.' =>
         ['slot_empty', 'offhand'],
 );
