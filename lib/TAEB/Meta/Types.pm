@@ -34,7 +34,10 @@ enum 'TAEB::Type::Menu' => qw(none single multi);
 
 enum 'TAEB::Type::DeathState' => qw(inventory attributes kills conducts summary scores);
 
-duck_type 'TAEB::Type::Pty' => qw(spawn read write is_active);
+# Ugh; is there a way to specify 'read or recv'? Unfortunately, we don't have
+# Perl6 junctions yet... As it is, the requirement for read/recv is replaced
+# by a die in TAEB::Interface::Local, but that isn't ideal.
+duck_type 'TAEB::Type::Pty' => qw(spawn write is_active);
 
 1;
 
