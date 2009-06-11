@@ -45,6 +45,14 @@ sub msg_negative_stethoscope {
     $self->target_tile->inc_searched(50); # should be infinity
 }
 
+# falling into a pit makes the new level the same branch as the old level
+sub msg_trapdoor {
+    my $self = shift;
+
+    TAEB->current_level->branch($self->starting_tile->branch)
+        if $self->starting_tile->known_branch
+}
+
 __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
 
