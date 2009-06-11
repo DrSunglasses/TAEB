@@ -1,0 +1,15 @@
+package TAEB::Announcement::NothingHappens;
+use TAEB::OO;
+extends 'TAEB::Announcement';
+
+use constant name => 'nothing_happens';
+
+__PACKAGE__->parse_messages(
+    "Nothing happens." => {},
+);
+
+__PACKAGE__->meta->make_immutable;
+no TAEB::OO;
+
+1;
+

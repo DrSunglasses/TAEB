@@ -87,8 +87,6 @@ our %msg_string = (
         ['nutrition' => 900],
     "You hear crashing rock." =>
         ['pickaxe'],
-    "Nothing happens." =>
-        ['nothing_happens'],
     "A few ice cubes drop from the wand." =>
         [wand => 'wand of cold'],
     "The wand unsuccessfully fights your attempt to write!" =>

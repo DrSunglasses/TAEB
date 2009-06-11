@@ -12,7 +12,7 @@ has '+item' => (
 
 sub respond_apply_what { shift->item->slot }
 
-sub msg_nothing_happens {
+subscrube nothing_happens => sub {
     my $self = shift;
     my $item = $self->item;
 
@@ -22,7 +22,7 @@ sub msg_nothing_happens {
             TAEB->send_message(status_change => $_ => 0);
         }
     }
-}
+};
 
 sub msg_status_change {
     my $self = shift;
