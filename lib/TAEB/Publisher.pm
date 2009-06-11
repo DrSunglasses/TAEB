@@ -112,7 +112,7 @@ sub send_message {
         for ($method, ($announcement ? 'subscription_any' : 'msg_any')) {
             if ($recipient->can($_)) {
                 if ($_ eq 'msg_any') {
-                    $recipient->$_(, $name, @args);
+                    $recipient->$_($name, @args);
                 }
                 else {
                     $recipient->$_(@args);
