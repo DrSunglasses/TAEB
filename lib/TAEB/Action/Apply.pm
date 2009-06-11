@@ -12,7 +12,7 @@ has '+item' => (
 
 sub respond_apply_what { shift->item->slot }
 
-subscrube nothing_happens => sub {
+subscribe nothing_happens => sub {
     my $self = shift;
     my $item = $self->item;
 
