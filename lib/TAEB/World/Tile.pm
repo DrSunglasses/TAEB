@@ -1,6 +1,6 @@
 package TAEB::World::Tile;
 use TAEB::OO;
-use TAEB::Util qw/delta2vi vi2delta display :colors any all apply/;
+use TAEB::Util qw/delta2vi vi2delta display :colors any all apply first/;
 
 with 'TAEB::Role::Reblessing';
 
@@ -830,12 +830,8 @@ sub find_item {
         $predicate = sub { $_->maybe_is($item) };
     }
 
-    for ($self->items) {
-        next unless $predicate->();
-        return $_;
-    }
-
-    return;
+    # The & ignores first's prototype. $predicate is a function so it'll work
+    return &first($predicate, $self->items);
 }
 
 sub unexplored {
