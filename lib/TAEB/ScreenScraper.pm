@@ -295,9 +295,6 @@ our %msg_string = (
         [dungeon_feature => trap => "spiked pit"],
     "KAABLAMM!!!" =>
         [dungeon_feature => trap => "pit"],
-    # probably issues until we're able to handle traps that relocate you
-    "A trap door opens up under you!" =>
-        [dungeon_feature => trap => "trap door"],
     "There's a gaping hole under you!" =>
         [dungeon_feature => trap => "hole"],
     "You take a walk on your web." =>
