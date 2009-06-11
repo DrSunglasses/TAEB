@@ -554,7 +554,7 @@ sub keypress {
     # space is always a noncommand
     return if $c eq ' ';
 
-    $self->announce(TAEB::Announcement::UI::Keypress->new(key => $c));
+    $self->announce(keypress => key => $c);
     return;
 }
 
