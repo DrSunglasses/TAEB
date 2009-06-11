@@ -111,12 +111,6 @@ our %msg_string = (
         ['ring_sink'],
     "A black ooze gushes up from the drain!" =>
         ['pudding'],
-    "Suddenly one of the Vault's guards enters!" =>
-        ['vault_guard' => 1],
-    "Suddenly, the guard disappears." =>
-        ['vault_guard' => 0],
-    "\"You've been warned, knave!\"" =>
-        ['vault_guard' => 0],
     "You get expelled!" =>
         [engulfed => 0],
     "You activated a magic portal!" =>
@@ -513,14 +507,6 @@ our @msg_regex = (
     [
         qr/^You are (?:almost )?hit by /,
             [check => 'floor'],
-    ],
-    [
-        qr/"Please (?:drop that gold and )?follow me."/ =>
-            ['vault_guard' => 1],
-    ],
-    [
-        qr/"I repeat, (?:drop that gold and )?follow me!"/ =>
-            ['vault_guard' => 1],
     ],
     [
         qr/^(.*?) engulfs you!/ =>

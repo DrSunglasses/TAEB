@@ -457,9 +457,9 @@ sub msg_enter_room {
     }
 }
 
-sub msg_vault_guard {
+subscribe vault_guard => sub {
     shift->floodfill_room('vault');
-}
+};
 
 =head2 is_engulfed -> Bool
 

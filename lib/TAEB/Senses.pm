@@ -782,12 +782,14 @@ sub msg_game_started {
     $self->is_stealthy(1) if $self->role =~ /Arc|Rog|Val/;
 }
 
-sub msg_vault_guard {
-    my $self = shift;
-    my $following = shift;
+subscribe vault_guard => sub {
+    my $self  = shift;
+    my $event = shift;
+
+    my $following = $event->following;
 
     $self->following_vault_guard($following);
-}
+};
 
 sub msg_attacked {
     my $self = shift;
