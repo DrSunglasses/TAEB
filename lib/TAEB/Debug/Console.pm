@@ -2,13 +2,12 @@ package TAEB::Debug::Console;
 use TAEB::OO;
 with 'TAEB::Role::Config';
 
-sub msg_key {
+subscribe keypress => sub {
     my $self = shift;
-    my $key = shift;
-    return unless $key eq '~';
+    my $event = shift;
 
-    $self->repl(undef);
-}
+    $self->repl(undef) if $event->key eq '~';
+};
 
 sub repl {
     my $self = shift;

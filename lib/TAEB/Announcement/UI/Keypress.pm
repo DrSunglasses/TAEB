@@ -2,6 +2,8 @@ package TAEB::Announcement::UI::Keypress;
 use TAEB::OO;
 extends 'TAEB::Announcement::UI';
 
+use constant name => 'keypress';
+
 has key => (
     is       => 'ro',
     isa      => 'Str',

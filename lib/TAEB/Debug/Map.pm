@@ -2,10 +2,10 @@ package TAEB::Debug::Map;
 use TAEB::OO;
 use TAEB::Util qw/item_menu/;
 
-sub msg_key {
-    my $self = shift;
-    my $key = shift;
-    return unless $key eq ';';
+subscribe keypress => sub {
+    my $self  = shift;
+    my $event = shift;
+    return unless $event->key eq ';';
 
     my ($x, $y) = (TAEB->x, TAEB->y);
     my $level = TAEB->current_level;
@@ -118,7 +118,7 @@ sub msg_key {
 
     # back to normal
     TAEB->redraw;
-}
+};
 
 __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
