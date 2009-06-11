@@ -5,7 +5,11 @@ use TAEB::Util qw/item_menu/;
 subscribe keypress => sub {
     my $self  = shift;
     my $event = shift;
-    return unless $event->key eq ';';
+    $self->activate unless $event->key eq ';';
+};
+
+sub activate {
+    my $self = shift;
 
     my ($x, $y) = (TAEB->x, TAEB->y);
     my $level = TAEB->current_level;
@@ -118,7 +122,7 @@ subscribe keypress => sub {
 
     # back to normal
     TAEB->redraw;
-};
+}
 
 __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
