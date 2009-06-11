@@ -315,12 +315,12 @@ sub msg_excalibur {
     TAEB->current_tile->change_type(floor => '.');
 }
 
-sub msg_clear_floor {
-    my $self = shift;
-    my $item = shift;
+subscribe tile_noitems => sub {
+    my $self  = shift;
+    my $event = shift;
 
-    TAEB->current_tile->clear_items;
-}
+    $event->tile->clear_items;
+};
 
 sub msg_floor_item {
     my $self = shift;

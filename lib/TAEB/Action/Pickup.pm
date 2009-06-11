@@ -21,7 +21,7 @@ subscribe got_item => sub {
 };
 
 sub begin_select_pickup {
-    TAEB->send_message('clear_floor');
+    TAEB->announce('tile_noitems');
 }
 
 sub select_pickup {

@@ -83,8 +83,6 @@ our %msg_string = (
         ['protection_gone'],
     "You try to move the boulder, but in vain." =>
         ['immobile_boulder'],
-    "There is nothing here to pick up." =>
-        ['clear_floor'],
     '"You bit it, you bought it!"' =>
         ['debt' => undef],
     "You have no credit or debt in here." =>
@@ -217,8 +215,6 @@ our %msg_string = (
         ['engraving_type' => 'scrawl'],
     "You experience a strange sense of peace." =>
         ['enter_room','temple'],
-    "You see no objects here." =>
-        ['clear_floor'],
     "You hear the shrill sound of a guard's whistle." =>
         ['angry_watch'],
     "You see an angry guard approaching!" =>
@@ -442,16 +438,6 @@ our @msg_regex = (
                 ['dungeon_feature', 'bad staircase'],
     ],
     [
-        # NetHack will not send "There are no items here." if there is a
-        # terrain feature at the current location.  To work around this, we
-        # need to clear the floor on receiving notices of terrain... HOWEVER
-        # if there were a lot of items, we handle menus before messages.  To
-        # avoid a big mess, we skip the clear in that case.
-        qr/^There is (?:molten lava|ice|an? .*) here.$/,
-            [sub { TAEB->scraper->saw_floor_list_this_step ?
-                       '' : 'clear_floor' }],  # is this the best way?
-    ],
-    [
         qr/^There is a (staircase (?:up|down)|fountain|sink|grave) here\.$/,
             ['dungeon_feature', sub { $1 }],
     ],
@@ -488,12 +474,8 @@ our @msg_regex = (
     [
         qr/^You (?:see|feel) here (.*?)\./,
             ['floor_item', sub {
-                TAEB->send_message('clear_floor');
+                TAEB->announce('tile_noitems');
                 TAEB->new_item($1); }],
-    ],
-    [
-        qr/^You feel no objects here\./,
-            ['clear_floor']
     ],
     [
         qr/^You read: \"(.*)\"\./,
@@ -1087,7 +1069,7 @@ sub handle_more_menus {
         || ($line_3 = TAEB->vt->row_plaintext(2) =~ /Things that (?:are|you feel) here:/)
     ) {
         $self->messages($self->messages . '  ' . TAEB->topline) if $line_3;
-        TAEB->send_message('clear_floor');
+        TAEB->announce('tile_noitems');
         $self->saw_floor_list_this_step(1);
         my $skip = 1;
         $each = sub {
