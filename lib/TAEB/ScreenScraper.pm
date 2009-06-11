@@ -496,10 +496,6 @@ our @msg_regex = (
             ['clear_floor']
     ],
     [
-        qr/^(?:You have a little trouble lifting )?(. - .*?|\d+ gold pieces?)\.$/,
-            ['got_item', sub { TAEB->new_item($1) }],
-    ],
-    [
         qr/^You read: \"(.*)\"\./,
             ['floor_message', sub { (my $str = $1) =~ tr/_/ /; $str }],
     ],
