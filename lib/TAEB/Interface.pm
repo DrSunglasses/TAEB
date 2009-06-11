@@ -52,6 +52,18 @@ sub write {
     inner();
 }
 
+=head2 flush
+
+This causes a call to write() to take effect, if for some reason your
+interface delays writes until the corresponding read. You can leave
+this un-overriden if it would be a no-op. It's allowed to discard any
+data it would otherwise read; this is for the purpose of ensuring that
+the data is sent during emergency cleanup.
+
+=cut
+
+sub flush { }
+
 __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
 
