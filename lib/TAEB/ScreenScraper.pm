@@ -83,14 +83,6 @@ our %msg_string = (
         ['protection_gone'],
     "You try to move the boulder, but in vain." =>
         ['immobile_boulder'],
-    '"You bit it, you bought it!"' =>
-        ['debt' => undef],
-    "You have no credit or debt in here." =>
-        ['debt', 0],
-    "You don't owe any money here." =>
-        ['debt', 0],
-    "There appears to be no shopkeeper here to receive your payment." =>
-        ['debt', 0],
     "Your stomach feels content." =>
         ['nutrition' => 900],
     "You hear crashing rock." =>
@@ -473,14 +465,6 @@ our @msg_regex = (
             ['floor_message', sub { (my $str = $1) =~ tr/_/ /; $str }],
     ],
     [
-        qr/^You owe .*? (\d+) zorkmids?\./,
-            ['debt', sub { $1 }],
-    ],
-    [
-        qr/^You do not owe .* anything\./,
-            ['debt' => 0],
-    ],
-    [
         qr/^The engraving on the .*? vanishes!/,
             [wand => map { "wand of $_" } 'teleportation', 'cancellation', 'make invisible'],
     ],
@@ -513,14 +497,6 @@ our @msg_regex = (
     [
         qr/^.*? zaps (?:(?:him|her|it)self with )?an? .*? wand!/,
             ['check' => 'discoveries'],
-    ],
-    [
-        qr/^"Usage fee, (\d+) zorkmids?\."/,
-            [debt => sub { $1 }],
-    ],
-    [
-        qr/ \(unpaid, \d+ zorkmids?\)/,
-            [debt => undef],
     ],
     [
         qr/^(.*), price (\d+) zorkmids?(?: each)?/,

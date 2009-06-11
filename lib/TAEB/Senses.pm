@@ -137,9 +137,11 @@ has gold => (
 );
 
 has debt => (
-    is      => 'rw',
-    isa     => 'Maybe[Int]',
-    default => 0,
+    is        => 'rw',
+    isa       => 'Int',
+    default   => 0,
+    predicate => 'known_debt',
+    clearer   => '_clear_debt',
 );
 
 has [
@@ -747,17 +749,22 @@ sub has_infravision {
     return 1;
 }
 
-sub msg_debt {
-    my $self = shift;
-    my $gold = shift;
+subscribe debt => sub {
+    my $self  = shift;
+    my $event = shift;
+
+    my $amount = $event->amount;
 
     # gold is occasionally undefined. that's okay, that tells us to check
     # how much we owe with the $ command
-    $self->debt($gold);
-    if (!defined($gold)) {
+    if (!defined($amount)) {
         TAEB->send_message(check => 'debt');
+        $self->_clear_debt;
     }
-}
+    else {
+        $self->debt($amount);
+    }
+};
 
 sub msg_game_started {
     my $self = shift;
@@ -825,7 +832,7 @@ my %check_command = (
 my %post_check = (
     debt => sub {
         my $self = shift;
-        $self->debt(0) if !defined($self->debt);
+        $self->debt(0) if !$self->known_debt;
     },
 );
 

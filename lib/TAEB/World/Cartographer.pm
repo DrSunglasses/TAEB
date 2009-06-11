@@ -410,9 +410,9 @@ sub floodfill_room {
     );
 }
 
-sub msg_debt {
+subscribe debt => sub {
     shift->floodfill_room('shop');
-}
+};
 
 subscribe step => sub {
     shift->_last_location(TAEB->current_tile);
