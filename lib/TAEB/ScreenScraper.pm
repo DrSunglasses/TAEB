@@ -1109,7 +1109,7 @@ sub handle_more_menus {
     elsif (TAEB->topline =~ /Fine goods for sale:/) {
         $each = sub {
             /^\s*(.*), (\d+) zorkmids?/ and
-                TAEB->enqueue_message('item_price' => TAEB->new_item($1), $2);
+                TAEB->send_message('item_price' => TAEB->new_item($1), $2);
             return 0;
         }
     }
