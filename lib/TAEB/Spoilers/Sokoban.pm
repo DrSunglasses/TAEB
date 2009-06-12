@@ -295,6 +295,9 @@ has level_maps => (
                 $locations{$char} = [$x, $y];
                 $x++;
             }
+            # There's a blank line at the bottom of the text maps for
+            # formatting reasons.
+            splice @map, -1, 1, ();
 
             $level->{'map'} = \@map;
             $level->{'locations'} = \%locations;
