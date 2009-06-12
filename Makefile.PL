@@ -12,6 +12,7 @@ requires 'MooseX::ClassAttribute'      => 0.07;
 requires 'MooseX::Role::Parameterized' => 0.04;
 requires 'MooseX::Role::Matcher'       => 0.03;
 requires 'Module::Pluggable';
+requires 'namespace::autoclean';
 
 # parse escape codes into an addressable screen
 requires 'Term::VT102::ZeroBased';
