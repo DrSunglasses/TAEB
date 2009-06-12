@@ -556,14 +556,14 @@ sub keypress {
     }
 
     # Controlled save and exit
-    if ($c eq 'q') {
+    if ($c eq 'q' && $self->state eq 'playing') {
         $self->action(TAEB::Action->new_action('save'));
         $self->state('human_override');
         return;
     }
 
     # Controlled quit and exit
-    if ($c eq 'Q') {
+    if ($c eq 'Q' && $self->state eq 'playing') {
         $self->action(TAEB::Action->new_action('quit'));
         $self->state('human_override');
         return;
