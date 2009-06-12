@@ -1,7 +1,6 @@
 package TAEB::Interface::Telnet;
 use TAEB::OO;
 use IO::Socket::Telnet;
-use Errno;
 
 =head1 NAME
 
