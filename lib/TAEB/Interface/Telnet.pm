@@ -36,8 +36,29 @@ has password => (
 );
 
 has socket => (
-    is  => 'rw',
-    isa => 'IO::Socket::Telnet',
+    is      => 'rw',
+    isa     => 'IO::Socket::Telnet',
+    lazy    => 1,
+    default => sub {
+        my $self = shift;
+
+        TAEB->log->interface("Connecting to " . $self->server . ".");
+
+        # this has to be done in BUILD because it needs server
+        my $socket = IO::Socket::Telnet->new(
+            PeerAddr => $self->server,
+            PeerPort => $self->port,
+        );
+
+        die "Unable to connect to " . $self->server . ": $!"
+            if !defined($socket);
+
+        TAEB->log->interface("Connected to " . $self->server . ".");
+
+        $socket->telnet_simple_callback(\&telnet_negotiation);
+
+        return $socket;
+    },
 );
 
 has sent_login => (
@@ -45,26 +66,6 @@ has sent_login => (
     isa     => 'Bool',
     default => 0,
 );
-
-sub BUILD {
-    my $self = shift;
-
-    TAEB->log->interface("Connecting to " . $self->server . ".");
-
-    # this has to be done in BUILD because it needs server
-    my $socket = IO::Socket::Telnet->new(
-        PeerAddr => $self->server,
-        PeerPort => $self->port,
-    );
-
-    die "Unable to connect to " . $self->server . ": $!"
-        if !defined($socket);
-
-    $socket->telnet_simple_callback(\&telnet_negotiation);
-    $self->socket($socket);
-
-    TAEB->log->interface("Connected to " . $self->server . ".");
-}
 
 =head2 read -> STRING
 
