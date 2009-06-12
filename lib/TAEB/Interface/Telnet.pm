@@ -43,7 +43,6 @@ has socket => (
 
         TAEB->log->interface("Connecting to " . $self->server . ".");
 
-        # this has to be done in BUILD because it needs server
         my $socket = IO::Socket::Telnet->new(
             PeerAddr => $self->server,
             PeerPort => $self->port,
