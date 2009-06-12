@@ -19,17 +19,17 @@ subscribe step => sub {
     TAEB->send_message('sanity') if $self->enabled;
 };
 
-sub msg_key {
-    my $self = shift;
-    my $key  = shift;
+subscribe keypress => sub {
+    my $self  = shift;
+    my $event  = shift;
 
-    return if $key ne 'S';
+    return if $event->key ne 'S';
 
     $self->enabled(!$self->enabled);
 
     TAEB->notify("Global per-turn sanity checks now " .
         ($self->enabled ? "en" : "dis") . "abled.");
-}
+};
 
 __PACKAGE__->meta->make_immutable;
 no TAEB::OO;

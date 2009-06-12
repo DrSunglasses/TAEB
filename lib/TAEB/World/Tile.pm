@@ -1,6 +1,6 @@
 package TAEB::World::Tile;
 use TAEB::OO;
-use TAEB::Util qw/delta2vi vi2delta display :colors any all apply/;
+use TAEB::Util qw/delta2vi vi2delta display :colors any all apply first/;
 
 with 'TAEB::Role::Reblessing';
 
@@ -822,17 +822,16 @@ sub distance {
 }
 
 sub find_item {
-    my $self = shift;
-    my $raw  = shift;
-    my $item = TAEB->new_item($raw);
+    my $self       = shift;
+    my $predicate  = shift;
 
-    for ($self->items) {
-        next unless $_->maybe_is($item);
-        return $_;
+    if (!ref($predicate)) {
+        my $item = TAEB->new_item($predicate);
+        $predicate = sub { $_->maybe_is($item) };
     }
 
-    warn "I can't reconcile $raw with anything on the ground at this tile.";
-    return $item;
+    # The & ignores first's prototype. $predicate is a function so it'll work
+    return &first($predicate, $self->items);
 }
 
 sub unexplored {

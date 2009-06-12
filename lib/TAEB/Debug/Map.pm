@@ -2,10 +2,14 @@ package TAEB::Debug::Map;
 use TAEB::OO;
 use TAEB::Util qw/item_menu/;
 
-sub msg_key {
+subscribe keypress => sub {
+    my $self  = shift;
+    my $event = shift;
+    $self->activate unless $event->key eq ';';
+};
+
+sub activate {
     my $self = shift;
-    my $key = shift;
-    return unless $key eq ';';
 
     my ($x, $y) = (TAEB->x, TAEB->y);
     my $level = TAEB->current_level;

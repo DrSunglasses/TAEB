@@ -83,22 +83,10 @@ our %msg_string = (
         ['protection_gone'],
     "You try to move the boulder, but in vain." =>
         ['immobile_boulder'],
-    "There is nothing here to pick up." =>
-        ['clear_floor'],
-    '"You bit it, you bought it!"' =>
-        ['debt' => undef],
-    "You have no credit or debt in here." =>
-        ['debt', 0],
-    "You don't owe any money here." =>
-        ['debt', 0],
-    "There appears to be no shopkeeper here to receive your payment." =>
-        ['debt', 0],
     "Your stomach feels content." =>
         ['nutrition' => 900],
     "You hear crashing rock." =>
         ['pickaxe'],
-    "Nothing happens." =>
-        ['nothing_happens'],
     "A few ice cubes drop from the wand." =>
         [wand => 'wand of cold'],
     "The wand unsuccessfully fights your attempt to write!" =>
@@ -121,12 +109,6 @@ our %msg_string = (
         ['ring_sink'],
     "A black ooze gushes up from the drain!" =>
         ['pudding'],
-    "Suddenly one of the Vault's guards enters!" =>
-        ['vault_guard' => 1],
-    "Suddenly, the guard disappears." =>
-        ['vault_guard' => 0],
-    "\"You've been warned, knave!\"" =>
-        ['vault_guard' => 0],
     "You get expelled!" =>
         [engulfed => 0],
     "You activated a magic portal!" =>
@@ -137,10 +119,6 @@ our %msg_string = (
         ['branch', 'vlad'],
     "You smell smoke..." =>
         ['branch', 'gehennom'],
-    "A trap door opens up under you!" =>
-        ['trapdoor'],
-    "There's a gaping hole under you!" =>
-        ['trapdoor'],
     "Several flies buzz around the sink." =>
         ['ring' => 'meat ring'],
     "The faucets flash brightly for a moment." =>
@@ -217,8 +195,6 @@ our %msg_string = (
         ['engraving_type' => 'scrawl'],
     "You experience a strange sense of peace." =>
         ['enter_room','temple'],
-    "You see no objects here." =>
-        ['clear_floor'],
     "You hear the shrill sound of a guard's whistle." =>
         ['angry_watch'],
     "You see an angry guard approaching!" =>
@@ -303,9 +279,6 @@ our %msg_string = (
         [dungeon_feature => trap => "spiked pit"],
     "KAABLAMM!!!" =>
         [dungeon_feature => trap => "pit"],
-    # probably issues until we're able to handle traps that relocate you
-    "A trap door opens up under you!" =>
-        [dungeon_feature => trap => "trap door"],
     "There's a gaping hole under you!" =>
         [dungeon_feature => trap => "hole"],
     "You take a walk on your web." =>
@@ -396,8 +369,6 @@ our %msg_string = (
         ['sacrifice_gone'],
     'The blood covers the altar!' =>
         ['sacrifice_gone'],
-    'You fall through...' =>
-        ['trapdoor'],
     'You have no secondary weapon readied.' =>
         ['slot_empty', 'offhand'],
 );
@@ -442,16 +413,6 @@ our @msg_regex = (
                 ['dungeon_feature', 'bad staircase'],
     ],
     [
-        # NetHack will not send "There are no items here." if there is a
-        # terrain feature at the current location.  To work around this, we
-        # need to clear the floor on receiving notices of terrain... HOWEVER
-        # if there were a lot of items, we handle menus before messages.  To
-        # avoid a big mess, we skip the clear in that case.
-        qr/^There is (?:molten lava|ice|an? .*) here.$/,
-            [sub { TAEB->scraper->saw_floor_list_this_step ?
-                       '' : 'clear_floor' }],  # is this the best way?
-    ],
-    [
         qr/^There is a (staircase (?:up|down)|fountain|sink|grave) here\.$/,
             ['dungeon_feature', sub { $1 }],
     ],
@@ -488,28 +449,12 @@ our @msg_regex = (
     [
         qr/^You (?:see|feel) here (.*?)\./,
             ['floor_item', sub {
-                TAEB->send_message('clear_floor');
+                TAEB->announce('tile_noitems');
                 TAEB->new_item($1); }],
-    ],
-    [
-        qr/^You feel no objects here\./,
-            ['clear_floor']
-    ],
-    [
-        qr/^(?:You have a little trouble lifting )?(. - .*?|\d+ gold pieces?)\.$/,
-            ['got_item', sub { TAEB->new_item($1) }],
     ],
     [
         qr/^You read: \"(.*)\"\./,
             ['floor_message', sub { (my $str = $1) =~ tr/_/ /; $str }],
-    ],
-    [
-        qr/^You owe .*? (\d+) zorkmids?\./,
-            ['debt', sub { $1 }],
-    ],
-    [
-        qr/^You do not owe .* anything\./,
-            ['debt' => 0],
     ],
     [
         qr/^The engraving on the .*? vanishes!/,
@@ -546,14 +491,6 @@ our @msg_regex = (
             ['check' => 'discoveries'],
     ],
     [
-        qr/^"Usage fee, (\d+) zorkmids?\."/,
-            [debt => sub { $1 }],
-    ],
-    [
-        qr/ \(unpaid, \d+ zorkmids?\)/,
-            [debt => undef],
-    ],
-    [
         qr/^(.*), price (\d+) zorkmids?(?: each)?/,
             [item_price => sub { TAEB->new_item($1), $2 } ],
     ],
@@ -568,14 +505,6 @@ our @msg_regex = (
     [
         qr/^You are (?:almost )?hit by /,
             [check => 'floor'],
-    ],
-    [
-        qr/"Please (?:drop that gold and )?follow me."/ =>
-            ['vault_guard' => 1],
-    ],
-    [
-        qr/"I repeat, (?:drop that gold and )?follow me!"/ =>
-            ['vault_guard' => 1],
     ],
     [
         qr/^(.*?) engulfs you!/ =>
@@ -1091,7 +1020,7 @@ sub handle_more_menus {
         || ($line_3 = TAEB->vt->row_plaintext(2) =~ /Things that (?:are|you feel) here:/)
     ) {
         $self->messages($self->messages . '  ' . TAEB->topline) if $line_3;
-        TAEB->send_message('clear_floor');
+        TAEB->announce('tile_noitems');
         $self->saw_floor_list_this_step(1);
         my $skip = 1;
         $each = sub {

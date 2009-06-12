@@ -137,17 +137,18 @@ sub handle_obscured_doors {
 }
 
 # falling into a trapdoor makes the new level the same branch as the old level
-sub msg_trapdoor {
+subscribe trapdoor => sub {
     my $self = shift;
 
     TAEB->current_level->branch($self->starting_tile->branch)
-        if $self->starting_tile->known_branch
-}
+        if $self->starting_tile->known_branch;
+};
 
-sub msg_got_item {
-    my $self = shift;
-    TAEB->send_message(remove_floor_item => @_);
-}
+subscribe got_item => sub {
+    my $self  = shift;
+    my $event = shift;
+    TAEB->send_message(remove_floor_item => $event->item);
+};
 
 sub msg_hidden_monster { shift->hit_obscured_monster(1) }
 

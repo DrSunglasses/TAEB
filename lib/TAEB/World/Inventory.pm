@@ -72,12 +72,13 @@ sub debug_line {
     return join "\n", @items;
 }
 
-sub msg_got_item {
-    my $self = shift;
-    my $item = shift;
+subscribe got_item => sub {
+    my $self  = shift;
+    my $event = shift;
 
+    my $item = $event->item;
     $self->add($item->slot => $item);
-}
+};
 
 sub msg_lost_item {
     my $self = shift;

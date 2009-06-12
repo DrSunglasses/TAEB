@@ -315,12 +315,12 @@ sub msg_excalibur {
     TAEB->current_tile->change_type(floor => '.');
 }
 
-sub msg_clear_floor {
-    my $self = shift;
-    my $item = shift;
+subscribe tile_noitems => sub {
+    my $self  = shift;
+    my $event = shift;
 
-    TAEB->current_tile->clear_items;
-}
+    $event->tile->clear_items;
+};
 
 sub msg_floor_item {
     my $self = shift;
@@ -410,9 +410,9 @@ sub floodfill_room {
     );
 }
 
-sub msg_debt {
+subscribe debt => sub {
     shift->floodfill_room('shop');
-}
+};
 
 subscribe step => sub {
     shift->_last_location(TAEB->current_tile);
@@ -457,9 +457,9 @@ sub msg_enter_room {
     }
 }
 
-sub msg_vault_guard {
+subscribe vault_guard => sub {
     shift->floodfill_room('vault');
-}
+};
 
 =head2 is_engulfed -> Bool
 

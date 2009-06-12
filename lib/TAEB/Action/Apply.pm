@@ -12,7 +12,7 @@ has '+item' => (
 
 sub respond_apply_what { shift->item->slot }
 
-sub msg_nothing_happens {
+subscribe nothing_happens => sub {
     my $self = shift;
     my $item = $self->item;
 
@@ -22,7 +22,7 @@ sub msg_nothing_happens {
             TAEB->send_message(status_change => $_ => 0);
         }
     }
-}
+};
 
 sub msg_status_change {
     my $self = shift;
@@ -46,12 +46,14 @@ sub msg_negative_stethoscope {
 }
 
 # falling into a pit makes the new level the same branch as the old level
-sub msg_trapdoor {
-    my $self = shift;
+# this can trigger when applying a pickaxe downward
+subscribe trapdoor => sub {
+    my $self  = shift;
+    my $event = shift;
 
     TAEB->current_level->branch($self->starting_tile->branch)
-        if $self->starting_tile->known_branch
-}
+        if $self->starting_tile->known_branch;
+};
 
 __PACKAGE__->meta->make_immutable;
 no TAEB::OO;

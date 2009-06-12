@@ -12,13 +12,16 @@ sub command { (shift->count || '') . ',' }
 
 # the screenscraper currently handles this code. it should be moved here
 
-sub msg_got_item {
-    my $self = shift;
-    TAEB->send_message(remove_floor_item => @_); #what about stacks?
-}
+subscribe got_item => sub {
+    my $self  = shift;
+    my $event = shift;
+
+    # what about stacks?
+    TAEB->send_message(remove_floor_item => $event->item);
+};
 
 sub begin_select_pickup {
-    TAEB->send_message('clear_floor');
+    TAEB->announce('tile_noitems');
 }
 
 sub select_pickup {

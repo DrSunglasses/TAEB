@@ -33,10 +33,9 @@ has _watching_messages => (
     },
 );
 
-sub forward_message {
+sub msg_any {
     my $self = shift;
     my $msg = shift;
-    $msg =~ s/msg_//;
 
     if ($self->watching_message($msg)) {
         $self->speak("I received a $msg message with args " . join(', ', @_));

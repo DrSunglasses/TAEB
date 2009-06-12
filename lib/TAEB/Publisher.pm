@@ -109,13 +109,15 @@ sub send_message {
     for my $recipient ($self->subscribers) {
         next unless $recipient;
 
-        if ($recipient->can('forward_message')) {
-            $recipient->forward_message($name, @args);
-        }
-
         for ($method, ($announcement ? 'subscription_any' : 'msg_any')) {
             if ($recipient->can($_)) {
-                $recipient->$_(@args);
+                if ($_ eq 'msg_any') {
+                    $recipient->$_($name, @args);
+                }
+                else {
+                    $recipient->$_(@args);
+                }
+
                 last;
             }
         }

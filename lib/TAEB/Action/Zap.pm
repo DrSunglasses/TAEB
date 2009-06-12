@@ -12,9 +12,10 @@ has '+wand' => (
 );
 
 sub respond_zap_what    { shift->wand->slot }
-sub msg_nothing_happens { shift->wand->charges(0) }
 sub msg_wrest_wand      { TAEB->inventory->remove(shift->wand->slot) }
 sub done                { shift->wand->spend_charge }
+
+subscribe nothing_happens => sub { shift->wand->charges(0) };
 
 __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
