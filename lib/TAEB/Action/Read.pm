@@ -41,7 +41,6 @@ sub can_read {
 }
 
 __PACKAGE__->meta->make_immutable;
-no TAEB::OO;
 
 1;
 

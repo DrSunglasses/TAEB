@@ -57,7 +57,6 @@ sub glyph_is_item {
 }
 
 __PACKAGE__->meta->make_immutable;
-no TAEB::OO;
 
 1;
 

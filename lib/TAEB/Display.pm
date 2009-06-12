@@ -38,7 +38,6 @@ sub try_key { }
 sub change_draw_mode { }
 
 __PACKAGE__->meta->make_immutable;
-no TAEB::OO;
 
 1;
 

@@ -5,7 +5,6 @@ extends 'TAEB::Announcement::Report';
 augment as_string => sub { "Saved.\n" };
 
 __PACKAGE__->meta->make_immutable;
-no TAEB::OO;
 
 1;
 

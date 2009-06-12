@@ -11,7 +11,6 @@ TAEB::AI::SteadyState - Sit there doing nothing, for benchmarking purposes
 sub next_action { TAEB::Action::Search->new(iterations => 1) }
 
 __PACKAGE__->meta->make_immutable;
-no TAEB::OO;
 
 1;
 

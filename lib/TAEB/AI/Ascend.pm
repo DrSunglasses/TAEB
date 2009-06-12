@@ -13,7 +13,6 @@ TAEB::AI::Ascend - Ascend in one line of code
 sub next_action { TAEB::Action::Ascend->new }
 
 __PACKAGE__->meta->make_immutable;
-no TAEB::OO;
 
 1;
 

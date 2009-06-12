@@ -522,7 +522,6 @@ sub msg_quest_portal {
 
 
 __PACKAGE__->meta->make_immutable;
-no TAEB::OO;
 
 1;
 

@@ -102,7 +102,6 @@ sub action_names {
 }
 
 __PACKAGE__->meta->make_immutable;
-no TAEB::OO;
 
 # force loading of all the actions for compile errors etc
 __PACKAGE__->actions;

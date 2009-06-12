@@ -9,7 +9,6 @@ has '+type' => (
 use constant is_locked => 0;
 
 __PACKAGE__->meta->make_immutable;
-no TAEB::OO;
 
 1;
 

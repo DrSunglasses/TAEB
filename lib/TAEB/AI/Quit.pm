@@ -11,7 +11,6 @@ TAEB::AI::Quit - I just can't take it any more...
 sub next_action { TAEB::Action::Quit->new }
 
 __PACKAGE__->meta->make_immutable;
-no TAEB::OO;
 
 1;
 
