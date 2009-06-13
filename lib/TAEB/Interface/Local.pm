@@ -97,8 +97,11 @@ augment read => sub {
 
     die "Pty inactive." unless $self->is_active;
     # We already waited for output to arrive; don't wait even longer if there
-    # isn't any. HalfDuplex ignores the arguments, but Easy needs them.
-    my $out = $self->pty->read(0,1024);
+    # isn't any. Use an appropriate reading function depending on the class.
+    my $out;
+    if    ($self->pty->can('read')) { $out = $self->pty->read(0,1024); }
+    elsif ($self->pty->can('recv')) { $out = $self->pty->recv; }
+    else {die "There's no way to read from this type of terminal..."}
     return '' if !defined($out);
 
     # We specified blocks of 1024 characters above. If we got exactly 1024,
@@ -109,6 +112,19 @@ augment read => sub {
 
     return $out;
 };
+
+=head2 flush
+
+When using HalfDuplex, we have to do a recv in order to send data.
+If flush is being called, it means that the return value can be
+safely ignored.
+
+=cut
+
+sub flush {
+    my $self = shift;
+    if ($self->pty->can('recv')) { $self->pty->recv; }
+}
 
 =head2 write STRING
 
@@ -124,7 +140,9 @@ augment write => sub {
     my $chars = $self->pty->write($text, 1);
     return if !defined($chars);
 
-    die "Pty closed." if $chars == 0;
+    # An IPE counts the number of chars written; an IPH doesn't,
+    # because writes are delayed-action in such a case.
+    die "Pty closed." if $self->pty_class eq 'IO::Pty::Easy' && $chars == 0;
     return $chars;
 };
 

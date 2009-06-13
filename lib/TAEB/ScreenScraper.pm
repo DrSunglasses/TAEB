@@ -914,8 +914,8 @@ sub check_cycling {
     $self->inc_calls_this_turn;
 
     if ($self->calls_this_turn > 500) {
-        TAEB->log->scraper("It seems I'm iterating endlessly and making no progress. I'm going to attempt to save and exit!", level => 'critical');
-        TAEB->save;
+        TAEB->log->scraper("It seems I'm iterating endlessly and making no progress.", level => 'critical');
+        die 'Recursing screenscraper'; # will call appropriate emergency save/quit
     }
 }
 
@@ -1038,7 +1038,7 @@ sub handle_more_menus {
     elsif (TAEB->topline =~ /Fine goods for sale:/) {
         $each = sub {
             /^\s*(.*), (\d+) zorkmids?/ and
-                TAEB->enqueue_message('item_price' => TAEB->new_item($1), $2);
+                TAEB->send_message('item_price' => TAEB->new_item($1), $2);
             return 0;
         }
     }
@@ -1276,6 +1276,7 @@ sub handle_game_end {
     }
 
     if (TAEB->topline =~ /^Really save\?/) {
+        TAEB->log->scraper("Trying to do a clean save-and-exit shutdown...");
         TAEB->write('y');
         die "The game has been saved.\n";
     }
@@ -1323,6 +1324,7 @@ sub handle_game_end {
         # summary is always one page, so after that is high scores with no
         # "press space to close nethack"
         TAEB->write(' ');
+        TAEB->interface->flush;
 
         # at this point the nethack process has now ended
 

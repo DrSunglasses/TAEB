@@ -1,6 +1,6 @@
 package TAEB::Config;
 use Moose;
-use YAML;
+use YAML::Syck ();
 use TAEB::Util qw/first/;
 use Hash::Merge 'merge';
 Hash::Merge::set_behavior('RIGHT_PRECEDENT');
@@ -45,7 +45,7 @@ sub BUILD {
     while (my $file = shift @config) {
         next if $seen{$file}++;
 
-        my $config = YAML::LoadFile($file);
+        my $config = YAML::Syck::LoadFile($file);
         $self->contents(merge($self->contents, $config));
 
         # if this config specified other files, load them too
@@ -74,7 +74,7 @@ sub BUILD {
 
 sub override_config {
     my $self = shift;
-    my $override = YAML::Load(shift);
+    my $override = YAML::Syck::Load(shift);
     $self->contents(merge($self->contents, $override));
 }
 
