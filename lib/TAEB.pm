@@ -354,7 +354,7 @@ sub handle_logging_in {
         TAEB->log->main("NetHack itself has errored out, we can't continue.",
                         level => 'info');
         TAEB->state('unable_to_login');
-        die "The game could not start.";
+        die "The game could not start";
     }
     elsif ($self->vt->contains("Shall I pick a character's ")) {
         TAEB->log->main("We are now in NetHack, starting a new character.");

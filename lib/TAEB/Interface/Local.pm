@@ -95,7 +95,7 @@ augment read => sub {
     # which scales with NetHack's drawing time
     sleep($self->ping_wait) if $self->pty_class eq 'IO::Pty::Easy';
 
-    die "Pty inactive." unless $self->is_active;
+    die "Pty inactive" unless $self->is_active;
     # We already waited for output to arrive; don't wait even longer if there
     # isn't any. Use an appropriate reading function depending on the class.
     my $out;
@@ -136,13 +136,13 @@ augment write => sub {
     my $self = shift;
     my $text = shift;
 
-    die "Pty inactive." unless $self->is_active;
+    die "Pty inactive" unless $self->is_active;
     my $chars = $self->pty->write($text, 1);
     return if !defined($chars);
 
     # An IPE counts the number of chars written; an IPH doesn't,
     # because writes are delayed-action in such a case.
-    die "Pty closed." if $self->pty_class eq 'IO::Pty::Easy' && $chars == 0;
+    die "Pty closed" if $self->pty_class eq 'IO::Pty::Easy' && $chars == 0;
     return $chars;
 };
 

@@ -49,7 +49,7 @@ sub _build_pty {
         }
     };
 
-    die "Died ($@) while waiting for password prompt.\n" if $@;
+    die "Died while waiting for password prompt: $@\n" if $@;
 
     $pty->write($self->password . "\n\n", 0);
 

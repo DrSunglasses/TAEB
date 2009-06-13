@@ -22,7 +22,7 @@ Your subclass B<must> override this method.
 
 sub next_action {
     my $class = blessed($_[0]) || $_[0];
-    die "You must override the 'next_action' method in $class.";
+    die "You must override the 'next_action' method in $class";
 }
 
 =head2 institute
