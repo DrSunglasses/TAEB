@@ -4,12 +4,6 @@ use Time::HiRes 'sleep';
 
 use constant ping_wait => 0.2;
 
-=head1 NAME
-
-TAEB::Interface::OldLocal - Legacy IO::Pty::Easy interface
-
-=cut
-
 extends 'TAEB::Interface';
 
 has name => (
@@ -78,14 +72,6 @@ sub _build_pty {
     return $pty;
 }
 
-=head2 read -> STRING
-
-This will read from the pty. It will die if an error occurs.
-
-It will return the input read from the pty.
-
-=cut
-
 augment read => sub {
     my $self = shift;
 
@@ -110,12 +96,6 @@ augment read => sub {
     return $out;
 };
 
-=head2 write STRING
-
-This will write to the pty. It will die if an error occurs.
-
-=cut
-
 augment write => sub {
     my $self = shift;
     my $text = shift;
@@ -134,4 +114,22 @@ __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
 
 1;
+
+__END__
+
+=head1 NAME
+
+TAEB::Interface::OldLocal - Legacy IO::Pty::Easy interface
+
+=head2 read -> STRING
+
+This will read from the pty. It will die if an error occurs.
+
+It will return the input read from the pty.
+
+=head2 write STRING
+
+This will write to the pty. It will die if an error occurs.
+
+=cut
 

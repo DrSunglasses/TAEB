@@ -1,12 +1,6 @@
 package TAEB::Interface::Local;
 use TAEB::OO;
 
-=head1 NAME
-
-TAEB::Interface::Local - how TAEB talks to a local nethack
-
-=cut
-
 extends 'TAEB::Interface';
 
 has name => (
@@ -75,14 +69,6 @@ sub _build_pty {
     return $pty;
 }
 
-=head2 read -> STRING
-
-This will read from the pty. It will die if an error occurs.
-
-It will return the input read from the pty.
-
-=cut
-
 augment read => sub {
     my $self = shift;
 
@@ -93,21 +79,7 @@ augment read => sub {
     return $self->pty->recv;
 };
 
-=head2 flush
-
-When using HalfDuplex, we have to do a recv in order to send data.
-If flush is being called, it means that the return value can be
-safely ignored.
-
-=cut
-
 sub flush { shift->pty->recv }
-
-=head2 write STRING
-
-This will write to the pty. It will die if an error occurs.
-
-=cut
 
 augment write => sub {
     my $self = shift;
@@ -122,4 +94,28 @@ __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
 
 1;
+
+__END__
+
+=head1 NAME
+
+TAEB::Interface::Local - how TAEB talks to a local nethack
+
+=head2 read -> STRING
+
+This will read from the pty. It will die if an error occurs.
+
+It will return the input read from the pty.
+
+=head2 flush
+
+When using HalfDuplex, we have to do a recv in order to send data.
+If flush is being called, it means that the return value can be
+safely ignored.
+
+=head2 write STRING
+
+This will write to the pty. It will die if an error occurs.
+
+=cut
 
