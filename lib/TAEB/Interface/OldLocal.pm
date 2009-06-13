@@ -98,10 +98,9 @@ augment read => sub {
 
 augment write => sub {
     my $self = shift;
-    my $text = shift;
 
     die "Pty inactive" unless $self->is_active;
-    my $chars = $self->pty->write($text, 1);
+    my $chars = $self->pty->write((join '', @_), 1);
     return if !defined($chars);
 
     # An IPE counts the number of chars written; an IPH doesn't,

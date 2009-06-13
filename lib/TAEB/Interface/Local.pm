@@ -83,11 +83,10 @@ sub flush { shift->pty->recv }
 
 augment write => sub {
     my $self = shift;
-    my $text = shift;
 
     die "Pty inactive" unless $self->is_active;
 
-    return $self->pty->write($text, 1);
+    return $self->pty->write((join '', @_), 1);
 };
 
 __PACKAGE__->meta->make_immutable;

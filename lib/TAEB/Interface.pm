@@ -17,7 +17,7 @@ sub read {
 
 sub write {
     my $self = shift;
-    my $text = shift;
+    my $text = join '', @_;
 
     return if !defined($text) || length($text) == 0;
 
@@ -50,10 +50,12 @@ It should just return the string read from the interface.
 
 Your subclass B<must> override this method.
 
-=head2 write STRING
+=head2 write STRING, STRING, ...
 
 This will write to the interface. It's quite OK to block and throw errors
-in this method.
+in this method. Your subclass will receive potentially many strings as
+arguments, it's vital to handle all of them
+(by joining them together with C<join ''>)
 
 Its return value is currently ignored.
 
