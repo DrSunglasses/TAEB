@@ -81,7 +81,8 @@ has twitter => (
         return unless $self->config;
         my $error_config = $self->config->{twitter}{errors};
         return unless $error_config;
-        require Log::Dispatch::Twitter;
+        return unless eval { require Log::Dispatch::Twitter; 1 };
+
         my $twitter = Log::Dispatch::Twitter->new(
             name      => 'twitter',
             min_level => 'error',
