@@ -73,7 +73,7 @@ class_has scraper => (
     isa      => 'TAEB::ScreenScraper',
     lazy     => 1,
     default  => sub { TAEB::ScreenScraper->new },
-    handles  => [qw(parsed_messages all_messages messages farlook)],
+    handles  => [qw(parsed_messages all_messages messages farlook scrape)],
 );
 
 class_has config => (
@@ -92,7 +92,10 @@ class_has vt => (
         $vt->option_set(LFTOCRLF => 1);
         return $vt;
     },
-    handles  => [qw(topline)],
+    handles  => {
+        topline    => 'topline',
+        vt_process => 'process',
+    },
 );
 
 class_has state => (
@@ -414,9 +417,9 @@ sub process_input {
 
     my $input = $self->read;
 
-    $self->vt->process($input);
+    $self->vt_process($input);
 
-    $self->scraper->scrape
+    $self->scrape
         if $scrape && $self->state ne 'logging_in';
 
     return $input;
