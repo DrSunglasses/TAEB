@@ -598,17 +598,6 @@ sub complain {
     $self->notify($msg, COLOR_RED, @_);
 }
 
-around write => sub {
-    my $orig = shift;
-    my $self = shift;
-    my $text = shift;
-
-    return if length($text) == 0;
-
-    $self->log->output("Sending '$text' to NetHack.");
-    $orig->($self, $text);
-};
-
 # allow the user to say TAEB->ai("human") and have it DTRT
 around ai => sub {
     my $orig = shift;
