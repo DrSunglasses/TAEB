@@ -5,13 +5,15 @@ display: Curses
 
 kiosk_mode: 1
 
-interface: Telnet
+interface: Local
 interface_options:
     Telnet:
         account: TAEB
     SSH:
         account: taeb
     Local:
+        args: ['-D']
+    OldLocal:
         read_iterations: 2
         args: ['-D']
 
