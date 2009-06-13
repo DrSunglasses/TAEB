@@ -807,6 +807,8 @@ profile_method(@$_) for (
     [read        => 'Reading from NetHack'],
     [write       => 'Writing to NetHack'],
     [next_action => 'AI next_action'],
+    [vt_process  => 'VT input processing'],
+    [scrape      => 'Screen scraping'],
 );
 
 __PACKAGE__->meta->make_immutable;
