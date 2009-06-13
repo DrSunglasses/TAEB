@@ -5,7 +5,7 @@ display: Curses
 
 kiosk_mode: 1
 
-interface: Local
+interface: Telnet
 interface_options:
     Telnet:
         account: TAEB
