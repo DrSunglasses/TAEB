@@ -7,10 +7,13 @@ Hash::Merge::set_behavior('RIGHT_PRECEDENT');
 
 use File::Spec;
 use File::HomeDir;
+use Cwd 'abs_path';
 
 $ENV{TAEBDIR} ||= do {
     File::Spec->catdir(File::HomeDir->my_home, '.taeb');
 };
+
+$ENV{TAEBDIR} = abs_path($ENV{TAEBDIR});
 
 -d $ENV{TAEBDIR} or mkdir($ENV{TAEBDIR}, 0700) or do {
     local $SIG{__DIE__} = 'DEFAULT';
@@ -19,7 +22,7 @@ $ENV{TAEBDIR} ||= do {
 
 sub taebdir_file {
     my $self = shift;
-    File::Spec->catfile($ENV{TAEBDIR}, @_),
+    File::Spec->catfile($ENV{TAEBDIR}, @_)
 }
 
 has contents => (
