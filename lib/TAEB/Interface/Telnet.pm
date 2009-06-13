@@ -53,6 +53,12 @@ has socket => (
     },
 );
 
+has send_rcfile => (
+    is      => 'ro',
+    isa     => 'Bool',
+    default => 1,
+);
+
 has sent_login => (
     is      => 'rw',
     isa     => 'Bool',
@@ -84,13 +90,23 @@ augment read => sub {
     die $@ if $@ !~ /^alarm\n/;
 
     if (!$self->sent_login && $buffer =~ /Not logged in\./) {
+        TAEB->log->interface("Logging in as " . $self->account);
         print { $self->socket } join '', 'l',
                                          $self->account,  "\n",
                                          $self->password, "\n",
-                                         '1', # for multi-game DGL
-                                         'p';
-        TAEB->log->interface("Logging in as " . $self->account);
+                                         '1'; # for multi-game DGL
         $self->sent_login(1);
+
+        if ($self->send_rcfile) {
+            print { $self->socket } join '', 'o',
+                                             ":0,\$d\n",
+                                             "i";
+            print { $self->socket } TAEB::Config->nethackrc_contents;
+            print { $self->socket } join '', "\e",
+                                             ":wq\n";
+        }
+
+        print { $self->socket } 'p';
     }
 
     return $buffer;
