@@ -2,33 +2,86 @@
 use strict;
 use warnings;
 use FindBin '$Bin';
+use YAML::Syck;
 
-my $interface;
+my %options;
 
 # XXX: I tried using Module::Install::Can::can_run but it always returned true..
 if (`which nethack`) {
-    my $dialog = join " ", split /\n/, q{
+    my $dialog = join ' ', split /\n/, q{
         /Applications/CocoaDialog.app/Contents/MacOS/CocoaDialog
         msgbox
         --button1 Local
         --button2 Telnet
         --button3 Cancel
-        --text "How would you like TAEB to play NetHack?"
-        --informative-text "The Telnet interface requires an internet connection."
-        --title "Select an interface"
+        --text 'How would you like TAEB to play NetHack?'
+        --informative-text 'The Telnet interface requires an internet connection.'
+        --title 'TAEB: Interface'
         --icon globe
     };
     my $interface_id = `$dialog`;
 
     exit if $interface_id == 3; # cancel
 
-    $interface = $interface_id == 1 ? "Local" : "Telnet";
+    $options{interface} = $interface_id == 1 ? 'Local' : 'Telnet';
 }
 else {
-    $interface = "Telnet";
+    $options{interface} = 'Telnet';
 }
 
-print "Selected the $interface interface.\n";
+# Ask about server, username, passwordj
+if ($options{interface} eq 'Telnet') {
+    # I would use standard-inputbox here except they use 'Ok' instead of 'OK' :(
+    my $server_dialog = join ' ', split /\n/, q{
+        /Applications/CocoaDialog.app/Contents/MacOS/CocoaDialog
+        inputbox
+        --button1 OK
+        --button2 Cancel
+        --text nethack.alt.org
+        --informative-text 'What server would you like TAEB to use?'
+        --title 'TAEB: Server'
+    };
+    my $server_response = `$server_dialog`;
+    my ($server_code, $server) = split /\n/, $server_response;
+    exit if $server_code == 2 || $server !~ /\S/;
 
-exec $^X, "$Bin/taeb", "--config={interface: $interface}";
+    $options{interface_options}{Telnet}{server} = $server;
+
+    # ask for name
+    my $name_dialog = join ' ', split /\n/, q{
+        /Applications/CocoaDialog.app/Contents/MacOS/CocoaDialog
+        inputbox
+        --button1 OK
+        --button2 Cancel
+        --informative-text 'What username would you like TAEB to use?'
+        --title 'TAEB: Name'
+    };
+    my $name_response = `$name_dialog`;
+    my ($name_code, $name) = split /\n/, $name_response;
+    exit if $name_code == 2 || $name !~ /\S/;
+
+    $options{interface_options}{Telnet}{account} = $name;
+
+    # Maybe I'm being paranoid, oh well
+    $name =~ s/'//g;
+
+    # ask for password
+    my $password_dialog = join ' ', split /\n/, qq{
+        /Applications/CocoaDialog.app/Contents/MacOS/CocoaDialog
+        inputbox
+        --button1 OK
+        --button2 Cancel
+        --informative-text 'What is the password for $name?'
+        --title 'TAEB: Password'
+        --no-show
+    };
+    my $password_response = `$password_dialog`;
+    my ($password_code, $password) = split /\n/, $password_response;
+    exit if $password_code == 2 || $password !~ /\S/;
+
+    $options{interface_options}{Telnet}{password} = $password;
+}
+
+my $config = Dump(\%options);
+exec $^X, "$Bin/taeb", "--config=$config";
 
