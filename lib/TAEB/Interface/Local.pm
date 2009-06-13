@@ -1,5 +1,6 @@
 package TAEB::Interface::Local;
 use TAEB::OO;
+use IO::Pty::HalfDuplex;
 
 extends 'TAEB::Interface';
 
@@ -16,32 +17,17 @@ has args => (
     default    => sub { [] },
 );
 
-has pty_type => (
-    is      => 'ro',
-    isa     => 'Str',
-    default => 'HalfDuplex',
-);
-
 has pty => (
     traits  => [qw/TAEB::Meta::Trait::DontInitialize/],
     is      => 'ro',
-    isa     => 'TAEB::Type::Pty',
+    isa     => 'IO::Pty::HalfDuplex',
     lazy    => 1,
     handles => ['is_active'],
     builder => '_build_pty',
 );
 
-sub pty_class {
-    my $self = shift;
-    my $class = $self->pty_type;
-    return $class if $class =~ s/^\+//;
-    return "IO::Pty::$class";
-}
-
 sub _build_pty {
     my $self = shift;
-
-    Class::MOP::load_class($self->pty_class);
 
     chomp(my $pwd = `pwd`);
 
@@ -59,11 +45,9 @@ sub _build_pty {
     local $ENV{LINES} = 24;
     local $ENV{COLUMNS} = 80;
 
-    # this has to be done in BUILD because it needs name
-
     # set Pty to ignore SIGWINCH so that we don't confuse nethack if
     # controlling terminal is not set to 80x24
-    my $pty = $self->pty_class->new(handle_pty_size => 0);
+    my $pty = IO::Pty::HalfDuplex->new(handle_pty_size => 0);
 
     $pty->spawn($self->name, $self->args);
     return $pty;
