@@ -1,8 +1,10 @@
 package TAEB::Action::Unlock;
 use TAEB::OO;
 extends 'TAEB::Action';
-with 'TAEB::Action::Role::Direction';
-with 'TAEB::Action::Role::Item' => { items => [qw/implement/] };
+with (
+    'TAEB::Action::Role::Direction',
+    'TAEB::Action::Role::Item' => { items => [qw/implement/] },
+);
 
 use constant command => 'a';
 

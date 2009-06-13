@@ -124,21 +124,9 @@ our %trap_colors = (
 
 our @types = uniq 'obscured', map { ref $_ ? @$_ : $_ } values %glyphs;
 
-=head2 tile_types -> [str]
-
-Returns the list of all the tile types TAEB uses.
-
-=cut
-
 sub tile_types {
     return @types;
 }
-
-=head2 tile_type_to_glyph str -> str
-
-Returns the glyph for a given tile type
-
-=cut
 
 do {
     my %type_to_glyph;
@@ -155,12 +143,6 @@ do {
     }
 };
 
-=head2 trap_types -> [str]
-
-Returns the list of all the trap types TAEB uses.
-
-=cut
-
 sub trap_types {
     return map { ref $_ ? @$_ : $_ } values %trap_colors;
 }
@@ -172,23 +154,11 @@ our @directions = (
     [qw/b j n/],
 );
 
-=head2 delta2vi Int, Int -> Str
-
-This will return a vi key for the given dx, dy.
-
-=cut
-
 sub delta2vi {
     my $dx = shift;
     my $dy = shift;
     return $directions[$dy+1][$dx+1];
 }
-
-=head2 vi2delta Str -> Int, Int
-
-This will return a dx, dy key for the given vi key (also accepted is C<.>).
-
-=cut
 
 my %vi2delta = (
     '.' => [ 0,  0],
@@ -206,12 +176,6 @@ sub vi2delta {
     return @{ $vi2delta{ lc $_[0] } || [] };
 }
 
-=head2 angle :: (Dir, Dir) -> Int
-
-Returns the absolute angle in octants between two directions.
-
-=cut
-
 sub angle {
     my ($a, $b) = @_;
 
@@ -225,13 +189,6 @@ sub angle {
     return abs($ang);
 }
 
-=head2 deltas -> [[dx, dy]]
-
-Returns a list of arrayreferences, each a pair of delta x and delta y. Suitable
-for iterating over.
-
-=cut
-
 sub deltas {
     # northwest northeast southwest southeast
     # north south west east
@@ -242,26 +199,12 @@ sub deltas {
 
 }
 
-=head2 align2str :: Int -> Str
-
-Convert an alignment modifier like -5 into a Law/New/Cha.
-
-=cut
-
 sub align2str {
     my $val = shift;
 
     return 'Una' if !defined($val);
     return ($val > 0) ? 'Law' : ($val < 0) ? 'Cha' : 'Neu';
 }
-
-=head2 dice spec -> avg | min avg max
-
-Given a regular dice spec (e.g. "10d5" or "d4+2d6"), returns the average,
-minimum, and maximum. In scalar context, it will return just the average. In
-list context, it will return a list of (minimum, average, maximum).
-
-=cut
 
 sub dice {
     my $dice = shift;
@@ -281,14 +224,6 @@ sub dice {
 
     return ($min, $average, $max);
 }
-
-=head2 crow_flies [Int, Int, ]Int, Int -> Str
-
-Returns the vi key directions required to go from where TAEB is to the given
-coordinates. If two sets of coordinates are passed in, they will be interpreted
-as the "from" coordinates, instead of TAEB's current position.
-
-=cut
 
 sub which_dir {
     my ($dx, $dy) = @_;
@@ -350,25 +285,6 @@ sub crow_flies {
 
     return $directions;
 }
-
-=for my_sanity
-    while ($x + 8 < $x1 && $y - 8 > $y1) { $dir .= 'Y'; $x += 8; $y -= 8 }
-    while ($x - 8 > $x1 && $y - 8 > $y1) { $dir .= 'U'; $x -= 8; $y -= 8 }
-    while ($x - 8 > $x1 && $y + 8 < $y1) { $dir .= 'B'; $x -= 8; $y += 8 }
-    while ($x + 8 < $x1 && $y + 8 < $y1) { $dir .= 'N'; $x += 8; $y += 8 }
-    while ($x     < $x1 && $y     > $y1) { $dir .= 'y'; $x++; $y-- }
-    while ($x     > $x1 && $y     > $y1) { $dir .= 'u'; $x--; $y-- }
-    while ($x     > $x1 && $y     < $y1) { $dir .= 'b'; $x--; $y++ }
-    while ($x     < $x1 && $y     < $y1) { $dir .= 'n'; $x++; $y++ }
-    while ($x - 8 > $x1) { $dir .= 'H'; $x -= 8 }
-    while ($y + 8 < $y1) { $dir .= 'J'; $y += 8 }
-    while ($y - 8 > $y1) { $dir .= 'K'; $y -= 8 }
-    while ($x + 8 < $x1) { $dir .= 'L'; $x += 8 }
-    while ($x     > $x1) { $dir .= 'h'; $x-- }
-    while ($y     < $y1) { $dir .= 'j'; $y++ }
-    while ($y     > $y1) { $dir .= 'k'; $y-- }
-    while ($x     < $x1) { $dir .= 'l'; $x++ }
-=cut
 
 sub display {
     require TAEB::Display::Color;
@@ -536,4 +452,71 @@ do {
 };
 
 1;
+
+__END__
+
+=head2 tile_types -> [str]
+
+Returns the list of all the tile types TAEB uses.
+
+=head2 tile_type_to_glyph str -> str
+
+Returns the glyph for a given tile type
+
+=head2 trap_types -> [str]
+
+Returns the list of all the trap types TAEB uses.
+
+=head2 delta2vi Int, Int -> Str
+
+This will return a vi key for the given dx, dy.
+
+=head2 vi2delta Str -> Int, Int
+
+This will return a dx, dy key for the given vi key (also accepted is C<.>).
+
+=head2 angle :: (Dir, Dir) -> Int
+
+Returns the absolute angle in octants between two directions.
+
+=head2 deltas -> [[dx, dy]]
+
+Returns a list of arrayreferences, each a pair of delta x and delta y. Suitable
+for iterating over.
+
+=head2 align2str :: Int -> Str
+
+Convert an alignment modifier like -5 into a Law/New/Cha.
+
+=head2 dice spec -> avg | min avg max
+
+Given a regular dice spec (e.g. "10d5" or "d4+2d6"), returns the average,
+minimum, and maximum. In scalar context, it will return just the average. In
+list context, it will return a list of (minimum, average, maximum).
+
+=head2 crow_flies [Int, Int, ]Int, Int -> Str
+
+Returns the vi key directions required to go from where TAEB is to the given
+coordinates. If two sets of coordinates are passed in, they will be interpreted
+as the "from" coordinates, instead of TAEB's current position.
+
+=for my_sanity
+    while ($x + 8 < $x1 && $y - 8 > $y1) { $dir .= 'Y'; $x += 8; $y -= 8 }
+    while ($x - 8 > $x1 && $y - 8 > $y1) { $dir .= 'U'; $x -= 8; $y -= 8 }
+    while ($x - 8 > $x1 && $y + 8 < $y1) { $dir .= 'B'; $x -= 8; $y += 8 }
+    while ($x + 8 < $x1 && $y + 8 < $y1) { $dir .= 'N'; $x += 8; $y += 8 }
+    while ($x     < $x1 && $y     > $y1) { $dir .= 'y'; $x++; $y-- }
+    while ($x     > $x1 && $y     > $y1) { $dir .= 'u'; $x--; $y-- }
+    while ($x     > $x1 && $y     < $y1) { $dir .= 'b'; $x--; $y++ }
+    while ($x     < $x1 && $y     < $y1) { $dir .= 'n'; $x++; $y++ }
+    while ($x - 8 > $x1) { $dir .= 'H'; $x -= 8 }
+    while ($y + 8 < $y1) { $dir .= 'J'; $y += 8 }
+    while ($y - 8 > $y1) { $dir .= 'K'; $y -= 8 }
+    while ($x + 8 < $x1) { $dir .= 'L'; $x += 8 }
+    while ($x     > $x1) { $dir .= 'h'; $x-- }
+    while ($y     < $y1) { $dir .= 'j'; $y++ }
+    while ($y     > $y1) { $dir .= 'k'; $y-- }
+    while ($x     < $x1) { $dir .= 'l'; $x++ }
+
+=cut
 

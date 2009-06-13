@@ -12,6 +12,8 @@ interface_options:
     SSH:
         account: taeb
     Local:
+        args: ['-D']
+    OldLocal:
         read_iterations: 2
         args: ['-D']
 

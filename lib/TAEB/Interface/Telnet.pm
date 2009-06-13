@@ -2,12 +2,6 @@ package TAEB::Interface::Telnet;
 use TAEB::OO;
 use IO::Socket::Telnet;
 
-=head1 NAME
-
-TAEB::Interface::Telnet - how TAEB talks to nethack.alt.org
-
-=cut
-
 extends 'TAEB::Interface';
 
 has server => (
@@ -43,7 +37,6 @@ has socket => (
 
         TAEB->log->interface("Connecting to " . $self->server . ".");
 
-        # this has to be done in BUILD because it needs server
         my $socket = IO::Socket::Telnet->new(
             PeerAddr => $self->server,
             PeerPort => $self->port,
@@ -65,27 +58,6 @@ has sent_login => (
     isa     => 'Bool',
     default => 0,
 );
-
-=head2 read -> STRING
-
-This will read from the socket. It will die if an error occurs.
-
-It will return the input read from the socket.
-
-This uses a method developed for nhbot that ensures that we've received all
-output for our command before returning. Just before reading, it sends the
-telnet equivalent of a PING. It then reads all input until it gets a PONG. the
-idea is that the PING comes after all NH commands, so the PONG must come after
-all the output of all the NH commands. The code looking for the PONG is in
-the telnet complex callback.
-
-The actual ping it uses is to send IAC DO chr(99), which is a nonexistent
-option. Some servers may stop responding after the first IAC DO chr(99), so
-it's kind of a bad hack. It used to be IAC SB STATUS SEND IAC SE but NAO
-stopped paying attention to that. That last sentence was discovered over a few
-hours of debugging. Yay.
-
-=cut
 
 augment read => sub {
     my $self = shift;
@@ -124,27 +96,12 @@ augment read => sub {
     return $buffer;
 };
 
-=head2 write STRING
-
-This will write to the socket.
-
-=cut
-
 augment write => sub {
     my $self = shift;
     my $text = shift;
 
     print {$self->socket} $text;
 };
-
-=head2 telnet_negotiation OPTION
-
-This is a helper function used in conjunction with IO::Socket::Telnet. In
-short, all nethack.alt.org expects us to answer affirmatively is TTYPE (to
-which we respond xterm-color) and NAWS (to which we respond 80x24). Everything
-else gets a response of DONT or WONT.
-
-=cut
 
 sub telnet_negotiation {
     my $self = shift;
@@ -195,4 +152,44 @@ sub telnet_negotiation {
 __PACKAGE__->meta->make_immutable;
 
 1;
+
+__END__
+
+=head1 NAME
+
+TAEB::Interface::Telnet - how TAEB talks to nethack.alt.org
+
+=head1 METHODS
+
+=head2 read -> STRING
+
+This will read from the socket. It will die if an error occurs.
+
+It will return the input read from the socket.
+
+This uses a method developed for nhbot that ensures that we've received all
+output for our command before returning. Just before reading, it sends the
+telnet equivalent of a PING. It then reads all input until it gets a PONG. the
+idea is that the PING comes after all NH commands, so the PONG must come after
+all the output of all the NH commands. The code looking for the PONG is in
+the telnet complex callback.
+
+The actual ping it uses is to send IAC DO chr(99), which is a nonexistent
+option. Some servers may stop responding after the first IAC DO chr(99), so
+it's kind of a bad hack. It used to be IAC SB STATUS SEND IAC SE but NAO
+stopped paying attention to that. That last sentence was discovered over a few
+hours of debugging. Yay.
+
+=head2 write STRING
+
+This will write to the socket.
+
+=head2 telnet_negotiation OPTION
+
+This is a helper function used in conjunction with IO::Socket::Telnet. In
+short, all nethack.alt.org expects us to answer affirmatively is TTYPE (to
+which we respond xterm-color) and NAWS (to which we respond 80x24). Everything
+else gets a response of DONT or WONT.
+
+=cut
 

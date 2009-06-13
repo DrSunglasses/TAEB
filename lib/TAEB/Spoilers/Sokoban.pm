@@ -5,8 +5,8 @@ has level_maps => (
     is => 'ro',
     isa => 'HashRef',
     default => sub {
-        my %levels = (
-            "4-1" => {
+        my %sokolevels = (
+            "soko4-1" => {
                 map_text => q(
 ------  -----
 |....|  |...|
@@ -34,7 +34,7 @@ has level_maps => (
                     [qw(hb ba aJ Jf fg g8)],
                 ],
             },
-            "4-2" => {
+            "soko4-2" => {
                 map_text => q(
 -------- ------
 |<|>...|-|....|
@@ -61,7 +61,7 @@ has level_maps => (
                     [qw(Dm mb bh hi iK Kf f9)],
                 ],
             },
-            "3-1" => {
+            "soko3-1" => {
                 map_text => q(
 -----------       -----------
 |....|....|--     |.........|
@@ -94,7 +94,7 @@ has level_maps => (
                     [qw(lj jg gc cP P%)],
                 ],
             },
-            "3-2" => {
+            "soko3-2" => {
                 map_text => q(
  ----          -----------
 -|.>|-------   |.........|
@@ -126,7 +126,7 @@ has level_maps => (
                     [qw(Hp pf fk ke eM MO O")],
                 ],
             },
-            "2-1" => {
+            "soko2-1" => {
                 map_text => q(
 --------------------
 |........|...|.....|
@@ -154,7 +154,7 @@ has level_maps => (
                     [qw(Lg g9)],
                 ],
             },
-            "2-2" => {
+            "soko2-2" => {
                 map_text => q(
   --------
 --|.|....|
@@ -184,7 +184,7 @@ has level_maps => (
                     [qw(fj jH Hh hK KL Ld d!)],
                 ],
             },
-            "1-1" => {
+            "soko1-1" => {
                 map_text => q(
 --------------------------
 |>.....q0123456789!":$%&.|
@@ -225,7 +225,7 @@ has level_maps => (
                     [qw(Bl lm mj jv vs sn no op pq q&)],
                 ],
             },
-            "1-2" => {
+            "soko1-2" => {
                 map_text => q(
   ------------------------
   |.j0123456789!":$%&'~..|
@@ -268,8 +268,8 @@ has level_maps => (
             },
         );
 
-        for my $levelname (keys %levels) {
-            my $level = $levels{$levelname};
+        for my $levelname (keys %sokolevels) {
+            my $level = $sokolevels{$levelname};
 
             # Unpack the map from the human-readable representation above
             # into a true in-memory representation.
@@ -295,6 +295,9 @@ has level_maps => (
                 $locations{$char} = [$x, $y];
                 $x++;
             }
+            # There's a blank line at the bottom of the text maps for
+            # formatting reasons.
+            splice @map, -1, 1, ();
 
             $level->{'map'} = \@map;
             $level->{'locations'} = \%locations;
@@ -304,7 +307,7 @@ has level_maps => (
                 [map {/(.)(.)/ and [$1, $2]} @$_];
             } @{$level->{'solution_text'}}];
         }
-        return \%levels;
+        return \%sokolevels;
     },
 );
 
@@ -315,35 +318,6 @@ sub _lists_sort_equal {
     (shift @list1) eq (shift @list2) or return 0 while scalar @list1;
     return 1;
 }
-
-=head2 next_sokoban_step Level [Pathable] -> Maybe Tile
-
-Return the tile that we need to head to next to solve the Sokoban
-puzzle on Level. If the tile is a boulder, we're standing in the right
-place and should push the boulder; if it's a floor tile, we should go
-there; and if it's undef, either we're finished or we've deviated from
-the spoilers. The optional second argument is a coderef which takes a
-tile as argument and returns whether it's possible to path to that tile
-by walking; if not given, it uses the built-in TAEB pathing routines.
-(This is needed because the solution from a given configuration can
-depend on which side of the boulders TAEB is standing; out of the
-several possible moves, only one will be routable, and it returns that
-move.)
-
-This routine errors out if the level given is not a Sokoban level (in
-that it doesn't match any of the maps it has spoilers for); it exits
-silently with undef if the level is already solved, and gives a
-warning and exits with undef if the level cannot be solved from here
-based on its current knowledge. Note that this routine merely
-specifies what the next move is; it does not guarantee that the move
-is possible (for instance, there might be a monster behind the
-boulder).
-
-This routine does not make any assumptions about the behavior of the
-AI, and is stateless (it is based entirely on current information,
-rather than anything memorised).
-
-=cut
 
 sub next_sokoban_step {
     my $self = shift;
@@ -568,3 +542,34 @@ __PACKAGE__->meta->make_immutable;
 no MooseX::Singleton;
 
 1;
+
+__END__
+
+=head2 next_sokoban_step Level [Pathable] -> Maybe Tile
+
+Return the tile that we need to head to next to solve the Sokoban
+puzzle on Level. If the tile is a boulder, we're standing in the right
+place and should push the boulder; if it's a floor tile, we should go
+there; and if it's undef, either we're finished or we've deviated from
+the spoilers. The optional second argument is a coderef which takes a
+tile as argument and returns whether it's possible to path to that tile
+by walking; if not given, it uses the built-in TAEB pathing routines.
+(This is needed because the solution from a given configuration can
+depend on which side of the boulders TAEB is standing; out of the
+several possible moves, only one will be routable, and it returns that
+move.)
+
+This routine errors out if the level given is not a Sokoban level (in
+that it doesn't match any of the maps it has spoilers for); it exits
+silently with undef if the level is already solved, and gives a
+warning and exits with undef if the level cannot be solved from here
+based on its current knowledge. Note that this routine merely
+specifies what the next move is; it does not guarantee that the move
+is possible (for instance, there might be a monster behind the
+boulder).
+
+This routine does not make any assumptions about the behavior of the
+AI, and is stateless (it is based entirely on current information,
+rather than anything memorised).
+
+=cut

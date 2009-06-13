@@ -18,8 +18,10 @@ use TAEB::Action;
 use TAEB::Publisher;
 use TAEB::Debug;
 
-with 'TAEB::Role::Persistency';
-with 'TAEB::Role::Initialize';
+with (
+    'TAEB::Role::Persistency',
+    'TAEB::Role::Initialize',
+);
 
 our $VERSION = '0.05';
 
@@ -71,7 +73,7 @@ class_has scraper => (
     isa      => 'TAEB::ScreenScraper',
     lazy     => 1,
     default  => sub { TAEB::ScreenScraper->new },
-    handles  => [qw(parsed_messages all_messages messages farlook)],
+    handles  => [qw(parsed_messages all_messages messages farlook scrape)],
 );
 
 class_has config => (
@@ -90,7 +92,10 @@ class_has vt => (
         $vt->option_set(LFTOCRLF => 1);
         return $vt;
     },
-    handles  => [qw(topline)],
+    handles  => {
+        topline    => 'topline',
+        vt_process => 'process',
+    },
 );
 
 class_has state => (
@@ -310,6 +315,13 @@ sub iterate {
     return;
 }
 
+# Runs our action in $self->action, cleanly.
+sub run_action {
+    my $self = shift;
+    TAEB->log->main("Current action: " . $self->action);
+    $self->write($self->action->run);
+}
+
 sub handle_playing {
     my $self = shift;
 
@@ -319,8 +331,16 @@ sub handle_playing {
 
     $self->currently('?');
     $self->action($self->next_action);
-    TAEB->log->main("Current action: " . $self->action);
-    $self->write($self->action->run);
+    $self->run_action;
+}
+
+sub handle_human_override {
+    my $self = shift;
+    $self->currently('Performing an action due to manual override');
+    $self->run_action;
+    # The override only lasts one turn, although that turn may end
+    # the game (quit and save are common overrides).
+    $self->state('playing') if $self->state eq 'human_override';
 }
 
 sub handle_logging_in {
@@ -334,7 +354,7 @@ sub handle_logging_in {
         TAEB->log->main("NetHack itself has errored out, we can't continue.",
                         level => 'info');
         TAEB->state('unable_to_login');
-        die "The game could not start.";
+        die "The game could not start";
     }
     elsif ($self->vt->contains("Shall I pick a character's ")) {
         TAEB->log->main("We are now in NetHack, starting a new character.");
@@ -365,7 +385,6 @@ sub handle_logging_in {
     elsif ($self->topline =~ /^\s*It is written in the Book of /) {
         TAEB->log->main("Using TAEB's nethackrc is MANDATORY. Use $0 --rc.",
                         level => 'error');
-        $self->quit;
         die "Using TAEB's nethackrc is MANDATORY";
     }
 }
@@ -398,9 +417,9 @@ sub process_input {
 
     my $input = $self->read;
 
-    $self->vt->process($input);
+    $self->vt_process($input);
 
-    $self->scraper->scrape
+    $self->scrape
         if $scrape && $self->state ne 'logging_in';
 
     return $input;
@@ -541,13 +560,17 @@ sub keypress {
         return;
     }
 
-    if ($c eq 'q') {
-        $self->save;
+    # Controlled save and exit
+    if ($c eq 'q' && $self->state eq 'playing') {
+        $self->action(TAEB::Action::Save->new);
+        $self->state('human_override');
         return;
     }
 
-    if ($c eq 'Q') {
-        $self->quit;
+    # Controlled quit and exit
+    if ($c eq 'Q' && $self->state eq 'playing') {
+        $self->action(TAEB::Action::Quit->new);
+        $self->state('human_override');
         return;
     }
 
@@ -655,16 +678,29 @@ sub equipment {
     $self->inventory->equipment(@_);
 }
 
-sub quit {
-    my $self = shift;
-    $self->write("   \e   \e     #quit\n");
-    # screenscraper handles the message sending and die call
-}
-
+# Does an emergency save and exit. This should be used only in
+# situations where the state of the game is unknown (e.g. in response
+# to an exception); otherwise, use TAEB::Action::Save instead. During
+# or after running this, TAEB must exit via exception; this sub does
+# not throw the exception itself, however, on the basis that it will
+# usually be called inside exception handling. Seriously, any call to
+# this outside the signal handler for die() should be considered
+# highly suspect.
 sub save {
     my $self = shift;
+    TAEB->log->main("Doing an emergency save...", level => 'info');
     $self->write("   \e   \e     Sy");
-    $self->send_message('save');
+    $self->interface->flush;
+}
+# The same above, but for quitting. Again, this is an uncontrolled
+# exit, designed to work from any state; to exit in a controlled
+# manner, use TAEB::Action::Quit. Only use this function inside an
+# exception handler or other situation where the gamestate is unknown.
+sub quit {
+    my $self = shift;
+    TAEB->log->main("Doing an emergency quit...", level => 'info');
+    $self->write("   \e   \e     #quit\nyq");
+    $self->interface->flush;
 }
 
 sub persistent_file {
@@ -704,6 +740,8 @@ sub setup_handlers {
     $SIG{__DIE__} = sub {
         my $message = shift;
 
+        TAEB->remove_handlers; # prevent recursive exceptions
+
         if ($message =~ /^(The game has ended\.|The game has been saved\.)/) {
             TAEB->log->main($1, level => 'info');
 
@@ -715,16 +753,20 @@ sub setup_handlers {
             }
         }
         else {
-            TAEB->save_state;
-
             my $level = $message =~ /^Interrupted\./
                       ? 'info'
                       : 'error';
             TAEB->log->perl($message, level => $level);
-
-            TAEB->save;
+            # Use the emergency versions of quit/save here, not the actions.
+            if (defined TAEB->config && defined TAEB->config->contents &&
+                TAEB->config->contents->{'unattended'}) {
+                TAEB->quit;
+                TAEB->destroy_saved_state;
+            } else {
+                TAEB->save;
+                TAEB->save_state;
+            }
         }
-
         die $message;
     };
     TAEB->monkey_patch;
@@ -765,6 +807,8 @@ profile_method(@$_) for (
     [read        => 'Reading from NetHack'],
     [write       => 'Writing to NetHack'],
     [next_action => 'AI next_action'],
+    [vt_process  => 'VT input processing'],
+    [scrape      => 'Screen scraping'],
 );
 
 __PACKAGE__->meta->make_immutable;

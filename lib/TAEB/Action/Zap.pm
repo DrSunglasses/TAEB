@@ -1,8 +1,10 @@
 package TAEB::Action::Zap;
 use TAEB::OO;
 extends 'TAEB::Action';
-with 'TAEB::Action::Role::Direction';
-with 'TAEB::Action::Role::Item' => { items => [qw/wand/] };
+with (
+    'TAEB::Action::Role::Direction',
+    'TAEB::Action::Role::Item' => { items => [qw/wand/] },
+);
 
 use constant command => 'z';
 

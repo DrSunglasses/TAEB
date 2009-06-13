@@ -17,8 +17,9 @@ sub as_string {
 
         $report .= "\nProfile:\n"
                 . join '',
-                  map { sprintf("%*s %.2g%%\n", $length, $_->[0], 100*$_->[2]) }
-                  @profile;
+                  map {
+                      sprintf("  %*s %.2g%%\n", $length, $_->[0], 100*$_->[2])
+                  } @profile;
     }
     return $report;
 }

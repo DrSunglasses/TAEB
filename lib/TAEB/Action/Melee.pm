@@ -1,6 +1,10 @@
 package TAEB::Action::Melee;
 use TAEB::OO;
 extends 'TAEB::Action';
+
+# This is not a role summation because Monster requires target_tile, which is
+# provided *in an attribute* by Direction. requirements and attributes do not
+# play well at all.
 with 'TAEB::Action::Role::Direction';
 with 'TAEB::Action::Role::Monster';
 
