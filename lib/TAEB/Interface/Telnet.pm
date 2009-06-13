@@ -92,36 +92,42 @@ augment read => sub {
     if (!$self->sent_login && $buffer =~ /Not logged in\./) {
         TAEB->log->interface("Logging in as " . $self->account);
 
-        $self->print(
-            join '',
-                'l',
-                $self->account, "\n",
+        # Initiate login, send account name
+        $self->write(
+            'l',
+            $self->account, "\n",
         );
 
+        # We don't want the password in the logs, so we don't send it to
+        # TAEB-level methods (which log)
         TAEB->log->output("Sending password");
         print { $self->socket } $self->password, "\n";
 
-        $self->print('1'); # for multi-game DGL
+        # We want to play the first game (for multi-game dgamelaunch)
+        $self->write('1');
 
         $self->sent_login(1);
 
         if ($self->send_rcfile) {
-            $self->print(
-                join '',
-                    'o',
-                    ":0,\$d\n",
-                    "i",
+            # Clear existing options
+            $self->write(
+                'o',
+                ":0,\$d\n",
+                "i",
             );
 
-            $self->print(TAEB::Config->nethackrc_contents);
-            $self->print(
-                join '',
-                    "\e",
-                    ":wq\n",
+            # Send nethackrc
+            $self->write(TAEB::Config->nethackrc_contents);
+
+            # Exit virus
+            $self->write(
+                "\e",
+                ":wq\n",
             );
         }
 
-        $self->print('p');
+        # Play the game
+        $self->write('p');
     }
 
     return $buffer;
