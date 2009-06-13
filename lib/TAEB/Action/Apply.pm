@@ -1,8 +1,10 @@
 package TAEB::Action::Apply;
 use TAEB::OO;
 extends 'TAEB::Action';
-with 'TAEB::Action::Role::Direction';
-with 'TAEB::Action::Role::Item';
+with (
+    'TAEB::Action::Role::Direction',
+    'TAEB::Action::Role::Item',
+);
 
 use constant command => "a";
 
