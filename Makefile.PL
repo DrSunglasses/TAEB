@@ -70,6 +70,10 @@ features(
     ],
     'TAEB for local NetHack' => [
         -default => 0,
+        recommends('IO::Pty::HalfDuplex'),
+    ],
+    'Legacy interface for TAEB on local NetHack' => [
+        -default => 0,
         recommends('IO::Pty::Easy' => 0.05),
     ],
 
