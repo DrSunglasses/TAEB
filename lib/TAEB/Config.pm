@@ -95,12 +95,6 @@ sub _get_character_info {
     return $parser->($crga) || '*';
 }
 
-=head2 get_role
-
-Retrieves the role from the config, or picks randomly.
-
-=cut
-
 sub get_role {
     my $self = shift;
     return $self->_get_character_info('role', sub {
@@ -114,12 +108,6 @@ sub get_role {
     });
 }
 
-=head2 get_race
-
-Retrieves the race from the config, or picks randomly.
-
-=cut
-
 sub get_race {
     my $self = shift;
     return $self->_get_character_info('race', sub {
@@ -129,12 +117,6 @@ sub get_race {
     });
 }
 
-=head2 get_gender
-
-Retrieves the gender from the config, or picks randomly.
-
-=cut
-
 sub get_gender {
     my $self = shift;
     return $self->_get_character_info('gender', sub {
@@ -143,12 +125,6 @@ sub get_gender {
             if lc($gender) =~ /^([mf])/;
     });
 }
-
-=head2 get_align
-
-Retrieves the alignment from the config, or picks randomly.
-
-=cut
 
 sub get_align {
     my $self = shift;
@@ -371,6 +347,24 @@ TAEB::Config
     # containing passwords, or config files specific to a certain ai
     #other_config:
     #    - site_config.yml
+
+=head1 METHODS
+
+=head2 get_role
+
+Retrieves the role from the config, or picks randomly.
+
+=head2 get_race
+
+Retrieves the race from the config, or picks randomly.
+
+=head2 get_gender
+
+Retrieves the gender from the config, or picks randomly.
+
+=head2 get_align
+
+Retrieves the alignment from the config, or picks randomly.
 
 =cut
 

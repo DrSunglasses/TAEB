@@ -7,21 +7,6 @@ has read_iterations => (
     default => 1,
 );
 
-=head1 NAME
-
-TAEB::Interface - how TAEB talks to NetHack
-
-=head2 read -> STRING
-
-This will read from the interface. It's quite OK to block and throw errors
-in this method.
-
-It should just return the string read from the interface.
-
-Your subclass B<must> override this method.
-
-=cut
-
 sub read {
     my $self = shift;
 
@@ -29,17 +14,6 @@ sub read {
            map { my $output = inner(); defined $output ? $output : '' }
            1 .. $self->read_iterations;
 }
-
-=head2 write STRING
-
-This will write to the interface. It's quite OK to block and throw errors
-in this method.
-
-Its return value is currently ignored.
-
-Your subclass B<must> override this method.
-
-=cut
 
 sub write {
     my $self = shift;
@@ -52,6 +26,39 @@ sub write {
     inner();
 }
 
+sub flush { }
+
+__PACKAGE__->meta->make_immutable;
+no TAEB::OO;
+
+1;
+
+__END__
+
+=head1 NAME
+
+TAEB::Interface - how TAEB talks to NetHack
+
+=head1 METHODS
+
+=head2 read -> STRING
+
+This will read from the interface. It's quite OK to block and throw errors
+in this method.
+
+It should just return the string read from the interface.
+
+Your subclass B<must> override this method.
+
+=head2 write STRING
+
+This will write to the interface. It's quite OK to block and throw errors
+in this method.
+
+Its return value is currently ignored.
+
+Your subclass B<must> override this method.
+
 =head2 flush
 
 This causes a call to write() to take effect, if for some reason your
@@ -61,11 +68,4 @@ data it would otherwise read; this is for the purpose of ensuring that
 the data is sent during emergency cleanup.
 
 =cut
-
-sub flush { }
-
-__PACKAGE__->meta->make_immutable;
-no TAEB::OO;
-
-1;
 

@@ -30,12 +30,6 @@ around _calculate_weight => sub {
     return $weight + $gold_weight;
 };
 
-=head2 has_projectile
-
-Returns true (actually, the item) if TAEB has something useful to throw.
-
-=cut
-
 my @projectiles = (
     qr/\bdagger\b/,
     qr/\bspear\b/,
@@ -155,3 +149,10 @@ no TAEB::OO;
 
 1;
 
+__END__
+
+=head2 has_projectile
+
+Returns true (actually, the item) if TAEB has something useful to throw.
+
+=cut

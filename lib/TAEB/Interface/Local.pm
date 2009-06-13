@@ -101,6 +101,8 @@ __END__
 
 TAEB::Interface::Local - how TAEB talks to a local nethack
 
+=head1 METHODS
+
 =head2 read -> STRING
 
 This will read from the pty. It will die if an error occurs.
@@ -116,6 +118,10 @@ safely ignored.
 =head2 write STRING
 
 This will write to the pty. It will die if an error occurs.
+
+=head1 SEE ALSO
+
+L<http://taeb-blog.sartak.org/2009/06/synchronizing-with-nethack.html>
 
 =cut
 

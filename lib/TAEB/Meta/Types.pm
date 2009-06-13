@@ -2,12 +2,6 @@ package TAEB::Meta::Types;
 use Moose::Util::TypeConstraints;
 use TAEB::Util qw/tile_types trap_types/;
 
-=head1 NAME
-
-TAEB::Meta::Types - TAEB-specific types
-
-=cut
-
 enum 'TAEB::Type::PlayState' => qw(logging_in unable_to_login playing dying human_override);
 
 enum 'TAEB::Type::Role'   => qw(Arc Bar Cav Hea Kni Mon Pri Ran Rog Sam Tou Val Wiz);
@@ -41,3 +35,10 @@ duck_type 'TAEB::Type::Pty' => qw(spawn write is_active);
 
 1;
 
+__END__
+
+=head1 NAME
+
+TAEB::Meta::Types - TAEB-specific types
+
+=cut

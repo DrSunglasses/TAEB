@@ -13,12 +13,6 @@ sub import_extra {
     warnings->import;
 }
 
-=head2 degrade_ok original, current
-
-Tests whether the original string could possibly degrade to the current string.
-
-=cut
-
 sub degrade_ok {
     local $Test::Builder::Level = $Test::Builder::Level + 1;
     my $exp = shift;
@@ -27,13 +21,6 @@ sub degrade_ok {
     Test::More::ok(TAEB::Spoilers::Engravings->is_degradation($exp, $got), "$exp degrades to $got");
 }
 
-=head2 degrade_nok original, current
-
-Tests whether the original string could NOT possibly degrade to the current
-string.
-
-=cut
-
 sub degrade_nok {
     local $Test::Builder::Level = $Test::Builder::Level + 1;
     my $exp = shift;
@@ -41,13 +28,6 @@ sub degrade_nok {
 
     Test::More::ok(!TAEB::Spoilers::Engravings->is_degradation($exp, $got), "$exp does not degrade to $got");
 }
-
-=head2 degrade_progression Str, Str, Str, [...]
-
-Test whether a progression is possible. This will not only test adjacent
-engravings, but also an engraving to all of its children.
-
-=cut
 
 sub degrade_progression {
     local $Test::Builder::Level = $Test::Builder::Level + 1;
@@ -60,4 +40,22 @@ sub degrade_progression {
 }
 
 1;
+
+__END__
+
+=head2 degrade_ok original, current
+
+Tests whether the original string could possibly degrade to the current string.
+
+=head2 degrade_nok original, current
+
+Tests whether the original string could NOT possibly degrade to the current
+string.
+
+=head2 degrade_progression Str, Str, Str, [...]
+
+Test whether a progression is possible. This will not only test adjacent
+engravings, but also an engraving to all of its children.
+
+=cut
 

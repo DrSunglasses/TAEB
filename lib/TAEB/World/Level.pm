@@ -216,42 +216,6 @@ sub step_off {
     $self->tiles->[$y][$x]->step_off;
 }
 
-=head2 radiate CODE[, ARGS] -> (Str | (Str, Int))
-
-This method will radiate in the eight NetHack directions. It will call the
-coderef for each tile encountered. The coderef will receive the tile as its
-argument. Once the coderef returns a true value, then the radiating stops and
-something will be returned:
-
-If called in scalar context, the vi-key direction will be returned. If called
-in list context, the vi-key direction and distance will be returned.
-
-The optional arguments are:
-
-=over 4
-
-=item max (default: 80)
-
-How far to radiate outwards. You probably can't throw a dagger all the way
-across the level, so you may want to decrease it to something more realistic.
-Like 3, har har. You're weak.
-
-=item bouncy (default: false)
-
-If true, the item will be assumed capable of bouncing.
-
-=item stopper (default: sub { 0 })
-
-If a path intersects a tile with this set, we will not allow that path.
-
-=item allowself (default: 0)
-
-Like stopper, but for our own tile (a common special case).
-
-=back
-
-=cut
-
 my %beamblock = map { $_ => 1 } qw/wall tree rock/;
 
 sub _beamable {
@@ -736,14 +700,6 @@ subscribe turn => sub {
     $self->inc_turns_spent_on;
 };
 
-=head2 glyph_to_type str[, str] -> str
-
-This will look up the given glyph (and if given color) and return a tile type
-for it. Note that monsters and items (and any other miss) will return
-"obscured".
-
-=cut
-
 sub glyph_to_type {
     my $self  = shift;
     my $glyph = shift;
@@ -773,22 +729,10 @@ sub glyph_to_type {
    return $type || 'obscured';
 }
 
-=head2 glyph_is_monster str -> bool
-
-Returns whether the given glyph is that of a monster.
-
-=cut
-
 sub glyph_is_monster {
     my $self = shift;
     return shift =~ /[a-zA-Z&';:1-5@]/;
 }
-
-=head2 glyph_is_item str -> bool
-
-Returns whether the given glyph is that of an item.
-
-=cut
 
 sub glyph_is_item {
     my $self = shift;
@@ -825,4 +769,56 @@ __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
 
 1;
+
+__END__
+
+=head2 radiate CODE[, ARGS] -> (Str | (Str, Int))
+
+This method will radiate in the eight NetHack directions. It will call the
+coderef for each tile encountered. The coderef will receive the tile as its
+argument. Once the coderef returns a true value, then the radiating stops and
+something will be returned:
+
+If called in scalar context, the vi-key direction will be returned. If called
+in list context, the vi-key direction and distance will be returned.
+
+The optional arguments are:
+
+=over 4
+
+=item max (default: 80)
+
+How far to radiate outwards. You probably can't throw a dagger all the way
+across the level, so you may want to decrease it to something more realistic.
+Like 3, har har. You're weak.
+
+=item bouncy (default: false)
+
+If true, the item will be assumed capable of bouncing.
+
+=item stopper (default: sub { 0 })
+
+If a path intersects a tile with this set, we will not allow that path.
+
+=item allowself (default: 0)
+
+Like stopper, but for our own tile (a common special case).
+
+=back
+
+=head2 glyph_to_type str[, str] -> str
+
+This will look up the given glyph (and if given color) and return a tile type
+for it. Note that monsters and items (and any other miss) will return
+"obscured".
+
+=head2 glyph_is_monster str -> bool
+
+Returns whether the given glyph is that of a monster.
+
+=head2 glyph_is_item str -> bool
+
+Returns whether the given glyph is that of an item.
+
+=cut
 

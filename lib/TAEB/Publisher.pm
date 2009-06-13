@@ -178,15 +178,6 @@ sub _get_generic_response {
     return;
 }
 
-=head2 get_exceptional_response Str -> Maybe Str
-
-This is used to check all messages for exceptions. Such as not having an item
-we expected to have.
-
-If no response is given, C<undef> is returned.
-
-=cut
-
 sub get_exceptional_response {
     my $self = shift;
     my $msg  = shift;
@@ -198,15 +189,6 @@ sub get_exceptional_response {
     );
 }
 
-=head2 get_response Str -> Maybe Str
-
-This is used to check for and get a response to any known prompt on the top
-line. Consulted are the AI and action.
-
-If no response is given, C<undef> is returned.
-
-=cut
-
 sub get_response {
     my $self = shift;
     my $line = shift;
@@ -217,14 +199,6 @@ sub get_response {
         method => "respond",
     );
 }
-
-=head2 get_location_response Str -> Maybe Tile
-
-This is used to respond to requests to choose a tile (controlled teleport, targeting of ball spells, etc).
-
-If no response is given, C<undef> is returned.
-
-=cut
 
 sub get_location_request {
     my $self = shift;
@@ -285,4 +259,28 @@ __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
 
 1;
+
+__END__
+
+=head2 get_exceptional_response Str -> Maybe Str
+
+This is used to check all messages for exceptions. Such as not having an item
+we expected to have.
+
+If no response is given, C<undef> is returned.
+
+=head2 get_response Str -> Maybe Str
+
+This is used to check for and get a response to any known prompt on the top
+line. Consulted are the AI and action.
+
+If no response is given, C<undef> is returned.
+
+=head2 get_location_response Str -> Maybe Tile
+
+This is used to respond to requests to choose a tile (controlled teleport, targeting of ball spells, etc).
+
+If no response is given, C<undef> is returned.
+
+=cut
 

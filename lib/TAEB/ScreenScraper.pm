@@ -1371,13 +1371,6 @@ sub all_messages {
     return @messages;
 }
 
-=head2 send_messages
-
-Iterate over all_messages, invoking TAEB->send_message for each one we know
-about.
-
-=cut
-
 sub send_messages {
     my $self = shift;
 
@@ -1432,21 +1425,6 @@ sub send_messages {
     }
 }
 
-=head2 farlook Int, Int -> (Str | Str, Str, Str, Str)
-
-This will farlook (the C<;> command) at the given coordinates and return
-whatever's there.
-
-In scalar context, it will return the plain description string given by
-NetHack. In list context, it will return the components: glyph, genus, species,
-and how the monster is visible (infravision, telepathy, etc).
-
-WARNING: Since this method interacts with NetHack directly, you cannot use it
-in callbacks where there is menu interaction or (in general) any place except
-command mode.
-
-=cut
-
 sub farlook {
     my $self = shift;
     my $tile = shift;
@@ -1471,4 +1449,26 @@ __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
 
 1;
+
+__END__
+
+=head2 send_messages
+
+Iterate over all_messages, invoking TAEB->send_message for each one we know
+about.
+
+=head2 farlook Int, Int -> (Str | Str, Str, Str, Str)
+
+This will farlook (the C<;> command) at the given coordinates and return
+whatever's there.
+
+In scalar context, it will return the plain description string given by
+NetHack. In list context, it will return the components: glyph, genus, species,
+and how the monster is visible (infravision, telepathy, etc).
+
+WARNING: Since this method interacts with NetHack directly, you cannot use it
+in callbacks where there is menu interaction or (in general) any place except
+command mode.
+
+=cut
 

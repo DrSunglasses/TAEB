@@ -424,15 +424,6 @@ sub draw_menu {
     Curses::move($row - 1, length($rows[-1]) + $x + 1);
 }
 
-=head2 change_draw_mode
-
-This is a debug command. It's expected to read another character from the
-keyboard deciding how to change the draw mode.
-
-Eventually we may want a menu interface but this is fine for now.
-
-=cut
-
 %standard_modes = (
     normal =>    { description => 'Normal NetHack colors',
                    color => sub { shift->normal_color } },
@@ -507,3 +498,13 @@ no TAEB::OO;
 
 1;
 
+__END__
+
+=head2 change_draw_mode
+
+This is a debug command. It's expected to read another character from the
+keyboard deciding how to change the draw mode.
+
+Eventually we may want a menu interface but this is fine for now.
+
+=cut
