@@ -98,7 +98,7 @@ augment read => sub {
     die "Pty inactive" unless $self->is_active;
     # We already waited for output to arrive; don't wait even longer if there
     # isn't any. Use an appropriate reading function depending on the class.
-    my $out = $self->pty->read(0,1024); }
+    my $out = $self->pty->read(0,1024);
     return '' if !defined($out);
 
     # We specified blocks of 1024 characters above. If we got exactly 1024,
