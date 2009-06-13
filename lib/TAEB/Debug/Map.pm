@@ -5,7 +5,7 @@ use TAEB::Util qw/item_menu/;
 subscribe keypress => sub {
     my $self  = shift;
     my $event = shift;
-    $self->activate unless $event->key eq ';';
+    $self->activate if $event->key eq ';';
 };
 
 sub activate {
