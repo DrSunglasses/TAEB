@@ -1,8 +1,10 @@
 package TAEB::Action::Melee;
 use TAEB::OO;
 extends 'TAEB::Action';
-with 'TAEB::Action::Role::Direction';
-with 'TAEB::Action::Role::Monster';
+with (
+    'TAEB::Action::Role::Direction',
+    'TAEB::Action::Role::Monster',
+);
 
 has '+direction' => (
     required => 1,

@@ -1,9 +1,12 @@
 package TAEB::Action::Throw;
 use TAEB::OO;
 extends 'TAEB::Action';
-with 'TAEB::Action::Role::Direction';
-with 'TAEB::Action::Role::Item' => { items => [qw/projectile/] };
-with 'TAEB::Action::Role::Monster';
+
+with (
+    'TAEB::Action::Role::Direction',
+    'TAEB::Action::Role::Item' => { items => [qw/projectile/] },
+    'TAEB::Action::Role::Monster',
+);
 
 use TAEB::Util 'vi2delta';
 
