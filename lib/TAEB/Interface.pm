@@ -21,7 +21,7 @@ sub write {
 
     return if !defined($text) || length($text) == 0;
 
-    $self->log->output("Sending '$text' to NetHack.");
+    TAEB->log->output("Sending '$text' to NetHack.");
 
     inner();
 }
