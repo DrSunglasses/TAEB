@@ -1,0 +1,25 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use FindBin '$Bin';
+
+my $dialog = join " ", split /\n/, q{
+    /Applications/CocoaDialog.app/Contents/MacOS/CocoaDialog
+    msgbox
+    --button1 Telnet
+    --button2 Local
+    --button3 Cancel
+    --text "How would you like TAEB to play NetHack?"
+    --informative-text "The Local option requires 'nethack'."
+    --title "Select an interface"
+    --icon globe
+};
+my $interface_id = `$dialog`;
+
+exit if $interface_id == 3; # cancel
+
+my $interface = $interface_id == 1 ? "Telnet" : "Local";
+print "Selected the $interface interface.\n";
+
+exec $^X, "$Bin/taeb", "--config={interface: $interface}";
+
