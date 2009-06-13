@@ -1,9 +1,12 @@
-package TAEB::Interface::Local;
+package TAEB::Interface::OldLocal;
 use TAEB::OO;
+use Time::HiRes 'sleep';
+
+use constant ping_wait => 0.2;
 
 =head1 NAME
 
-TAEB::Interface::Local - how TAEB talks to a local nethack
+TAEB::Interface::OldLocal - Legacy IO::Pty::Easy interface
 
 =cut
 
@@ -25,7 +28,7 @@ has args => (
 has pty_type => (
     is      => 'ro',
     isa     => 'Str',
-    default => 'HalfDuplex',
+    default => 'Easy',
 );
 
 has pty => (
@@ -86,22 +89,26 @@ It will return the input read from the pty.
 augment read => sub {
     my $self = shift;
 
-    die "Pty inactive" unless $self->is_active;
+    # this is about the best we can do for consistency using Easy
+    # in Telnet we have a complicated ping/pong that scales with network latency
+    # alternatively you can use HalfDuplex to use a job-control-based ping wait
+    # which scales with NetHack's drawing time
+    sleep($self->ping_wait);
 
+    die "Pty inactive" unless $self->is_active;
     # We already waited for output to arrive; don't wait even longer if there
     # isn't any. Use an appropriate reading function depending on the class.
-    return $self->pty->recv;
+    my $out = $self->pty->read(0,1024); }
+    return '' if !defined($out);
+
+    # We specified blocks of 1024 characters above. If we got exactly 1024,
+    # read more.
+    if (length($out) == 1024) {
+        return $out . $self->read(@_);
+    }
+
+    return $out;
 };
-
-=head2 flush
-
-When using HalfDuplex, we have to do a recv in order to send data.
-If flush is being called, it means that the return value can be
-safely ignored.
-
-=cut
-
-sub flush { shift->pty->recv }
 
 =head2 write STRING
 
@@ -114,8 +121,13 @@ augment write => sub {
     my $text = shift;
 
     die "Pty inactive" unless $self->is_active;
+    my $chars = $self->pty->write($text, 1);
+    return if !defined($chars);
 
-    return $self->pty->write($text, 1);
+    # An IPE counts the number of chars written; an IPH doesn't,
+    # because writes are delayed-action in such a case.
+    die "Pty closed" if $chars == 0;
+    return $chars;
 };
 
 __PACKAGE__->meta->make_immutable;
