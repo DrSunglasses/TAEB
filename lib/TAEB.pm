@@ -18,8 +18,10 @@ use TAEB::Action;
 use TAEB::Publisher;
 use TAEB::Debug;
 
-with 'TAEB::Role::Persistency';
-with 'TAEB::Role::Initialize';
+with (
+    'TAEB::Role::Persistency',
+    'TAEB::Role::Initialize',
+);
 
 our $VERSION = '0.05';
 
