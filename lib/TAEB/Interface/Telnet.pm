@@ -91,22 +91,37 @@ augment read => sub {
 
     if (!$self->sent_login && $buffer =~ /Not logged in\./) {
         TAEB->log->interface("Logging in as " . $self->account);
-        print { $self->socket } join '', 'l',
-                                         $self->account,  "\n",
-                                         $self->password, "\n",
-                                         '1'; # for multi-game DGL
+
+        $self->print(
+            join '',
+                'l',
+                $self->account, "\n",
+        );
+
+        TAEB->log->output("Sending password");
+        print { $self->socket } $self->password, "\n";
+
+        $self->print('1'); # for multi-game DGL
+
         $self->sent_login(1);
 
         if ($self->send_rcfile) {
-            print { $self->socket } join '', 'o',
-                                             ":0,\$d\n",
-                                             "i";
-            print { $self->socket } TAEB::Config->nethackrc_contents;
-            print { $self->socket } join '', "\e",
-                                             ":wq\n";
+            $self->print(
+                join '',
+                    'o',
+                    ":0,\$d\n",
+                    "i",
+            );
+
+            $self->print(TAEB::Config->nethackrc_contents);
+            $self->print(
+                join '',
+                    "\e",
+                    ":wq\n",
+            );
         }
 
-        print { $self->socket } 'p';
+        $self->print('p');
     }
 
     return $buffer;
