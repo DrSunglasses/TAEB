@@ -61,7 +61,9 @@ if ($options{interface} eq 'Telnet') {
     my ($name_code, $name) = split /\n/, $name_response;
     exit if $name_code == 3 || $name !~ /\S/;
 
-    my $register = $options{interface_options}{Telnet}{register} = $name_code == 1;
+    my $register = $name_code == 1;
+    $options{interface_options}{Telnet}{register} = 1
+        if $register;
 
     $options{interface_options}{Telnet}{account} = $name;
 
