@@ -2,12 +2,6 @@ package TAEB::Meta::Types;
 use Moose::Util::TypeConstraints;
 use TAEB::Util qw/tile_types trap_types/;
 
-=head1 NAME
-
-TAEB::Meta::Types - TAEB-specific types
-
-=cut
-
 enum 'TAEB::Type::PlayState' => qw(logging_in unable_to_login playing dying human_override);
 
 enum 'TAEB::Type::Role'   => qw(Arc Bar Cav Hea Kni Mon Pri Ran Rog Sam Tou Val Wiz);
@@ -34,10 +28,12 @@ enum 'TAEB::Type::Menu' => qw(none single multi);
 
 enum 'TAEB::Type::DeathState' => qw(inventory attributes kills conducts summary scores);
 
-# Ugh; is there a way to specify 'read or recv'? Unfortunately, we don't have
-# Perl6 junctions yet... As it is, the requirement for read/recv is replaced
-# by a die in TAEB::Interface::Local, but that isn't ideal.
-duck_type 'TAEB::Type::Pty' => qw(spawn write is_active);
-
 1;
 
+__END__
+
+=head1 NAME
+
+TAEB::Meta::Types - TAEB-specific types
+
+=cut

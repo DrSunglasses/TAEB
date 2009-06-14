@@ -18,8 +18,10 @@ use TAEB::Action;
 use TAEB::Publisher;
 use TAEB::Debug;
 
-with 'TAEB::Role::Persistency';
-with 'TAEB::Role::Initialize';
+with (
+    'TAEB::Role::Persistency',
+    'TAEB::Role::Initialize',
+);
 
 our $VERSION = '0.05';
 
@@ -71,7 +73,7 @@ class_has scraper => (
     isa      => 'TAEB::ScreenScraper',
     lazy     => 1,
     default  => sub { TAEB::ScreenScraper->new },
-    handles  => [qw(parsed_messages all_messages messages farlook)],
+    handles  => [qw(parsed_messages all_messages messages farlook scrape)],
 );
 
 class_has config => (
@@ -90,7 +92,10 @@ class_has vt => (
         $vt->option_set(LFTOCRLF => 1);
         return $vt;
     },
-    handles  => [qw(topline)],
+    handles  => {
+        topline    => 'topline',
+        vt_process => 'process',
+    },
 );
 
 class_has state => (
@@ -349,7 +354,7 @@ sub handle_logging_in {
         TAEB->log->main("NetHack itself has errored out, we can't continue.",
                         level => 'info');
         TAEB->state('unable_to_login');
-        die "The game could not start.";
+        die "The game could not start";
     }
     elsif ($self->vt->contains("Shall I pick a character's ")) {
         TAEB->log->main("We are now in NetHack, starting a new character.");
@@ -412,9 +417,9 @@ sub process_input {
 
     my $input = $self->read;
 
-    $self->vt->process($input);
+    $self->vt_process($input);
 
-    $self->scraper->scrape
+    $self->scrape
         if $scrape && $self->state ne 'logging_in';
 
     return $input;
@@ -557,14 +562,14 @@ sub keypress {
 
     # Controlled save and exit
     if ($c eq 'q' && $self->state eq 'playing') {
-        $self->action(TAEB::Action->new_action('save'));
+        $self->action(TAEB::Action::Save->new);
         $self->state('human_override');
         return;
     }
 
     # Controlled quit and exit
     if ($c eq 'Q' && $self->state eq 'playing') {
-        $self->action(TAEB::Action->new_action('quit'));
+        $self->action(TAEB::Action::Quit->new);
         $self->state('human_override');
         return;
     }
@@ -592,17 +597,6 @@ sub complain {
 
     $self->notify($msg, COLOR_RED, @_);
 }
-
-around write => sub {
-    my $orig = shift;
-    my $self = shift;
-    my $text = shift;
-
-    return if length($text) == 0;
-
-    $self->log->output("Sending '$text' to NetHack.");
-    $orig->($self, $text);
-};
 
 # allow the user to say TAEB->ai("human") and have it DTRT
 around ai => sub {
@@ -802,6 +796,8 @@ profile_method(@$_) for (
     [read        => 'Reading from NetHack'],
     [write       => 'Writing to NetHack'],
     [next_action => 'AI next_action'],
+    [vt_process  => 'VT input processing'],
+    [scrape      => 'Screen scraping'],
 );
 
 __PACKAGE__->meta->make_immutable;

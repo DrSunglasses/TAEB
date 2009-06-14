@@ -3,57 +3,18 @@ use TAEB::OO;
 
 use constant is_human_controlled => 0;
 
-=head1 NAME
-
-TAEB::AI - how TAEB tactically extracts its amulets
-
-=head2 next_action -> Action
-
-This is the method called by the main TAEB code to get individual commands. It
-will be called with a C<$self> which will be your TAEB::AI object,
-and a TAEB object for interacting with the rest of the system (such as for
-looking at the map).
-
-It should return the L<TAEB::Action> object to send to NetHack.
-
-Your subclass B<must> override this method.
-
-=cut
-
 sub next_action {
     my $class = blessed($_[0]) || $_[0];
-    die "You must override the 'next_action' method in $class.";
+    die "You must override the 'next_action' method in $class";
 }
-
-=head2 institute
-
-This is the method called when TAEB begins using this AI. This is
-guaranteed to be called before any calls to next_action.
-
-=cut
 
 sub institute {
     TAEB->publisher->subscribe(shift);
 }
 
-=head2 deinstitute
-
-This is the method called when TAEB finishes using this AI.
-
-This will not be called when TAEB is ending, but only when the AI is
-replaced by a different one.
-
-=cut
-
 sub deinstitute {
     TAEB->publisher->unsubscribe(shift);
 }
-
-=head2 want_item Item -> Bool or Ref[Int]
-
-Does TAEB want this item?
-
-=cut
 
 sub want_item {
     my $self = shift;
@@ -61,27 +22,9 @@ sub want_item {
     $self->pickup(@_);
 }
 
-=head2 pickup Item -> Bool or Ref[Int]
-
-Will TAEB pick up this item? Not by default, no.
-
-=cut
-
 sub pickup { 0 }
 
-=head2 drop Item -> Bool
-
-Will TAEB drop this item? Not by default, no.
-
-=cut
-
 sub drop { 0 }
-
-=head2 msg_powerup Str, *
-
-Received when we've got a powerup-like message. Currently handles C<enhance>.
-
-=cut
 
 sub msg_powerup {
     my $self = shift;
@@ -92,13 +35,6 @@ sub msg_powerup {
     }
 }
 
-=head2 enhance Str, Str -> Bool
-
-Callback for enhancing. Receives skill type and current level. Returns whether
-we should enhance it or not. Default: YES.
-
-=cut
-
 sub enhance {
     my $self  = shift;
     my $skill = shift;
@@ -108,12 +44,6 @@ sub enhance {
 
     return 1;
 }
-
-=head2 currently
-
-A string that states what the AI is currently doing.
-
-=cut
 
 has currently => (
     is      => 'rw',
@@ -169,27 +99,90 @@ sub select_identify {
     return $item->match(identity => undef, '!buc' => 'cursed');
 }
 
-# Hook for AI-specific drawing modes
-#
-# Example:
-#
-# use TAEB::Util qw/:colors display/;
-#
-# sub drawing_modes {
-#     white => { description => "All white",
-#                color => sub { display(COLOR_WHITE) } },
-#     rot13 => { description => "Rot-13",
-#                glyph => sub { local $_ = shift->normal_glyph;
-#                               tr/A-Za-z/M-ZA-Lm-za-l/; $_ } },
-# }
-#
-# Also available are 'immediate', which is run by the select menu,
-# and 'onframe', which is run before each colorized frame.
-
 sub drawing_modes {}
 
 __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
 
 1;
+
+__END__
+
+=head1 NAME
+
+TAEB::AI - how TAEB tactically extracts its amulets
+
+=head2 next_action -> Action
+
+This is the method called by the main TAEB code to get individual commands. It
+will be called with a C<$self> which will be your TAEB::AI object,
+and a TAEB object for interacting with the rest of the system (such as for
+looking at the map).
+
+It should return the L<TAEB::Action> object to send to NetHack.
+
+Your subclass B<must> override this method.
+
+=head2 institute
+
+This is the method called when TAEB begins using this AI. This is
+guaranteed to be called before any calls to next_action.
+
+=head2 deinstitute
+
+This is the method called when TAEB finishes using this AI.
+
+This will not be called when TAEB is ending, but only when the AI is
+replaced by a different one.
+
+=head2 want_item Item -> Bool or Ref[Int]
+
+Does TAEB want this item?
+
+=head2 pickup Item -> Bool or Ref[Int]
+
+Will TAEB pick up this item? Not by default, no.
+
+=head2 drop Item -> Bool
+
+Will TAEB drop this item? Not by default, no.
+
+=head2 msg_powerup Str, *
+
+Received when we've got a powerup-like message. Currently handles C<enhance>.
+
+=head2 enhance Str, Str -> Bool
+
+Callback for enhancing. Receives skill type and current level. Returns whether
+we should enhance it or not. Default: YES.
+
+=head2 currently
+
+A string that states what the AI is currently doing.
+
+=head2 drawing_modes
+
+Hook for AI-specific drawing modes. Example:
+
+    use TAEB::Util qw/:colors display/;
+    
+    sub drawing_modes {
+        white => {
+            description => "All white",
+            color => sub { display(COLOR_WHITE) },
+        },
+        rot13 => {
+            description => "Rot-13",
+            glyph => sub {
+                local $_ = shift->normal_glyph;
+                tr/A-Za-z/M-ZA-Lm-za-l/;
+                $_
+            },
+        },
+    }
+
+Also available are 'immediate', which is run by the select menu,
+and 'onframe', which is run before each colorized frame.
+
+=cut
 

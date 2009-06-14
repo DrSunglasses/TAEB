@@ -1,6 +1,9 @@
-package TAEB::Interface::Local;
+package TAEB::Interface::OldLocal;
 use TAEB::OO;
-use IO::Pty::HalfDuplex;
+use IO::Pty::Easy;
+use Time::HiRes 'sleep';
+
+use constant ping_wait => 0.2;
 
 extends 'TAEB::Interface';
 
@@ -20,7 +23,7 @@ has args => (
 has pty => (
     traits  => [qw/TAEB::Meta::Trait::DontInitialize/],
     is      => 'ro',
-    isa     => 'IO::Pty::HalfDuplex',
+    isa     => 'IO::Pty::Easy',
     lazy    => 1,
     handles => ['is_active'],
     builder => '_build_pty',
@@ -48,7 +51,7 @@ sub _build_pty {
 
     # set Pty to ignore SIGWINCH so that we don't confuse nethack if
     # controlling terminal is not set to 80x24
-    my $pty = IO::Pty::HalfDuplex->new(handle_pty_size => 0);
+    my $pty = IO::Pty::Easy->new(handle_pty_size => 0);
 
     $pty->spawn($self->name, $self->args);
     return $pty;
@@ -57,21 +60,38 @@ sub _build_pty {
 augment read => sub {
     my $self = shift;
 
-    die "Pty inactive" unless $self->is_active;
+    # this is about the best we can do for consistency using Easy
+    # in Telnet we have a complicated ping/pong that scales with network latency
+    # alternatively you can use HalfDuplex to use a job-control-based ping wait
+    # which scales with NetHack's drawing time
+    sleep($self->ping_wait);
 
+    die "Pty inactive" unless $self->is_active;
     # We already waited for output to arrive; don't wait even longer if there
     # isn't any. Use an appropriate reading function depending on the class.
-    return $self->pty->recv;
-};
+    my $out = $self->pty->read(0,1024);
+    return '' if !defined($out);
 
-sub flush { shift->pty->recv }
+    # We specified blocks of 1024 characters above. If we got exactly 1024,
+    # read more.
+    if (length($out) == 1024) {
+        return $out . $self->read(@_);
+    }
+
+    return $out;
+};
 
 augment write => sub {
     my $self = shift;
 
     die "Pty inactive" unless $self->is_active;
+    my $chars = $self->pty->write((join '', @_), 1);
+    return if !defined($chars);
 
-    return $self->pty->write((join '', @_), 1);
+    # An IPE counts the number of chars written; an IPH doesn't,
+    # because writes are delayed-action in such a case.
+    die "Pty closed" if $chars == 0;
+    return $chars;
 };
 
 __PACKAGE__->meta->make_immutable;
@@ -83,9 +103,7 @@ __END__
 
 =head1 NAME
 
-TAEB::Interface::Local - how TAEB talks to a local nethack
-
-=head1 METHODS
+TAEB::Interface::OldLocal - Legacy IO::Pty::Easy interface
 
 =head2 read -> STRING
 
@@ -93,19 +111,9 @@ This will read from the pty. It will die if an error occurs.
 
 It will return the input read from the pty.
 
-=head2 flush
-
-When using HalfDuplex, we have to do a recv in order to send data.
-If flush is being called, it means that the return value can be
-safely ignored.
-
 =head2 write STRING
 
 This will write to the pty. It will die if an error occurs.
-
-=head1 SEE ALSO
-
-L<http://taeb-blog.sartak.org/2009/06/synchronizing-with-nethack.html>
 
 =cut
 

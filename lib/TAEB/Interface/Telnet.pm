@@ -1,13 +1,6 @@
 package TAEB::Interface::Telnet;
 use TAEB::OO;
 use IO::Socket::Telnet;
-use Errno;
-
-=head1 NAME
-
-TAEB::Interface::Telnet - how TAEB talks to nethack.alt.org
-
-=cut
 
 extends 'TAEB::Interface';
 
@@ -35,9 +28,46 @@ has password => (
     required => 1,
 );
 
+has email => (
+    is  => 'ro',
+    isa => 'Str',
+);
+
+has register => (
+    is      => 'ro',
+    isa     => 'Bool',
+    default => 0,
+);
+
 has socket => (
-    is  => 'rw',
-    isa => 'IO::Socket::Telnet',
+    is      => 'rw',
+    isa     => 'IO::Socket::Telnet',
+    lazy    => 1,
+    default => sub {
+        my $self = shift;
+
+        TAEB->log->interface("Connecting to " . $self->server . ".");
+
+        my $socket = IO::Socket::Telnet->new(
+            PeerAddr => $self->server,
+            PeerPort => $self->port,
+        );
+
+        die "Unable to connect to " . $self->server . ": $!"
+            if !defined($socket);
+
+        TAEB->log->interface("Connected to " . $self->server . ".");
+
+        $socket->telnet_simple_callback(\&telnet_negotiation);
+
+        return $socket;
+    },
+);
+
+has send_rcfile => (
+    is      => 'ro',
+    isa     => 'Bool',
+    default => 1,
 );
 
 has sent_login => (
@@ -45,47 +75,6 @@ has sent_login => (
     isa     => 'Bool',
     default => 0,
 );
-
-sub BUILD {
-    my $self = shift;
-
-    TAEB->log->interface("Connecting to " . $self->server . ".");
-
-    # this has to be done in BUILD because it needs server
-    my $socket = IO::Socket::Telnet->new(
-        PeerAddr => $self->server,
-        PeerPort => $self->port,
-    );
-
-    die "Unable to connect to " . $self->server . ": $!"
-        if !defined($socket);
-
-    $socket->telnet_simple_callback(\&telnet_negotiation);
-    $self->socket($socket);
-
-    TAEB->log->interface("Connected to " . $self->server . ".");
-}
-
-=head2 read -> STRING
-
-This will read from the socket. It will die if an error occurs.
-
-It will return the input read from the socket.
-
-This uses a method developed for nhbot that ensures that we've received all
-output for our command before returning. Just before reading, it sends the
-telnet equivalent of a PING. It then reads all input until it gets a PONG. the
-idea is that the PING comes after all NH commands, so the PONG must come after
-all the output of all the NH commands. The code looking for the PONG is in
-the telnet complex callback.
-
-The actual ping it uses is to send IAC DO chr(99), which is a nonexistent
-option. Some servers may stop responding after the first IAC DO chr(99), so
-it's kind of a bad hack. It used to be IAC SB STATUS SEND IAC SE but NAO
-stopped paying attention to that. That last sentence was discovered over a few
-hours of debugging. Yay.
-
-=cut
 
 augment read => sub {
     my $self = shift;
@@ -112,39 +101,31 @@ augment read => sub {
     die $@ if $@ !~ /^alarm\n/;
 
     if (!$self->sent_login && $buffer =~ /Not logged in\./) {
-        print { $self->socket } join '', 'l',
-                                         $self->account,  "\n",
-                                         $self->password, "\n",
-                                         '1', # for multi-game DGL
-                                         'p';
-        TAEB->log->interface("Logging in as " . $self->account);
+        if ($self->register) {
+            $self->create_account;
+        }
+        else {
+            $self->login;
+        }
+
         $self->sent_login(1);
+
+        # We want to play the first game (for multi-game dgamelaunch)
+        $self->write('1');
+
+        $self->send_options;
+
+        # Play the game
+        $self->write('p');
     }
 
     return $buffer;
 };
 
-=head2 write STRING
-
-This will write to the socket.
-
-=cut
-
 augment write => sub {
     my $self = shift;
-    my $text = shift;
-
-    print {$self->socket} $text;
+    print {$self->socket} join '', @_;
 };
-
-=head2 telnet_negotiation OPTION
-
-This is a helper function used in conjunction with IO::Socket::Telnet. In
-short, all nethack.alt.org expects us to answer affirmatively is TTYPE (to
-which we respond xterm-color) and NAWS (to which we respond 80x24). Everything
-else gets a response of DONT or WONT.
-
-=cut
 
 sub telnet_negotiation {
     my $self = shift;
@@ -192,8 +173,119 @@ sub telnet_negotiation {
     return;
 }
 
+sub send_options {
+    my $self = shift;
+
+    # Now we need to eat up all the input so far, so that later when we
+    # wait for the options menu, we can be sure we've left the options menu
+    # We use a scratch buffer on the off-chance the text is split across
+    # two packets.
+    my $scratch = '';
+
+    1 until ($scratch .= $self->read) =~ /Logged in as:/;
+    if ($self->send_rcfile) {
+        # Clear existing options
+        $self->write(
+            'o',
+            ":0,\$d\n",
+            "i",
+        );
+
+        # Send nethackrc
+        $self->write(TAEB::Config->nethackrc_contents);
+
+        # Exit virus
+        $self->write(
+            "\e",
+            ":wq\n",
+        );
+
+        # Now we need to wait until we're back on the dgamelaunch menu.
+        # virus eats the "p" key to start the game if we don't wait.
+        # We use a scratch buffer on the off-chance the text is split across
+        # two packets.
+        my $scratch = '';
+        1 until ($scratch .= $self->read) =~ /Logged in as:/;
+    }
+}
+
+sub login {
+    my $self = shift;
+    TAEB->log->interface("Logging in as " . $self->account);
+
+    # Initiate login, send account name
+    $self->write(
+        'l',
+        $self->account, "\n",
+    );
+
+    # We don't want the password in the logs, so we don't send it to
+    # TAEB-level methods (which log)
+    TAEB->log->log_to_channel(output => "Sending password to NetHack.");
+    print { $self->socket } $self->password, "\n";
+}
+
+sub create_account {
+    my $self = shift;
+
+    $self->write(
+        'r',
+        $self->account, "\n",
+    );
+
+    # We don't want the password in the logs, so we don't send it to
+    # TAEB-level methods (which log)
+    TAEB->log->log_to_channel(output => "Sending password to NetHack.");
+    print { $self->socket } $self->password, "\n";
+    print { $self->socket } $self->password, "\n";
+
+    $self->write(
+        $self->email, "\n",
+    );
+}
+
 __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
 
 1;
+
+__END__
+
+=head1 NAME
+
+TAEB::Interface::Telnet - how TAEB talks to nethack.alt.org
+
+=head1 METHODS
+
+=head2 read -> STRING
+
+This will read from the socket. It will die if an error occurs.
+
+It will return the input read from the socket.
+
+This uses a method developed for nhbot that ensures that we've received all
+output for our command before returning. Just before reading, it sends the
+telnet equivalent of a PING. It then reads all input until it gets a PONG. the
+idea is that the PING comes after all NH commands, so the PONG must come after
+all the output of all the NH commands. The code looking for the PONG is in
+the telnet complex callback.
+
+The actual ping it uses is to send IAC DO chr(99), which is a nonexistent
+option. Some servers may stop responding after the first IAC DO chr(99), so
+it's kind of a bad hack. It used to be IAC SB STATUS SEND IAC SE but NAO
+stopped paying attention to that. That last sentence was discovered over a few
+hours of debugging. Yay.
+
+=head2 write STRING
+
+This will write to the socket.
+
+=head2 telnet_negotiation OPTION
+
+This is a helper function used in conjunction with IO::Socket::Telnet. In
+short, all nethack.alt.org expects us to answer affirmatively is TTYPE (to
+which we respond xterm-color) and NAWS (to which we respond 80x24). Everything
+else gets a response of DONT or WONT.
+
+=cut
 

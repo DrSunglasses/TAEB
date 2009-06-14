@@ -53,19 +53,6 @@ sub new {
     confess "You shouldn't call TAEB::World::Path->new directly. Use one of its path creation methods.";
 }
 
-=head2 calculate_path [Tile,] Tile -> Path
-
-Calculates the best path from Tile 1 to Tile 2. Returns the path object. If the
-path is incomplete, it probably leads to some unexplored area between the two
-tiles.
-
-The path may not necessarily be the shortest one. It may relax the path a bit
-to avoid a dangerous trap, for example.
-
-The "from" tile is optional. If elided, TAEB's current tile will be used.
-
-=cut
-
 sub calculate_path {
     my $class = shift;
     my $from  = @_ > 1 && @_ % 2 == 0 ? shift : TAEB->current_tile;
@@ -86,25 +73,11 @@ sub calculate_path {
     );
 }
 
-=head2 first_match Code, ARGS -> Maybe Path
-
-This will return a path to the first tile for which the coderef returns a true
-value.
-
-=cut
-
 sub first_match {
     my $class = shift;
     my $code = shift;
     return $class->max_match(sub { $code->(@_) ? 'q' : undef }, @_);
 }
-
-=head2 max_match Code, ARGS -> Maybe Path
-
-This will return a path to the first tile for which the coderef returns the
-maximum value.
-
-=cut
 
 sub max_match {
     my $class = shift;
@@ -157,14 +130,6 @@ sub max_match {
     );
 }
 
-=head2 _calculate_path Tile, Tile[, ARGS] -> Str, Bool, Level
-
-Used internally by calculate_path -- returns just (path, complete, level),
-where level is the level that the path ended on (not necessarily to->level if
-the path was incomplete).
-
-=cut
-
 sub _calculate_path {
     my $class = shift;
     my $from  = shift;
@@ -191,14 +156,6 @@ sub _calculate_path {
     return ($path, $c, $to->level);
 }
 
-=head2 _calculate_intralevel_path Tile, Tile[, ARGS] -> Str, Bool
-
-Same as _calculate_path, except the Tiles are supposed to be on the same level.
-This is to simplify some internals. The results are undefined if the tiles
-are not on the same level (most likely there'll be a controlled detonation).
-
-=cut
-
 sub _calculate_intralevel_path {
     my $class = shift;
     my $from  = shift;
@@ -214,50 +171,6 @@ sub _calculate_intralevel_path {
 
     return ($path, defined($path) && length($path) ? 1 : 0);
 }
-
-=head2 _dijkstra Code, ARGS -> Tile, Str
-
-This performs a search for some tile. The code reference is evaluated for each
-tile along the way. It receives the current tile, the path to it, and the
-path's cost thus far as its arguments. It's expected to return one of the
-following:
-
-=over 4
-
-=item The string 'q'
-
-This indicates that the search may be short-circuited, returning this tile.
-This can be used when searching for a known tile.
-
-=item A number
-
-This is used to score relative tiles. The tile with the maximum score will
-be returned from C<_dijkstra>.
-
-=item C<undef>
-
-This is used to indicate that the current tile is not a valid solution.
-
-=back
-
-The optional arguments are:
-
-=over 4
-
-=item from (default: TAEB->current_tile)
-
-The starting tile
-
-=item through_unknown (default: false)
-
-Whether to assume unknown tiles are walkable
-
-=item include_endpoints (default: false)
-
-Whether to include nonwalkable endpoints in the scorer checks (in essence, do
-you want to include monsters, walls, etc as targets?)
-
-=cut
 
 sub _dijkstra {
     my $class  = shift;
@@ -349,10 +262,6 @@ sub _dijkstra {
 
     return ($max_tile, $max_path);
 }
-
-=head2 _astar Tile, ARGS -> Maybe[Str]
-
-=cut
 
 sub _astar {
     my $class  = shift;
@@ -450,4 +359,85 @@ __PACKAGE__->meta->make_immutable(inline_constructor => 0);
 no TAEB::OO;
 
 1;
+
+__END__
+
+=head2 calculate_path [Tile,] Tile -> Path
+
+Calculates the best path from Tile 1 to Tile 2. Returns the path object. If the
+path is incomplete, it probably leads to some unexplored area between the two
+tiles.
+
+The path may not necessarily be the shortest one. It may relax the path a bit
+to avoid a dangerous trap, for example.
+
+The "from" tile is optional. If elided, TAEB's current tile will be used.
+
+=head2 first_match Code, ARGS -> Maybe Path
+
+This will return a path to the first tile for which the coderef returns a true
+value.
+
+=head2 max_match Code, ARGS -> Maybe Path
+
+This will return a path to the first tile for which the coderef returns the
+maximum value.
+
+=head2 _calculate_path Tile, Tile[, ARGS] -> Str, Bool, Level
+
+Used internally by calculate_path -- returns just (path, complete, level),
+where level is the level that the path ended on (not necessarily to->level if
+the path was incomplete).
+
+=head2 _calculate_intralevel_path Tile, Tile[, ARGS] -> Str, Bool
+
+Same as _calculate_path, except the Tiles are supposed to be on the same level.
+This is to simplify some internals. The results are undefined if the tiles
+are not on the same level (most likely there'll be a controlled detonation).
+
+=head2 _dijkstra Code, ARGS -> Tile, Str
+
+This performs a search for some tile. The code reference is evaluated for each
+tile along the way. It receives the current tile, the path to it, and the
+path's cost thus far as its arguments. It's expected to return one of the
+following:
+
+=over 4
+
+=item The string 'q'
+
+This indicates that the search may be short-circuited, returning this tile.
+This can be used when searching for a known tile.
+
+=item A number
+
+This is used to score relative tiles. The tile with the maximum score will
+be returned from C<_dijkstra>.
+
+=item C<undef>
+
+This is used to indicate that the current tile is not a valid solution.
+
+=back
+
+The optional arguments are:
+
+=over 4
+
+=item from (default: TAEB->current_tile)
+
+The starting tile
+
+=item through_unknown (default: false)
+
+Whether to assume unknown tiles are walkable
+
+=item include_endpoints (default: false)
+
+Whether to include nonwalkable endpoints in the scorer checks (in essence, do
+you want to include monsters, walls, etc as targets?)
+
+=head2 _astar Tile, ARGS -> Maybe[Str]
+
+=cut
 

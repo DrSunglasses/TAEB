@@ -81,7 +81,8 @@ has twitter => (
         return unless $self->config;
         my $error_config = $self->config->{twitter}{errors};
         return unless $error_config;
-        require Log::Dispatch::Twitter;
+        return unless eval { require Log::Dispatch::Twitter; 1 };
+
         my $twitter = Log::Dispatch::Twitter->new(
             name      => 'twitter',
             min_level => 'error',
@@ -140,12 +141,11 @@ after add_channel => sub {
     }
 };
 
-our $AUTOLOAD;
-sub AUTOLOAD {
-    my $self = shift;
-    my $message = shift;
-    my $channel_name = $AUTOLOAD;
-    $channel_name =~ s/.*:://;
+sub log_to_channel {
+    my $self         = shift;
+    my $channel_name = shift;
+    my $message      = shift;
+
     return unless $self->_should_log($channel_name);
     my $channel = $self->channel($channel_name);
     if (!$channel) {
@@ -183,6 +183,16 @@ sub AUTOLOAD {
                level    => 'debug',
                message  => $message,
                @_);
+}
+
+our $AUTOLOAD;
+sub AUTOLOAD {
+    my $self = shift;
+
+    my $channel_name = $AUTOLOAD;
+    $channel_name =~ s/.*:://;
+
+    $self->log_to_channel($channel_name, @_);
 }
 
 sub add_as_default {

@@ -106,12 +106,6 @@ sub update {
 
 profile_method update => 'Cartographer update';
 
-=head2 map_like Regex -> Bool
-
-Returns whether any part of the map (not the entire screen) matches Regex.
-
-=cut
-
 sub map_like {
     my $self = shift;
     my $re = shift;
@@ -121,12 +115,6 @@ sub map_like {
         $y > 0 && $y < 22 && $row =~ $re;
     });
 }
-
-=head2 check_dlvl
-
-Updates the current_level if Dlvl appears to have changed.
-
-=cut
 
 sub check_dlvl {
     my $self = shift;
@@ -192,13 +180,6 @@ sub check_dlvl {
 
     return 1;
 }
-
-=head2 autoexplore
-
-Mark tiles that are obviously explored as such. Things like "a tile
-with no unknown neighbors".
-
-=cut
 
 sub autoexplore {
     my $self = shift;
@@ -461,13 +442,6 @@ subscribe vault_guard => sub {
     shift->floodfill_room('vault');
 };
 
-=head2 is_engulfed -> Bool
-
-Checks the screen to see if we're engulfed. It'll inform the rest of the system
-about our engulfedness. Returns 1 if we're engulfed, 0 if not.
-
-=cut
-
 my @engulf_expected = (
     [-1, -1] => '/',
     [ 0, -1] => '-',
@@ -525,4 +499,26 @@ __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
 
 1;
+
+__END__
+
+=head2 map_like Regex -> Bool
+
+Returns whether any part of the map (not the entire screen) matches Regex.
+
+=head2 check_dlvl
+
+Updates the current_level if Dlvl appears to have changed.
+
+=head2 autoexplore
+
+Mark tiles that are obviously explored as such. Things like "a tile
+with no unknown neighbors".
+
+=head2 is_engulfed -> Bool
+
+Checks the screen to see if we're engulfed. It'll inform the rest of the system
+about our engulfedness. Returns 1 if we're engulfed, 0 if not.
+
+=cut
 

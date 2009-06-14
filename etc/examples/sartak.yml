@@ -2,6 +2,9 @@
 ai: Behavioral::Personality::Explorer
 
 display: Curses
+display_options:
+    Curses:
+        color_method: goals
 
 kiosk_mode: 1
 
@@ -12,6 +15,8 @@ interface_options:
     SSH:
         account: taeb
     Local:
+        args: ['-D']
+    OldLocal:
         read_iterations: 2
         args: ['-D']
 

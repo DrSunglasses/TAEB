@@ -319,16 +319,6 @@ sub _lists_sort_equal {
     return 1;
 }
 
-=head2 recognise_sokoban_variant [Level] -> Maybe Str [Int Int]
-
-Returns the variant of Sokoban that Level is, or undef if it isn't a
-Sokoban level. This is a string giving NetHack's internal name for the
-level. If called in list context, also gives the x and y offset of the
-map from the spoiler. If no level is given, defaults to TAEB's current
-level.
-
-=cut
-
 sub recognise_sokoban_variant {
     my $self = shift;
     my $level = shift;
@@ -376,35 +366,6 @@ sub recognise_sokoban_variant {
     return ($variant, $left, $top) if wantarray;
     return $variant;
 }
-
-=head2 next_sokoban_step Level [Pathable] -> Maybe Tile
-
-Return the tile that we need to head to next to solve the Sokoban
-puzzle on Level. If the tile is a boulder, we're standing in the right
-place and should push the boulder; if it's a floor tile, we should go
-there; and if it's undef, either we're finished or we've deviated from
-the spoilers. The optional second argument is a coderef which takes a
-tile as argument and returns whether it's possible to path to that tile
-by walking; if not given, it uses the built-in TAEB pathing routines.
-(This is needed because the solution from a given configuration can
-depend on which side of the boulders TAEB is standing; out of the
-several possible moves, only one will be routable, and it returns that
-move.)
-
-This routine errors out if the level given is not a Sokoban level (in
-that it doesn't match any of the maps it has spoilers for); it exits
-silently with undef if the level is already solved, and gives a
-warning and exits with undef if the level cannot be solved from here
-based on its current knowledge. Note that this routine merely
-specifies what the next move is; it does not guarantee that the move
-is possible (for instance, there might be a monster behind the
-boulder).
-
-This routine does not make any assumptions about the behavior of the
-AI, and is stateless (it is based entirely on current information,
-rather than anything memorised).
-
-=cut
 
 sub next_sokoban_step {
     my $self = shift;
@@ -591,3 +552,42 @@ __PACKAGE__->meta->make_immutable;
 no Moose;
 
 1;
+
+__END__
+
+=head2 recognise_sokoban_variant [Level] -> Maybe Str [Int Int]
+
+Returns the variant of Sokoban that Level is, or undef if it isn't a
+Sokoban level. This is a string giving NetHack's internal name for the
+level. If called in list context, also gives the x and y offset of the
+map from the spoiler. If no level is given, defaults to TAEB's current
+level.
+
+=head2 next_sokoban_step Level [Pathable] -> Maybe Tile
+
+Return the tile that we need to head to next to solve the Sokoban
+puzzle on Level. If the tile is a boulder, we're standing in the right
+place and should push the boulder; if it's a floor tile, we should go
+there; and if it's undef, either we're finished or we've deviated from
+the spoilers. The optional second argument is a coderef which takes a
+tile as argument and returns whether it's possible to path to that tile
+by walking; if not given, it uses the built-in TAEB pathing routines.
+(This is needed because the solution from a given configuration can
+depend on which side of the boulders TAEB is standing; out of the
+several possible moves, only one will be routable, and it returns that
+move.)
+
+This routine errors out if the level given is not a Sokoban level (in
+that it doesn't match any of the maps it has spoilers for); it exits
+silently with undef if the level is already solved, and gives a
+warning and exits with undef if the level cannot be solved from here
+based on its current knowledge. Note that this routine merely
+specifies what the next move is; it does not guarantee that the move
+is possible (for instance, there might be a monster behind the
+boulder).
+
+This routine does not make any assumptions about the behavior of the
+AI, and is stateless (it is based entirely on current information,
+rather than anything memorised).
+
+=cut

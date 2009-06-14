@@ -11,6 +11,7 @@ requires 'MooseX::AttributeHelpers'    => 0.09;
 requires 'MooseX::ClassAttribute'      => 0.07;
 requires 'MooseX::Role::Parameterized' => 0.04;
 requires 'MooseX::Role::Matcher'       => 0.03;
+requires 'MooseX::Singleton'           => 0.17;
 requires 'Module::Pluggable';
 
 # parse escape codes into an addressable screen
@@ -69,6 +70,10 @@ features(
         recommends('IO::Socket::Telnet'),
     ],
     'TAEB for local NetHack' => [
+        -default => 0,
+        recommends('IO::Pty::HalfDuplex'),
+    ],
+    'Legacy interface for TAEB on local NetHack' => [
         -default => 0,
         recommends('IO::Pty::Easy' => 0.05),
     ],

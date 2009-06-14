@@ -17,43 +17,14 @@ has starting_tile => (
     default => sub { TAEB->current_tile },
 );
 
-=head2 command
-
-This is the basic command for the action. For example, C<E> for engraving, and
-C<#pray> for praying.
-
-=cut
-
 sub command {
     my $class = blessed($_[0]) || $_[0];
     confess "$class must defined a 'command' method.";
 }
 
-=head2 run
-
-This is what is called to begin the NetHack command. Usually you don't override
-this. Your command should define prompt handlers (C<respond_*> methods) to
-continue interaction.
-
-=cut
-
 sub run { shift->command }
 
-=head2 done
-
-This is called just before the action is freed, just before the next command
-is run.
-
-=cut
-
 sub done { }
-
-=head2 new_action Str, Args => Action
-
-This will create a new action with the specified name and arguments. The name
-is typically the package name in lower case.
-
-=cut
 
 sub new_action {
     my $self = shift;
@@ -68,12 +39,6 @@ sub new_action {
     return $package->new(@_);
 }
 
-=head2 name
-
-Returns the name of this action object.
-
-=cut
-
 sub name {
     my $self = shift;
 
@@ -86,12 +51,6 @@ sub name {
     TAEB->log->action("Unable to get the action name of $self: " . join(', ', $self->meta->linearized_isa), level => 'warning');
     return;
 }
-
-=head2 action_names
-
-Returns a list of action names (Search, Melee, Eat, etc)
-
-=cut
 
 sub action_names {
     my $self = shift;
@@ -107,6 +66,38 @@ no TAEB::OO;
 # force loading of all the actions for compile errors etc
 __PACKAGE__->actions;
 
-
 1;
+
+__END__
+
+=head2 command
+
+This is the basic command for the action. For example, C<E> for engraving, and
+C<#pray> for praying.
+
+=head2 run
+
+This is what is called to begin the NetHack command. Usually you don't override
+this. Your command should define prompt handlers (C<respond_*> methods) to
+continue interaction.
+
+=head2 done
+
+This is called just before the action is freed, just before the next command
+is run.
+
+=head2 new_action Str, Args => Action
+
+This will create a new action with the specified name and arguments. The name
+is typically the package name in lower case.
+
+=head2 name
+
+Returns the name of this action object.
+
+=head2 action_names
+
+Returns a list of action names (Search, Melee, Eat, etc)
+
+=cut
 

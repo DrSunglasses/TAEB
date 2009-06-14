@@ -3,12 +3,6 @@ use TAEB::OO;
 
 use constant ping_wait => .3;
 
-=head1 NAME
-
-TAEB::Interface::SSH - how TAEB talks to /dev/null
-
-=cut
-
 extends 'TAEB::Interface::Local';
 
 has server => (
@@ -49,7 +43,7 @@ sub _build_pty {
         }
     };
 
-    die "Died ($@) while waiting for password prompt.\n" if $@;
+    die "Died while waiting for password prompt: $@\n" if $@;
 
     $pty->write($self->password . "\n\n", 0);
 
@@ -62,4 +56,12 @@ __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
 
 1;
+
+__END__
+
+=head1 NAME
+
+TAEB::Interface::SSH - how TAEB talks to /dev/null
+
+=cut
 

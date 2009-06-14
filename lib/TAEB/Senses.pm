@@ -562,8 +562,8 @@ sub msg_grabbed {
 
 sub elbereth_count {
     TAEB->currently("Checking the ground for elbereths");
-    TAEB->action(TAEB::Action->new_action('look'));
-    TAEB->write(TAEB->action->run);
+    TAEB->action(TAEB::Action::Look->new);
+    TAEB->run_action;
     TAEB->full_input;
     my $tile = TAEB->current_tile;
     my $elbereths = $tile->elbereths;
@@ -639,12 +639,6 @@ sub item_damage_bonus {
     return 0;
 }
 
-=head2 burden_mod
-
-Returns the speed modification imposed by burden.
-
-=cut
-
 sub burden_mod {
     my $self = shift;
     my $burden = $self->burden;
@@ -659,12 +653,6 @@ sub burden_mod {
     die "Unknown burden level ($burden)";
 }
 
-=head2 speed_range
-
-Returns the minimum and maximum speed level.
-
-=cut
-
 sub speed_range {
     my $self = shift;
     Carp::croak("Call speed_range in list context") if !wantarray;
@@ -672,13 +660,6 @@ sub speed_range {
     return (12, 18) if $self->is_fast;
     return (12, 12);
 }
-
-=head2 speed :: (Int,Int)
-
-Returns the minimum and maximum speed of the PC in its current condition.
-In scalar context, returns the average.
-
-=cut
 
 sub speed {
     my $self = shift;
@@ -700,12 +681,6 @@ sub speed {
 }
 
 # XXX this belongs elsewhere, but where?
-
-=head2 spell_protection_return :: Int
-
-Returns the amount of protection the PC would get from the spell right now.
-
-=cut
 
 sub spell_protection_return {
     my $self = shift;
@@ -735,12 +710,6 @@ sub msg_protection_gone {
     my ($self) = @_;
     $self->spell_protection(0);
 }
-
-=head2 has_infravision :: Bool
-
-Return true if the PC has infravision.
-
-=cut
 
 sub has_infravision {
     my $self = shift;
@@ -870,4 +839,29 @@ __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
 
 1;
+
+__END__
+
+=head2 burden_mod
+
+Returns the speed modification imposed by burden.
+
+=head2 speed_range
+
+Returns the minimum and maximum speed level.
+
+=head2 speed :: (Int,Int)
+
+Returns the minimum and maximum speed of the PC in its current condition.
+In scalar context, returns the average.
+
+=head2 spell_protection_return :: Int
+
+Returns the amount of protection the PC would get from the spell right now.
+
+=head2 has_infravision :: Bool
+
+Return true if the PC has infravision.
+
+=cut
 

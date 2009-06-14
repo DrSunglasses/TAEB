@@ -291,13 +291,6 @@ sub is_walkable {
     return $is_walkable{ $self->type };
 }
 
-=head2 update_lit :: ()
-
-Looks at the current glyph and position to make inferences about lighting
-state.
-
-=cut
-
 sub update_lit {
     my $self = shift;
 
@@ -756,15 +749,6 @@ before set_interesting => sub {
     }
 };
 
-=head2 is_empty -> Bool
-
-Returns true if the tile is free from items, monsters, boulders, and the player
-character.
-
-It *can* have a dungeon feature, such as a fountain.
-
-=cut
-
 sub is_empty {
     my $self = shift;
 
@@ -772,12 +756,6 @@ sub is_empty {
     # though
     return $self->glyph eq $self->floor_glyph;
 }
-
-=head2 is_transparent -> Bool
-
-Returns true if the player can see through the tile.
-
-=cut
 
 my %opaque = map { $_ => 1 } qw(unexplored rock wall tree closeddoor cloud water);
 
@@ -787,10 +765,6 @@ sub is_transparent {
     return !$opaque{$self->type} && !$self->has_boulder;
 }
 
-=head2 shows_items -> Bool
-
-=cut
-
 my %shows_items = map { $_ => 1 } qw(floor ice trap stairsup stairsdown altar grave throne sink fountain corridor air);
 
 sub shows_items {
@@ -799,10 +773,6 @@ sub shows_items {
 
     return $shows_items{$self->type};
 }
-
-=head2 in_los -> Bool
-
-=cut
 
 sub in_los {
     my $self = shift;
@@ -886,4 +856,28 @@ __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
 
 1;
+
+__END__
+
+=head2 update_lit :: ()
+
+Looks at the current glyph and position to make inferences about lighting
+state.
+
+=head2 is_empty -> Bool
+
+Returns true if the tile is free from items, monsters, boulders, and the player
+character.
+
+It *can* have a dungeon feature, such as a fountain.
+
+=head2 is_transparent -> Bool
+
+Returns true if the player can see through the tile.
+
+=head2 shows_items -> Bool
+
+=head2 in_los -> Bool
+
+=cut
 

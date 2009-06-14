@@ -45,13 +45,6 @@ for my $attribute (qw/level read marker role emergency/) {
     });
 }
 
-=head2 castable
-
-Can this spell be cast this turn? This does not only take into account spell
-age, but also whether you're confused, have enough power, etc.
-
-=cut
-
 sub castable {
     my $self = shift;
 
@@ -132,4 +125,13 @@ __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
 
 1;
+
+__END__
+
+=head2 castable
+
+Can this spell be cast this turn? This does not only take into account spell
+age, but also whether you're confused, have enough power, etc.
+
+=cut
 

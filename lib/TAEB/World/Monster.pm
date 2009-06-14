@@ -353,12 +353,6 @@ sub debug_line {
     return join ' ', @bits;
 }
 
-=head2 can_be_outrun :: bool
-
-Return true if the player can definitely outrun the monster.
-
-=cut
-
 sub can_be_outrun {
     my $self = shift;
 
@@ -369,45 +363,18 @@ sub can_be_outrun {
         || ($mon_speed == $min_taeb_speed && $mon_speed < $max_taeb_speed);
 }
 
-=head2 can_be_infraseen :: Bool
-
-Returns true if the player could see this monster using infravision.
-
-=cut
-
 sub can_be_infraseen {
     my $self = shift;
     return TAEB->has_infravision && $self->maybe('infravision_detectable');
 }
 
-=head2 speed :: Int
-
-Returns the (base for now) speed of this monster.  If we can't exactly
-tell what it is, return the speed of the fastest possibility.
-
-=cut
-
 sub speed {
     max map { $_->{speed} } shift->spoiler;
 }
 
-=head2 maximum_melee_damage :: Int
-
-How much damage can this monster do in a single round of attacks if it
-connects and does full damage with each hit?
-
-=cut
-
 sub maximum_melee_damage {
     return max map { ($_->_read_attack_string)[1] } shift->possibilities;
 }
-
-=head2 average_melee_damage :: Int
-
-How much damage can this monster do in a single round of attacks in
-the average case, accounting for AC?
-
-=cut
 
 sub average_melee_damage {
     return max map { ($_->_read_attack_string)[0] } shift->possibilities;
@@ -417,4 +384,31 @@ __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
 
 1;
+
+__END__
+
+=head2 can_be_outrun :: bool
+
+Return true if the player can definitely outrun the monster.
+
+=head2 can_be_infraseen :: Bool
+
+Returns true if the player could see this monster using infravision.
+
+=head2 speed :: Int
+
+Returns the (base for now) speed of this monster.  If we can't exactly
+tell what it is, return the speed of the fastest possibility.
+
+=head2 maximum_melee_damage :: Int
+
+How much damage can this monster do in a single round of attacks if it
+connects and does full damage with each hit?
+
+=head2 average_melee_damage :: Int
+
+How much damage can this monster do in a single round of attacks in
+the average case, accounting for AC?
+
+=cut
 

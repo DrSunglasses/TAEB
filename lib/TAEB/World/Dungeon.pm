@@ -48,12 +48,6 @@ sub BUILD {
     $self->current_level( $self->create_level(1, branch => 'dungeons') );
 }
 
-=head2 current_tile -> Tile
-
-The tile TAEB is currently standing on.
-
-=cut
-
 sub current_tile {
     my $self = shift;
     $self->current_level->at;
@@ -72,13 +66,6 @@ for my $tiletype (qw/orthogonal diagonal adjacent adjacent_inclusive/) {
     }
 }
 
-=head2 nearest_level_to Code, Level -> Maybe Level
-
-Finds the nearest level to the given level for which the code reference returns
-true.
-
-=cut
-
 sub nearest_level_to {
     my $self = shift;
     my $code = shift;
@@ -96,24 +83,11 @@ sub nearest_level_to {
     return;
 }
 
-=head2 nearest_level Code -> Maybe Level
-
-Finds the nearest level to TAEB for which the code reference returns true.
-
-=cut
-
 sub nearest_level {
     my $self = shift;
     my $code = shift;
     return $self->nearest_level_to($code, TAEB->current_level);
 }
-
-=head2 shallowest_level Code -> Maybe Level
-
-Finds the nearest level to the top of the dungeon for which the code reference
-returns true.
-
-=cut
 
 sub shallowest_level {
     my $self = shift;
@@ -169,13 +143,6 @@ sub get_levels {
     return @{ $self->levels->[$index] ||= [] };
 }
 
-=head2 create_level dlvl, ARGS
-
-Creates a new level and sticks it into the dungeon level tree. The given ARGS
-will be passed to C<< ->new >>.
-
-=cut
-
 sub create_level {
     my $self = shift;
     my $dlvl = shift;
@@ -198,4 +165,31 @@ __PACKAGE__->meta->make_immutable;
 no TAEB::OO;
 
 1;
+
+__END__
+
+=head2 current_tile -> Tile
+
+The tile TAEB is currently standing on.
+
+=head2 nearest_level_to Code, Level -> Maybe Level
+
+Finds the nearest level to the given level for which the code reference returns
+true.
+
+=head2 nearest_level Code -> Maybe Level
+
+Finds the nearest level to TAEB for which the code reference returns true.
+
+=head2 shallowest_level Code -> Maybe Level
+
+Finds the nearest level to the top of the dungeon for which the code reference
+returns true.
+
+=head2 create_level dlvl, ARGS
+
+Creates a new level and sticks it into the dungeon level tree. The given ARGS
+will be passed to C<< ->new >>.
+
+=cut
 
