@@ -9,7 +9,7 @@ all_from       'lib/TAEB.pm';
 requires 'Moose'                       => 0.74;
 requires 'MooseX::AttributeHelpers'    => 0.09;
 requires 'MooseX::ClassAttribute'      => 0.07;
-requires 'MooseX::Role::Parameterized' => 0.04;
+requires 'MooseX::Role::Parameterized' => 0.06;
 requires 'MooseX::Role::Matcher'       => 0.03;
 requires 'MooseX::Singleton'           => 0.17;
 requires 'Module::Pluggable';
