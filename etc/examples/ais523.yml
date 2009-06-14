@@ -1,0 +1,39 @@
+---
+
+#ai: 'SteadyState'
+#ai: 'Behavioral::Personality::Explorer'
+ai: 'Planar'
+#ai: 'Quit'
+
+
+#interface: Local
+interface: Telnet
+
+display: Curses
+
+interface_options:
+    Local:
+        args:
+          - -u
+          - TAEB
+# config for Telnet's in secret_config
+
+character:
+    role: 'v'
+    race: 'd'
+    gender: 'f'
+    align: 'l'
+
+display_options:
+    Curses:
+        color_method: debug
+        glyph_method: normal
+
+debug:
+    console:
+        readline: Gnu
+
+unattended: 0
+
+other_config:
+    - ~/.taeb/secret_config.yml

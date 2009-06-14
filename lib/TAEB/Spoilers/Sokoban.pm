@@ -319,21 +319,13 @@ sub _lists_sort_equal {
     return 1;
 }
 
-sub next_sokoban_step {
+sub recognise_sokoban_variant {
     my $self = shift;
     my $level = shift;
-    my $pathable = shift;
+    $level = TAEB->current_level unless defined $level;
 
     my $left = 99;
     my $top = 99;
-
-    # TAEB is where it is if it's on the level; otherwise, it'll
-    # arrive at the nearest exit.
-    my $tile_from = TAEB->current_tile;
-    if ($tile_from->level != $level) {
-        $tile_from = $level->exit_towards(TAEB->current_level);
-        return undef unless $tile_from; # can't path to Sokoban
-    }
 
     # Find out where the Sokoban map is on the screen.
     $level->each_tile(sub {
@@ -344,7 +336,7 @@ sub next_sokoban_step {
         }
     });
 
-    my $variant;
+    my $variant = undef;
 
     # Find out which variant this is, by comparing wall locations.
     FINDVARIANT:
@@ -371,6 +363,24 @@ sub next_sokoban_step {
         $variant = $variant_check;
         last;
     }
+    return ($variant, $left, $top) if wantarray;
+    return $variant;
+}
+
+sub next_sokoban_step {
+    my $self = shift;
+    my $level = shift;
+    my $pathable = shift;
+
+    # TAEB is where it is if it's on the level; otherwise, it'll
+    # arrive at the nearest exit.
+    my $tile_from = TAEB->current_tile;
+    if ($tile_from->level != $level) {
+        $tile_from = $level->exit_towards(TAEB->current_level);
+        return undef unless $tile_from; # can't path to Sokoban
+    }
+
+    my ($variant, $left, $top) = $self->recognise_sokoban_variant($level);
 
     if (!$variant) {
         TAEB->log->spoiler(
@@ -544,6 +554,14 @@ no Moose;
 1;
 
 __END__
+
+=head2 recognise_sokoban_variant [Level] -> Maybe Str [Int Int]
+
+Returns the variant of Sokoban that Level is, or undef if it isn't a
+Sokoban level. This is a string giving NetHack's internal name for the
+level. If called in list context, also gives the x and y offset of the
+map from the spoiler. If no level is given, defaults to TAEB's current
+level.
 
 =head2 next_sokoban_step Level [Pathable] -> Maybe Tile
 
