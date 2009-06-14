@@ -100,7 +100,7 @@ augment read => sub {
 
         # We don't want the password in the logs, so we don't send it to
         # TAEB-level methods (which log)
-        TAEB->log->log_to_channel(output => "Sending password");
+        TAEB->log->log_to_channel(output => "Sending password to NetHack.");
         print { $self->socket } $self->password, "\n";
 
         # We want to play the first game (for multi-game dgamelaunch)
