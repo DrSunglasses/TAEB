@@ -108,6 +108,13 @@ augment read => sub {
 
         $self->sent_login(1);
 
+        # Now we need to eat up all the input so far, so that later when we
+        # wait for the options menu, we can be sure we've left the options menu
+        # We use a scratch buffer on the off-chance the text is split across
+        # two packets.
+        my $scratch = '';
+        1 until ($scratch .= $self->read) =~ /Logged in as:/;
+
         if ($self->send_rcfile) {
             # Clear existing options
             $self->write(
@@ -124,6 +131,13 @@ augment read => sub {
                 "\e",
                 ":wq\n",
             );
+
+            # Now we need to wait until we're back on the dgamelaunch menu.
+            # virus eats the "p" key to start the game if we don't wait.
+            # We use a scratch buffer on the off-chance the text is split across
+            # two packets.
+            my $scratch = '';
+            1 until ($scratch .= $self->read) =~ /Logged in as:/;
         }
 
         # Play the game
