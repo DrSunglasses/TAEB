@@ -2,6 +2,9 @@
 ai: Behavioral::Personality::Explorer
 
 display: Curses
+display_options:
+    Curses:
+        color_method: goals
 
 kiosk_mode: 1
 
