@@ -28,6 +28,17 @@ has password => (
     required => 1,
 );
 
+has email => (
+    is  => 'ro',
+    isa => 'Str',
+);
+
+has register => (
+    is      => 'ro',
+    isa     => 'Bool',
+    default => 0,
+);
+
 has socket => (
     is      => 'rw',
     isa     => 'IO::Socket::Telnet',
@@ -90,55 +101,19 @@ augment read => sub {
     die $@ if $@ !~ /^alarm\n/;
 
     if (!$self->sent_login && $buffer =~ /Not logged in\./) {
-        TAEB->log->interface("Logging in as " . $self->account);
+        if ($self->register) {
+            $self->create_account;
+        }
+        else {
+            $self->login;
+        }
 
-        # Initiate login, send account name
-        $self->write(
-            'l',
-            $self->account, "\n",
-        );
-
-        # We don't want the password in the logs, so we don't send it to
-        # TAEB-level methods (which log)
-        TAEB->log->log_to_channel(output => "Sending password to NetHack.");
-        print { $self->socket } $self->password, "\n";
+        $self->sent_login(1);
 
         # We want to play the first game (for multi-game dgamelaunch)
         $self->write('1');
 
-        $self->sent_login(1);
-
-        # Now we need to eat up all the input so far, so that later when we
-        # wait for the options menu, we can be sure we've left the options menu
-        # We use a scratch buffer on the off-chance the text is split across
-        # two packets.
-        my $scratch = '';
-        1 until ($scratch .= $self->read) =~ /Logged in as:/;
-
-        if ($self->send_rcfile) {
-            # Clear existing options
-            $self->write(
-                'o',
-                ":0,\$d\n",
-                "i",
-            );
-
-            # Send nethackrc
-            $self->write(TAEB::Config->nethackrc_contents);
-
-            # Exit virus
-            $self->write(
-                "\e",
-                ":wq\n",
-            );
-
-            # Now we need to wait until we're back on the dgamelaunch menu.
-            # virus eats the "p" key to start the game if we don't wait.
-            # We use a scratch buffer on the off-chance the text is split across
-            # two packets.
-            my $scratch = '';
-            1 until ($scratch .= $self->read) =~ /Logged in as:/;
-        }
+        $self->send_options;
 
         # Play the game
         $self->write('p');
@@ -196,6 +171,77 @@ sub telnet_negotiation {
     }
 
     return;
+}
+
+sub send_options {
+    my $self = shift;
+
+    # Now we need to eat up all the input so far, so that later when we
+    # wait for the options menu, we can be sure we've left the options menu
+    # We use a scratch buffer on the off-chance the text is split across
+    # two packets.
+    my $scratch = '';
+
+    1 until ($scratch .= $self->read) =~ /Logged in as:/;
+    if ($self->send_rcfile) {
+        # Clear existing options
+        $self->write(
+            'o',
+            ":0,\$d\n",
+            "i",
+        );
+
+        # Send nethackrc
+        $self->write(TAEB::Config->nethackrc_contents);
+
+        # Exit virus
+        $self->write(
+            "\e",
+            ":wq\n",
+        );
+
+        # Now we need to wait until we're back on the dgamelaunch menu.
+        # virus eats the "p" key to start the game if we don't wait.
+        # We use a scratch buffer on the off-chance the text is split across
+        # two packets.
+        my $scratch = '';
+        1 until ($scratch .= $self->read) =~ /Logged in as:/;
+    }
+}
+
+sub login {
+    my $self = shift;
+    TAEB->log->interface("Logging in as " . $self->account);
+
+    # Initiate login, send account name
+    $self->write(
+        'l',
+        $self->account, "\n",
+    );
+
+    # We don't want the password in the logs, so we don't send it to
+    # TAEB-level methods (which log)
+    TAEB->log->log_to_channel(output => "Sending password to NetHack.");
+    print { $self->socket } $self->password, "\n";
+}
+
+sub create_account {
+    my $self = shift;
+
+    $self->write(
+        'r',
+        $self->account, "\n",
+    );
+
+    # We don't want the password in the logs, so we don't send it to
+    # TAEB-level methods (which log)
+    TAEB->log->log_to_channel(output => "Sending password to NetHack.");
+    print { $self->socket } $self->password, "\n";
+    print { $self->socket } $self->password, "\n";
+
+    $self->write(
+        $self->email, "\n",
+    );
 }
 
 __PACKAGE__->meta->make_immutable;
