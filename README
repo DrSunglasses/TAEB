@@ -52,14 +52,6 @@ can. Specify configuration in ~/.taeb/config.yml, which is written in YAML
 (http://en.wikipedia.org/wiki/Yaml). Read the sample configuration in
 TAEB::Config for more details.
 
-TAEB requires certain NetHack options to be set in order to recognize
-dungeon features, and to not get confused by extra output. These options
-can be displayed by running "taeb --rc". For the Local interface, these will
-automatically be copied into $TAEBDIR/nethackrc for use by TAEB. To
-play on a DGameLaunch server such as nethack.alt.org, use the Telnet
-interface, and copy the nethackrc into the configuration editor.
-
-
 -- RUNNING TAEB
 
 You should now be ready to run TAEB! Type "taeb" and cross your fingers.
