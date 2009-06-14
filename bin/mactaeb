@@ -51,14 +51,17 @@ if ($options{interface} eq 'Telnet') {
     my $name_dialog = join ' ', split /\n/, q{
         /Applications/CocoaDialog.app/Contents/MacOS/CocoaDialog
         inputbox
-        --button1 OK
-        --button2 Cancel
+        --button1 "New Account"
+        --button2 "Existing Account"
+        --button3 Cancel
         --informative-text 'What username would you like TAEB to use?'
         --title 'TAEB: Name'
     };
     my $name_response = `$name_dialog`;
     my ($name_code, $name) = split /\n/, $name_response;
-    exit if $name_code == 2 || $name !~ /\S/;
+    exit if $name_code == 3 || $name !~ /\S/;
+
+    my $register = $name_code == 1;
 
     $options{interface_options}{Telnet}{account} = $name;
 
@@ -80,6 +83,28 @@ if ($options{interface} eq 'Telnet') {
     exit if $password_code == 2 || $password !~ /\S/;
 
     $options{interface_options}{Telnet}{password} = $password;
+
+    my $email = $ENV{EMAIL} || '';
+    # paranoia again
+    $email =~ s/'//g;
+
+    # ask for email address
+    if ($register) {
+        my $password_dialog = join ' ', split /\n/, qq{
+            /Applications/CocoaDialog.app/Contents/MacOS/CocoaDialog
+            inputbox
+            --button1 OK
+            --button2 Cancel
+            --informative-text 'What is your email address?'
+            --title 'TAEB: Email'
+            --text '$email'
+        };
+        my $email_response = `$email_dialog`;
+        my ($email_code, $email) = split /\n/, $email_response;
+        exit if $email_code == 2 || $email !~ /\S/;
+
+        $options{interface_options}{Telnet}{email} = $email;
+    }
 }
 
 my $config = Dump(\%options);
