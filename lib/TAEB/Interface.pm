@@ -21,7 +21,7 @@ sub write {
 
     return if !defined($text) || length($text) == 0;
 
-    TAEB->log->output("Sending '$text' to NetHack.");
+    TAEB->log->log_to_channel(output => "Sending '$text' to NetHack.");
 
     inner();
 }
