@@ -61,7 +61,7 @@ if ($options{interface} eq 'Telnet') {
     my ($name_code, $name) = split /\n/, $name_response;
     exit if $name_code == 3 || $name !~ /\S/;
 
-    my $register = $name_code == 1;
+    my $register = $options{interface_options}{Telnet}{register} = $name_code == 1;
 
     $options{interface_options}{Telnet}{account} = $name;
 
@@ -90,7 +90,7 @@ if ($options{interface} eq 'Telnet') {
 
     # ask for email address
     if ($register) {
-        my $password_dialog = join ' ', split /\n/, qq{
+        my $email_dialog = join ' ', split /\n/, qq{
             /Applications/CocoaDialog.app/Contents/MacOS/CocoaDialog
             inputbox
             --button1 OK
