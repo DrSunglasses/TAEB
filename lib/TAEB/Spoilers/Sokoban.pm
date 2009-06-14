@@ -319,6 +319,64 @@ sub _lists_sort_equal {
     return 1;
 }
 
+=head2 recognise_sokoban_variant [Level] -> Maybe Str [Int Int]
+
+Returns the variant of Sokoban that Level is, or undef if it isn't a
+Sokoban level. This is a string giving NetHack's internal name for the
+level. If called in list context, also gives the x and y offset of the
+map from the spoiler. If no level is given, defaults to TAEB's current
+level.
+
+=cut
+
+sub recognise_sokoban_variant {
+    my $self = shift;
+    my $level = shift;
+    $level = TAEB->current_level unless defined $level;
+
+    my $left = 99;
+    my $top = 99;
+
+    # Find out where the Sokoban map is on the screen.
+    $level->each_tile(sub {
+        my $t = shift;
+        if ($t->type eq 'wall') {
+            $left = $t->x if $t->x < $left;
+            $top  = $t->y if $t->y < $top;
+        }
+    });
+
+    my $variant = undef;
+
+    # Find out which variant this is, by comparing wall locations.
+    FINDVARIANT:
+    for my $variant_check (keys %{$self->level_maps}) {
+        my $map = $self->level_maps->{$variant_check}->{'map'};
+        my $x = $left;
+        my $y = $top;
+
+        for my $mapline (@$map) {
+            for my $mapchar (@$mapline) {
+                my $tile = $level->at($x, $y);
+
+                next FINDVARIANT
+                    if ($tile->type eq 'wall' && $mapchar !~ /[-|]/)
+                    || ($tile->type ne 'wall' && $mapchar =~ /[-|]/);
+
+                $x++;
+            }
+
+            $x = $left;
+            $y++;
+        }
+
+        $variant = $variant_check;
+        last;
+    }
+    return ($variant, $left, $top) if wantarray;
+    return $variant;
+}
+
 =head2 next_sokoban_step Level [Pathable] -> Maybe Tile
 
 Return the tile that we need to head to next to solve the Sokoban
@@ -353,9 +411,6 @@ sub next_sokoban_step {
     my $level = shift;
     my $pathable = shift;
 
-    my $left = 99;
-    my $top = 99;
-
     # TAEB is where it is if it's on the level; otherwise, it'll
     # arrive at the nearest exit.
     my $tile_from = TAEB->current_tile;
@@ -364,42 +419,7 @@ sub next_sokoban_step {
         return undef unless $tile_from; # can't path to Sokoban
     }
 
-    # Find out where the Sokoban map is on the screen.
-    $level->each_tile(sub {
-        my $t = shift;
-        if ($t->type eq 'wall') {
-            $left = $t->x if $t->x < $left;
-            $top  = $t->y if $t->y < $top;
-        }
-    });
-
-    my $variant;
-
-    # Find out which variant this is, by comparing wall locations.
-    FINDVARIANT:
-    for my $variant_check (keys %{$self->level_maps}) {
-        my $map = $self->level_maps->{$variant_check}->{'map'};
-        my $x = $left;
-        my $y = $top;
-
-        for my $mapline (@$map) {
-            for my $mapchar (@$mapline) {
-                my $tile = $level->at($x, $y);
-
-                next FINDVARIANT
-                    if ($tile->type eq 'wall' && $mapchar !~ /[-|]/)
-                    || ($tile->type ne 'wall' && $mapchar =~ /[-|]/);
-
-                $x++;
-            }
-
-            $x = $left;
-            $y++;
-        }
-
-        $variant = $variant_check;
-        last;
-    }
+    my ($variant, $left, $top) = $self->recognise_sokoban_variant($level);
 
     if (!$variant) {
         TAEB->log->spoiler(
