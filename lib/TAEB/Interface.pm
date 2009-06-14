@@ -10,9 +10,11 @@ has read_iterations => (
 sub read {
     my $self = shift;
 
-    return join '',
-           map { my $output = inner(); defined $output ? $output : '' }
-           1 .. $self->read_iterations;
+    my $input = join '',
+                map { my $output = inner(); defined $output ? $output : '' }
+                1 .. $self->read_iterations;
+    TAEB->log->log_to_channel(input => "Received '$input' from NetHack.");
+    return $input;
 }
 
 sub write {
