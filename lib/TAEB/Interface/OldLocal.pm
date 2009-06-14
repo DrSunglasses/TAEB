@@ -35,11 +35,12 @@ sub _build_pty {
     chomp(my $pwd = `pwd`);
 
     my $rcfile = TAEB->config->taebdir_file('nethackrc');
-    unless (-e $rcfile) {
-        open my $fh, '>', $rcfile or die "Unable to open $rcfile for writing: $!";
-        $fh->write(TAEB->config->nethackrc_contents);
-        close $fh;
-    }
+
+    # Always rewrite the rcfile, in case we've updated it. We may want to
+    # compare checksums instead, but whatever, we can worry about that later.
+    open my $fh, '>', $rcfile or die "Unable to open $rcfile for writing: $!";
+    $fh->write(TAEB->config->nethackrc_contents);
+    close $fh;
 
     local $ENV{NETHACKOPTIONS} = '@' . $rcfile;
     local $ENV{TERM} = 'xterm-color';
