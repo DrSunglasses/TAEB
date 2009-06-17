@@ -42,7 +42,7 @@ sub respond_dip_into_what {
     return "\e";
 }
 
-sub msg_excalibur {
+subscribe excalibur => sub {
     my $self = shift;
     my $excalibur = $self->item;
 
@@ -50,7 +50,7 @@ sub msg_excalibur {
     $excalibur->proof;
     $excalibur->remove_damage;
     $excalibur->specific_name('Excalibur');
-}
+};
 
 __PACKAGE__->meta->make_immutable;
 no TAEB::OO;

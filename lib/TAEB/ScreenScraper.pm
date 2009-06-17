@@ -64,8 +64,6 @@ our %msg_string = (
         ['status_change' => teleporting => 1],
     "You feel less jumpy." =>
         ['status_change' => teleporting => 0],
-    "From the murky depths, a hand reaches up to bless the sword." =>
-        ['excalibur'],
     "The fountain dries up!" =>
         ['dungeon_feature', 'fountain dries up'],
     "As the hand retreats, the fountain disappears!" =>
