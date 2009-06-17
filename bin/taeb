@@ -79,7 +79,7 @@ while (1) {
     eval {
         local $SIG{INT} = sub { die "Interrupted.\n"; $loop = 0 };
         my $report = TAEB->play;
-        print $report;
+        print $report->as_string;
     };
 
     last unless $loop;
