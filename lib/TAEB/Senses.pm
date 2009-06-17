@@ -557,7 +557,9 @@ sub msg_engulfed {
 
 subscribe grabbed => sub {
     my $self = shift;
-    $self->msg_status_change(grabbed => @_);
+    my $event = shift;
+    
+    $self->is_grabbed($event->grabbed);
 };
 
 sub elbereth_count {
