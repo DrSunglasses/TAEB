@@ -831,7 +831,7 @@ sub _check_tile {
     TAEB->send_message('farlooked' => $tile, $msg);
 }
 
-sub msg_noise {
+subscribe noise => sub {
     my $self = shift;
 
     $self->noisy_turn($self->turn);

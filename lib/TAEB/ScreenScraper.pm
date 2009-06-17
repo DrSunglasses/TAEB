@@ -217,12 +217,6 @@ our %msg_string = (
         ['resistance_change', 'shock', 1],
     "You feel grounded in reality." =>
         ['resistance_change', 'shock', 1],
-    "You strain a muscle." =>
-        ['noise'],
-    "You kick at empty space." =>
-        ['noise'],
-    "That hurts!" =>
-        ['noise'],
     "This water's no good!" =>
         [check => 'inventory'],
     "You feel as if you need some help." =>
