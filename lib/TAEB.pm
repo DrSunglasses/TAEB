@@ -62,7 +62,7 @@ class_has ai => (
         $ai;
     },
     trigger   => sub {
-        my ($self, $ai) = @_;
+        my (undef, $ai) = @_;
         TAEB->log->main("Now using AI $ai.");
         $ai->institute;
     },
@@ -265,9 +265,9 @@ around action => sub {
     my $orig = shift;
     my $self = shift;
     return $orig->($self) unless @_;
-    TAEB->publisher->unsubscribe($self->action) if $self->action;
+    $self->publisher->unsubscribe($self->action) if $self->action;
     my $ret = $orig->($self, @_);
-    TAEB->publisher->subscribe($self->action);
+    $self->publisher->subscribe($self->action);
     return $ret;
 };
 
@@ -288,7 +288,7 @@ sub iterate {
     my $self = shift;
 
     eval {
-        TAEB->log->main("Starting a new step.");
+        $self->log->main("Starting a new step.");
 
         $self->full_input(1);
         $self->human_input;
@@ -298,17 +298,17 @@ sub iterate {
     };
 
     if ($@) {
-        TAEB->display->deinitialize;
+        $self->display->deinitialize;
 
         local $SIG{__DIE__};
         die $@ unless $@ =~ /^The\ game\ has\ ended\.
                              |The\ game\ has\ been\ saved\.
                              |The\ game\ could\ not\ start\./x;
 
-        return TAEB->state eq 'unable_to_login'
+        return $self->state eq 'unable_to_login'
              ? TAEB::Announcement::Report::CouldNotStart->new
-             : TAEB->state eq 'dying'
-             ? TAEB->death_report
+             : $self->state eq 'dying'
+             ? $self->death_report
              : TAEB::Announcement::Report::Saved->new;
     }
 
@@ -318,7 +318,7 @@ sub iterate {
 # Runs our action in $self->action, cleanly.
 sub run_action {
     my $self = shift;
-    TAEB->log->main("Current action: " . $self->action);
+    $self->log->main("Current action: " . $self->action);
     $self->write($self->action->run);
 }
 
@@ -351,13 +351,13 @@ sub handle_logging_in {
         # This message is sent by NetHack if it itself encounters an error
         # during the login process. If NetHack can't run, we can't play it,
         # so bail out.
-        TAEB->log->main("NetHack itself has errored out, we can't continue.",
+        $self->log->main("NetHack itself has errored out, we can't continue.",
                         level => 'info');
-        TAEB->state('unable_to_login');
+        $self->state('unable_to_login');
         die "The game could not start";
     }
     elsif ($self->vt->contains("Shall I pick a character's ")) {
-        TAEB->log->main("We are now in NetHack, starting a new character.");
+        $self->log->main("We are now in NetHack, starting a new character.");
         $self->write('n');
     }
     elsif ($self->topline =~ qr/Choosing Character's Role/) {
@@ -383,7 +383,7 @@ sub handle_logging_in {
         $self->send_message('game_started');
     }
     elsif ($self->topline =~ /^\s*It is written in the Book of /) {
-        TAEB->log->main("Using TAEB's nethackrc is MANDATORY. Use $0 --rc.",
+        $self->log->main("Using TAEB's nethackrc is MANDATORY. Use $0 --rc.",
                         level => 'error');
         die "Using TAEB's nethackrc is MANDATORY";
     }
@@ -445,9 +445,9 @@ sub keypress {
 
     # pause for a key
     if ($c eq 'p') {
-        TAEB->notify("Paused.", 0);
-        TAEB->get_key;
-        TAEB->redraw;
+        $self->notify("Paused.", 0);
+        $self->get_key;
+        $self->redraw;
         return;
     }
 
@@ -457,15 +457,15 @@ sub keypress {
     }
 
     if ($c eq 'i') {
-        item_menu('Inventory (' . TAEB->inventory->weight . ' hzm)',
-                  [TAEB->inventory]);
+        item_menu('Inventory (' . $self->inventory->weight . ' hzm)',
+                  [$self->inventory]);
         return;
     }
 
     if ($c eq "\cP") {
         my $menu = TAEB::Display::Menu->new(
             description => "Old messages",
-            items       => [ TAEB->scraper->old_messages ],
+            items       => [ $self->scraper->old_messages ],
         );
         $self->display_menu($menu);
 
@@ -473,7 +473,7 @@ sub keypress {
     }
 
     if ($c eq "\cX") {
-        item_menu("Senses", TAEB->senses);
+        item_menu("Senses", $self->senses);
         return;
     }
 
@@ -523,7 +523,7 @@ sub keypress {
 
     if ($c eq 't') {
         my @types = (
-            grep { !TAEB->current_level->is_unregisterable($_) }
+            grep { !$self->current_level->is_unregisterable($_) }
             sort { $a cmp $b }
             tile_types(),
         );
@@ -540,7 +540,7 @@ sub keypress {
         my @tiles = map { $_->level->debug_line . ': ' . $_->debug_line }
                     map { $_->tiles_of($type) }
                     map { @$_ }
-                    @{ TAEB->dungeon->levels };
+                    @{ $self->dungeon->levels };
 
         item_menu("Tiles of type $type", \@tiles);
 
@@ -556,7 +556,7 @@ sub keypress {
     # refresh NetHack's screen
     if ($c eq 'r' || $c eq "\cr") {
         # back to normal
-        TAEB->redraw(force_clear => 1);
+        $self->redraw(force_clear => 1);
         return;
     }
 
@@ -677,7 +677,7 @@ sub equipment {
 # highly suspect.
 sub save {
     my $self = shift;
-    TAEB->log->main("Doing an emergency save...", level => 'info');
+    $self->log->main("Doing an emergency save...", level => 'info');
     $self->write("   \e   \e     Sy");
     $self->interface->flush;
 }
@@ -687,7 +687,7 @@ sub save {
 # exception handler or other situation where the gamestate is unknown.
 sub quit {
     my $self = shift;
-    TAEB->log->main("Doing an emergency quit...", level => 'info');
+    $self->log->main("Doing an emergency quit...", level => 'info');
     $self->write("   \e   \e     #quit\nyq");
     $self->interface->flush;
 }
@@ -712,7 +712,7 @@ sub reset_state {
     my $self = shift;
     my $meta = $self->meta;
 
-    TAEB->remove_handlers;
+    $self->remove_handlers;
     for my $attr ($meta->get_all_class_attributes) {
         $attr->clear_value($meta);
         $attr->set_value($meta, $attr->default($meta))
