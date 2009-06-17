@@ -93,7 +93,7 @@ sub overfull {
 
 sub respond_stop_eating { shift->overfull; "y" }
 
-subscribe finally_finished => sub { shift->overfull }
+subscribe finally_finished => sub { shift->overfull };
 
 __PACKAGE__->meta->make_immutable;
 
