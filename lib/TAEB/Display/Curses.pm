@@ -182,7 +182,7 @@ sub draw_botl {
         my $hp    = TAEB->hp;
         my $maxhp = TAEB->maxhp;
         push @pieces, 'H:' . (defined $hp ? $hp : '?');
-        $pieces[-1] .= '/' . (defined $maxhp ? $maxhp : '?');
+        $pieces[-1] .= '/' . (defined $maxhp ? $maxhp : '?')
             if !defined($hp) || !defined($maxhp) || $hp != $maxhp;
 
         if (TAEB->spells->has_spells) {
