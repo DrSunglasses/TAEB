@@ -835,7 +835,7 @@ subscribe noise => sub {
     my $self = shift;
 
     $self->noisy_turn($self->turn);
-}
+};
 
 __PACKAGE__->meta->make_immutable;
 
