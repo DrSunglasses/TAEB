@@ -290,11 +290,11 @@ subscribe any => sub {
     $tile->change_type($type => $glyph, $subtype);
 };
 
-sub msg_excalibur {
+subscribe excalibur => sub {
     my $self = shift;
 
     TAEB->current_tile->change_type(floor => '.');
-}
+};
 
 subscribe tile_noitems => sub {
     my $self  = shift;
