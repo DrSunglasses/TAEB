@@ -647,10 +647,6 @@ our @msg_regex = (
             ['resistance_change', 'sleep', 1],
     ],
     [
-        qr/^You're finally finished\./ =>
-            ['finally_finished'],
-    ],
-    [
         qr/Air currents pull you down into \w+ (hole|pit)!/ =>
             [dungeon_feature => trap => sub { $1 }],
     ],
