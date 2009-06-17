@@ -555,10 +555,10 @@ sub msg_engulfed {
     $self->msg_status_change(engulfed => @_);
 }
 
-sub msg_grabbed {
+subscribe grabbed => sub {
     my $self = shift;
     $self->msg_status_change(grabbed => @_);
-}
+};
 
 sub elbereth_count {
     TAEB->currently("Checking the ground for elbereths");
