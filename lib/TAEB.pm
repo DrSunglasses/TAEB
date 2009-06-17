@@ -731,7 +731,7 @@ sub setup_handlers {
 
         TAEB->remove_handlers; # prevent recursive exceptions
 
-        if ($message =~ /^(The game has ended\.|The game has been saved\.)/) {
+        if ($message =~ /^(The game has (ended|been saved)\.)/) {
             TAEB->log->main($1, level => 'info');
 
             if ($1 =~ /ended/) {
