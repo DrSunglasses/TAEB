@@ -1,13 +1,6 @@
 package TAEB::Announcement;
 use TAEB::OO;
 
-use Module::Pluggable (
-    require     => 1,
-    sub_name    => 'announcement_classes',
-    search_path => ['TAEB::Announcement'],
-);
-__PACKAGE__->announcement_classes;
-
 has text => (
     is            => 'ro',
     isa           => 'Str',
@@ -25,6 +18,13 @@ sub name {
 
     return lc $class;
 }
+
+use Module::Pluggable (
+    require     => 1,
+    sub_name    => 'announcement_classes',
+    search_path => ['TAEB::Announcement'],
+);
+my @announcement_classes = announcement_classes();
 
 do {
     my %name_to_class;
@@ -55,7 +55,7 @@ do {
 
     sub _build_name_to_class_mapping {
         my $self = shift;
-        for my $class ($self->announcement_classes) {
+        for my $class (@announcement_classes) {
             next unless $class->isa(__PACKAGE__); # roles
             $self->set_name_to_class($class->name => $class);
         }
