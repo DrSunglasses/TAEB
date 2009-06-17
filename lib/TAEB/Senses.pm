@@ -708,10 +708,10 @@ sub msg_protection_dec {
     $self->spell_protection($self->spell_protection - 1);
 }
 
-sub msg_protection_gone {
-    my ($self) = @_;
+subscribe protection_gone => sub {
+    my $self = shift;
     $self->spell_protection(0);
-}
+};
 
 sub has_infravision {
     my $self = shift;
