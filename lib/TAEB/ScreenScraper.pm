@@ -167,10 +167,6 @@ our %msg_string = (
         ['dungeon_level' => 'oracle'],
     "You enter what seems to be an older, more primitive world." =>
         ['dungeon_level' => 'rogue'],
-    "You are being crushed." =>
-        ['grabbed' => 1],
-    "You get released!" =>
-        ['grabbed' => 0],
     "You dig a pit in the floor." =>
         ['pit' => 1],
     "There's not enough room to kick down here." =>
@@ -598,18 +594,6 @@ our @msg_regex = (
     [
         qr/You have a(?: strange) forbidding feeling\./ =>
             ['enter_room','temple'],
-    ],
-    [
-        qr/.* (?:grabs|swings itself around) you!/ =>
-            ['grabbed' => 1],
-    ],
-    [
-        qr/You cannot escape from .*!/ =>
-            ['grabbed' => 1],
-    ],
-    [
-        qr/.* (?:releases you!|grip relaxes\.)/ =>
-            ['grabbed' => 0],
     ],
     [
         qr/^Some text has been (burned|melted) into the (?:.*) here\./ =>
