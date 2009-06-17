@@ -2,6 +2,8 @@ package TAEB::Announcement;
 use TAEB::OO;
 extends 'TAEB::Announcement::Item';
 
+use constant name => 'excalibur';
+
 has '+item' => (
     default => sub { TAEB->action->item },
 );
