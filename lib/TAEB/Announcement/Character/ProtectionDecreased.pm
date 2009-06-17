@@ -1,6 +1,6 @@
-package TAEB::AI::Announcement::Character::ProtectionDecreased;
+package TAEB::Announcement::Character::ProtectionDecreased;
 use TAEB::OO;
-extends 'TAEB::AI::Announcement::Character';
+extends 'TAEB::Announcement::Character';
 
 use constant name => 'protection_dec';
 
