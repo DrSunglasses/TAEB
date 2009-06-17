@@ -7,7 +7,6 @@ extends 'TAEB::AI';
 sub next_action { die 'TAEB::AI::ErrorOut intentionally threw an error' }
 
 __PACKAGE__->meta->make_immutable;
-no TAEB::OO;
 
 1;
 

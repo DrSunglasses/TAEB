@@ -11,6 +11,5 @@ __PACKAGE__->parse_messages(
 );
 
 __PACKAGE__->meta->make_immutable;
-no TAEB::OO;
 
 1;
