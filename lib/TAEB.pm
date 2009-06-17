@@ -729,8 +729,6 @@ sub setup_handlers {
     $SIG{__DIE__} = sub {
         my $message = shift;
 
-        TAEB->remove_handlers; # prevent recursive exceptions
-
         if ($message =~ /^(The game has (ended|been saved)\.)/) {
             TAEB->log->main($1, level => 'info');
 
