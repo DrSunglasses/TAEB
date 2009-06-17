@@ -727,12 +727,15 @@ sub setup_handlers {
     };
 
     $SIG{__DIE__} = sub {
-        my $message = shift;
+        my $error = shift;
 
-        if ($message =~ /^(The game has (ended|been saved)\.)/) {
-            TAEB->log->main($1, level => 'info');
+        # We want only the first line
+        (my $message = $error) =~ s/\n.*//s;
 
-            if ($1 =~ /ended/) {
+        if ($message =~ /^The game has (ended|been saved)\./) {
+            TAEB->log->main($message, level => 'info');
+
+            if ($message =~ /ended/) {
                 TAEB->destroy_saved_state;
             }
             else {
@@ -743,7 +746,7 @@ sub setup_handlers {
             my $level = $message =~ /^Interrupted\./
                       ? 'info'
                       : 'error';
-            TAEB->log->perl($message, level => $level);
+            TAEB->log->perl($error, level => $level);
             # Use the emergency versions of quit/save here, not the actions.
             if (defined TAEB->config && defined TAEB->config->contents &&
                 TAEB->config->contents->{'unattended'}) {
@@ -754,7 +757,7 @@ sub setup_handlers {
                 TAEB->save_state;
             }
         }
-        die $message;
+        die $error;
     };
     TAEB->monkey_patch;
 }
