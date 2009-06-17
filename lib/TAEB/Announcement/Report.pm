@@ -11,16 +11,6 @@ use overload (
 sub as_string {
     my $report = inner;
 
-    my @profile = TAEB->debugger->profiler->analyze;
-    if (@profile) {
-        my $length = -1 * (1 + max map { length($_->[0]) } @profile);
-
-        $report .= "\nProfile:\n"
-                . join '',
-                  map {
-                      sprintf("  %*s %.2g%%\n", $length, $_->[0], 100*$_->[2])
-                  } @profile;
-    }
     return $report;
 }
 

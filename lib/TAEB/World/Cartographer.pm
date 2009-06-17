@@ -104,8 +104,6 @@ sub update {
     }
 }
 
-profile_method update => 'Cartographer update';
-
 sub map_like {
     my $self = shift;
     my $re = shift;

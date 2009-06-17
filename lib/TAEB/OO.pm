@@ -13,7 +13,7 @@ use TAEB::Meta::Overload;
 
 my ($moose_import, $moose_unimport) = Moose::Exporter->build_import_methods(
     also        => ['Moose', 'MooseX::ClassAttribute'],
-    with_caller => ['extends', 'subscribe', 'profile_method'],
+    with_caller => ['extends', 'subscribe'],
 );
 
 # make sure using extends doesn't wipe out our base class roles
@@ -52,34 +52,6 @@ sub subscribe {
 
         $meta->add_method($method_name => $method);
     }
-}
-
-sub profile_method {
-    my $meta   = Moose::Meta::Class->initialize(shift);
-    my ($method, $description) = @_;
-
-    use Time::HiRes 'time';
-
-    $meta->add_around_method_modifier($method => sub {
-        my $orig  = shift;
-
-        my $start = time;
-
-        my @result;
-        if (wantarray) {
-            @result = $orig->(@_);
-        }
-        elsif (defined wantarray) {
-            $result[0] = $orig->(@_);
-        }
-        elsif (!defined(wantarray)) {
-            $orig->(@_);
-        }
-
-        TAEB->add_category_time($description => (time - $start));
-
-        return wantarray ? @result : $result[0];
-    });
 }
 
 sub init_meta {

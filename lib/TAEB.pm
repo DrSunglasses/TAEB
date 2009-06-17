@@ -281,8 +281,6 @@ sub next_action {
     return $action;
 }
 
-profile_method(next_action => 'AI next_action');
-
 sub iterate {
     my $self = shift;
 
@@ -791,11 +789,6 @@ sub monkey_patch {
         }
     }
 }
-
-profile_method(@$_) for (
-    [read  => 'Reading from NetHack'],
-    [write => 'Writing to NetHack'],
-);
 
 __PACKAGE__->meta->make_immutable;
 

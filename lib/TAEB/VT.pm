@@ -12,8 +12,6 @@ after process => sub {
     $self->topline($self->row_plaintext(0));
 };
 
-profile_method(process => 'VT input processing');
-
 sub find_row {
     my $self = shift;
     my $cb = shift;

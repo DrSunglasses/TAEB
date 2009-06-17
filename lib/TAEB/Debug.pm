@@ -4,7 +4,6 @@ use TAEB::Debug::Console;
 use TAEB::Debug::Map;
 use TAEB::Debug::Sanity;
 use TAEB::Debug::IRC;
-use TAEB::Debug::Profiler;
 
 has irc => (
     is      => 'ro',
@@ -28,13 +27,6 @@ has debug_map => (
     is      => 'ro',
     isa     => 'TAEB::Debug::Map',
     default => sub { TAEB::Debug::Map->new },
-);
-
-has profiler => (
-    is      => 'ro',
-    isa     => 'TAEB::Debug::Profiler',
-    default => sub { TAEB::Debug::Profiler->new },
-    handles => ['add_category_time'],
 );
 
 __PACKAGE__->meta->make_immutable;

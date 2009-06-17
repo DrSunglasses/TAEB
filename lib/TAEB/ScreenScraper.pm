@@ -876,8 +876,6 @@ sub scrape {
     }
 }
 
-profile_method(scrape => 'Screen scraping');
-
 sub check_cycling {
     my $self = shift;
 
