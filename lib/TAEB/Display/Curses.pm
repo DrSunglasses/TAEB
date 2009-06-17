@@ -178,9 +178,12 @@ sub draw_botl {
         $pieces[-1] .= ' ('. ucfirst(TAEB->current_level->special_level) .')'
             if TAEB->current_level->special_level;
 
-        push @pieces, 'H:' . TAEB->hp;
-        $pieces[-1] .= '/' . TAEB->maxhp
-            if TAEB->hp != TAEB->maxhp;
+        # Avoid undef warnings
+        my $hp    = TAEB->hp;
+        my $maxhp = TAEB->maxhp;
+        push @pieces, 'H:' . (defined $hp ? $hp : '?');
+        $pieces[-1] .= '/' . (defined $maxhp ? $maxhp : '?');
+            if !defined($hp) || !defined($maxhp) || $hp != $maxhp;
 
         if (TAEB->spells->has_spells) {
             push @pieces, 'P:' . TAEB->power;
