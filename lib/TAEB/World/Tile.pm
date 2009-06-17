@@ -451,7 +451,7 @@ sub change_type {
 
     return if $self->type eq $newtype && $self->floor_glyph eq $newglyph;
     return if $self->level->is_rogue && $self->type eq 'stairsup';
-    TAEB->send_message('tile_update' => $self);
+    TAEB->announce('tile_update' => 'tile' => $self);
 
     $self->level->unregister_tile($self);
 

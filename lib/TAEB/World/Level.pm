@@ -748,11 +748,11 @@ sub msg_farlooked {
     $tile->farlooked($msg);
 }
 
-sub msg_tile_update {
+subscribe tile_update => sub {
     my $self = shift;
     $self->fully_explored(0);
     $self->clear_astar_cache;
-}
+};
 
 sub reblessed {
     my $self = shift;
