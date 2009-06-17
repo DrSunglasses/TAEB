@@ -30,6 +30,11 @@ sub write {
 
 sub flush { }
 
+profile_method(@$_) for (
+    [read  => 'Reading from NetHack'],
+    [write => 'Writing to NetHack'],
+);
+
 __PACKAGE__->meta->make_immutable;
 
 1;

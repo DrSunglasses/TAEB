@@ -92,10 +92,7 @@ class_has vt => (
         $vt->option_set(LFTOCRLF => 1);
         return $vt;
     },
-    handles  => {
-        topline    => 'topline',
-        vt_process => 'process',
-    },
+    handles  => ['topline'],
 );
 
 class_has state => (
@@ -284,6 +281,8 @@ sub next_action {
     return $action;
 }
 
+profile_method(next_action => 'AI next_action');
+
 sub iterate {
     my $self = shift;
 
@@ -417,7 +416,7 @@ sub process_input {
 
     my $input = $self->read;
 
-    $self->vt_process($input);
+    $self->vt->process($input);
 
     $self->scrape
         if $scrape && $self->state ne 'logging_in';
@@ -792,14 +791,6 @@ sub monkey_patch {
         }
     }
 }
-
-profile_method(@$_) for (
-    [read        => 'Reading from NetHack'],
-    [write       => 'Writing to NetHack'],
-    [next_action => 'AI next_action'],
-    [vt_process  => 'VT input processing'],
-    [scrape      => 'Screen scraping'],
-);
 
 __PACKAGE__->meta->make_immutable;
 
