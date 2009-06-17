@@ -703,10 +703,10 @@ sub msg_protection_add {
     $self->spell_protection($self->spell_protection + $amt);
 }
 
-sub msg_protection_dec {
+subscribe protection_dec => sub {
     my ($self) = @_;
     $self->spell_protection($self->spell_protection - 1);
-}
+};
 
 subscribe protection_gone => sub {
     my $self = shift;

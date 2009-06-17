@@ -75,8 +75,6 @@ our %msg_string = (
         ['protection_add', sub { TAEB->senses->spell_protection_return }],
     "The golden haze around you becomes more dense." =>
         ['protection_add', sub { TAEB->senses->spell_protection_return }],
-    "The golden haze around you becomes less dense." =>
-        ['protection_dec'],
     "You try to move the boulder, but in vain." =>
         ['immobile_boulder'],
     "Your stomach feels content." =>
