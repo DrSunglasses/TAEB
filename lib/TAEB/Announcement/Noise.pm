@@ -1,6 +1,6 @@
-package TAEB::AI::Announcement::Noise;
+package TAEB::Announcement::Noise;
 use TAEB::OO;
-extends 'TAEB::AI::Announcement';
+extends 'TAEB::Announcement';
 
 use constant name => 'noise';
 
