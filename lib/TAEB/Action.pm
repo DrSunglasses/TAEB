@@ -55,7 +55,7 @@ use Module::Pluggable
 
 # force loading of all the actions for compile errors etc
 my @actions = grep { $_->isa('TAEB::Action') }
-              sort actions();
+              sort { $a cmp $b } actions();
 
 sub action_names {
     my $self = shift;
