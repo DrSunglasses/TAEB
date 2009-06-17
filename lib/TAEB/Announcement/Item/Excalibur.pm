@@ -1,4 +1,4 @@
-package TAEB::Announcement;
+package TAEB::Announcement::Item::Excalibur;
 use TAEB::OO;
 extends 'TAEB::Announcement::Item';
 
