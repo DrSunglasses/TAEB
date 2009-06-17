@@ -7,7 +7,6 @@ extends 'TAEB::AI';
 sub next_action { TAEB::Action::Ascend->new }
 
 __PACKAGE__->meta->make_immutable;
-no TAEB::OO;
 
 1;
 

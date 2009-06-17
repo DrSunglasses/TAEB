@@ -245,7 +245,6 @@ sub create_account {
 }
 
 __PACKAGE__->meta->make_immutable;
-no TAEB::OO;
 
 1;
 

@@ -51,7 +51,6 @@ sub msg_sacrifice_gone {
 }
 
 __PACKAGE__->meta->make_immutable;
-no TAEB::OO;
 
 1;
 

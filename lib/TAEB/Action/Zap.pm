@@ -20,7 +20,6 @@ sub done                { shift->wand->spend_charge }
 subscribe nothing_happens => sub { shift->wand->charges(0) };
 
 __PACKAGE__->meta->make_immutable;
-no TAEB::OO;
 
 1;
 

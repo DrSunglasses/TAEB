@@ -120,7 +120,6 @@ sub _read_attack_string {
 }
 
 __PACKAGE__->meta->make_immutable;
-no TAEB::OO;
 
 1;
 

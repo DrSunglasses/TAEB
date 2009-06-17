@@ -801,7 +801,6 @@ profile_method(@$_) for (
 );
 
 __PACKAGE__->meta->make_immutable;
-no TAEB::OO;
 
 1;
 

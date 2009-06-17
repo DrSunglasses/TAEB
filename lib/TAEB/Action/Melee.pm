@@ -16,7 +16,6 @@ has '+direction' => (
 sub command { 'F' . shift->direction }
 
 __PACKAGE__->meta->make_immutable;
-no TAEB::OO;
 
 1;
 

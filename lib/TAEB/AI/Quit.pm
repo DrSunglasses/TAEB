@@ -5,7 +5,6 @@ extends 'TAEB::AI';
 sub next_action { TAEB::Action::Quit->new }
 
 __PACKAGE__->meta->make_immutable;
-no TAEB::OO;
 
 1;
 

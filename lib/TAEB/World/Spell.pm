@@ -122,7 +122,6 @@ sub debug_line {
 sub power { 5 * shift->level }
 
 __PACKAGE__->meta->make_immutable;
-no TAEB::OO;
 
 1;
 

@@ -549,7 +549,7 @@ sub next_sokoban_step {
 }
 
 __PACKAGE__->meta->make_immutable;
-no Moose;
+no MooseX::Singleton;
 
 1;
 

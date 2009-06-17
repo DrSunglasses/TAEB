@@ -102,7 +102,6 @@ sub select_identify {
 sub drawing_modes {}
 
 __PACKAGE__->meta->make_immutable;
-no TAEB::OO;
 
 1;
 

@@ -8,7 +8,6 @@ __PACKAGE__->meta->add_method("is_$_" => sub { 0 })
 sub is_bigroom { 1 }
 
 __PACKAGE__->meta->make_immutable;
-no TAEB::OO;
 
 1;
 

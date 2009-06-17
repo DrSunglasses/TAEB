@@ -22,7 +22,6 @@ sub done { shift->item->is_worn(0) }
 sub msg_cursed { shift->item->buc('cursed') }
 
 __PACKAGE__->meta->make_immutable;
-no TAEB::OO;
 
 1;
 

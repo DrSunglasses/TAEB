@@ -30,7 +30,6 @@ override debug_color => sub {
 };
 
 __PACKAGE__->meta->make_immutable;
-no TAEB::OO;
 
 1;
 

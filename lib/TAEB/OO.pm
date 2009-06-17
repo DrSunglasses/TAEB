@@ -3,6 +3,7 @@ use Moose ();
 use MooseX::ClassAttribute ();
 use Moose::Exporter;
 use Moose::Util::MetaRole;
+use namespace::autoclean ();
 
 use TAEB::Meta::Trait::Persistent;
 use TAEB::Meta::Trait::GoodStatus;
@@ -10,7 +11,7 @@ use TAEB::Meta::Trait::DontInitialize;
 use TAEB::Meta::Types;
 use TAEB::Meta::Overload;
 
-Moose::Exporter->setup_import_methods(
+my ($moose_import, $moose_unimport) = Moose::Exporter->build_import_methods(
     also        => ['Moose', 'MooseX::ClassAttribute'],
     with_caller => ['extends', 'subscribe', 'profile_method'],
 );
@@ -101,6 +102,20 @@ sub init_meta {
         attribute_metaclass_roles => ['TAEB::Meta::Trait::Provided'],
     ) if $options{for_class} =~ /^TAEB::Action/;
     return $options{for_class}->meta;
+}
+
+sub import {
+    my $caller = caller;
+    namespace::autoclean->import(
+        -cleanee => $caller,
+    );
+
+    goto $moose_import;
+}
+
+sub unimport {
+    warn "no TAEB::OO is no longer necessary";
+    goto $moose_unimport;
 }
 
 1;

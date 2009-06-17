@@ -356,7 +356,6 @@ sub contains_tile {
 }
 
 __PACKAGE__->meta->make_immutable(inline_constructor => 0);
-no TAEB::OO;
 
 1;
 

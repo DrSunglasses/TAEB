@@ -26,7 +26,6 @@ sub msg_slot_empty {
 }
 
 __PACKAGE__->meta->make_immutable;
-no TAEB::OO;
 
 1;
 

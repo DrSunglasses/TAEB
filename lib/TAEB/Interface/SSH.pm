@@ -53,7 +53,6 @@ sub _build_pty {
 }
 
 __PACKAGE__->meta->make_immutable;
-no TAEB::OO;
 
 1;
 
