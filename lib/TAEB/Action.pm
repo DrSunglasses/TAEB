@@ -1,9 +1,5 @@
 package TAEB::Action;
 use TAEB::OO;
-use Module::Pluggable
-    search_path => 'TAEB::Action',
-    require     => 1,
-    sub_name    => 'actions';
 
 has aborted => (
     is      => 'rw',
@@ -52,18 +48,23 @@ sub name {
     return;
 }
 
+use Module::Pluggable
+    search_path => 'TAEB::Action',
+    require     => 1,
+    sub_name    => 'actions';
+
+# force loading of all the actions for compile errors etc
+my @actions = grep { $_->isa('TAEB::Action') }
+              sort actions();
+
 sub action_names {
     my $self = shift;
 
-    return map  { (my $class = $_) =~ s/^TAEB::Action:://; $class }
-           grep { $_->isa('TAEB::Action') }
-           sort $self->actions;
+    return map { (my $class = $_) =~ s/^TAEB::Action:://; $class }
+           @actions;
 }
 
 __PACKAGE__->meta->make_immutable;
-
-# force loading of all the actions for compile errors etc
-__PACKAGE__->actions;
 
 1;
 
