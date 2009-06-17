@@ -75,10 +75,6 @@ our %msg_string = (
         ['protection_add', sub { TAEB->senses->spell_protection_return }],
     "The golden haze around you becomes more dense." =>
         ['protection_add', sub { TAEB->senses->spell_protection_return }],
-    "The golden haze around you becomes less dense." =>
-        ['protection_dec'],
-    "The golden haze around you disappears." =>
-        ['protection_gone'],
     "You try to move the boulder, but in vain." =>
         ['immobile_boulder'],
     "Your stomach feels content." =>
@@ -221,12 +217,6 @@ our %msg_string = (
         ['resistance_change', 'shock', 1],
     "You feel grounded in reality." =>
         ['resistance_change', 'shock', 1],
-    "You strain a muscle." =>
-        ['noise'],
-    "You kick at empty space." =>
-        ['noise'],
-    "That hurts!" =>
-        ['noise'],
     "This water's no good!" =>
         [check => 'inventory'],
     "You feel as if you need some help." =>
@@ -655,10 +645,6 @@ our @msg_regex = (
     [
         qr/^You feel(?: wide)? awake(?:\.|\!)$/ =>
             ['resistance_change', 'sleep', 1],
-    ],
-    [
-        qr/^You're finally finished\./ =>
-            ['finally_finished'],
     ],
     [
         qr/Air currents pull you down into \w+ (hole|pit)!/ =>
