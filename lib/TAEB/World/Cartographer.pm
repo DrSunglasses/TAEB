@@ -173,7 +173,7 @@ sub check_dlvl {
         TAEB->log->cartographer("Created level: $newlevel");
 
         $self->dungeon->current_level($newlevel);
-        TAEB->send_message('dlvl_change', $level->z => $dlvl);
+        TAEB->send_message('level_change' => old_level => $level, new_level => $newlevel);
     }
 
     return 1;
