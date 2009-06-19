@@ -732,6 +732,7 @@ sub _remove_level_item {
 # }}}
 
 # keep track of which tiles are interesting on the level object
+# also announce if it became interesting
 before set_interesting => sub {
     my $self = shift;
     my $set = shift(@_) ? 1 : 0;
@@ -743,6 +744,7 @@ before set_interesting => sub {
 
     if ($set) {
         $self->level->register_tile($self => 'interesting');
+        TAEB->publisher->announce(tile_became_interesting => tile => $self);
     }
     else {
         $self->level->unregister_tile($self => 'interesting');
