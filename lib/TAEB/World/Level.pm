@@ -748,7 +748,7 @@ sub msg_farlooked {
     $tile->farlooked($msg);
 }
 
-subscribe tile_update => sub {
+subscribe tile_type_change => sub {
     my $self = shift;
     $self->fully_explored(0);
     $self->clear_astar_cache;
